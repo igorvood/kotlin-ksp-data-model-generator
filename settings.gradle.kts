@@ -13,6 +13,5 @@ pluginManagement {
     }
 }
 
-include(":kapt-example-app")
-include(":kapt-example-core")
-include(":kapt-example-processor")
+include(":processor")
+include(":workload")
