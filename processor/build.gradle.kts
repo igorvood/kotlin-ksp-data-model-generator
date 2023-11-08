@@ -9,5 +9,6 @@ repositories {
 }
 
 dependencies {
+    implementation(project(":core"))
     implementation("com.google.devtools.ksp:symbol-processing-api:$kspVersion")
 }

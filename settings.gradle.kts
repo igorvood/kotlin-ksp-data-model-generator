@@ -15,3 +15,4 @@ pluginManagement {
 
 include(":processor")
 include(":workload")
+include(":core")
