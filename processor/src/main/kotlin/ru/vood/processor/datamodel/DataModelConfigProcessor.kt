@@ -10,6 +10,8 @@ import ru.vood.processor.datamodel.abstraction.model.MetaEntity
 import ru.vood.processor.datamodel.abstraction.model.metaInformation
 import ru.vood.processor.datamodel.gen.meta.EntityEnumGenerator
 import ru.vood.processor.datamodel.gen.PackageName
+import ru.vood.processor.datamodel.gen.meta.ColumnEntityEnumGenerator
+import ru.vood.processor.datamodel.gen.meta.ColumnEntityMapGenerator
 import ru.vood.processor.datamodel.gen.meta.EntityMapGenerator
 import ru.vood.processor.datamodel.gen.runtime.ContextDataClassesGenerator
 import ru.vood.processor.datamodel.gen.runtime.EntityDataClassesGenerator
@@ -41,6 +43,11 @@ class DataModelConfigProcessor(
 
         EntityEnumGenerator(codeGenerator, rootPackage, logger).createFiles(metaInformation)
         EntityMapGenerator(codeGenerator, rootPackage, logger).createFiles(metaInformation)
+
+        ColumnEntityEnumGenerator(codeGenerator, rootPackage, logger).createFiles(metaInformation)
+        ColumnEntityMapGenerator(codeGenerator, rootPackage, logger).createFiles(metaInformation)
+
+
         EntityDataClassesGenerator(codeGenerator, rootPackage, logger).createFiles(metaInformation)
         ContextDataClassesGenerator(codeGenerator, rootPackage, logger).createFiles(metaInformation)
         return symbols.toList()
