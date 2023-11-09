@@ -10,6 +10,7 @@ import ru.vood.processor.datamodel.abstraction.model.MetaEntity
 import ru.vood.processor.datamodel.abstraction.model.metaInformation
 import ru.vood.processor.datamodel.gen.meta.EntityEnumGenerator
 import ru.vood.processor.datamodel.gen.PackageName
+import ru.vood.processor.datamodel.gen.meta.EntityMapGenerator
 import ru.vood.processor.datamodel.gen.runtime.ContextDataClassesGenerator
 import ru.vood.processor.datamodel.gen.runtime.EntityDataClassesGenerator
 
@@ -39,6 +40,7 @@ class DataModelConfigProcessor(
         logger.info("root package ${rootPackage.value}")
 
         EntityEnumGenerator(codeGenerator, rootPackage, logger).createFiles(metaInformation)
+        EntityMapGenerator(codeGenerator, rootPackage, logger).createFiles(metaInformation)
         EntityDataClassesGenerator(codeGenerator, rootPackage, logger).createFiles(metaInformation)
         ContextDataClassesGenerator(codeGenerator, rootPackage, logger).createFiles(metaInformation)
         return symbols.toList()
