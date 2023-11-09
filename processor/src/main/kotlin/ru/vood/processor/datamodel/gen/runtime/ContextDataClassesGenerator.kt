@@ -7,6 +7,7 @@ import ru.vood.dmgen.intf.IEntity
 import ru.vood.dmgen.intf.IMetaEntity
 import ru.vood.processor.datamodel.abstraction.model.MetaInformation
 import ru.vood.processor.datamodel.gen.*
+import ru.vood.processor.datamodel.gen.meta.EntityEnumGenerator
 
 class ContextDataClassesGenerator(
     codeGenerator: CodeGenerator,

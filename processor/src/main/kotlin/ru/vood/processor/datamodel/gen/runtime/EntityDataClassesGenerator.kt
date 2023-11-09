@@ -20,8 +20,7 @@ class EntityDataClassesGenerator(
 ) : AbstractGenerator<MetaInformation>(codeGenerator, rootPackage, logger) {
 
     override fun textGenerator(metaInfo: MetaInformation): Set<GeneratedFile> {
-        val generatedFiles: Set<GeneratedFile> = collectEntityFile(metaInfo.metaForeignKeys, metaInfo.aggregateInnerDep())
-        return generatedFiles
+        return collectEntityFile(metaInfo.metaForeignKeys, metaInfo.aggregateInnerDep())
     }
 
     private fun collectEntityFile(metaForeignKeys: Set<MetaForeignKey>, aggregateInnerDep: Dependency, collector:Set<GeneratedFile> = setOf() ): Set<GeneratedFile> {

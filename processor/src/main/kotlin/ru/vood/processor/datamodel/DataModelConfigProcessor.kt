@@ -8,7 +8,7 @@ import com.google.devtools.ksp.symbol.KSAnnotated
 import ru.vood.dmgen.annotation.FlowEntity
 import ru.vood.processor.datamodel.abstraction.model.MetaEntity
 import ru.vood.processor.datamodel.abstraction.model.metaInformation
-import ru.vood.processor.datamodel.gen.EntityEnumGenerator
+import ru.vood.processor.datamodel.gen.meta.EntityEnumGenerator
 import ru.vood.processor.datamodel.gen.PackageName
 import ru.vood.processor.datamodel.gen.runtime.ContextDataClassesGenerator
 import ru.vood.processor.datamodel.gen.runtime.EntityDataClassesGenerator

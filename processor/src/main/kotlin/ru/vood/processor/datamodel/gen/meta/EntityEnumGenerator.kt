@@ -1,4 +1,4 @@
-package ru.vood.processor.datamodel.gen
+package ru.vood.processor.datamodel.gen.meta
 
 import com.google.devtools.ksp.processing.CodeGenerator
 import com.google.devtools.ksp.processing.KSPLogger
@@ -7,6 +7,7 @@ import ru.vood.dmgen.intf.EntityName
 import ru.vood.dmgen.intf.IEntity
 import ru.vood.dmgen.intf.IMetaEntity
 import ru.vood.processor.datamodel.abstraction.model.MetaInformation
+import ru.vood.processor.datamodel.gen.*
 import ru.vood.processor.datamodel.gen.runtime.EntityDataClassesGenerator.Companion.entityDataClassesGeneratorPackageName
 
 class EntityEnumGenerator(
