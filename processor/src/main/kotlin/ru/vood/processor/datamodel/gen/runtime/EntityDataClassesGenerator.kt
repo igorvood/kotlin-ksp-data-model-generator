@@ -69,14 +69,14 @@ class EntityDataClassesGenerator(
 """.trimIndent()
                 } ?: ""
             }     
-val ${col.name.value}: $kotlinMetaClass$nullableSymbol""".trimIndent()
+override val ${col.name.value}: $kotlinMetaClass$nullableSymbol""".trimIndent()
         }
             .joinToString(",\n")
 
         val fullClassName = """${dataClass}Entity"""
         val s = when (metaEntity.flowEntityType) {
-            FlowEntityType.AGGREGATE -> """${IAggregate::class.java.canonicalName}<$fullClassName>//, ${metaEntity.modelClassName.value}"""
-            FlowEntityType.INNER_OPTIONAL, FlowEntityType.INNER_MANDATORY -> """${IEntity::class.java.canonicalName}<$fullClassName>//, ${metaEntity.modelClassName.value}"""
+            FlowEntityType.AGGREGATE -> """${IAggregate::class.java.canonicalName}<$fullClassName>, ${metaEntity.modelClassName.value}"""
+            FlowEntityType.INNER_OPTIONAL, FlowEntityType.INNER_MANDATORY -> """${IEntity::class.java.canonicalName}<$fullClassName>, ${metaEntity.modelClassName.value}"""
         }
 
         val code = """package ${packageName.value}
