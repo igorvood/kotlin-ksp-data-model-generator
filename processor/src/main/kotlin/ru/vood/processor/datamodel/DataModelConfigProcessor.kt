@@ -10,6 +10,7 @@ import ru.vood.processor.datamodel.abstraction.model.MetaEntity
 import ru.vood.processor.datamodel.abstraction.model.metaInformation
 import ru.vood.processor.datamodel.gen.EntityEnumGenerator
 import ru.vood.processor.datamodel.gen.PackageName
+import ru.vood.processor.datamodel.gen.runtime.EntityDataClassesGenerator
 
 class DataModelConfigProcessor(
     val codeGenerator: CodeGenerator,
@@ -37,7 +38,7 @@ class DataModelConfigProcessor(
         logger.info("root package ${rootPackage.value}")
 
         EntityEnumGenerator(codeGenerator, rootPackage, logger).createFiles(metaInformation)
-
+        EntityDataClassesGenerator(codeGenerator, rootPackage, logger).createFiles(metaInformation)
 
         return symbols.toList()
 
