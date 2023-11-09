@@ -10,11 +10,11 @@ import java.time.LocalDateTime
     "DealParamOneToOne_Deal_FK",
     cols = [ForeignKeyColumns("dealId", "id")]
 )
-data class DealParamOneToOne(
+interface DealParamOneToOne {
     @Pk
-    val dealId: DealId,
+    val dealId: DealId
     val paramDate: String
-    )
+}
 
 //@FlowEntity
 //@ForeignKey(
