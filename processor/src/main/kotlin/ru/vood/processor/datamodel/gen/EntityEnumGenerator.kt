@@ -1,31 +1,29 @@
 package ru.vood.processor.datamodel.gen
 
+import com.google.devtools.ksp.processing.CodeGenerator
+import com.google.devtools.ksp.processing.KSPLogger
 import ru.vood.dmgen.annotation.FlowEntityType
 import ru.vood.dmgen.intf.EntityName
 import ru.vood.dmgen.intf.IEntity
 import ru.vood.dmgen.intf.IMetaEntity
-import ru.vood.processor.datamodel.abstraction.model.MetaEntity
+import ru.vood.processor.datamodel.abstraction.model.MetaInformation
 import ru.vood.processor.datamodel.gen.runtime.EntityDataClassesGenerator.Companion.entityDataClassesGeneratorPackageName
-import javax.annotation.processing.Messager
-import javax.annotation.processing.ProcessingEnvironment
-import javax.tools.Diagnostic
 
 class EntityEnumGenerator(
-    messager: Messager,
-
-    processingEnv: ProcessingEnvironment,
-    rootPackage: PackageName
-
-) : AbstractDataDictionaryGenerator<Set<MetaEntity>>(messager, processingEnv, rootPackage) {
+    codeGenerator: CodeGenerator,
+    rootPackage: PackageName,
+    logger: KSPLogger
+) : AbstractDataDictionaryGenerator<MetaInformation>(codeGenerator, rootPackage, logger) {
 
     override val nameClass: String
         get() = nameClassEntityEnumGenerator
 
-    override fun textGenerator(generatedClassData: Set<MetaEntity>): Set<GeneratedFile> {
-        return when (generatedClassData.isEmpty()) {
+    override fun textGenerator(generatedClassData: MetaInformation): Set<GeneratedFile> {
+        val values = generatedClassData.entities.values.toSet()
+        return when (values.isEmpty()) {
             true -> setOf()
             false -> {
-                val entities = generatedClassData
+                val entities = values
                     .map {
                         """${it.shortName}(${it.modelClassName.value}::class, 
                         |${rootPackage.value}${entityDataClassesGeneratorPackageName.value}.${it.shortName}Entity::class,
@@ -61,8 +59,9 @@ $entities;
 inline fun <reified T> entitySerializer(): KSerializer<T> = this.serializer as KSerializer<T> 
 }
 """
-                log(Diagnostic.Kind.NOTE, "Create $nameClass")
-                setOf(GeneratedFile(FileName("$nameClass"), GeneratedCode(trimIndent)))
+
+                logger.info("Create file class $nameClass")
+                setOf(GeneratedFile(FileName("$nameClass"), GeneratedCode(trimIndent), packageName))
             }
         }
 

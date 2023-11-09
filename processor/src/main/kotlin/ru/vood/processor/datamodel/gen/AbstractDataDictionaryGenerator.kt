@@ -1,14 +1,14 @@
 package ru.vood.processor.datamodel.gen
 
-import javax.annotation.processing.Messager
-import javax.annotation.processing.ProcessingEnvironment
+import com.google.devtools.ksp.processing.CodeGenerator
+import com.google.devtools.ksp.processing.KSPLogger
 
 abstract class AbstractDataDictionaryGenerator<META>(
-    messager: Messager,
-    processingEnv: ProcessingEnvironment,
-    rootPackage: PackageName
+    codeGenerator: CodeGenerator,
+    rootPackage: PackageName,
+    logger: KSPLogger
 
-) : AbstractGenerator<META>(messager, processingEnv, rootPackage) {
+) : AbstractGenerator<META>(codeGenerator, rootPackage, logger) {
 
     override val subPackage: PackageName
         get() = subPackageAbstractDataDictionaryGenerator

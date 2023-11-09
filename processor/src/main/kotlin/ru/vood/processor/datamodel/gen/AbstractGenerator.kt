@@ -1,35 +1,63 @@
 package ru.vood.processor.datamodel.gen
 
-import java.io.File
-import java.nio.file.Files
-import java.nio.file.Paths
-import javax.annotation.processing.Messager
-import javax.annotation.processing.ProcessingEnvironment
-import javax.tools.Diagnostic
+import com.google.devtools.ksp.processing.CodeGenerator
+import com.google.devtools.ksp.processing.Dependencies
+import com.google.devtools.ksp.processing.KSPLogger
+import com.strukov.processor.extensions.appendText
+import java.io.OutputStream
+import kotlin.properties.Delegates
 
 abstract class AbstractGenerator<META>(
-    val messager: Messager,
-    val processingEnv: ProcessingEnvironment,
-    val rootPackage: PackageName
+    val codeGenerator: CodeGenerator,
+    val rootPackage: PackageName,
+    val logger: KSPLogger
 ) {
 
+    private var file by Delegates.notNull<OutputStream>()
     abstract fun textGenerator(generatedClassData: META): Set<GeneratedFile>
     fun createFiles(generatedClassData: META) {
-        val textGenerator = textGenerator(generatedClassData)
-        textGenerator
-            .forEach { genFile ->
-                val (fileName, code) = genFile
+        val textGenerator1 = textGenerator(generatedClassData)
 
-                Files.createDirectories(Paths.get(generationDirectory))
+        textGenerator1.forEach { genFile ->
+            kotlin.runCatching {
 
-                val file = File(generationDirectory, "${fileName.value}.kt")
-                file.writeText(code.value)
-            }
+                file = codeGenerator.createNewFile(
+                    Dependencies(
+                        false,
+//                classDeclaration.containingFile!!
+                    ),
+                    genFile.packageName.value,
+                    genFile.fileName.value
+                )
+
+                file.appendText(genFile.generatedCode.value)
+
+                file.close()
+
+            } .fold({},
+                {
+                    logger.warn(it.message?:"unknow msg")
+                }
+            )
+
+        }
+
+//
+//        val textGenerator = textGenerator(generatedClassData)
+//        textGenerator
+//            .forEach { genFile ->
+//                val (fileName, code) = genFile
+//
+//                Files.createDirectories(Paths.get(generationDirectory))
+//
+//                val file = File(generationDirectory, "${fileName.value}.kt")
+//                file.writeText(code.value)
+//            }
     }
 
-    private val kaptKotlinGeneratedDir by lazy {
-        processingEnv.options[KAPT_KOTLIN_GENERATED_OPTION_NAME]!!
-    }
+//    private val kaptKotlinGeneratedDir by lazy {
+//        processingEnv.options[KAPT_KOTLIN_GENERATED_OPTION_NAME]!!
+//    }
 
     abstract val subPackage: PackageName
 
@@ -40,14 +68,9 @@ abstract class AbstractGenerator<META>(
             .replace(".", "/")
     }
 
-    val generationDirectory by lazy {
-        "$kaptKotlinGeneratedDir/$subDir"
-    }
-
-    protected fun log(kind: Diagnostic.Kind, msg: CharSequence?) {
-
-        messager.printMessage(kind, "${this.javaClass.canonicalName}: $msg")
-    }
+//    val generationDirectory by lazy {
+//        "$kaptKotlinGeneratedDir/$subDir"
+//    }
 
     companion object {
         const val KAPT_KOTLIN_GENERATED_OPTION_NAME = "kapt.kotlin.generated"
