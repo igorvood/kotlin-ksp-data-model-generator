@@ -49,6 +49,9 @@ class DataModelConfigProcessor(
 
         ForeignKeyEnumGenerator(codeGenerator, rootPackage, logger).createFiles(metaInformation)
 
+        DependencyGenerator(codeGenerator, rootPackage, logger).createFiles(metaInformation)
+
+
         EntityDataClassesGenerator(codeGenerator, rootPackage, logger).createFiles(metaInformation)
         ContextDataClassesGenerator(codeGenerator, rootPackage, logger).createFiles(metaInformation)
         return symbols.toList()
