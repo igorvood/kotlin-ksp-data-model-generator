@@ -1,6 +1,7 @@
 package ru.vood.dmgen.datamodel
 
 import ru.vood.dmgen.annotation.*
+import ru.vood.dmgen.datamodel.valueClasses.DealId
 import java.time.LocalDateTime
 
 @FlowEntity(FlowEntityType.INNER_MANDATORY)
@@ -11,7 +12,7 @@ import java.time.LocalDateTime
 )
 data class DealParamOneToOne(
     @Pk
-    val dealId: Int,
+    val dealId: DealId,
     val paramDate: String
     )
 
