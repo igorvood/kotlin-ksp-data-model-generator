@@ -26,10 +26,10 @@ internal fun main() {
     )
 
 
-    val value1 = DealEntity(dealId, "asd", "Asd", true, false, value)
-    val encodeToString = json.encodeToString(DealEntity.serializer(), value1)
+//    val value1 = DealEntity(dealId, "asd", "Asd", true, false, value)
+//    val encodeToString = json.encodeToString(DealEntity.serializer(), value1)
 
-    println(encodeToString)
+//    println(encodeToString)
 }
 
 @UrlPrinter
