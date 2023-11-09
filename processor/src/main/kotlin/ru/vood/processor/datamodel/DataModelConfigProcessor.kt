@@ -47,6 +47,7 @@ class DataModelConfigProcessor(
         UniqueKeyMapGenerator(codeGenerator, rootPackage, logger).createFiles(metaInformation)
         UniqueKeyEnumGenerator(codeGenerator, rootPackage, logger).createFiles(metaInformation)
 
+        ForeignKeyEnumGenerator(codeGenerator, rootPackage, logger).createFiles(metaInformation)
 
         EntityDataClassesGenerator(codeGenerator, rootPackage, logger).createFiles(metaInformation)
         ContextDataClassesGenerator(codeGenerator, rootPackage, logger).createFiles(metaInformation)
