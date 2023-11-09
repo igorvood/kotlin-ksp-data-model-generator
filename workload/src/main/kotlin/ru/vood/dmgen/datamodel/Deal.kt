@@ -23,6 +23,7 @@ interface Deal{
     val b: Boolean
     val bn: Boolean?
 
+    fun virtual() = s + sn
 
 //    val paramsSet: DealParam,
 //    val paramsList: List<DealParam>

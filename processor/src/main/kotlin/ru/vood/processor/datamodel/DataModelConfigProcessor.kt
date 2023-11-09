@@ -20,7 +20,7 @@ class DataModelConfigProcessor(
         logger.info("count entities ${symbols.size}")
         symbols
             .filterIsInstance<KSClassDeclaration>()
-            .map {MetaEntity(it)  }
+            .map {MetaEntity(it, logger)  }
             .forEach { metaEntity ->
 
 
