@@ -1,6 +1,7 @@
 plugins {
     id("com.google.devtools.ksp")
     kotlin("jvm")
+    kotlin("plugin.serialization") version "1.7.20"
 }
 
 repositories {
@@ -11,6 +12,7 @@ dependencies {
     implementation(project(":core"))
     implementation(project(":processor"))
     ksp(project(":processor"))
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1")
 }
 
 ksp {
