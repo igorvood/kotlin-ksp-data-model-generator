@@ -24,20 +24,20 @@ class EntityEnumGenerator(
             true -> setOf()
             false -> {
                 val entities = values
-                    .map {
-                        """${it.shortName}(${it.modelClassName.value}::class, 
-                        |${rootPackage.value}${entityDataClassesGeneratorPackageName.value}.${it.shortName}Entity::class,
-                        |${rootPackage.value}${entityDataClassesGeneratorPackageName.value}.${it.shortName}Entity.serializer(),
-                        |${EntityName::class.java.canonicalName}("${it.shortName}"), 
-                        |"${it.comment}",
-                        |${it.flowEntityType}
+                    .map {me ->
+                        """${me.shortName}(${me.modelClassName.value}::class, 
+                        |${rootPackage.value}${entityDataClassesGeneratorPackageName.value}.${me.shortName}Entity::class,
+                        |${rootPackage.value}${entityDataClassesGeneratorPackageName.value}.${me.shortName}Entity.serializer(),
+                        |${EntityName::class.java.canonicalName}("${me.shortName}"), 
+                        |"${me.comment}",
+                        |${me.flowEntityType}
                         |)""".trimMargin()
                     }
                     .sorted()
                     .joinToString(",\n")
 
                 val trimIndent =
-                    """package ${packageName.value}
+                    """package ${packageName.value}   
 import kotlin.reflect.KClass
 import kotlinx.serialization.KSerializer
 import ${FlowEntityType::class.java.canonicalName}.*
@@ -60,7 +60,7 @@ inline fun <reified T> entitySerializer(): KSerializer<T> = this.serializer as K
 }
 """
 
-                logger.info("Create file class $nameClass")
+                logger.info("Create file class $nameClass $packageName")
                 setOf(GeneratedFile(FileName("$nameClass"), GeneratedCode(trimIndent), packageName))
             }
         }

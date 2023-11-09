@@ -112,7 +112,8 @@ data class MetaEntity(val ksAnnotated: KSClassDeclaration, val logger: KSPLogger
             |foreignKeysAnnotations=$foreignKeysAnnotations,
             |uniqueKeysAnnotations=$uniqueKeysAnnotations,
             |modelClassName=$modelClassName,
-            |fields=$fields
+            
             |)""".trimMargin()
+//        |fields=$fields
     }
 }

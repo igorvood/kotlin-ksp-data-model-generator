@@ -19,6 +19,9 @@ abstract class AbstractGenerator<META>(
         val textGenerator1 = textGenerator(generatedClassData)
 
         textGenerator1.forEach { genFile ->
+
+            logger.info("Generate File! PackageName ${genFile.packageName.value} fileName${genFile.fileName.value}")
+
             kotlin.runCatching {
 
                 file = codeGenerator.createNewFile(
@@ -61,7 +64,13 @@ abstract class AbstractGenerator<META>(
 
     abstract val subPackage: PackageName
 
-    val packageName = PackageName(rootPackage.value + subPackage.value)
+    val packageName by lazy {
+        logger.info("PPPPPackage $rootPackage     $subPackage")
+
+
+        PackageName(rootPackage.value +"."+ subPackage.value)
+
+    }
 
     private val subDir by lazy {
         (rootPackage.value + "." + subPackage.value)

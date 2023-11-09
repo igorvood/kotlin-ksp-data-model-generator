@@ -25,15 +25,20 @@ class DataModelConfigProcessor(
 
         val metaInformation = metaInformation(symbols, logger)
 
-        val setMetaEnt = metaInformation.entities.values.toSet()
-        val rootPackage = PackageName(commonPackage(setMetaEnt))
-        EntityEnumGenerator(codeGenerator, rootPackage, logger).createFiles(metaInformation)
-
-
         metaInformation.entities.values
             .forEach { metaEntity ->
                 logger.info("read MetaEntity ${metaEntity}", metaEntity.ksAnnotated)
             }
+
+
+        val setMetaEnt = metaInformation.entities.values.toSet()
+        val rootPackage = PackageName(commonPackage(setMetaEnt))
+
+        logger.info("root package ${rootPackage.value}")
+
+        EntityEnumGenerator(codeGenerator, rootPackage, logger).createFiles(metaInformation)
+
+
         return symbols.toList()
 
     }
@@ -53,8 +58,6 @@ class DataModelConfigProcessor(
                         } else {
                             break
                         }
-
-
                     }
 
                     if (collector.isEmpty()) {
@@ -68,7 +71,7 @@ class DataModelConfigProcessor(
 
         }
 
-        val toList = setMetaEnt.toList().map { it.modelClassName.value }
+        val toList = setMetaEnt.toList().map { it.packageName }
         val value = toList[0]
         return commonPackageRecurcive(value, toList.drop(1))
     }
