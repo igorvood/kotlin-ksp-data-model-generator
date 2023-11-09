@@ -17,6 +17,8 @@ data class MetaEntity(val ksAnnotated: KSClassDeclaration, val logger: KSPLogger
 
     val packageName: String = ksAnnotated.packageName.asString()
 
+    val modelClassName = ModelClassName("$packageName.$shortName")
+
 
     val flowEntityType: FlowEntityType = ksAnnotated.getAnnotationsByType(FlowEntity::class).first().entityType
 
@@ -98,7 +100,7 @@ data class MetaEntity(val ksAnnotated: KSClassDeclaration, val logger: KSPLogger
         map
     }
 
-    val modelClassName = ModelClassName("$packageName.$shortName")
+
 
 
     override fun toString(): String {
