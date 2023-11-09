@@ -8,11 +8,8 @@ import com.google.devtools.ksp.symbol.KSAnnotated
 import ru.vood.dmgen.annotation.FlowEntity
 import ru.vood.processor.datamodel.abstraction.model.MetaEntity
 import ru.vood.processor.datamodel.abstraction.model.metaInformation
-import ru.vood.processor.datamodel.gen.meta.EntityEnumGenerator
 import ru.vood.processor.datamodel.gen.PackageName
-import ru.vood.processor.datamodel.gen.meta.ColumnEntityEnumGenerator
-import ru.vood.processor.datamodel.gen.meta.ColumnEntityMapGenerator
-import ru.vood.processor.datamodel.gen.meta.EntityMapGenerator
+import ru.vood.processor.datamodel.gen.meta.*
 import ru.vood.processor.datamodel.gen.runtime.ContextDataClassesGenerator
 import ru.vood.processor.datamodel.gen.runtime.EntityDataClassesGenerator
 
@@ -46,6 +43,9 @@ class DataModelConfigProcessor(
 
         ColumnEntityEnumGenerator(codeGenerator, rootPackage, logger).createFiles(metaInformation)
         ColumnEntityMapGenerator(codeGenerator, rootPackage, logger).createFiles(metaInformation)
+
+        UniqueKeyMapGenerator(codeGenerator, rootPackage, logger).createFiles(metaInformation)
+        UniqueKeyEnumGenerator(codeGenerator, rootPackage, logger).createFiles(metaInformation)
 
 
         EntityDataClassesGenerator(codeGenerator, rootPackage, logger).createFiles(metaInformation)

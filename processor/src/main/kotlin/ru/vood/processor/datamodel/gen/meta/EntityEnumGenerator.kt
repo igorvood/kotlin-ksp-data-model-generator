@@ -20,11 +20,11 @@ class EntityEnumGenerator(
         get() = nameClassEntityEnumGenerator
 
     override fun textGenerator(metaInfo: MetaInformation): Set<GeneratedFile> {
-        val values = metaInfo.entities.values.toSet()
-        return when (values.isEmpty()) {
+        val generatedClassData = metaInfo.entities.values.toSet()
+        return when (generatedClassData.isEmpty()) {
             true -> setOf()
             false -> {
-                val entities = values
+                val entities = generatedClassData
                     .map {me ->
                         """${me.shortName}(${me.modelClassName.value}::class, 
                         |${rootPackage.value}.${entityDataClassesGeneratorPackageName.value}.${me.shortName}Entity::class,
