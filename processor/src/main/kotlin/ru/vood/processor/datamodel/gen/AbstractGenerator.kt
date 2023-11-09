@@ -14,7 +14,7 @@ abstract class AbstractGenerator<META>(
 ) {
 
     private var file by Delegates.notNull<OutputStream>()
-    abstract fun textGenerator(generatedClassData: META): Set<GeneratedFile>
+    abstract fun textGenerator(metaInfo: META): Set<GeneratedFile>
     fun createFiles(generatedClassData: META) {
         val textGenerator1 = textGenerator(generatedClassData)
 

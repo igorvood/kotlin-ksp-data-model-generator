@@ -19,8 +19,8 @@ class EntityDataClassesGenerator(
     logger: KSPLogger
 ) : AbstractGenerator<MetaInformation>(codeGenerator, rootPackage, logger) {
 
-    override fun textGenerator(generatedClassData: MetaInformation): Set<GeneratedFile> {
-        val generatedFiles: Set<GeneratedFile> = collectEntityFile(generatedClassData.metaForeignKeys, generatedClassData.aggregateInnerDep())
+    override fun textGenerator(metaInfo: MetaInformation): Set<GeneratedFile> {
+        val generatedFiles: Set<GeneratedFile> = collectEntityFile(metaInfo.metaForeignKeys, metaInfo.aggregateInnerDep())
         return generatedFiles
     }
 

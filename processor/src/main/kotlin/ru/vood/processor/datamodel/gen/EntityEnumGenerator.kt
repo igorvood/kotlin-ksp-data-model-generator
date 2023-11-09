@@ -18,8 +18,8 @@ class EntityEnumGenerator(
     override val nameClass: String
         get() = nameClassEntityEnumGenerator
 
-    override fun textGenerator(generatedClassData: MetaInformation): Set<GeneratedFile> {
-        val values = generatedClassData.entities.values.toSet()
+    override fun textGenerator(metaInfo: MetaInformation): Set<GeneratedFile> {
+        val values = metaInfo.entities.values.toSet()
         return when (values.isEmpty()) {
             true -> setOf()
             false -> {
