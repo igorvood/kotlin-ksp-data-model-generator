@@ -12,12 +12,13 @@ import ru.vood.dmgen.intf.newIntf.UKEntityData
 
 @Repository
 class EntityDao(
-    val jdbcOperations: JdbcOperations
+    val jdbcOperations: JdbcOperations,
+    val entityUkDao: EntityUkDao
 ) {
 
     val json = Json
 
-    final fun < T : IEntity<T>> saveEntity(entity: T) {
+    final inline fun <reified T : IEntity<T>> saveEntity(entity: T) {
         val entityName = entity.designEntityName
         val uks = uniqueKeyMap.values.filter { it.entity == entityName }
         val pkMeta = uks.first { it.typeUk == TypeUk.PK } as UKEntityData<IEntity<T>>
@@ -31,6 +32,19 @@ class EntityDao(
             """insert into entity_context(pk, entity_type, payload) VALUES (?, ?, ?) """,
             pkJson, entityName.value, entityJson
         )
+
+        uks.forEach { ukMeta ->
+            val ukEntityData = ukMeta as UKEntityData<IEntity<T>>
+            val extractContext: IContextOf<IEntity<T>> = ukEntityData.extractContext(entity)
+
+
+//            entity_type, entity_type_uk, pk, uk
+
+            entityUkDao.saveEntityUk(entityName)
+
+        }
+
+
     }
 
 }
