@@ -35,12 +35,14 @@ class EntityDao(
 
         uks.forEach { ukMeta ->
             val ukEntityData = ukMeta as UKEntityData<IEntity<T>>
-            val extractContext: IContextOf<IEntity<T>> = ukEntityData.extractContext(entity)
+            val extractContext = ukEntityData.extractContext(entity)
 
+            val serializer = extractContext.ktSerializer() as KSerializer<IContextOf<IEntity<T>>>
+            val ukJson = json.encodeToString(serializer, pkDto)
 
 //            entity_type, entity_type_uk, pk, uk
 
-            entityUkDao.saveEntityUk(entityName)
+            entityUkDao.saveEntityUk(entityName, extractContext.ukName, pkJson, ukJson)
 
         }
 

@@ -9,6 +9,10 @@ import ru.vood.dmgen.datamodel.valueClasses.DealId
     "DealParamOneToOne_Deal_FK",
     cols = [ForeignKeyColumns("dealId", "id")]
 )
+@Uk(
+    "DealParamOneToOne_UK",
+    ["dealId", "paramDate"]
+)
 interface DealParamOneToOne {
     @Pk
     val dealId: DealId
