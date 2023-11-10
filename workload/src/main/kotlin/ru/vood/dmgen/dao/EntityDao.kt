@@ -51,8 +51,9 @@ class EntityDao(
         val encodeToString = Json.encodeToString(ktSerializer, uk)
         val ukName = uk.ukName
         val query = jdbcOperations.query(
-            """select e.entity_type, e.pk, e.payload
-                from entity_uk_context uc
+            """
+                select e.entity_type, e.pk, e.payload
+                    from entity_uk_context uc
                 join entity_context e on (uc.entity_type, uc.pk) = ((e.entity_type, e.pk))
                 where uc.entity_type_uk = ? and uc.uk = ?
                 """,
