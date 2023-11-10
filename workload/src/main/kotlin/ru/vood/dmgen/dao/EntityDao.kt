@@ -21,9 +21,9 @@ class EntityDao(
     final inline fun <reified T : IEntity<T>> saveEntity(entity: T) {
         val entityName = entity.designEntityName
         val uks = uniqueKeyMap.values.filter { it.entity == entityName }
-        val pkMeta = uks.first { it.typeUk == TypeUk.PK } as UKEntityData<IEntity<T>>
+        val pkMeta = uks.first { it.typeUk == TypeUk.PK } as UKEntityData<T>
         val pkDto= pkMeta.extractContext(entity)
-        val pkSerializer = pkDto.ktSerializer() as KSerializer<IContextOf<IEntity<T>>>
+        val pkSerializer = pkDto.ktSerializer() as KSerializer<IContextOf<T>>
         val entitySerializer = entity.ktSerializer() as KSerializer<IEntity<T>>
         val pkJson = json.encodeToString(pkSerializer, pkDto)
         val entityJson = json.encodeToString(entitySerializer, entity)
@@ -34,13 +34,13 @@ class EntityDao(
         )
 
         uks.forEach { ukMeta ->
-            val ukMetaData = ukMeta as UKEntityData<IEntity<T>>
+            val ukMetaData = ukMeta as UKEntityData<T>
             val ukData = ukMetaData.extractContext(entity)
-            val ukSerializer = ukData.ktSerializer() as KSerializer<IContextOf<IEntity<T>>>
-            val ukJson = Json.encodeToString(ukSerializer, ukData)
-            entityUkDao.saveEntityUk(entityName, ukData.ukName, pkJson, ukJson)
+//            val ukSerializer = ukData.ktSerializer() as KSerializer<IContextOf<T>>
+//            val ukJson = Json.encodeToString(ukSerializer, ukData)
+//            entityUkDao.saveEntityUk(entityName, ukData.ukName, pkJson, ukJson)
 
-//            entityUkDao.saveEntityUkDto(ukData)
+            entityUkDao.saveEntityUkDto(entityName, ukData, pkJson)
 
         }
 
