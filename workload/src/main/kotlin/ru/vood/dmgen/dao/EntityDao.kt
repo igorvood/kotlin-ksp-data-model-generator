@@ -21,8 +21,7 @@ class EntityDao(
     val json = Json
 
     final fun < T : IEntity<T>> saveEntity(entity: T) {
-//        val entityName = EntityName(entity.javaClass.simpleName)
-        val entityName = EntityName("DealParamOneToOne")
+        val entityName = entity.designEntityName
 
         val entityData = entityDataMap[entityName]!! as EntityData<out IEntity<T>>
         val uks = uniqueKeyMap.values.filter { it.entity == entityName }

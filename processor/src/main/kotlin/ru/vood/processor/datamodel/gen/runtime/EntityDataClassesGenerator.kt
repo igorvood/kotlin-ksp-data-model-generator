@@ -4,6 +4,7 @@ import com.google.devtools.ksp.processing.CodeGenerator
 import com.google.devtools.ksp.processing.KSPLogger
 import ru.vood.dmgen.annotation.FlowEntityType
 import ru.vood.dmgen.annotation.RelationType
+import ru.vood.dmgen.intf.EntityName
 import ru.vood.dmgen.intf.IAggregate
 import ru.vood.dmgen.intf.IEntity
 import ru.vood.processor.datamodel.abstraction.model.Dependency
@@ -87,7 +88,9 @@ ${
 */
 """.trimIndent()
             } ?: ""
-        }                    
+        }          
+import ${EntityName::class.java.canonicalName}                  
+                  
 @kotlinx.serialization.Serializable
 //@optics([OpticsTarget.LENS])
 data class $fullClassName (
@@ -98,7 +101,14 @@ $fk
 {
     override fun ktSerializer() = serializer()
     
-//    companion object
+    override val designEntityName: EntityName
+        get() = designEntityNameConst
+
+    
+    companion object{
+        val designEntityNameConst = EntityName("${dataClass}")
+    
+    }
 }
                     
                 """.trimIndent()
