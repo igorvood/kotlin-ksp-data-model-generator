@@ -7,7 +7,6 @@
     <property name="sqlBatchDelimiter" value="\n/"/>
 
     <include file="liquibase/release_001/release_001.xml"/>
-    <include file="liquibase/release_002/release_002.xml"/>
 
 
 </databaseChangeLog>
