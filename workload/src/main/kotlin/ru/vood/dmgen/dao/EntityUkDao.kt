@@ -5,6 +5,9 @@ import org.springframework.jdbc.core.JdbcOperations
 import org.springframework.stereotype.Repository
 import ru.vood.dmgen.annotation.UkName
 import ru.vood.dmgen.intf.EntityName
+import ru.vood.dmgen.intf.IContextOf
+import ru.vood.dmgen.intf.IEntity
+import ru.vood.dmgen.intf.Serializer
 
 @Repository
 class EntityUkDao(
@@ -19,6 +22,12 @@ class EntityUkDao(
             contextOf.value, ukName.value, pkJson, ukJson
         )
 
+    }
+
+    final inline fun <reified T>  saveEntityUkDto(ukData: IContextOf< IEntity< T>>) {
+
+        saveEntityUk()
+        TODO("Not yet implemented")
     }
 
 }
