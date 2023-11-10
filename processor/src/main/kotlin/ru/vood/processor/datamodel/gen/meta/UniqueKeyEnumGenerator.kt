@@ -2,9 +2,11 @@ package ru.vood.processor.datamodel.gen.meta
 
 import com.google.devtools.ksp.processing.CodeGenerator
 import com.google.devtools.ksp.processing.KSPLogger
+import ru.vood.dmgen.annotation.FlowEntityType
 import ru.vood.dmgen.intf.IMetaColumnEntity
 import ru.vood.dmgen.intf.IMetaEntity
 import ru.vood.dmgen.intf.IMetaUkEntity
+import ru.vood.dmgen.intf.newIntf.TypeUk
 import ru.vood.processor.datamodel.abstraction.model.MetaEntity
 import ru.vood.processor.datamodel.abstraction.model.MetaInformation
 import ru.vood.processor.datamodel.gen.*
@@ -39,6 +41,7 @@ class UniqueKeyEnumGenerator(
                                     |setOf($ukCols),
                                     |${packageName.value}.${nameClassEntityEnumGenerator}.${metaEnt.shortName},
                                     |${rootPackage.value}.${contextDataClassesGeneratorPackageName.value}.${metaEnt.shortName}Context${ukDto.name.value}::class,
+                                    |${ukDto.typeUk.name},
                                     |)""".trimMargin()
 
                             }
@@ -51,12 +54,16 @@ class UniqueKeyEnumGenerator(
                     """package ${packageName.value}
                         
 import ${packageName.value}.${ColumnEntityEnumGenerator.columnEntityEnumGeneratorNameClass}.*
+import ${TypeUk::class.java.canonicalName}.*
+import ${TypeUk::class.java.canonicalName}
+
 import kotlin.reflect.KClass
 
 enum class $nameClass(
     override val columns: Set<${IMetaColumnEntity::class.java.canonicalName}>,
     override val entity : ${IMetaEntity::class.java.canonicalName},
-    override val contextOfClass: KClass<*>
+    override val contextOfClass: KClass<*>, 
+    override val typeUk: TypeUk
 ): ${IMetaUkEntity::class.java.canonicalName}{
 $entities
 }

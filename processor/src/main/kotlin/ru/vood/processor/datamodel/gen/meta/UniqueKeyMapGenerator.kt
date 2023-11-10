@@ -3,6 +3,7 @@ package ru.vood.processor.datamodel.gen.meta
 import com.google.devtools.ksp.processing.CodeGenerator
 import com.google.devtools.ksp.processing.KSPLogger
 import ru.vood.dmgen.intf.*
+import ru.vood.dmgen.intf.newIntf.TypeUk
 import ru.vood.dmgen.intf.newIntf.UKEntityData
 import ru.vood.processor.datamodel.abstraction.model.MetaEntity
 import ru.vood.processor.datamodel.abstraction.model.MetaInformation
@@ -41,7 +42,8 @@ class UniqueKeyMapGenerator(
                                 """${UkName::class.java.canonicalName}("${ukDto.name.value}") to UKEntityData(
                                     |setOf($ukCols),
                                     |${EntityName::class.java.canonicalName}("${metaEnt.shortName}"),
-                                    |{data: ${metaEnt.shortName}Entity -> ${metaEnt.shortName}Context${ukDto.name.value}($constructorParams) }
+                                    |{data: ${metaEnt.shortName}Entity -> ${metaEnt.shortName}Context${ukDto.name.value}($constructorParams) },
+                                    |${ukDto.typeUk.name}
                                     |//${rootPackage.value}${contextDataClassesGeneratorPackageName.value}.${metaEnt.shortName}Context${ukDto.name.value}::class,
 
                                     |)""".trimMargin()
@@ -64,6 +66,8 @@ class UniqueKeyMapGenerator(
 import ${rootPackage.value}.${EntityDataClassesGenerator.entityDataClassesGeneratorPackageName.value}.*
 import ${rootPackage.value}.${contextDataClassesGeneratorPackageName.value}.*
 import ${UKEntityData::class.java.canonicalName}
+import ${TypeUk::class.java.canonicalName}.*
+import ${TypeUk::class.java.canonicalName}
 import kotlin.reflect.KClass
 
 
