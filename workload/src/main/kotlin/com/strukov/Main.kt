@@ -10,27 +10,27 @@ import ru.vood.dmgen.datamodel.runtime.dataclasses.DealEntity
 import ru.vood.dmgen.datamodel.runtime.dataclasses.DealParamOneToOneEntity
 import ru.vood.dmgen.datamodel.valueClasses.DealId
 
-internal fun main() {
-    SampleUrlPrinter().print()
-    val dealId = DealId("Asd")
-    val value = DealParamOneToOneEntity(dealId, "Asd")
-    val json = Json
-    val message = json.encodeToString(
-        DealParamOneToOneEntity.serializer(),
-        value
-    )
-
-
-    println(
-        message
-    )
-
-
-//    val value1 = DealEntity(dealId, "asd", "Asd", true, false, value)
-//    val encodeToString = json.encodeToString(DealEntity.serializer(), value1)
-
-//    println(encodeToString)
-}
+//internal fun main() {
+//    SampleUrlPrinter().print()
+//    val dealId = DealId("Asd")
+//    val value = DealParamOneToOneEntity(dealId, "Asd")
+//    val json = Json
+//    val message = json.encodeToString(
+//        DealParamOneToOneEntity.serializer(),
+//        value
+//    )
+//
+//
+//    println(
+//        message
+//    )
+//
+//
+////    val value1 = DealEntity(dealId, "asd", "Asd", true, false, value)
+////    val encodeToString = json.encodeToString(DealEntity.serializer(), value1)
+//
+////    println(encodeToString)
+//}
 
 @UrlPrinter
 internal interface SampleUrl {
