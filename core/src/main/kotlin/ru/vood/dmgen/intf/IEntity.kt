@@ -4,9 +4,9 @@ import kotlinx.serialization.KSerializer
 
 
 
-interface Serializer<out T>{
+interface Serializer<T>{
 
-    fun ktSerializer() : KSerializer<out T>
+    fun ktSerializer() : KSerializer<*>
 }
 
 interface IEntity<T: IEntity<T>>: Serializer<T>
