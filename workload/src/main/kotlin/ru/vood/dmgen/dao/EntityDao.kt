@@ -4,12 +4,9 @@ import kotlinx.serialization.KSerializer
 import kotlinx.serialization.json.Json
 import org.springframework.jdbc.core.JdbcOperations
 import org.springframework.stereotype.Repository
-import ru.vood.dmgen.datamodel.metaEnum.entityDataMap
 import ru.vood.dmgen.datamodel.metaEnum.uniqueKeyMap
-import ru.vood.dmgen.intf.EntityName
 import ru.vood.dmgen.intf.IContextOf
 import ru.vood.dmgen.intf.IEntity
-import ru.vood.dmgen.intf.newIntf.EntityData
 import ru.vood.dmgen.intf.newIntf.TypeUk
 import ru.vood.dmgen.intf.newIntf.UKEntityData
 
@@ -22,22 +19,13 @@ class EntityDao(
 
     final fun < T : IEntity<T>> saveEntity(entity: T) {
         val entityName = entity.designEntityName
-
-        val entityData = entityDataMap[entityName]!! as EntityData<out IEntity<T>>
         val uks = uniqueKeyMap.values.filter { it.entity == entityName }
-
-        val first = uks.filter { it.typeUk == TypeUk.PK }.first() as UKEntityData<IEntity<T>>
-
-        val extractContext= first.extractContext(entity)
-        val serializer = extractContext.ktSerializer() as KSerializer<IContextOf<IEntity<T>>>
-        val serializer1 = entity.ktSerializer() as KSerializer<IEntity<T>>
-//        val extractContext: IContextOf<IEntity<T>> = first.extractContext(entity)
-//        val serializer: KSerializer<IContextOf<IEntity<T>>> = extractContext.ktSerializer()
-
-        val pkJson = json.encodeToString(serializer, extractContext)
-
-        val entityJson = json.encodeToString(serializer1, entity)
-
+        val pkMeta = uks.first { it.typeUk == TypeUk.PK } as UKEntityData<IEntity<T>>
+        val pkDto= pkMeta.extractContext(entity)
+        val pkSerializer = pkDto.ktSerializer() as KSerializer<IContextOf<IEntity<T>>>
+        val entitySerializer = entity.ktSerializer() as KSerializer<IEntity<T>>
+        val pkJson = json.encodeToString(pkSerializer, pkDto)
+        val entityJson = json.encodeToString(entitySerializer, entity)
 
         jdbcOperations.update(
             """insert into entity_context(pk, entity_type, payload) VALUES (?, ?, ?) """,

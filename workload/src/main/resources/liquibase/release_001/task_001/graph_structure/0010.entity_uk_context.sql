@@ -5,7 +5,7 @@ create table entity_uk_context
   pk varchar(512) not null,
   uk varchar(512) not null,
   constraint entity_uk_context_pk primary key (entity_type, uk),
-  constraint entity_uk_context_fk foreign key (entity_type, pk) references entity_context(entity_type, pk)
+  constraint entity_uk_context_fk foreign key (entity_type, pk) references entity_context(entity_type, pk) on delete cascade
 )
 /
 comment on table entity_uk_context is 'Справочник владельв топиков.'
