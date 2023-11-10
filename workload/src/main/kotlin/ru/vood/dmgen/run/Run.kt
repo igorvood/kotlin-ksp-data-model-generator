@@ -25,7 +25,7 @@ class Run(
 
         val findByUk = entity.findByUk(DealParamOneToOneContextDealParamOneToOne_PK(dealId))
         println(findByUk)
-        val findByUk2 = entity.findByUk(DealParamOneToOneContextDealParamOneToOne_UK(dealId, paramDate))
+        val findByUk2 = entity.findByUk<DealParamOneToOneEntity>(DealParamOneToOneContextDealParamOneToOne_UK(dealId, paramDate))
         println(findByUk2)
     }
 }

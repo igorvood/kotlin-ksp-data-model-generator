@@ -1,5 +1,6 @@
 package ru.vood.processor.datamodel.abstraction.model.dto
 
+import ru.vood.dmgen.annotation.UkName
 import ru.vood.dmgen.intf.ColumnName
 import ru.vood.dmgen.intf.newIntf.TypeUk
 
@@ -9,5 +10,5 @@ data class UkDto(
     val typeUk: TypeUk
 )
 
-@JvmInline
-value class UkName(val value: String)
+//@JvmInline
+//value class UkName(val value: String)

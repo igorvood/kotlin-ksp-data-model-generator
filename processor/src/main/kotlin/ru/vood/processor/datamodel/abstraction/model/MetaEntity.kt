@@ -9,7 +9,7 @@ import ru.vood.dmgen.intf.ColumnName
 import ru.vood.dmgen.intf.newIntf.TypeUk
 import ru.vood.processor.datamodel.abstraction.model.dto.ModelClassName
 import ru.vood.processor.datamodel.abstraction.model.dto.UkDto
-import ru.vood.processor.datamodel.abstraction.model.dto.UkName
+
 
 @OptIn(KspExperimental::class)
 data class MetaEntity(val ksAnnotated: KSClassDeclaration, val logger: KSPLogger) {
@@ -38,11 +38,11 @@ data class MetaEntity(val ksAnnotated: KSClassDeclaration, val logger: KSPLogger
         val notNullPkCols = fields.filter { it.inPk && !it.isNullable }.map { it.name }.toSet()
 
         val minus = pkCols.minus(notNullPkCols.toSet())
-        if (minus.isNotEmpty()){
+        if (minus.isNotEmpty()) {
             error("Entity ${modelClassName.value} contains nullable columns in PK ${minus}")
         }
 
-        UkDto(UkName(shortName+"_PK"), pkCols, TypeUk.PK) to fields.filter { it.inPk }
+        UkDto(UkName(shortName + "_PK"), pkCols, TypeUk.PK) to fields.filter { it.inPk }
     }
 
     val uniqueKeysFields: Map<UkDto, List<MetaEntityColumn>> by lazy {
@@ -68,12 +68,12 @@ data class MetaEntity(val ksAnnotated: KSClassDeclaration, val logger: KSPLogger
             }
             .plus(pkColumns)
         val dublicateUk = allUk.map { it.first.name.value }
-            .groupBy {it}
-            .filter { it.value.size>1 }
+            .groupBy { it }
+            .filter { it.value.size > 1 }
             .map { it.key }
             .distinct()
 
-        if (dublicateUk.isNotEmpty()){
+        if (dublicateUk.isNotEmpty()) {
             error("for entity ${shortName}  dublicate UK Name ${dublicateUk} ")
         }
 
@@ -100,8 +100,6 @@ data class MetaEntity(val ksAnnotated: KSClassDeclaration, val logger: KSPLogger
 //            .map { element -> elementToIGeneratedField(element.index, element.value) }
         map
     }
-
-
 
 
     override fun toString(): String {
