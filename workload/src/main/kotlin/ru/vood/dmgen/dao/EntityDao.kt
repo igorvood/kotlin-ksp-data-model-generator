@@ -21,6 +21,8 @@ class EntityDao(
 
     val json = Json
 
+
+    @Suppress("UNCHECKED_CAST")
     final inline fun <reified T : IEntity<T>> saveEntity(entity: T) {
         val entityName = entity.designEntityName
         val uks = uniqueKeyMap.values.filter { it.entity == entityName }
@@ -43,6 +45,7 @@ class EntityDao(
         }
     }
 
+    @Suppress("UNCHECKED_CAST")
     final inline fun <reified T : IEntity<T>> findByUk(uk: IContextOf<T>): IEntity<out T> {
         val ktSerializer = uk.ktSerializer() as KSerializer<IContextOf<T>>
         val encodeToString = Json.encodeToString(ktSerializer, uk)
