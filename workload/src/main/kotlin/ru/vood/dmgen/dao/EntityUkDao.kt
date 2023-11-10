@@ -13,8 +13,7 @@ class EntityUkDao(
 
     val json = Json
 
-    //    IContextOf<ENT : IEntity<out ENT>>
-    final fun  saveEntityUk(contextOf: EntityName, ukName: UkName, pkJson: String, ukJson: String) {
+    final fun saveEntityUk(contextOf: EntityName, ukName: UkName, pkJson: String, ukJson: String) {
         jdbcOperations.update(
             """insert into entity_uk_context(entity_type, entity_type_uk, pk, uk) VALUES (?, ?, ?, ?) """,
             contextOf.value, ukName.value, pkJson, ukJson
