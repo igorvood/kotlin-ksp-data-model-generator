@@ -1,12 +1,12 @@
 spring:
   profiles:
 #    active: drop
-    active: migration
-#    active: reinst
+#    active: migration
+    active: reinst
   datasource:
     #    driver-class-name: oracle.jdbc.driver.OracleDriver
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/doc_signer
+    url: jdbc:postgresql://localhost:5432/db_configuration_manager
 #    url: jdbc:postgresql://d5uasp-pgc002lk.corp.dev.vtb:5432/db_configuration_manager
-    username: doc_user
-    password: doc_password
+    username: db_configuration_manager_admin
+    password: qwerty
