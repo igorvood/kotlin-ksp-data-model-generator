@@ -37,9 +37,9 @@ abstract class AbstractGenerator<META>(
 
                 file.close()
 
-            } .fold({},
+            }.fold({},
                 {
-                    logger.warn(it.message?:"unknow msg")
+                    logger.warn(it.message ?: "unknow msg")
                 }
             )
 
@@ -68,7 +68,7 @@ abstract class AbstractGenerator<META>(
         logger.info("PPPPPackage $rootPackage     $subPackage")
 
 
-        PackageName(rootPackage.value +"."+ subPackage.value)
+        PackageName(rootPackage.value + "." + subPackage.value)
 
     }
 

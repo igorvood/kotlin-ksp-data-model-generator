@@ -4,7 +4,6 @@ import ru.vood.dmgen.intf.ColumnName
 import ru.vood.dmgen.intf.EntityName
 import ru.vood.dmgen.intf.IContextOf
 import ru.vood.dmgen.intf.IEntity
-import kotlin.reflect.KClass
 
 interface IMetaUkEntityNew<T : IEntity<T>> {
     val columns: Set<ColumnName>
@@ -14,7 +13,7 @@ interface IMetaUkEntityNew<T : IEntity<T>> {
 //    val contextOfClass: KClass<IContextOf<T>>
 }
 
-data class UKEntityData<T : IEntity< T>>(
+data class UKEntityData<T : IEntity<T>>(
     override val columns: Set<ColumnName>,
     override val entity: EntityName,
     override val extractContext: (T) -> IContextOf<T>,

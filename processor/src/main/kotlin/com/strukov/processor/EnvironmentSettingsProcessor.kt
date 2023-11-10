@@ -1,7 +1,10 @@
 package com.strukov.processor
 
 import com.google.devtools.ksp.processing.*
-import com.google.devtools.ksp.symbol.*
+import com.google.devtools.ksp.symbol.ClassKind
+import com.google.devtools.ksp.symbol.KSAnnotated
+import com.google.devtools.ksp.symbol.KSClassDeclaration
+import com.google.devtools.ksp.symbol.KSVisitorVoid
 import com.strukov.processor.extensions.appendText
 import java.io.OutputStream
 import kotlin.properties.Delegates

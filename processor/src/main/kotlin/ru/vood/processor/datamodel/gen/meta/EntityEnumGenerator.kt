@@ -25,7 +25,7 @@ class EntityEnumGenerator(
             true -> setOf()
             false -> {
                 val entities = generatedClassData
-                    .map {me ->
+                    .map { me ->
                         """${me.shortName}(${me.modelClassName.value}::class, 
                         |${rootPackage.value}.${entityDataClassesGeneratorPackageName.value}.${me.shortName}Entity::class,
                         |${rootPackage.value}.${entityDataClassesGeneratorPackageName.value}.${me.shortName}Entity.serializer(),

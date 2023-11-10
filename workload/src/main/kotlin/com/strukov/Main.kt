@@ -1,14 +1,6 @@
 package com.strukov
 
-import com.strukov.processor.Environment
-import com.strukov.processor.EnvironmentConfig
-import com.strukov.processor.EnvironmentSettings
-import com.strukov.processor.UrlPrinter
-import com.strukov.processor.Url
-import kotlinx.serialization.json.Json
-import ru.vood.dmgen.datamodel.runtime.dataclasses.DealEntity
-import ru.vood.dmgen.datamodel.runtime.dataclasses.DealParamOneToOneEntity
-import ru.vood.dmgen.datamodel.valueClasses.DealId
+import com.strukov.processor.*
 
 //internal fun main() {
 //    SampleUrlPrinter().print()

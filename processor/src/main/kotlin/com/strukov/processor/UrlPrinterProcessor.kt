@@ -44,10 +44,13 @@ internal class UrlPrinterProcessor(
             val allFunctions = classDeclaration.getAllProperties()
 
             logger.warn("KSClassDeclaration  ${classDeclaration.qualifiedName?.asString()}", classDeclaration)
-            allFunctions.forEach {fd ->
+            allFunctions.forEach { fd ->
 
-                logger.warn("KSFunctionDeclaration  ${fd.qualifiedName?.asString()} ${fd.qualifiedName?.asString()}", fd)
-                fd.typeParameters.forEach {tp ->
+                logger.warn(
+                    "KSFunctionDeclaration  ${fd.qualifiedName?.asString()} ${fd.qualifiedName?.asString()}",
+                    fd
+                )
+                fd.typeParameters.forEach { tp ->
                     logger.warn("KSFunctionDeclaration  ${tp.qualifiedName?.asString()}", tp)
                 }
             }

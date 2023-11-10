@@ -24,7 +24,11 @@ class EntityDataClassesGenerator(
         return collectEntityFile(metaInfo.metaForeignKeys, metaInfo.aggregateInnerDep())
     }
 
-    private fun collectEntityFile(metaForeignKeys: Set<MetaForeignKey>, aggregateInnerDep: Dependency, collector:Set<GeneratedFile> = setOf() ): Set<GeneratedFile> {
+    private fun collectEntityFile(
+        metaForeignKeys: Set<MetaForeignKey>,
+        aggregateInnerDep: Dependency,
+        collector: Set<GeneratedFile> = setOf()
+    ): Set<GeneratedFile> {
 
         val metaEntity = aggregateInnerDep.metaEntity
 
@@ -46,7 +50,7 @@ class EntityDataClassesGenerator(
 
                 }
             }
-            .filter{!it.isEmpty}
+            .filter { !it.isEmpty }
             .map { it.get() }
             .joinToString(",\n")
 
@@ -129,6 +133,7 @@ $fk
         MANDATORY,
         OPTIONAL
     }
+
     private fun genField(toEntity: MetaEntity, question: String, relationType: RelationType) =
         when (relationType) {
             RelationType.ONE_TO_ONE_OPTIONAL -> "val ${toEntity.entityFieldName} : ${packageName.value}.${toEntity.shortName}Entity$question"

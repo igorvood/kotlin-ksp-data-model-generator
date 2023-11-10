@@ -12,7 +12,7 @@ import ru.vood.dmgen.datamodel.valueClasses.DealId
 //)
 
 //@Uk(["paramsList"])
-interface Deal{
+interface Deal {
     @Pk
     @Comment("Это ее идентификатор")
     val id: DealId
@@ -27,7 +27,6 @@ interface Deal{
 
 //    val paramsSet: DealParam,
 //    val paramsList: List<DealParam>
-
 
 
 }

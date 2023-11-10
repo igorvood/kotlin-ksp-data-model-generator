@@ -1,10 +1,6 @@
 package ru.vood.processor.datamodel.abstraction.model
 
 
-
-import ru.vood.processor.datamodel.abstraction.model.dto.ModelClassName
-import javax.lang.model.element.Element
-
 //abstract class AbstractAnnotatedClass<FIELD_META : AbstractField>(
 //    private val element: Element
 //)/*<Annotation>*/ {

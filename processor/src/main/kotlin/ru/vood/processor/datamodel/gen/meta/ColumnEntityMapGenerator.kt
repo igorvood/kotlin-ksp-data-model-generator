@@ -5,7 +5,6 @@ import com.google.devtools.ksp.processing.KSPLogger
 import ru.vood.dmgen.intf.ColumnName
 import ru.vood.dmgen.intf.EntityName
 import ru.vood.dmgen.intf.newIntf.ColumnEntityData
-import ru.vood.processor.datamodel.abstraction.model.MetaEntity
 import ru.vood.processor.datamodel.abstraction.model.MetaInformation
 import ru.vood.processor.datamodel.gen.*
 import ru.vood.processor.datamodel.gen.runtime.EntityDataClassesGenerator.Companion.entityDataClassesGeneratorPackageName

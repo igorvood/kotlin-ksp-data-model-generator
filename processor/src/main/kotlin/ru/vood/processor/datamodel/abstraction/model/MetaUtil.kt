@@ -6,7 +6,6 @@ import com.google.devtools.ksp.symbol.KSClassDeclaration
 import ru.vood.dmgen.annotation.ForeignKey
 import ru.vood.dmgen.annotation.RelationType
 import ru.vood.processor.datamodel.abstraction.model.dto.ModelClassName
-import javax.lang.model.element.Element
 
 fun metaEntityColumns(
     entities: Map<ModelClassName, MetaEntity>,

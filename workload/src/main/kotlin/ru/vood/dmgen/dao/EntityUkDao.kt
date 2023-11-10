@@ -24,7 +24,7 @@ class EntityUkDao(
 
     }
 
-    final inline fun <reified T:  IEntity<T>> saveEntityUkDto(
+    final inline fun <reified T : IEntity<T>> saveEntityUkDto(
         entityName: EntityName,
         ukData: IContextOf<T>,
         pkJson: String
