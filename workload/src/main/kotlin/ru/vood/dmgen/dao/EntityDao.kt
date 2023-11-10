@@ -40,7 +40,7 @@ class EntityDao(
             val ukJson = Json.encodeToString(ukSerializer, ukData)
             entityUkDao.saveEntityUk(entityName, ukData.ukName, pkJson, ukJson)
 
-            entityUkDao.saveEntityUkDto(ukData)
+//            entityUkDao.saveEntityUkDto(ukData)
 
         }
 

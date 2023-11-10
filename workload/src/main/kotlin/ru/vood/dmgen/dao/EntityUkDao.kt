@@ -24,10 +24,10 @@ class EntityUkDao(
 
     }
 
-    final inline fun <reified T>  saveEntityUkDto(ukData: IContextOf< IEntity< T>>) {
-
-        saveEntityUk()
-        TODO("Not yet implemented")
-    }
+//    final inline fun <reified T>  saveEntityUkDto(ukData: IContextOf< IEntity< T>>) {
+//
+//        saveEntityUk()
+//        TODO("Not yet implemented")
+//    }
 
 }
