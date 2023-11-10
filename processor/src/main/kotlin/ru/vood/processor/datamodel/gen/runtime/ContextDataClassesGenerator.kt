@@ -2,6 +2,8 @@ package ru.vood.processor.datamodel.gen.runtime
 
 import com.google.devtools.ksp.processing.CodeGenerator
 import com.google.devtools.ksp.processing.KSPLogger
+import ru.vood.dmgen.annotation.UkName
+import ru.vood.dmgen.intf.FkPair
 import ru.vood.dmgen.intf.IContextOf
 import ru.vood.dmgen.intf.IEntity
 import ru.vood.dmgen.intf.IMetaEntity
@@ -40,6 +42,8 @@ class ContextDataClassesGenerator(
                 val fullClassName = """${dataClass}Context${contextName.value}"""
                 val code = """package ${packageName.value}
                     
+import ${UkName::class.java.canonicalName}
+                    
 @kotlinx.serialization.Serializable
 data class $fullClassName (
 $joinToString
@@ -47,9 +51,19 @@ $joinToString
 //${IEntity::class.java.canonicalName}<$fullClassName>
 {
 override val metaEntity: ${IMetaEntity::class.java.canonicalName}
-        get() = ${rootPackage.value}.${AbstractDataDictionaryGenerator.subPackageAbstractDataDictionaryGenerator.value}.${EntityEnumGenerator.nameClassEntityEnumGenerator}.$dataClass
+        get() = metaEntityConst
         
-override fun ktSerializer() = serializer()        
+override fun ktSerializer() = serializer()
+        
+override val ukName: UkName
+    get() = ukNameConst
+
+companion object{
+    val ukNameConst = UkName("${fullClassName}")
+    val metaEntityConst = ${rootPackage.value}.${AbstractDataDictionaryGenerator.subPackageAbstractDataDictionaryGenerator.value}.${EntityEnumGenerator.nameClassEntityEnumGenerator}.$dataClass
+}
+                
+        
 }          
                     
                 """.trimIndent()

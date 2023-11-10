@@ -6,5 +6,5 @@ interface IContextOf<ENT : IEntity<out ENT>> : Serializer<IContextOf<ENT>> {
 
     val metaEntity: IMetaEntity
 
-//    val ukName: UkName
+    val ukName: UkName
 }
