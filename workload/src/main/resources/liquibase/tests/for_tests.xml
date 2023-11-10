@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <property name="sqlBatchDelimiter" value="\n/"/>
+
+    <changeSet id="liquibase/tests/10.tst_backuped_table_cache.sql" author="vood" runAlways="false">
+        <sqlFile path="liquibase/tests/10.tst_backuped_table_cache.sql" endDelimiter="${sqlBatchDelimiter}"/>
+    </changeSet>
+
+    <changeSet id="liquibase/tests/20.tst_renamed_db_obj_cache.sql" author="vood"  runAlways="false">
+        <sqlFile path="liquibase/tests/20.tst_renamed_db_obj_cache.sql" endDelimiter="${sqlBatchDelimiter}"/>
+    </changeSet>
+
+    <changeSet id="liquibase/tests/30.tst_disabled_constraints_table_cache.sql" author="vood"  runAlways="false">
+        <sqlFile path="liquibase/tests/30.tst_disabled_constraints_table_cache.sql" endDelimiter="${sqlBatchDelimiter}"/>
+    </changeSet>
+
+
+    <include file="liquibase/tests/pck/pck_for_tests.xml"/>
+
+
+</databaseChangeLog>

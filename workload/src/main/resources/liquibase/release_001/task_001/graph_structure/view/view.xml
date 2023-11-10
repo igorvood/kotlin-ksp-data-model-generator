@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+
+    <changeSet id="liquibase/release_001/task_001/graph_structure/view/pdd" author="vood"  runAlways="false">
+        <sqlFile path="liquibase/release_001/task_001/graph_structure/view/pdd/0010.pdd_constrant.sql" endDelimiter="${sqlBatchDelimiter}"/>
+        <sqlFile path="liquibase/release_001/task_001/graph_structure/view/pdd/0012.pdd_tables.sql" endDelimiter="${sqlBatchDelimiter}"/>
+        <sqlFile path="liquibase/release_001/task_001/graph_structure/view/pdd/0020.pdd_constrant_column.sql" endDelimiter="${sqlBatchDelimiter}"/>
+        <sqlFile path="liquibase/release_001/task_001/graph_structure/view/pdd/0030.pdd_all_tables.sql" endDelimiter="${sqlBatchDelimiter}"/>
+        <sqlFile path="liquibase/release_001/task_001/graph_structure/view/pdd/0040.pdd_ierarhy_tables.sql" endDelimiter="${sqlBatchDelimiter}"/>
+        <sqlFile path="liquibase/release_001/task_001/graph_structure/view/pdd/0050.pdd_tables_dependency.sql" endDelimiter="${sqlBatchDelimiter}"/>
+        <sqlFile path="liquibase/release_001/task_001/graph_structure/view/pdd/0060.pdd_columns.sql" endDelimiter="${sqlBatchDelimiter}"/>
+        <sqlFile path="liquibase/release_001/task_001/graph_structure/view/pdd/500.pdd_back_up.sql" endDelimiter="${sqlBatchDelimiter}"/>
+
+    </changeSet>
+
+
+    <changeSet id="liquibase/release_001/task_001/graph_structure/view" author="vood"  runAlways="false">
+
+        <sqlFile path="liquibase/release_001/task_001/graph_structure/view/0200.rep_topic_name_by_stand.sql" endDelimiter="${sqlBatchDelimiter}"/>
+        <sqlFile path="liquibase/release_001/task_001/graph_structure/view/0204.dict_service_profile.sql" endDelimiter="${sqlBatchDelimiter}"/>
+        <sqlFile path="liquibase/release_001/task_001/graph_structure/view/0205.KAFKA_PROP_VALUE_by_STAND.sql" endDelimiter="${sqlBatchDelimiter}"/>
+        <sqlFile path="liquibase/release_001/task_001/graph_structure/view/0210.kafka_topic_by_service.sql" endDelimiter="${sqlBatchDelimiter}"/>
+        <sqlFile path="liquibase/release_001/task_001/graph_structure/view/0220.kafka_property_by_sevice.sql" endDelimiter="${sqlBatchDelimiter}"/>
+        <sqlFile path="liquibase/release_001/task_001/graph_structure/view/0230.service_property_stand.sql" endDelimiter="${sqlBatchDelimiter}"/>
+        <sqlFile path="liquibase/release_001/task_001/graph_structure/view/0250.service_topic_name_by_stand.sql" endDelimiter="${sqlBatchDelimiter}"/>
+        <sqlFile path="liquibase/release_001/task_001/graph_structure/view/0300.full_flink_service_property_stand.sql" endDelimiter="${sqlBatchDelimiter}"/>
+        <sqlFile path="liquibase/release_001/task_001/graph_structure/view/0310.all_placeholder.sql" endDelimiter="${sqlBatchDelimiter}"/>
+        <sqlFile path="liquibase/release_001/task_001/graph_structure/view/0320.resolvable_placeholder.sql" endDelimiter="${sqlBatchDelimiter}"/>
+        <sqlFile path="liquibase/release_001/task_001/graph_structure/view/0400.rep_topics.sql" endDelimiter="${sqlBatchDelimiter}"/>
+        <sqlFile path="liquibase/release_001/task_001/graph_structure/view/0410.rep_arrow_by_grp.sql" endDelimiter="${sqlBatchDelimiter}"/>
+        <sqlFile path="liquibase/release_001/task_001/graph_structure/view/0500.ck_env_prop_unique.sql" endDelimiter="${sqlBatchDelimiter}"/>
+    </changeSet>
+
+
+
+
+
+</databaseChangeLog>
