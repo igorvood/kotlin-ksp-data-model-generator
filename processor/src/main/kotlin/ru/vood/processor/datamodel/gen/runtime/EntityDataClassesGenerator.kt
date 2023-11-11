@@ -33,7 +33,7 @@ class EntityDataClassesGenerator(
 
         val metaEntity = aggregateInnerDep.metaEntity
 
-        val fk = aggregateInnerDep.children
+        val fkColumn = aggregateInnerDep.children
             .map { child ->
                 when (val fet = child.metaEntity.flowEntityType) {
                     FlowEntityType.AGGREGATE -> Optional.empty<String>()
@@ -42,8 +42,6 @@ class EntityDataClassesGenerator(
                             metaForeignKeys.filter { fk -> fk.toEntity == metaEntity && fk.fromEntity == child.metaEntity }
                         val metaForeignKey =
                             if (currentFks.size == 1) currentFks[0] else error("Found several fk from entity ${child.metaEntity.designClassFullClassName.value} to ${metaEntity.designClassFullClassName.value}  ")
-
-
                         val s = if (fet.isOptional) "?" else ""
                         val genField = genField(child.metaEntity, s, metaForeignKey.relationType)
                         Optional.of(genField)
@@ -61,14 +59,12 @@ class EntityDataClassesGenerator(
         val dataClass = metaEntity.designClassShortName
 
         val columns = metaEntity.fields.sortedBy { it.position }
-
-        val joinToString = columns.map { col ->
+        val simpleColumn = columns.map { col ->
             val kotlinMetaClass = col.type
-
             val nullableSymbol = if (col.isNullable) "?" else ""
             """${
                 col.comment?.let {
-                    """/**
+"""/**
 *$it
 */
 """.trimIndent()
@@ -99,8 +95,8 @@ import ${EntityName::class.java.canonicalName}
 @kotlinx.serialization.Serializable
 //@optics([OpticsTarget.LENS])
 data class $fullClassName (
-$joinToString,
-$fk
+$simpleColumn,
+$fkColumn
 
 ): $s         
 {

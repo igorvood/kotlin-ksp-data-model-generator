@@ -18,7 +18,7 @@ data class ColumnEntityData<T : IEntity<out T>>(
     override val kProperty1: KProperty1<out T, *>,
     override val columnName: ColumnName,
     override val comment: String,
-    override val columnKind: ColumnKind = ColumnKind.SIMPLE,
+    override val columnKind: ColumnKind,
 ) : IMetaColumnEntityNew<T>
 
 
