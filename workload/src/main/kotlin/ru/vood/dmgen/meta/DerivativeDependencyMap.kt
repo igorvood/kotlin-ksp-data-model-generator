@@ -2,7 +2,6 @@ package ru.vood.dmgen.meta
 
 import ru.vood.dmgen.annotation.FkName
 import ru.vood.dmgen.annotation.FlowEntityType
-import ru.vood.dmgen.datamodel.metaEnum.Dependency
 import ru.vood.dmgen.datamodel.metaEnum.entityDataMap
 import ru.vood.dmgen.datamodel.metaEnum.foreignKeyMap
 import ru.vood.dmgen.intf.EntityName
@@ -11,14 +10,38 @@ import ru.vood.dmgen.intf.newIntf.EntityData
 import ru.vood.dmgen.intf.newIntf.FKEntityData
 
 
-object DependencyMap {
+object DerivativeDependencyMap {
 
-    val entityDependencyMap: Map<EntityName, Set<MetaDependencyNew<*>>> =
+    val entityDependencyParentMap: Map<EntityName, Set<MetaDependencyNew<*>>> =
         collectDependencyNew(entityDataMap, foreignKeyMap)
 
-    val aggregateDependencyMap = entityDependencyMap
+    val aggregateParentDependencyMap = entityDependencyParentMap
         .filter { qw -> entityDataMap[qw.key]!!.entityType == FlowEntityType.AGGREGATE }
-        .map { it.key to it.value.filter { q -> entityDataMap[q.toEntity]!!.entityType == FlowEntityType.AGGREGATE }.toSet() }
+        .map {
+            it.key to it.value.filter { q -> entityDataMap[q.toEntity]!!.entityType == FlowEntityType.AGGREGATE }
+                .toSet()
+        }
+        .toMap()
+
+
+    val entityDependencyChildMap = entityDependencyParentMap.keys
+        .associateWith { parentEnt ->
+            val filter = entityDependencyParentMap.entries
+                .filter { ch ->
+                    ch.value.map { it.toEntity }.contains(parentEnt)
+                }
+                .distinctBy { it.key }
+                .map { MetaDependencyNew(it.key, entityDataMap[it.key]!!) }
+                .toSet()
+            filter
+        }
+
+    val aggregateChildDependencyMap = entityDependencyChildMap
+        .filter { qw -> entityDataMap[qw.key]!!.entityType == FlowEntityType.AGGREGATE }
+        .map {
+            it.key to it.value.filter { q -> entityDataMap[q.toEntity]!!.entityType == FlowEntityType.AGGREGATE }
+                .toSet()
+        }
         .toMap()
 
     private fun collectDependencyNew(
