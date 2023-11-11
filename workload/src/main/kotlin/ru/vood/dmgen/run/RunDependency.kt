@@ -4,15 +4,21 @@ import org.springframework.boot.CommandLineRunner
 import org.springframework.stereotype.Service
 import ru.vood.dmgen.datamodel.metaEnum.columnEntityDataMap
 import ru.vood.dmgen.datamodel.metaEnum.foreignKeyMap
+import ru.vood.dmgen.datamodel.runtime.dataclasses.DealEntity
 import ru.vood.dmgen.meta.DerivativeColumns.entitiesColumnsMap
 import ru.vood.dmgen.meta.DerivativeDependencyMap.aggregateChildDependencyMap
 import ru.vood.dmgen.meta.DerivativeDependencyMap.aggregateParentDependencyMap
 import ru.vood.dmgen.meta.DerivativeDependencyMap.entityDependencyChildMap
 import ru.vood.dmgen.meta.DerivativeDependencyMap.entityDependencyParentMap
 
-//@Service
+@Service
 class RunDependency : CommandLineRunner {
     override fun run(vararg args: String?) {
+
+        val serializer = DealEntity.serializer()
+        val descriptor = serializer.descriptor
+
+
         val message = entityDependencyParentMap
         println(message)
         val message1 = aggregateParentDependencyMap

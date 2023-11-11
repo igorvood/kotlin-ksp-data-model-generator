@@ -9,8 +9,10 @@ import ru.vood.dmgen.datamodel.runtime.dataclasses.DealEntity
 import ru.vood.dmgen.intf.IAggregate
 import ru.vood.dmgen.intf.IContextOf
 import ru.vood.dmgen.intf.IEntity
+import ru.vood.dmgen.intf.newIntf.ColumnKind
 import ru.vood.dmgen.intf.newIntf.TypeUk
 import ru.vood.dmgen.intf.newIntf.UKEntityData
+import ru.vood.dmgen.meta.DerivativeColumns.entitiesColumnsMap
 
 @Repository
 class EntityDao(
@@ -22,9 +24,8 @@ class EntityDao(
 
 
     final inline fun <reified T : IAggregate<T>> saveAggregate(aggregate: T) {
-
-
-
+        val simpleColumns = entitiesColumnsMap[aggregate.designEntityName]!!
+            .filter { col -> col.value.columnKind == ColumnKind.SIMPLE }
         val entityName = aggregate.designEntityName
         val uks = uniqueKeyMap.values.filter { it.entity == entityName }
         val pkMeta = uks.first { it.typeUk == TypeUk.PK } as UKEntityData<T>
