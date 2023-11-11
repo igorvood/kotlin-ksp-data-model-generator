@@ -32,7 +32,7 @@ class UniqueKeyMapGenerator(
                         metaEnt.uniqueKeysFields.keys
                             .map { ukDto ->
                                 val ukCols =
-                                    ukDto.cols.map { columnName -> """${ColumnName::class.simpleName}("${metaEnt.shortName}_${columnName.value}")""" }
+                                    ukDto.cols.map { columnName -> """${ColumnName::class.simpleName}("${metaEnt.designClassShortName}_${columnName.value}")""" }
                                         .sorted()
                                         .joinToString(",")
                                 val constructorParams = ukDto.cols.map { columnName -> """data.${columnName.value}""" }
@@ -41,10 +41,10 @@ class UniqueKeyMapGenerator(
 
                                 """${UkName::class.simpleName}("${ukDto.name.value}") to ${UKEntityData::class.simpleName}(
                                     |listOf($ukCols),
-                                    |${EntityName::class.simpleName}("${metaEnt.shortName}"),
+                                    |${EntityName::class.simpleName}("${metaEnt.designClassShortName}"),
                                     |{data: ${CollectName.entityClassName(metaEnt)} -> ${CollectName.ukClassName(metaEnt, ukDto.name)}($constructorParams) },
                                     |${ukDto.typeUk.name}
-                                    |//${rootPackage.value}${contextDataClassesGeneratorPackageName.value}.${metaEnt.shortName}Context${ukDto.name.value}::class,
+                                    |//${rootPackage.value}${contextDataClassesGeneratorPackageName.value}.${metaEnt.designClassShortName}Context${ukDto.name.value}::class,
                                     |)""".trimMargin()
                             }
                     }

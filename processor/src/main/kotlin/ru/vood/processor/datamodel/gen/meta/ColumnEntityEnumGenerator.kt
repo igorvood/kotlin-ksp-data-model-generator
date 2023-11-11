@@ -27,8 +27,8 @@ class ColumnEntityEnumGenerator(
                     .flatMap { ent ->
                         ent.fields
                             .map { f ->
-                                """${ent.shortName}_${f.name.value}(
-                                |${ent.shortName},
+                                """${ent.designClassShortName}_${f.name.value}(
+                                |${ent.designClassShortName},
                                 |${ent.modelClassName.value}::${f.name.value},
                                 |${ColumnName::class.simpleName}("${f.name.value}"),
                                 |"${f.comment}"

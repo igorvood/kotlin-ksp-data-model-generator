@@ -31,12 +31,12 @@ class ForeignKeyEnumGenerator(
 //                        "${ent.shortName}_${f.name.value}"
                         val fkCols = metaForeign.fkCols.map { fkPa ->
 
-                            """FkPair(${metaForeign.fromEntity.shortName}_${fkPa.from.name.value}, ${metaForeign.toEntity.shortName}_${fkPa.to.name.value})"""
+                            """FkPair(${metaForeign.fromEntity.designClassShortName}_${fkPa.from.name.value}, ${metaForeign.toEntity.designClassShortName}_${fkPa.to.name.value})"""
                         }.joinToString(",\n")
 
                         """${metaForeign.name.value}(
-                            |${metaForeign.fromEntity.shortName}, 
-                            |${metaForeign.toEntity.shortName}, 
+                            |${metaForeign.fromEntity.designClassShortName}, 
+                            |${metaForeign.toEntity.designClassShortName}, 
                             |${metaForeign.uk.name.value},
                             |${RelationType::class.java.canonicalName}.${metaForeign.relationType.name},
                             |setOf($fkCols)

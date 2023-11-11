@@ -28,8 +28,8 @@ class ColumnEntityMapGenerator(
                     .flatMap { ent ->
                         ent.fields
                             .map { f ->
-                                """${ColumnName::class.simpleName}("${ent.shortName}_${f.name.value}") to ${ColumnEntityData::class.simpleName}(
-                                |    ${EntityName::class.java.canonicalName}( "${ent.shortName}"),
+                                """${ColumnName::class.simpleName}("${ent.designClassShortName}_${f.name.value}") to ${ColumnEntityData::class.simpleName}(
+                                |    ${EntityName::class.java.canonicalName}( "${ent.designClassShortName}"),
                                 |${rootPackage.value}.${entityDataClassesGeneratorPackageName.value}.${CollectName.entityClassName(ent)}::${f.name.value},
                                 |${ColumnName::class.simpleName}("${f.name.value}"),
                                 |"${f.comment}"

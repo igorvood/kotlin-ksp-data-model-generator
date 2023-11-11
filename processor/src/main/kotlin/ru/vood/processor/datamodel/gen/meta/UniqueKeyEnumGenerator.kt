@@ -31,12 +31,12 @@ class UniqueKeyEnumGenerator(
                         metaEnt.uniqueKeysFields.keys
                             .map { ukDto ->
                                 val ukCols =
-                                    ukDto.cols.map { columnName -> "${metaEnt.shortName}_${columnName.value}" }
+                                    ukDto.cols.map { columnName -> "${metaEnt.designClassShortName}_${columnName.value}" }
                                         .sorted()
                                         .joinToString(",")
                                 """${ukDto.name.value}(
                                     |setOf($ukCols),
-                                    |${packageName.value}.${nameClassEntityEnumGenerator}.${metaEnt.shortName},
+                                    |${packageName.value}.${nameClassEntityEnumGenerator}.${metaEnt.designClassShortName},
                                     |${rootPackage.value}.${contextDataClassesGeneratorPackageName.value}.${CollectName.ukClassName(metaEnt, ukDto.name)}::class,
                                     |${ukDto.typeUk.name},
                                     |)""".trimMargin()

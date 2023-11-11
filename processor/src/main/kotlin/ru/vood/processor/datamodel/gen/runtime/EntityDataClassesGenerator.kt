@@ -58,7 +58,7 @@ class EntityDataClassesGenerator(
 
 //        val fk: String = foreignKeyProcessor(metaEntity, foreignKeyMap)
 
-        val dataClass = metaEntity.shortName
+        val dataClass = metaEntity.designClassShortName
 
         val columns = metaEntity.fields.sortedBy { it.position }
 

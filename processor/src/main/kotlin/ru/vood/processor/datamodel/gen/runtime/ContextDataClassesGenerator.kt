@@ -28,7 +28,7 @@ class ContextDataClassesGenerator(
             }
             .map { contextData ->
                 val metaEntity = contextData.first
-                val dataClass = metaEntity.shortName
+                val dataClass = metaEntity.designClassShortName
                 val entityName = CollectName.entityClassName(metaEntity)
                 val ukName = contextData.second.key.name
                 val columns = contextData.second.value.sortedBy { it.name.value }

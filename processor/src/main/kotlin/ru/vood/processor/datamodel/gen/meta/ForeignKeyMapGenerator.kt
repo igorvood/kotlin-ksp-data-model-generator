@@ -8,8 +8,6 @@ import ru.vood.dmgen.annotation.UkName
 import ru.vood.dmgen.intf.*
 import ru.vood.dmgen.intf.newIntf.FKEntityData
 import ru.vood.dmgen.intf.newIntf.FkPairNew
-import ru.vood.dmgen.intf.newIntf.IMetaFkEntityNew
-import ru.vood.dmgen.intf.newIntf.IMetaUkEntityNew
 import ru.vood.processor.datamodel.abstraction.model.MetaInformation
 import ru.vood.processor.datamodel.gen.*
 import ru.vood.processor.datamodel.gen.meta.ColumnEntityEnumGenerator.Companion.columnEntityEnumGeneratorNameClass
@@ -34,12 +32,12 @@ class ForeignKeyMapGenerator(
 //                        "${ent.shortName}_${f.name.value}"
                         val fkCols = metaForeign.fkCols.map { fkPa ->
 
-                            """${FkPairNew::class.simpleName}(${ColumnName::class.simpleName}("${metaForeign.fromEntity.shortName}_${fkPa.from.name.value}"), ${ColumnName::class.simpleName}("${metaForeign.toEntity.shortName}_${fkPa.to.name.value}"))"""
+                            """${FkPairNew::class.simpleName}(${ColumnName::class.simpleName}("${metaForeign.fromEntity.designClassShortName}_${fkPa.from.name.value}"), ${ColumnName::class.simpleName}("${metaForeign.toEntity.designClassShortName}_${fkPa.to.name.value}"))"""
                         }.joinToString(",\n")
 
                         """${FkName::class.simpleName}("${metaForeign.name.value}") to ${FKEntityData::class.simpleName}(
-                        |${EntityName::class.simpleName}("${metaForeign.fromEntity.shortName}"),
-                        |${EntityName::class.simpleName}("${metaForeign.toEntity.shortName}"),
+                        |${EntityName::class.simpleName}("${metaForeign.fromEntity.designClassShortName}"),
+                        |${EntityName::class.simpleName}("${metaForeign.toEntity.designClassShortName}"),
                         |${UkName::class.simpleName}("${metaForeign.uk.name.value}"),
                         |${RelationType::class.java.canonicalName}.${metaForeign.relationType.name},
                         |setOf($fkCols),

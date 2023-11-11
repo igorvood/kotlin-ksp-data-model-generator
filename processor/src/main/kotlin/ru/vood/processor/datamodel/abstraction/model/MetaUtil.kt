@@ -137,7 +137,7 @@ fun metaInformation(annotatedDataClasses: List<KSAnnotated>, logger: KSPLogger):
 
 private fun checkDublicateFKName(collectMetaForeignKey: Set<MetaForeignKeyTemporary>) {
     val dublicatetdFkName =
-        collectMetaForeignKey.map { it.name to it.fromEntity.shortName }
+        collectMetaForeignKey.map { it.name to it.fromEntity.designClassShortName }
             .groupBy { it.first }
             .filter { it.value.size > 1 }
             .map { "dublicate FK name ${it.key.value} in enties: ${it.value.map { q -> q.second }}" }
@@ -150,7 +150,7 @@ private fun checkDublicateFKName(collectMetaForeignKey: Set<MetaForeignKeyTempor
 
 private fun checkDublicateClassName(entities: Map<ModelClassName, MetaEntity>) {
     val groupBy =
-        entities.map { it.key to it.value.shortName }
+        entities.map { it.key to it.value.designClassShortName }
             .groupBy { it.second }
             .filter { it.value.size > 1 }
             .flatMap { it.value.map { e -> e.first } }

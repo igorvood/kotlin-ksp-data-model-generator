@@ -28,11 +28,11 @@ class EntityMapGenerator(
 
                     .map {
 
-                        """${EntityName::class.simpleName}("${it.shortName}") to ${EntityData::class.simpleName}(
+                        """${EntityName::class.simpleName}("${it.designClassShortName}") to ${EntityData::class.simpleName}(
                             |${it.modelClassName.value}::class, 
                             |${rootPackage.value}.${entityDataClassesGeneratorPackageName.value}.${CollectName.entityClassName(it)}::class,
                             |${rootPackage.value}.${entityDataClassesGeneratorPackageName.value}.${CollectName.entityClassName(it)}.serializer(),
-                            |${EntityName::class.simpleName}("${it.shortName}"), 
+                            |${EntityName::class.simpleName}("${it.designClassShortName}"), 
                             |"${it.comment}",
                             |${it.flowEntityType}
                             |)""".trimMargin()

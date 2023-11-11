@@ -14,18 +14,18 @@ import ru.vood.processor.datamodel.abstraction.model.dto.UkDto
 @OptIn(KspExperimental::class)
 data class MetaEntity(val ksAnnotated: KSClassDeclaration, val logger: KSPLogger) {
 
-    val shortName: String = ksAnnotated.simpleName.asString()
+    val designClassShortName: String = ksAnnotated.simpleName.asString()
 
     val packageName: String = ksAnnotated.packageName.asString()
 
-    val modelClassName = ModelClassName("$packageName.$shortName")
+    val modelClassName = ModelClassName("$packageName.$designClassShortName")
 
 
     val flowEntityType: FlowEntityType = ksAnnotated.getAnnotationsByType(FlowEntity::class).first().entityType
 
     val flowEntityName = ksAnnotated.getAnnotationsByType(FlowEntity::class).first().entityName
 
-    val entityFieldName = shortName[0].lowercaseChar() + shortName.substring(1)
+    val entityFieldName = designClassShortName[0].lowercaseChar() + designClassShortName.substring(1)
 
 
     val comment: String? = ksAnnotated.getAnnotationsByType(Comment::class).firstOrNull()?.comment
@@ -44,7 +44,7 @@ data class MetaEntity(val ksAnnotated: KSClassDeclaration, val logger: KSPLogger
             error("Entity ${modelClassName.value} contains nullable columns in PK ${minus}")
         }
 
-        UkDto(UkName(shortName + "_PK"), pkCols, TypeUk.PK) to fields.filter { it.inPk }
+        UkDto(UkName(designClassShortName + "_PK"), pkCols, TypeUk.PK) to fields.filter { it.inPk }
     }
 
     val uniqueKeysFields: Map<UkDto, List<MetaEntityColumn>> by lazy {
@@ -61,7 +61,7 @@ data class MetaEntity(val ksAnnotated: KSClassDeclaration, val logger: KSPLogger
                 val map = ukCols.map { pair: Pair<String, MetaEntityColumn?> ->
                     val metaEntityColumn = pair.second
                     if (metaEntityColumn == null) {
-                        error("for entity $shortName Uk annotation colum ${pair.first} not contains field class ")
+                        error("for entity $designClassShortName Uk annotation colum ${pair.first} not contains field class ")
                     } else pair.first to metaEntityColumn
                 }
                 uk.first to map
@@ -76,7 +76,7 @@ data class MetaEntity(val ksAnnotated: KSClassDeclaration, val logger: KSPLogger
             .distinct()
 
         if (dublicateUk.isNotEmpty()) {
-            error("for entity ${shortName}  dublicate UK Name ${dublicateUk} ")
+            error("for entity ${designClassShortName}  dublicate UK Name ${dublicateUk} ")
         }
 
         allUk.toMap()
@@ -106,7 +106,7 @@ data class MetaEntity(val ksAnnotated: KSClassDeclaration, val logger: KSPLogger
 
     override fun toString(): String {
         return """MetaEntity(flowEntityType=$flowEntityType,
-            |shortName=$shortName,
+            |shortName=$designClassShortName,
             |packageName=$packageName,
             |entityFieldName=$entityFieldName,
             |comment=$comment,
