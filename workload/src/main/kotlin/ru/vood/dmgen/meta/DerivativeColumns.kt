@@ -9,6 +9,6 @@ object DerivativeColumns {
             column.entity to column
         }
         .groupBy { it.first }
-        .map { it.key to it.value.map { ass -> ass.second}.map { asdsa ->asdsa.columnName to asdsa }.toMap() }
+        .map { it.key to it.value.map { ass -> ass.second}.map { asdsa ->asdsa.simpleColumnName to asdsa }.toMap() }
         .toMap()
 }

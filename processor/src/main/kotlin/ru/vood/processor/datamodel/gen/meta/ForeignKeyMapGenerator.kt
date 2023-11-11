@@ -32,7 +32,7 @@ class ForeignKeyMapGenerator(
 //                        "${ent.shortName}_${f.name.value}"
                         val fkCols = metaForeign.fkCols.map { fkPa ->
 
-                            """${FkPairNew::class.simpleName}(${ColumnName::class.simpleName}("${metaForeign.fromEntity.designClassShortName}_${fkPa.from.name.value}"), ${ColumnName::class.simpleName}("${metaForeign.toEntity.designClassShortName}_${fkPa.to.name.value}"))"""
+                            """${FkPairNew::class.simpleName}(${SimpleColumnName::class.simpleName}("${metaForeign.fromEntity.designClassShortName}_${fkPa.from.name.value}"), ${SimpleColumnName::class.simpleName}("${metaForeign.toEntity.designClassShortName}_${fkPa.to.name.value}"))"""
                         }.joinToString(",\n")
 
                         """${FkName::class.simpleName}("${metaForeign.name.value}") to ${FKEntityData::class.simpleName}(
@@ -67,7 +67,7 @@ import ${FkName::class.java.canonicalName}
 import ${FKEntityData::class.java.canonicalName}
 import ${EntityName::class.java.canonicalName}
 import ${FkPairNew::class.java.canonicalName}
-import ${ColumnName::class.java.canonicalName}
+import ${SimpleColumnName::class.java.canonicalName}
 import ${UkName::class.java.canonicalName}
 import ${packageName.value}.${columnEntityEnumGeneratorNameClass}.*
 

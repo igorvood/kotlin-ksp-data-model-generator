@@ -6,12 +6,12 @@ import kotlin.reflect.KProperty1
 interface IMetaColumnEntity {
     val entity: IMetaEntity
     val kProperty1: KProperty1<*, *>
-    val columnName: ColumnName
+    val columnName: SimpleColumnName
     val comment: String
 }
 
 @JvmInline
-value class ColumnName(val value: String)
+value class SimpleColumnName(val value: String)
 
 @JvmInline
 value class FullColumnName(val value: String)

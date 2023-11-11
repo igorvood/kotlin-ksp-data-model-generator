@@ -3,7 +3,7 @@ package ru.vood.processor.datamodel.gen.meta
 import com.google.devtools.ksp.processing.CodeGenerator
 import com.google.devtools.ksp.processing.KSPLogger
 import ru.vood.dmgen.annotation.UkName
-import ru.vood.dmgen.intf.ColumnName
+import ru.vood.dmgen.intf.SimpleColumnName
 import ru.vood.dmgen.intf.EntityName
 import ru.vood.dmgen.intf.newIntf.TypeUk
 import ru.vood.dmgen.intf.newIntf.UKEntityData
@@ -32,7 +32,7 @@ class UniqueKeyMapGenerator(
                         metaEnt.uniqueKeysFields.keys
                             .map { ukDto ->
                                 val ukCols =
-                                    ukDto.cols.map { columnName -> """${ColumnName::class.simpleName}("${metaEnt.designClassShortName}_${columnName.value}")""" }
+                                    ukDto.cols.map { columnName -> """${SimpleColumnName::class.simpleName}("${metaEnt.designClassShortName}_${columnName.value}")""" }
                                         .sorted()
                                         .joinToString(",")
                                 val constructorParams = ukDto.cols.map { columnName -> """data.${columnName.value}""" }
@@ -61,7 +61,7 @@ import ${UKEntityData::class.java.canonicalName}
 import ${TypeUk::class.java.canonicalName}.*
 import ${TypeUk::class.java.canonicalName}
 import ${UkName::class.java.canonicalName}
-import ${ColumnName::class.java.canonicalName}
+import ${SimpleColumnName::class.java.canonicalName}
 import ${EntityName::class.java.canonicalName}
 import kotlin.reflect.KClass
 

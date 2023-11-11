@@ -1,12 +1,12 @@
 package ru.vood.processor.datamodel.abstraction.model.dto
 
 import ru.vood.dmgen.annotation.UkName
-import ru.vood.dmgen.intf.ColumnName
+import ru.vood.dmgen.intf.SimpleColumnName
 import ru.vood.dmgen.intf.newIntf.TypeUk
 
 data class UkDto(
     val name: UkName,
-    val cols: Set<ColumnName>,
+    val cols: Set<SimpleColumnName>,
     val typeUk: TypeUk
 )
 

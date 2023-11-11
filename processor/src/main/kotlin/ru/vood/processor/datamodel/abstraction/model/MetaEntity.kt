@@ -5,7 +5,7 @@ import com.google.devtools.ksp.getAnnotationsByType
 import com.google.devtools.ksp.processing.KSPLogger
 import com.google.devtools.ksp.symbol.KSClassDeclaration
 import ru.vood.dmgen.annotation.*
-import ru.vood.dmgen.intf.ColumnName
+import ru.vood.dmgen.intf.SimpleColumnName
 import ru.vood.dmgen.intf.newIntf.TypeUk
 import ru.vood.processor.datamodel.abstraction.model.dto.ModelClassName
 import ru.vood.processor.datamodel.abstraction.model.dto.UkDto
@@ -49,7 +49,7 @@ data class MetaEntity(val ksAnnotated: KSClassDeclaration, val logger: KSPLogger
     val uniqueKeysFields: Map<UkDto, List<MetaEntityColumn>> by lazy {
         val allUk = uniqueKeysAnnotations
             .map { anno ->
-                UkDto(UkName(anno.name), anno.cols.map { ColumnName(it) }.toSet(), TypeUk.UK) to anno.cols
+                UkDto(UkName(anno.name), anno.cols.map { SimpleColumnName(it) }.toSet(), TypeUk.UK) to anno.cols
                     .map { annoColName ->
                         annoColName to fields.filter { f -> f.name.value == annoColName }
                             .map { metaCol -> metaCol }

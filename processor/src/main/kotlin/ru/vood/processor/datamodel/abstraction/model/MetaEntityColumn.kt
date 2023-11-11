@@ -6,13 +6,13 @@ import com.google.devtools.ksp.symbol.KSPropertyDeclaration
 import com.google.devtools.ksp.symbol.Nullability
 import ru.vood.dmgen.annotation.Comment
 import ru.vood.dmgen.annotation.Pk
-import ru.vood.dmgen.intf.ColumnName
+import ru.vood.dmgen.intf.SimpleColumnName
 
 class MetaEntityColumn(
     val position: Int,
     val element: KSPropertyDeclaration
 ) {
-    val name = ColumnName(element.simpleName.asString())
+    val name = SimpleColumnName(element.simpleName.asString())
 
     val isNullable: Boolean = element.type.resolve().nullability == Nullability.NULLABLE
 

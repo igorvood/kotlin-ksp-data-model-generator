@@ -1,11 +1,11 @@
 package ru.vood.dmgen.annotation
 
-import ru.vood.dmgen.intf.ColumnName
+import ru.vood.dmgen.intf.SimpleColumnName
 import ru.vood.dmgen.intf.newIntf.TypeUk
 
 data class UkDto(
     val name: UkName,
-    val cols: Set<ColumnName>,
+    val cols: Set<SimpleColumnName>,
     val typeUk: TypeUk
 )
 

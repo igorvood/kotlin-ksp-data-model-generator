@@ -2,7 +2,7 @@ package ru.vood.processor.datamodel.gen.meta
 
 import com.google.devtools.ksp.processing.CodeGenerator
 import com.google.devtools.ksp.processing.KSPLogger
-import ru.vood.dmgen.intf.ColumnName
+import ru.vood.dmgen.intf.SimpleColumnName
 import ru.vood.dmgen.intf.IMetaColumnEntity
 import ru.vood.dmgen.intf.IMetaEntity
 import ru.vood.processor.datamodel.abstraction.model.MetaInformation
@@ -30,7 +30,7 @@ class ColumnEntityEnumGenerator(
                                 """${ent.designClassShortName}_${f.name.value}(
                                 |${ent.designClassShortName},
                                 |${ent.designClassFullClassName.value}::${f.name.value},
-                                |${ColumnName::class.simpleName}("${f.name.value}"),
+                                |${SimpleColumnName::class.simpleName}("${f.name.value}"),
                                 |"${f.comment}"
                                 |)""".trimMargin()
                             }
@@ -43,12 +43,12 @@ class ColumnEntityEnumGenerator(
                         
 import ${packageName.value}.${EntityEnumGenerator.nameClassEntityEnumGenerator}.*                        
 import kotlin.reflect.KProperty1
-import ${ColumnName::class.java.canonicalName}
+import ${SimpleColumnName::class.java.canonicalName}
 
 enum class $nameClass(
     override val entity: ${IMetaEntity::class.java.canonicalName},
     override val kProperty1: KProperty1<*, *>,
-    override val columnName: ${ColumnName::class.simpleName},
+    override val columnName: ${SimpleColumnName::class.simpleName},
     override val comment: String,
 ): ${IMetaColumnEntity::class.java.canonicalName} {
 $entities

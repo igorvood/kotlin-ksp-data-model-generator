@@ -4,7 +4,7 @@ import com.google.devtools.ksp.processing.CodeGenerator
 import com.google.devtools.ksp.processing.KSPLogger
 import ru.vood.dmgen.annotation.FlowEntityType
 import ru.vood.dmgen.annotation.RelationType
-import ru.vood.dmgen.intf.ColumnName
+import ru.vood.dmgen.intf.SimpleColumnName
 import ru.vood.dmgen.intf.EntityName
 import ru.vood.dmgen.intf.newIntf.ColumnEntityData
 import ru.vood.dmgen.intf.newIntf.ColumnKind
@@ -55,14 +55,14 @@ class ColumnEntityMapGenerator(
                                 }
 
 
-                                """${ColumnName::class.simpleName}("${fromEntity.designClassShortName}_${fromEntity.entityFieldName}") to ${ColumnEntityData::class.simpleName}(
+                                """${SimpleColumnName::class.simpleName}("${fromEntity.designClassShortName}_${fromEntity.entityFieldName}") to ${ColumnEntityData::class.simpleName}(
                                 |    ${EntityName::class.java.canonicalName}( "${ent.designClassShortName}"),
                                 |${rootPackage.value}.${entityDataClassesGeneratorPackageName.value}.${
                                     CollectName.entityClassName(
                                         ent
                                     )
                                 }::${fromEntity.entityFieldName},
-                                |${ColumnName::class.simpleName}("${fromEntity.entityFieldName}"),
+                                |${SimpleColumnName::class.simpleName}("${fromEntity.entityFieldName}"),
                                 |${isOptional},
                                 |"${fromEntity.comment}",
                                 |${columnKind.name}
@@ -78,10 +78,10 @@ class ColumnEntityMapGenerator(
                             .map {fk ->
                                 val fromEntity = fk.fromEntity
 
-                                """${ColumnName::class.simpleName}("${fromEntity.designClassShortName}_${fromEntity.entityFieldName}") to ${ColumnEntityData::class.simpleName}(
+                                """${SimpleColumnName::class.simpleName}("${fromEntity.designClassShortName}_${fromEntity.entityFieldName}") to ${ColumnEntityData::class.simpleName}(
                                 |    ${EntityName::class.java.canonicalName}( "${ent.designClassShortName}"),
                                 |${rootPackage.value}.${entityDataClassesGeneratorPackageName.value}.${CollectName.entityClassName(ent)}::${fromEntity.entityFieldName},
-                                |${ColumnName::class.simpleName}("${fromEntity.entityFieldName}"),
+                                |${SimpleColumnName::class.simpleName}("${fromEntity.entityFieldName}"),
                                 |false,
                                 |"${fromEntity.comment}",
                                 |${ColumnKind.SYNTHETIC.name}
@@ -93,14 +93,14 @@ class ColumnEntityMapGenerator(
                         val map = ent.fields
                             .sortedBy { ec -> ec.position }
                             .map { f ->
-                                """${ColumnName::class.simpleName}("${ent.designClassShortName}_${f.name.value}") to ${ColumnEntityData::class.simpleName}(
+                                """${SimpleColumnName::class.simpleName}("${ent.designClassShortName}_${f.name.value}") to ${ColumnEntityData::class.simpleName}(
                                 |    ${EntityName::class.java.canonicalName}( "${ent.designClassShortName}"),
                                 |${rootPackage.value}.${entityDataClassesGeneratorPackageName.value}.${
                                     CollectName.entityClassName(
                                         ent
                                     )
                                 }::${f.name.value},
-                                |${ColumnName::class.simpleName}("${f.name.value}"),
+                                |${SimpleColumnName::class.simpleName}("${f.name.value}"),
                                 |${f.isNullable},
                                 |"${f.comment}",
                                 |${ColumnKind.SIMPLE.name}
@@ -116,7 +116,7 @@ class ColumnEntityMapGenerator(
                         
 import ${packageName.value}.${EntityEnumGenerator.nameClassEntityEnumGenerator}.*
 import ${ColumnEntityData::class.java.canonicalName}
-import ${ColumnName::class.java.canonicalName}
+import ${SimpleColumnName::class.java.canonicalName}
 import ${ColumnKind::class.java.canonicalName}
 import ${ColumnKind::class.java.canonicalName}.*
 import kotlin.reflect.KProperty1

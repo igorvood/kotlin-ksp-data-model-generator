@@ -25,6 +25,6 @@ data class FKEntityData/*<T : IEntity<T>>*/(
 
 
 data class FkPairNew(
-    val from: ColumnName,
-    val to: ColumnName
+    val from: SimpleColumnName,
+    val to: SimpleColumnName
 )
