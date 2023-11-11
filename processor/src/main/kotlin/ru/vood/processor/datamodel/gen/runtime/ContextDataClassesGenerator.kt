@@ -46,11 +46,13 @@ class ContextDataClassesGenerator(
                     
 import ${UkName::class.java.canonicalName}
 import ${EntityName::class.java.canonicalName}
+import kotlinx.serialization.KSerializer
+import ${rootPackage.value}.${EntityDataClassesGenerator.entityDataClassesGeneratorPackageName.value}.$entityName
                     
 @kotlinx.serialization.Serializable
 data class $fullClassName (
 $joinToString
-): ${IContextOf::class.java.canonicalName}<${rootPackage.value}.${EntityDataClassesGenerator.entityDataClassesGeneratorPackageName.value}.$entityName>//,
+): ${IContextOf::class.java.canonicalName}<$entityName>//,
 //${IEntity::class.java.canonicalName}<$fullClassName>
 {
 override val metaEntity: ${EntityName::class.simpleName}
@@ -60,6 +62,9 @@ override fun ktSerializer() = serializer()
         
 override val ukName: UkName
     get() = ukNameConst
+    
+override val ktEntitySerializer: KSerializer<*>
+    get() = ${entityName}.serializer()
 
 companion object{
     val ukNameConst = UkName("${ukName.value}")

@@ -61,9 +61,8 @@ class EntityDao(
             ukName.value, encodeToString
         )
         val et = query[0]
-        val entityData = entityDataMap[EntityName(et.entity_type)] as EntityData<T>
-        val serializer = entityData.serializer
-        return json.decodeFromString(serializer, et.payload)
+        val ktEntitySerializer = uk.ktEntitySerializer as KSerializer<T>
+        return json.decodeFromString(ktEntitySerializer, et.payload)
     }
 
 }

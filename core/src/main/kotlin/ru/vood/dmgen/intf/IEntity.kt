@@ -20,6 +20,8 @@ interface IContextOf<T : IEntity<T>> : Serializer<T> {
 
     val ukName: UkName
 
+    val ktEntitySerializer: KSerializer<*>
+
 }
 
 interface IAggregate<T : IAggregate<T>> : IEntity<T>
