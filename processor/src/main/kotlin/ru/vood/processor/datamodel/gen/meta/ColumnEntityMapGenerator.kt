@@ -48,6 +48,13 @@ class ColumnEntityMapGenerator(
                                 val isOptional =
                                     syntheticFieldInfo.isOptional && syntheticFieldInfo.relationType == RelationType.ONE_TO_ONE_OPTIONAL
 
+                                val columnKind = when (syntheticFieldInfo.relationType) {
+                                    RelationType.ONE_TO_ONE_OPTIONAL -> ColumnKind.SYNTHETIC
+                                    RelationType.MANY_TO_ONE -> ColumnKind.SYNTHETIC_SET
+                                    RelationType.UNNOWN -> error("Не известный тип")
+                                }
+
+
                                 """${ColumnName::class.simpleName}("${fromEntity.designClassShortName}_${fromEntity.entityFieldName}") to ${ColumnEntityData::class.simpleName}(
                                 |    ${EntityName::class.java.canonicalName}( "${ent.designClassShortName}"),
                                 |${rootPackage.value}.${entityDataClassesGeneratorPackageName.value}.${
@@ -58,7 +65,7 @@ class ColumnEntityMapGenerator(
                                 |${ColumnName::class.simpleName}("${fromEntity.entityFieldName}"),
                                 |${isOptional},
                                 |"${fromEntity.comment}",
-                                |${ColumnKind.SYNTHETIC.name}
+                                |${columnKind.name}
                                 |)""".trimMargin()
 
                             }

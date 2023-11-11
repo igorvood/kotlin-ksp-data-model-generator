@@ -12,3 +12,6 @@ interface IMetaColumnEntity {
 
 @JvmInline
 value class ColumnName(val value: String)
+
+@JvmInline
+value class FullColumnName(val value: String)
