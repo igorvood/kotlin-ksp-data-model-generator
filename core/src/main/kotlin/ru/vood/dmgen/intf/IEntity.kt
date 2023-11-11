@@ -16,9 +16,10 @@ interface IEntity<T : IEntity<T>> : Serializer<T> {
 
 interface IContextOf<T : IEntity<T>> : Serializer<T> {
 
-    val metaEntity: IMetaEntity
+    val metaEntity: EntityName
 
     val ukName: UkName
+
 }
 
 interface IAggregate<T : IAggregate<T>> : IEntity<T>
