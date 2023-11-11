@@ -60,7 +60,7 @@ override val ukName: UkName
     get() = ukNameConst
 
 companion object{
-    val ukNameConst = UkName("${fullClassName}")
+    val ukNameConst = UkName("${ukName.value}")
     val metaEntityConst = ${rootPackage.value}.${AbstractDataDictionaryGenerator.subPackageAbstractDataDictionaryGenerator.value}.${EntityEnumGenerator.nameClassEntityEnumGenerator}.$dataClass
 }
                 
