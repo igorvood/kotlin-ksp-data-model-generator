@@ -8,6 +8,7 @@ import ru.vood.dmgen.intf.IEntity
 import ru.vood.dmgen.intf.IMetaEntity
 import ru.vood.processor.datamodel.abstraction.model.MetaInformation
 import ru.vood.processor.datamodel.gen.*
+import ru.vood.processor.datamodel.gen.CollectName.ukClassName
 import ru.vood.processor.datamodel.gen.meta.EntityEnumGenerator
 
 class ContextDataClassesGenerator(
@@ -26,9 +27,10 @@ class ContextDataClassesGenerator(
                     .map { ukData -> metaEntity to ukData }
             }
             .map { contextData ->
-                val dataClass = contextData.first.shortName
+                val metaEntity = contextData.first
+                val dataClass = metaEntity.shortName
                 val entityName = """${dataClass}Entity"""
-                val contextName = contextData.second.key.name
+                val ukName = contextData.second.key.name
                 val columns = contextData.second.value.sortedBy { it.name.value }
 
                 val joinToString = columns.map { col ->
@@ -38,7 +40,7 @@ class ContextDataClassesGenerator(
                 }
                     .joinToString(",\n")
 
-                val fullClassName = """${dataClass}Context${contextName.value}"""
+                val fullClassName = ukClassName(metaEntity, ukName)
                 val code = """package ${packageName.value}
                     
 import ${UkName::class.java.canonicalName}

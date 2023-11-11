@@ -34,11 +34,10 @@ class UniqueKeyEnumGenerator(
                                     ukDto.cols.map { columnName -> "${metaEnt.shortName}_${columnName.value}" }
                                         .sorted()
                                         .joinToString(",")
-
                                 """${ukDto.name.value}(
                                     |setOf($ukCols),
                                     |${packageName.value}.${nameClassEntityEnumGenerator}.${metaEnt.shortName},
-                                    |${rootPackage.value}.${contextDataClassesGeneratorPackageName.value}.${metaEnt.shortName}Context${ukDto.name.value}::class,
+                                    |${rootPackage.value}.${contextDataClassesGeneratorPackageName.value}.${CollectName.ukClassName(metaEnt, ukDto.name)}::class,
                                     |${ukDto.typeUk.name},
                                     |)""".trimMargin()
 
