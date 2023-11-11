@@ -29,7 +29,7 @@ class ColumnEntityEnumGenerator(
                             .map { f ->
                                 """${ent.designClassShortName}_${f.name.value}(
                                 |${ent.designClassShortName},
-                                |${ent.modelClassName.value}::${f.name.value},
+                                |${ent.designClassFullClassName.value}::${f.name.value},
                                 |${ColumnName::class.simpleName}("${f.name.value}"),
                                 |"${f.comment}"
                                 |)""".trimMargin()

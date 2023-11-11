@@ -25,7 +25,7 @@ data class MetaInformation(
 
     private fun collectInnerDependency(parentModelClassName: MetaEntity, root: MetaEntity): Set<Dependency> {
         val filter = metaForeignKeys
-            .filter { it.toEntity.modelClassName == parentModelClassName.modelClassName }
+            .filter { it.toEntity.designClassFullClassName == parentModelClassName.designClassFullClassName }
         val map1 = filter
             .map {
                 val collectInnerDependency = collectInnerDependency(it.fromEntity, root)

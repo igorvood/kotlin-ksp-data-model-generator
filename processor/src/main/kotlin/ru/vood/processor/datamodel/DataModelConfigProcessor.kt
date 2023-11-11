@@ -87,7 +87,7 @@ class DataModelConfigProcessor(
 
         }
 
-        val toList = setMetaEnt.toList().map { it.packageName }
+        val toList = setMetaEnt.toList().map { it.designClassPackageName }
         val value = toList[0]
         return commonPackageRecurcive(value, toList.drop(1))
     }

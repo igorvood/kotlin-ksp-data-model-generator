@@ -41,7 +41,7 @@ class EntityDataClassesGenerator(
                         val currentFks =
                             metaForeignKeys.filter { fk -> fk.toEntity == metaEntity && fk.fromEntity == child.metaEntity }
                         val metaForeignKey =
-                            if (currentFks.size == 1) currentFks[0] else error("Found several fk from entity ${child.metaEntity.modelClassName.value} to ${metaEntity.modelClassName.value}  ")
+                            if (currentFks.size == 1) currentFks[0] else error("Found several fk from entity ${child.metaEntity.designClassFullClassName.value} to ${metaEntity.designClassFullClassName.value}  ")
 
 
                         val s = if (fet.isOptional) "?" else ""
@@ -80,8 +80,8 @@ override val ${col.name.value}: $kotlinMetaClass$nullableSymbol""".trimIndent()
 
         val fullClassName = entityClassName(metaEntity)
         val s = when (metaEntity.flowEntityType) {
-            FlowEntityType.AGGREGATE -> """${IAggregate::class.java.canonicalName}<$fullClassName>, ${metaEntity.modelClassName.value}"""
-            FlowEntityType.INNER_OPTIONAL, FlowEntityType.INNER_MANDATORY -> """${IEntity::class.java.canonicalName}<$fullClassName>, ${metaEntity.modelClassName.value}"""
+            FlowEntityType.AGGREGATE -> """${IAggregate::class.java.canonicalName}<$fullClassName>, ${metaEntity.designClassFullClassName.value}"""
+            FlowEntityType.INNER_OPTIONAL, FlowEntityType.INNER_MANDATORY -> """${IEntity::class.java.canonicalName}<$fullClassName>, ${metaEntity.designClassFullClassName.value}"""
         }
 
         val code = """package ${packageName.value}

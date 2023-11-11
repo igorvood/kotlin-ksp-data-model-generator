@@ -16,9 +16,9 @@ data class MetaEntity(val ksAnnotated: KSClassDeclaration, val logger: KSPLogger
 
     val designClassShortName: String = ksAnnotated.simpleName.asString()
 
-    val packageName: String = ksAnnotated.packageName.asString()
+    val designClassPackageName: String = ksAnnotated.packageName.asString()
 
-    val modelClassName = ModelClassName("$packageName.$designClassShortName")
+    val designClassFullClassName = ModelClassName("$designClassPackageName.$designClassShortName")
 
 
     val flowEntityType: FlowEntityType = ksAnnotated.getAnnotationsByType(FlowEntity::class).first().entityType
@@ -41,7 +41,7 @@ data class MetaEntity(val ksAnnotated: KSClassDeclaration, val logger: KSPLogger
 
         val minus = pkCols.minus(notNullPkCols.toSet())
         if (minus.isNotEmpty()) {
-            error("Entity ${modelClassName.value} contains nullable columns in PK ${minus}")
+            error("Entity ${designClassFullClassName.value} contains nullable columns in PK ${minus}")
         }
 
         UkDto(UkName(designClassShortName + "_PK"), pkCols, TypeUk.PK) to fields.filter { it.inPk }
@@ -107,12 +107,12 @@ data class MetaEntity(val ksAnnotated: KSClassDeclaration, val logger: KSPLogger
     override fun toString(): String {
         return """MetaEntity(flowEntityType=$flowEntityType,
             |shortName=$designClassShortName,
-            |packageName=$packageName,
+            |packageName=$designClassPackageName,
             |entityFieldName=$entityFieldName,
             |comment=$comment,
             |foreignKeysAnnotations=$foreignKeysAnnotations,
             |uniqueKeysAnnotations=$uniqueKeysAnnotations,
-            |modelClassName=$modelClassName,
+            |modelClassName=$designClassFullClassName,
             
             |)""".trimMargin()
 //        |fields=$fields

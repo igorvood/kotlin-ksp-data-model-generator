@@ -29,7 +29,7 @@ class EntityMapGenerator(
                     .map {
 
                         """${EntityName::class.simpleName}("${it.designClassShortName}") to ${EntityData::class.simpleName}(
-                            |${it.modelClassName.value}::class, 
+                            |${it.designClassFullClassName.value}::class, 
                             |${rootPackage.value}.${entityDataClassesGeneratorPackageName.value}.${CollectName.entityClassName(it)}::class,
                             |${rootPackage.value}.${entityDataClassesGeneratorPackageName.value}.${CollectName.entityClassName(it)}.serializer(),
                             |${EntityName::class.simpleName}("${it.designClassShortName}"), 

@@ -114,14 +114,14 @@ fun metaInformation(annotatedDataClasses: List<KSAnnotated>, logger: KSPLogger):
     val elementsAnnotatedWithFlowEntity = annotatedDataClasses
         .filterIsInstance<KSClassDeclaration>()
         .map { MetaEntity(it, logger) }
-    val entities = elementsAnnotatedWithFlowEntity.map { it.modelClassName to it }.toMap()
+    val entities = elementsAnnotatedWithFlowEntity.map { it.designClassFullClassName to it }.toMap()
 
     checkDublicateUk(entities)
     checkDublicateClassName(entities)
 
     val fks = entities.map { it.value }
         .flatMap { me ->
-            me.foreignKeysAnnotations.map { fk -> fk to me.modelClassName }
+            me.foreignKeysAnnotations.map { fk -> fk to me.designClassFullClassName }
         }
 
     val collectMetaForeignKey = collectMetaForeignKey(fks, entities)
