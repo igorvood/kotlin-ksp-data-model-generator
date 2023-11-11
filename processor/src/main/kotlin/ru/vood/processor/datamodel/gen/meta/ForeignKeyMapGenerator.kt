@@ -7,6 +7,7 @@ import ru.vood.dmgen.annotation.RelationType
 import ru.vood.dmgen.annotation.UkName
 import ru.vood.dmgen.intf.*
 import ru.vood.dmgen.intf.newIntf.FKEntityData
+import ru.vood.dmgen.intf.newIntf.FkPairNew
 import ru.vood.dmgen.intf.newIntf.IMetaFkEntityNew
 import ru.vood.dmgen.intf.newIntf.IMetaUkEntityNew
 import ru.vood.processor.datamodel.abstraction.model.MetaInformation
@@ -28,37 +29,18 @@ class ForeignKeyMapGenerator(
         return when (generatedClassData.isEmpty()) {
             true -> setOf()
             false -> {
-                val entities = generatedClassData
-                    .map { metaForeign ->
-//                        "${ent.shortName}_${f.name.value}"
-                        val fkCols = metaForeign.fkCols.map { fkPa ->
-
-                            """FkPair(${metaForeign.fromEntity.shortName}_${fkPa.from.name.value}, ${metaForeign.toEntity.shortName}_${fkPa.to.name.value})"""
-                        }.joinToString(",\n")
-
-                        """${metaForeign.name.value}(
-                            |${metaForeign.fromEntity.shortName}, 
-                            |${metaForeign.toEntity.shortName}, 
-                            |${metaForeign.uk.name.value},
-                            |${RelationType::class.java.canonicalName}.${metaForeign.relationType.name},
-                            |setOf($fkCols)
-                            |)""".trimMargin()
-                    }
-                    .sorted()
-                    .joinToString(",\n")
-
                 val entitiesMap = generatedClassData
                     .map { metaForeign ->
 //                        "${ent.shortName}_${f.name.value}"
                         val fkCols = metaForeign.fkCols.map { fkPa ->
 
-                            """FkPair(${metaForeign.fromEntity.shortName}_${fkPa.from.name.value}, ${metaForeign.toEntity.shortName}_${fkPa.to.name.value})"""
+                            """${FkPairNew::class.simpleName}(${ColumnName::class.simpleName}("${metaForeign.fromEntity.shortName}_${fkPa.from.name.value}"), ${ColumnName::class.simpleName}("${metaForeign.toEntity.shortName}_${fkPa.to.name.value}"))"""
                         }.joinToString(",\n")
 
-                        """FkName ("${metaForeign.name.value}") to FKEntityData(
-                        |EntityName("${metaForeign.fromEntity.shortName}"),
-                        |EntityName("${metaForeign.toEntity.shortName}"),
-                        |UkName("${metaForeign.uk.name.value}"),
+                        """${FkName::class.simpleName}("${metaForeign.name.value}") to ${FKEntityData::class.simpleName}(
+                        |${EntityName::class.simpleName}("${metaForeign.fromEntity.shortName}"),
+                        |${EntityName::class.simpleName}("${metaForeign.toEntity.shortName}"),
+                        |${UkName::class.simpleName}("${metaForeign.uk.name.value}"),
                         |${RelationType::class.java.canonicalName}.${metaForeign.relationType.name},
                         |setOf($fkCols),
                         |
@@ -86,25 +68,16 @@ import ${FkPair::class.java.canonicalName}
 import ${FkName::class.java.canonicalName}
 import ${FKEntityData::class.java.canonicalName}
 import ${EntityName::class.java.canonicalName}
+import ${FkPairNew::class.java.canonicalName}
+import ${ColumnName::class.java.canonicalName}
 import ${UkName::class.java.canonicalName}
 import ${packageName.value}.${columnEntityEnumGeneratorNameClass}.*
 
 
 val foreignKeyMap = mapOf(
 $entitiesMap
-
 )
 
-
-enum class $nameClass(
-    override val fromEntity: ${IMetaEntity::class.java.canonicalName},
-    override val toEntity: ${IMetaEntity::class.java.canonicalName},
-    override val uk: ${IMetaUkEntity::class.java.canonicalName},
-    override val relationType: ${RelationType::class.java.canonicalName},
-    override val fkCols: Set<FkPair>,
-): ${IMetaFkEntity::class.java.canonicalName} {
-$entities
-}
 """
                 logger.info("Create $nameClass")
                 setOf(GeneratedFile(FileName(nameClass), GeneratedCode(trimIndent), packageName))
