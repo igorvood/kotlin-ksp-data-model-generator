@@ -52,17 +52,11 @@ class EntityDataClassesGenerator(
                 }
             }
             .filter { !it.isEmpty }
-            .map { it.get() }
-            .joinToString(",\n")
+            .joinToString(",\n") { it.get() }
 
-
-//        val fk: String = foreignKeyProcessor(metaEntity, foreignKeyMap)
-
-        val dataClass = metaEntity.designClassShortName
-
-        val columns = metaEntity.fields.sortedBy { it.position }
-
-        val joinToString = columns.map { col ->
+        val simpleColumns = metaEntity.fields
+            .sortedBy { it.position }
+            .map { col ->
             val kotlinMetaClass = col.type
 
             val nullableSymbol = if (col.isNullable) "?" else ""
@@ -99,7 +93,7 @@ import ${EntityName::class.java.canonicalName}
 @kotlinx.serialization.Serializable
 //@optics([OpticsTarget.LENS])
 data class $fullClassName (
-$joinToString,
+$simpleColumns,
 $fk
 
 ): $s         
@@ -111,7 +105,7 @@ $fk
 
     
     companion object{
-        val designEntityNameConst = EntityName("${dataClass}")
+        val designEntityNameConst = EntityName("${metaEntity.designClassShortName}")
     
     }
 }
@@ -137,8 +131,16 @@ $fk
 
     private fun genField(toEntity: MetaEntity, question: String, relationType: RelationType) =
         when (relationType) {
-            RelationType.ONE_TO_ONE_OPTIONAL -> "val ${toEntity.entityFieldName} : ${packageName.value}.${entityClassName(toEntity)}$question"
-            RelationType.MANY_TO_ONE -> "val ${toEntity.entityFieldName} : Set<${packageName.value}.${entityClassName(toEntity)}>"
+            RelationType.ONE_TO_ONE_OPTIONAL -> "val ${toEntity.entityFieldName} : ${packageName.value}.${
+                entityClassName(
+                    toEntity
+                )
+            }$question"
+            RelationType.MANY_TO_ONE -> "val ${toEntity.entityFieldName} : Set<${packageName.value}.${
+                entityClassName(
+                    toEntity
+                )
+            }>"
             RelationType.UNNOWN -> error("Не известный тип")
         }
 

@@ -10,7 +10,7 @@ import ru.vood.dmgen.meta.DerivativeDependencyMap.aggregateParentDependencyMap
 import ru.vood.dmgen.meta.DerivativeDependencyMap.entityDependencyChildMap
 import ru.vood.dmgen.meta.DerivativeDependencyMap.entityDependencyParentMap
 
-@Service
+//@Service
 class RunDependency : CommandLineRunner {
     override fun run(vararg args: String?) {
         val message = entityDependencyParentMap
