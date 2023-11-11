@@ -23,6 +23,8 @@ data class MetaEntity(val ksAnnotated: KSClassDeclaration, val logger: KSPLogger
 
     val flowEntityType: FlowEntityType = ksAnnotated.getAnnotationsByType(FlowEntity::class).first().entityType
 
+    val flowEntityName = ksAnnotated.getAnnotationsByType(FlowEntity::class).first().entityName
+
     val entityFieldName = shortName[0].lowercaseChar() + shortName.substring(1)
 
 
