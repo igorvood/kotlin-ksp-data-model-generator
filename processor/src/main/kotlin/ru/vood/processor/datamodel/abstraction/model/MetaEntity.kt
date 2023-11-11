@@ -27,7 +27,6 @@ data class MetaEntity(val ksAnnotated: KSClassDeclaration, val logger: KSPLogger
 
     val entityFieldName = designClassShortName[0].lowercaseChar() + designClassShortName.substring(1)
 
-
     val comment: String? = ksAnnotated.getAnnotationsByType(Comment::class).firstOrNull()?.comment
 
     val foreignKeysAnnotations = ksAnnotated.getAnnotationsByType(ForeignKey::class).toList()
