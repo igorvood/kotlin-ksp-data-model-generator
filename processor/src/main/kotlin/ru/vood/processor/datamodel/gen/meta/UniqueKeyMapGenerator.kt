@@ -32,16 +32,16 @@ class UniqueKeyMapGenerator(
                         metaEnt.uniqueKeysFields.keys
                             .map { ukDto ->
                                 val ukCols =
-                                    ukDto.cols.map { columnName -> """${ColumnName::class.java.canonicalName}("${metaEnt.shortName}_${columnName.value}")""" }
+                                    ukDto.cols.map { columnName -> """${ColumnName::class.simpleName}("${metaEnt.shortName}_${columnName.value}")""" }
                                         .sorted()
                                         .joinToString(",")
                                 val constructorParams = ukDto.cols.map { columnName -> """data.${columnName.value}""" }
                                     .sorted()
                                     .joinToString(",")
 
-                                """${UkName::class.java.canonicalName}("${ukDto.name.value}") to ${UKEntityData::class.simpleName}(
-                                    |setOf($ukCols),
-                                    |${EntityName::class.java.canonicalName}("${metaEnt.shortName}"),
+                                """${UkName::class.simpleName}("${ukDto.name.value}") to ${UKEntityData::class.simpleName}(
+                                    |listOf($ukCols),
+                                    |${EntityName::class.simpleName}("${metaEnt.shortName}"),
                                     |{data: ${metaEnt.shortName}Entity -> ${metaEnt.shortName}Context${ukDto.name.value}($constructorParams) },
                                     |${ukDto.typeUk.name}
                                     |//${rootPackage.value}${contextDataClassesGeneratorPackageName.value}.${metaEnt.shortName}Context${ukDto.name.value}::class,
@@ -60,6 +60,9 @@ import ${rootPackage.value}.${contextDataClassesGeneratorPackageName.value}.*
 import ${UKEntityData::class.java.canonicalName}
 import ${TypeUk::class.java.canonicalName}.*
 import ${TypeUk::class.java.canonicalName}
+import ${UkName::class.java.canonicalName}
+import ${ColumnName::class.java.canonicalName}
+import ${EntityName::class.java.canonicalName}
 import kotlin.reflect.KClass
 
 
