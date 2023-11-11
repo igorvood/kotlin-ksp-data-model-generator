@@ -34,22 +34,8 @@ class EntityDataClassesGenerator(
 
         val metaEntity = aggregateInnerDep.metaEntity
 
-        val fk = aggregateInnerDep.children.map { it.metaEntity }
-            .map { childredMetaEntity ->
-                when (val fet = childredMetaEntity.flowEntityType) {
-                    FlowEntityType.AGGREGATE -> Optional.empty<SyntheticFieldInfo>()
-                    FlowEntityType.INNER_MANDATORY, FlowEntityType.INNER_OPTIONAL -> {
-                        val currentFks =
-                            metaForeignKeys.filter { fk -> fk.toEntity == metaEntity && fk.fromEntity == childredMetaEntity }
-                        val metaForeignKey =
-                            if (currentFks.size == 1) currentFks[0] else error("Found several fk from entity ${childredMetaEntity.designClassFullClassName.value} to ${metaEntity.designClassFullClassName.value}  ")
-                        Optional.of(                        SyntheticFieldInfo(childredMetaEntity,fet.isOptional, metaForeignKey.relationType ))
-                    }
-
-                }
-            }
-            .filter { !it.isEmpty }
-            .map { it.get() }
+        val chldrenEntities = aggregateInnerDep.children.map { it.metaEntity }
+        val fk = syntheticFieldInfos(chldrenEntities, metaForeignKeys, metaEntity)
             .map { syntheticFieldInfo ->
                 val s = if (syntheticFieldInfo.isOptional) "?" else ""
                 val genField = genField(syntheticFieldInfo.metaEntity, s, syntheticFieldInfo.relationType)

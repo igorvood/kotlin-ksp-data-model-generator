@@ -9,6 +9,7 @@ interface IMetaColumnEntityNew<T : IEntity<out T>> {
     val entity: EntityName
     val kProperty1: KProperty1<out T, *>
     val columnName: ColumnName
+    val isOptional: Boolean
     val comment: String
     val columnKind: ColumnKind
 }
@@ -17,6 +18,7 @@ data class ColumnEntityData<T : IEntity<out T>>(
     override val entity: EntityName,
     override val kProperty1: KProperty1<out T, *>,
     override val columnName: ColumnName,
+    override val isOptional: Boolean,
     override val comment: String,
     override val columnKind: ColumnKind,
 ) : IMetaColumnEntityNew<T>
@@ -25,5 +27,4 @@ data class ColumnEntityData<T : IEntity<out T>>(
 enum class ColumnKind{
     SIMPLE,
     SYNTHETIC,
-    SYNTHETIC_SET,
-}
+ }

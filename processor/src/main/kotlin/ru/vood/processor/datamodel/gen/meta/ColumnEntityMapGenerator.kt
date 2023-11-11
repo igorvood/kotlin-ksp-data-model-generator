@@ -29,6 +29,14 @@ class ColumnEntityMapGenerator(
             false -> {
                 val simpleColumn = generatedClassData
                     .flatMap { ent ->
+
+                        val filter = metaForeignKeys
+                            .filter { fk -> fk.fromEntity.flowEntityType != FlowEntityType.AGGREGATE }
+                            .filter { fk -> fk.toEntity == ent }
+                            .map { it.toEntity }
+
+                        val syntheticFieldInfos = syntheticFieldInfos(filter, metaForeignKeys, ent)
+
                         val syntheticCols = metaForeignKeys
                             .filter { fk -> fk.fromEntity.flowEntityType != FlowEntityType.AGGREGATE }
                             .filter { fk -> fk.toEntity == ent }
@@ -40,6 +48,7 @@ class ColumnEntityMapGenerator(
                                 |    ${EntityName::class.java.canonicalName}( "${ent.designClassShortName}"),
                                 |${rootPackage.value}.${entityDataClassesGeneratorPackageName.value}.${CollectName.entityClassName(ent)}::${fromEntity.entityFieldName},
                                 |${ColumnName::class.simpleName}("${fromEntity.entityFieldName}"),
+                                |false,
                                 |"${fromEntity.comment}",
                                 |${ColumnKind.SIMPLE.name}
                                 |)""".trimMargin()
@@ -58,6 +67,7 @@ class ColumnEntityMapGenerator(
                                     )
                                 }::${f.name.value},
                                 |${ColumnName::class.simpleName}("${f.name.value}"),
+                                |${f.isNullable},
                                 |"${f.comment}",
                                 |${ColumnKind.SIMPLE.name}
                                 |)""".trimMargin()
