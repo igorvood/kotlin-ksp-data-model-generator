@@ -11,3 +11,6 @@ data class UkDto(
 
 @JvmInline
 value class UkName(val value: String)
+
+@JvmInline
+value class FkName(val value: String)

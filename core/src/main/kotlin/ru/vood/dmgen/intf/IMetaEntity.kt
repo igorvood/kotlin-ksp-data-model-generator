@@ -4,6 +4,7 @@ import kotlinx.serialization.KSerializer
 import ru.vood.dmgen.annotation.FlowEntityType
 import kotlin.reflect.KClass
 
+@Deprecated("удалить")
 interface IMetaEntity {
     val designClass: KClass<*>
     val runtimeClass: KClass<*>

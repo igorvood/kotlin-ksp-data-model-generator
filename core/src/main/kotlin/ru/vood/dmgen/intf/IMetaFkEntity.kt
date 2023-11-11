@@ -2,6 +2,7 @@ package ru.vood.dmgen.intf
 
 import ru.vood.dmgen.annotation.RelationType
 
+@Deprecated("удалить")
 interface IMetaFkEntity {
     val fromEntity: IMetaEntity
     val toEntity: IMetaEntity
