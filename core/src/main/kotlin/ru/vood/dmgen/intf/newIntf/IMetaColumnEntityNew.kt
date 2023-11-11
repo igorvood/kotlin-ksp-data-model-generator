@@ -27,4 +27,5 @@ data class ColumnEntityData<T : IEntity<out T>>(
 enum class ColumnKind{
     SIMPLE,
     SYNTHETIC,
+    SYNTHETIC_SET,
  }

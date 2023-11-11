@@ -3,6 +3,7 @@ package ru.vood.processor.datamodel.gen.meta
 import com.google.devtools.ksp.processing.CodeGenerator
 import com.google.devtools.ksp.processing.KSPLogger
 import ru.vood.dmgen.annotation.FlowEntityType
+import ru.vood.dmgen.annotation.RelationType
 import ru.vood.dmgen.intf.ColumnName
 import ru.vood.dmgen.intf.EntityName
 import ru.vood.dmgen.intf.newIntf.ColumnEntityData
@@ -33,9 +34,35 @@ class ColumnEntityMapGenerator(
                         val filter = metaForeignKeys
                             .filter { fk -> fk.fromEntity.flowEntityType != FlowEntityType.AGGREGATE }
                             .filter { fk -> fk.toEntity == ent }
-                            .map { it.toEntity }
+                            .map { it.fromEntity }
 
-                        val syntheticFieldInfos = syntheticFieldInfos(filter, metaForeignKeys, ent)
+                        val syntheticFieldInfos = syntheticFieldInfos(filter, metaForeignKeys, ent, logger)
+
+                        logger.info(" syntheticFieldInfos     ${syntheticFieldInfos.size}   ${filter.size}  ${ent.entityFieldName}")
+
+
+                        val map1 = syntheticFieldInfos
+                            .sortedBy { it.metaEntity.entityFieldName }
+                            .map { syntheticFieldInfo ->
+                                val fromEntity = syntheticFieldInfo.metaEntity
+                                val isOptional =
+                                    syntheticFieldInfo.isOptional && syntheticFieldInfo.relationType == RelationType.ONE_TO_ONE_OPTIONAL
+
+                                """${ColumnName::class.simpleName}("${fromEntity.designClassShortName}_${fromEntity.entityFieldName}") to ${ColumnEntityData::class.simpleName}(
+                                |    ${EntityName::class.java.canonicalName}( "${ent.designClassShortName}"),
+                                |${rootPackage.value}.${entityDataClassesGeneratorPackageName.value}.${
+                                    CollectName.entityClassName(
+                                        ent
+                                    )
+                                }::${fromEntity.entityFieldName},
+                                |${ColumnName::class.simpleName}("${fromEntity.entityFieldName}"),
+                                |${isOptional},
+                                |"${fromEntity.comment}",
+                                |${ColumnKind.SYNTHETIC.name}
+                                |)""".trimMargin()
+
+                            }
+
 
                         val syntheticCols = metaForeignKeys
                             .filter { fk -> fk.fromEntity.flowEntityType != FlowEntityType.AGGREGATE }
@@ -43,14 +70,14 @@ class ColumnEntityMapGenerator(
                             .sortedBy { e -> e.fromEntity.entityFieldName }
                             .map {fk ->
                                 val fromEntity = fk.fromEntity
-                                fk.relationType
+
                                 """${ColumnName::class.simpleName}("${fromEntity.designClassShortName}_${fromEntity.entityFieldName}") to ${ColumnEntityData::class.simpleName}(
                                 |    ${EntityName::class.java.canonicalName}( "${ent.designClassShortName}"),
                                 |${rootPackage.value}.${entityDataClassesGeneratorPackageName.value}.${CollectName.entityClassName(ent)}::${fromEntity.entityFieldName},
                                 |${ColumnName::class.simpleName}("${fromEntity.entityFieldName}"),
                                 |false,
                                 |"${fromEntity.comment}",
-                                |${ColumnKind.SIMPLE.name}
+                                |${ColumnKind.SYNTHETIC.name}
                                 |)""".trimMargin()
                             }
 
@@ -72,7 +99,7 @@ class ColumnEntityMapGenerator(
                                 |${ColumnKind.SIMPLE.name}
                                 |)""".trimMargin()
                             }
-                        map.plus(syntheticCols)
+                        map.plus(map1)
                     }
                     .joinToString(",\n")
 

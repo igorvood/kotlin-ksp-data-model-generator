@@ -11,7 +11,6 @@ import ru.vood.processor.datamodel.abstraction.model.Dependency
 import ru.vood.processor.datamodel.abstraction.model.MetaEntity
 import ru.vood.processor.datamodel.abstraction.model.MetaForeignKey
 import ru.vood.processor.datamodel.abstraction.model.MetaInformation
-import ru.vood.processor.datamodel.abstraction.model.dto.SyntheticFieldInfo
 import ru.vood.processor.datamodel.gen.*
 import ru.vood.processor.datamodel.gen.CollectName.entityClassName
 import java.util.*
@@ -35,7 +34,7 @@ class EntityDataClassesGenerator(
         val metaEntity = aggregateInnerDep.metaEntity
 
         val chldrenEntities = aggregateInnerDep.children.map { it.metaEntity }
-        val fk = syntheticFieldInfos(chldrenEntities, metaForeignKeys, metaEntity)
+        val fk = syntheticFieldInfos(chldrenEntities, metaForeignKeys, metaEntity, logger)
             .map { syntheticFieldInfo ->
                 val s = if (syntheticFieldInfo.isOptional) "?" else ""
                 val genField = genField(syntheticFieldInfo.metaEntity, s, syntheticFieldInfo.relationType)
