@@ -14,4 +14,6 @@ interface IMetaColumnEntity {
 value class SimpleColumnName(val value: String)
 
 @JvmInline
-value class FullColumnName(val value: String)
+value class FullColumnName(val value: String){
+    constructor(entityName: EntityName, simpleColumnName: SimpleColumnName) : this("${entityName.value}_${simpleColumnName.value}")
+}

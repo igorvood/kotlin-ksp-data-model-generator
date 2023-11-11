@@ -4,9 +4,9 @@ import com.google.devtools.ksp.processing.CodeGenerator
 import com.google.devtools.ksp.processing.KSPLogger
 import ru.vood.dmgen.annotation.FlowEntityType
 import ru.vood.dmgen.annotation.RelationType
-import ru.vood.dmgen.intf.SimpleColumnName
 import ru.vood.dmgen.intf.EntityName
 import ru.vood.dmgen.intf.FullColumnName
+import ru.vood.dmgen.intf.SimpleColumnName
 import ru.vood.dmgen.intf.newIntf.ColumnEntityData
 import ru.vood.dmgen.intf.newIntf.ColumnKind
 import ru.vood.processor.datamodel.abstraction.model.MetaInformation
@@ -55,8 +55,11 @@ class ColumnEntityMapGenerator(
                                     RelationType.UNNOWN -> error("Не известный тип")
                                 }
 
-
-                                """${FullColumnName::class.simpleName}("${fromEntity.designClassShortName}_${fromEntity.entityFieldName}") to ${ColumnEntityData::class.simpleName}(
+                                val fullColumnName = FullColumnName(
+                                    EntityName(fromEntity.designClassShortName),
+                                    SimpleColumnName(fromEntity.entityFieldName)
+                                )
+                                """${FullColumnName::class.simpleName}("${fullColumnName.value}") to ${ColumnEntityData::class.simpleName}(
                                 |    ${EntityName::class.java.canonicalName}( "${ent.designClassShortName}"),
                                 |${rootPackage.value}.${entityDataClassesGeneratorPackageName.value}.${
                                     CollectName.entityClassName(
