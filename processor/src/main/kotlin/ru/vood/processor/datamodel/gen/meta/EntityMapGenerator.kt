@@ -30,8 +30,8 @@ class EntityMapGenerator(
 
                         """${EntityName::class.simpleName}("${it.shortName}") to ${EntityData::class.simpleName}(
                             |${it.modelClassName.value}::class, 
-                            |${rootPackage.value}.${entityDataClassesGeneratorPackageName.value}.${it.shortName}Entity::class,
-                            |${rootPackage.value}.${entityDataClassesGeneratorPackageName.value}.${it.shortName}Entity.serializer(),
+                            |${rootPackage.value}.${entityDataClassesGeneratorPackageName.value}.${CollectName.entityClassName(it)}::class,
+                            |${rootPackage.value}.${entityDataClassesGeneratorPackageName.value}.${CollectName.entityClassName(it)}.serializer(),
                             |${EntityName::class.simpleName}("${it.shortName}"), 
                             |"${it.comment}",
                             |${it.flowEntityType}

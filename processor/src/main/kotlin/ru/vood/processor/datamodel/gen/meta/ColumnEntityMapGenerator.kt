@@ -30,7 +30,7 @@ class ColumnEntityMapGenerator(
                             .map { f ->
                                 """${ColumnName::class.simpleName}("${ent.shortName}_${f.name.value}") to ${ColumnEntityData::class.simpleName}(
                                 |    ${EntityName::class.java.canonicalName}( "${ent.shortName}"),
-                                |${rootPackage.value}.${entityDataClassesGeneratorPackageName.value}.${ent.shortName}Entity::${f.name.value},
+                                |${rootPackage.value}.${entityDataClassesGeneratorPackageName.value}.${CollectName.entityClassName(ent)}::${f.name.value},
                                 |${ColumnName::class.simpleName}("${f.name.value}"),
                                 |"${f.comment}"
                                 |)""".trimMargin()

@@ -42,7 +42,7 @@ class UniqueKeyMapGenerator(
                                 """${UkName::class.simpleName}("${ukDto.name.value}") to ${UKEntityData::class.simpleName}(
                                     |listOf($ukCols),
                                     |${EntityName::class.simpleName}("${metaEnt.shortName}"),
-                                    |{data: ${metaEnt.shortName}Entity -> ${CollectName.ukClassName(metaEnt, ukDto.name)}($constructorParams) },
+                                    |{data: ${CollectName.entityClassName(metaEnt)} -> ${CollectName.ukClassName(metaEnt, ukDto.name)}($constructorParams) },
                                     |${ukDto.typeUk.name}
                                     |//${rootPackage.value}${contextDataClassesGeneratorPackageName.value}.${metaEnt.shortName}Context${ukDto.name.value}::class,
                                     |)""".trimMargin()

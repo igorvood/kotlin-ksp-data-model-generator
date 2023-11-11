@@ -27,8 +27,8 @@ class EntityEnumGenerator(
                 val entities = generatedClassData
                     .map { me ->
                         """${me.shortName}(${me.modelClassName.value}::class, 
-                        |${rootPackage.value}.${entityDataClassesGeneratorPackageName.value}.${me.shortName}Entity::class,
-                        |${rootPackage.value}.${entityDataClassesGeneratorPackageName.value}.${me.shortName}Entity.serializer(),
+                        |${rootPackage.value}.${entityDataClassesGeneratorPackageName.value}.${CollectName.entityClassName(me)}::class,
+                        |${rootPackage.value}.${entityDataClassesGeneratorPackageName.value}.${CollectName.entityClassName(me)}.serializer(),
                         |${EntityName::class.java.canonicalName}("${me.shortName}"), 
                         |"${me.comment}",
                         |${me.flowEntityType}

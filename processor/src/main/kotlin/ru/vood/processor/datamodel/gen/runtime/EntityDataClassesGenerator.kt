@@ -12,6 +12,7 @@ import ru.vood.processor.datamodel.abstraction.model.MetaEntity
 import ru.vood.processor.datamodel.abstraction.model.MetaForeignKey
 import ru.vood.processor.datamodel.abstraction.model.MetaInformation
 import ru.vood.processor.datamodel.gen.*
+import ru.vood.processor.datamodel.gen.CollectName.entityClassName
 import java.util.*
 
 class EntityDataClassesGenerator(
@@ -40,7 +41,7 @@ class EntityDataClassesGenerator(
                         val currentFks =
                             metaForeignKeys.filter { fk -> fk.toEntity == metaEntity && fk.fromEntity == child.metaEntity }
                         val metaForeignKey =
-                            if (currentFks.size == 1) currentFks[0] else error("Found several fk from entity ${child.metaEntity.modelClassName.value} to   ${metaEntity.modelClassName.value}  ")
+                            if (currentFks.size == 1) currentFks[0] else error("Found several fk from entity ${child.metaEntity.modelClassName.value} to ${metaEntity.modelClassName.value}  ")
 
 
                         val s = if (fet.isOptional) "?" else ""
@@ -77,7 +78,7 @@ override val ${col.name.value}: $kotlinMetaClass$nullableSymbol""".trimIndent()
         }
             .joinToString(",\n")
 
-        val fullClassName = """${dataClass}Entity"""
+        val fullClassName = entityClassName(metaEntity)
         val s = when (metaEntity.flowEntityType) {
             FlowEntityType.AGGREGATE -> """${IAggregate::class.java.canonicalName}<$fullClassName>, ${metaEntity.modelClassName.value}"""
             FlowEntityType.INNER_OPTIONAL, FlowEntityType.INNER_MANDATORY -> """${IEntity::class.java.canonicalName}<$fullClassName>, ${metaEntity.modelClassName.value}"""
@@ -136,10 +137,11 @@ $fk
 
     private fun genField(toEntity: MetaEntity, question: String, relationType: RelationType) =
         when (relationType) {
-            RelationType.ONE_TO_ONE_OPTIONAL -> "val ${toEntity.entityFieldName} : ${packageName.value}.${toEntity.shortName}Entity$question"
-            RelationType.MANY_TO_ONE -> "val ${toEntity.entityFieldName} : Set<${packageName.value}.${toEntity.shortName}Entity>"
+            RelationType.ONE_TO_ONE_OPTIONAL -> "val ${toEntity.entityFieldName} : ${packageName.value}.${entityClassName(toEntity)}$question"
+            RelationType.MANY_TO_ONE -> "val ${toEntity.entityFieldName} : Set<${packageName.value}.${entityClassName(toEntity)}>"
             RelationType.UNNOWN -> error("Не известный тип")
         }
+
 
     override val subPackage: PackageName
         get() = entityDataClassesGeneratorPackageName
