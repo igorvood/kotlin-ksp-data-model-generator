@@ -33,20 +33,20 @@ class EntityDataClassesGenerator(
 
         val metaEntity = aggregateInnerDep.metaEntity
 
-        val fkColumn = aggregateInnerDep.children
-            .map { child ->
-                when (val fet = child.metaEntity.flowEntityType) {
+        val childEntitiesSet = aggregateInnerDep.children.asSequence().map { it.metaEntity }.toSet()
+        val fkColumn = childEntitiesSet
+            .map { metaEntity ->
+                when (val fet = metaEntity.flowEntityType) {
                     FlowEntityType.AGGREGATE -> Optional.empty<String>()
                     FlowEntityType.INNER_MANDATORY, FlowEntityType.INNER_OPTIONAL -> {
                         val currentFks =
-                            metaForeignKeys.filter { fk -> fk.toEntity == metaEntity && fk.fromEntity == child.metaEntity }
+                            metaForeignKeys.filter { fk -> fk.toEntity == metaEntity && fk.fromEntity == metaEntity }
                         val metaForeignKey =
-                            if (currentFks.size == 1) currentFks[0] else error("Found several fk from entity ${child.metaEntity.designClassFullClassName.value} to ${metaEntity.designClassFullClassName.value}  ")
+                            if (currentFks.size == 1) currentFks[0] else error("Found several fk from entity ${metaEntity.designClassFullClassName.value} to ${metaEntity.designClassFullClassName.value}  ")
                         val s = if (fet.isOptional) "?" else ""
-                        val genField = genField(child.metaEntity, s, metaForeignKey.relationType)
+                        val genField = genField(metaEntity, s, metaForeignKey.relationType)
                         Optional.of(genField)
                     }
-
                 }
             }
             .filter { !it.isEmpty }
