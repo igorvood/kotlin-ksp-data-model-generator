@@ -5,6 +5,8 @@ import kotlinx.serialization.json.Json
 import org.springframework.jdbc.core.JdbcOperations
 import org.springframework.stereotype.Repository
 import ru.vood.dmgen.datamodel.metaEnum.uniqueKeyMap
+import ru.vood.dmgen.datamodel.runtime.dataclasses.DealEntity
+import ru.vood.dmgen.intf.IAggregate
 import ru.vood.dmgen.intf.IContextOf
 import ru.vood.dmgen.intf.IEntity
 import ru.vood.dmgen.intf.newIntf.TypeUk
@@ -17,6 +19,22 @@ class EntityDao(
 ) {
 
     val json = Json
+
+
+    final inline fun <reified T : IAggregate<T>> saveAggregate(aggregate: T) {
+
+
+
+        val entityName = aggregate.designEntityName
+        val uks = uniqueKeyMap.values.filter { it.entity == entityName }
+        val pkMeta = uks.first { it.typeUk == TypeUk.PK } as UKEntityData<T>
+        val pkDto = pkMeta.extractContext(aggregate)
+        val pkSerializer = pkDto.ktSerializer() as KSerializer<IContextOf<T>>
+        val entitySerializer = aggregate.ktSerializer() as KSerializer<IEntity<T>>
+
+
+    }
+
 
 
     @Suppress("UNCHECKED_CAST")
@@ -61,6 +79,7 @@ class EntityDao(
         )
         return query[0]
     }
+
 
 }
 
