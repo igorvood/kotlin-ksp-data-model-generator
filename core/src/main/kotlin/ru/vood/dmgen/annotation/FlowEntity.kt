@@ -5,6 +5,7 @@ package ru.vood.dmgen.annotation
 @MustBeDocumented
 annotation class FlowEntity(
     val entityType: FlowEntityType = FlowEntityType.INNER_OPTIONAL,
+    @Deprecated("Пока функционал обработки поля до конца не написан")
     val entityName: String = "",
 )
 
