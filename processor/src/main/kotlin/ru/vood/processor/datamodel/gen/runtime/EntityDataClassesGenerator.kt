@@ -11,6 +11,7 @@ import ru.vood.processor.datamodel.abstraction.model.Dependency
 import ru.vood.processor.datamodel.abstraction.model.MetaEntity
 import ru.vood.processor.datamodel.abstraction.model.MetaForeignKey
 import ru.vood.processor.datamodel.abstraction.model.MetaInformation
+import ru.vood.processor.datamodel.abstraction.model.dto.SyntheticFieldInfo
 import ru.vood.processor.datamodel.gen.*
 import ru.vood.processor.datamodel.gen.CollectName.entityClassName
 import java.util.*
@@ -33,25 +34,28 @@ class EntityDataClassesGenerator(
 
         val metaEntity = aggregateInnerDep.metaEntity
 
-        val fk = aggregateInnerDep.children
-            .map { child ->
-                when (val fet = child.metaEntity.flowEntityType) {
-                    FlowEntityType.AGGREGATE -> Optional.empty<String>()
+        val fk = aggregateInnerDep.children.map { it.metaEntity }
+            .map { childredMetaEntity ->
+                when (val fet = childredMetaEntity.flowEntityType) {
+                    FlowEntityType.AGGREGATE -> Optional.empty<SyntheticFieldInfo>()
                     FlowEntityType.INNER_MANDATORY, FlowEntityType.INNER_OPTIONAL -> {
                         val currentFks =
-                            metaForeignKeys.filter { fk -> fk.toEntity == metaEntity && fk.fromEntity == child.metaEntity }
+                            metaForeignKeys.filter { fk -> fk.toEntity == metaEntity && fk.fromEntity == childredMetaEntity }
                         val metaForeignKey =
-                            if (currentFks.size == 1) currentFks[0] else error("Found several fk from entity ${child.metaEntity.designClassFullClassName.value} to ${metaEntity.designClassFullClassName.value}  ")
-
-
-                        val s = if (fet.isOptional) "?" else ""
-                        val genField = genField(child.metaEntity, s, metaForeignKey.relationType)
-                        Optional.of(genField)
+                            if (currentFks.size == 1) currentFks[0] else error("Found several fk from entity ${childredMetaEntity.designClassFullClassName.value} to ${metaEntity.designClassFullClassName.value}  ")
+                        Optional.of(                        SyntheticFieldInfo(childredMetaEntity,fet.isOptional, metaForeignKey.relationType ))
                     }
 
                 }
             }
             .filter { !it.isEmpty }
+            .map { it.get() }
+            .map { syntheticFieldInfo ->
+                val s = if (syntheticFieldInfo.isOptional) "?" else ""
+                val genField = genField(syntheticFieldInfo.metaEntity, s, syntheticFieldInfo.relationType)
+                Optional.of(genField)
+
+            }
             .joinToString(",\n") { it.get() }
 
         val simpleColumns = metaEntity.fields

@@ -45,7 +45,9 @@ class EntityDataClassesGeneratorNew(
                         val metaForeignKey =
                             if (currentFks.size == 1) currentFks[0] else error("Found several fk from entity ${metaEntityFrom.designClassFullClassName.value} to ${metaEntityFrom.designClassFullClassName.value}  ")
                         val isOptional = if (fet.isOptional) "?" else ""
-                        Optional.of(SyntheticFieldInfo(metaEntityFrom, isOptional, metaForeignKey.relationType))
+
+
+                        Optional.empty<SyntheticFieldInfo>()
 
 //                        val genField = genField(metaEntity, isOptional, metaForeignKey.relationType)
 //                        Optional.of(genField)
@@ -55,7 +57,7 @@ class EntityDataClassesGeneratorNew(
             .filter { !it.isEmpty }
             .map { it.get() }
             .map { syntheticFieldInfo ->
-                genField(syntheticFieldInfo.metaEntity, syntheticFieldInfo.isOptional, syntheticFieldInfo.relationType)
+                "genField(syntheticFieldInfo.metaEntity, syntheticFieldInfo.isOptional, syntheticFieldInfo.relationType)"
             }
             .joinToString(",\n")
 
