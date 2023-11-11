@@ -6,6 +6,7 @@ import ru.vood.dmgen.annotation.FlowEntityType
 import ru.vood.dmgen.annotation.RelationType
 import ru.vood.dmgen.intf.SimpleColumnName
 import ru.vood.dmgen.intf.EntityName
+import ru.vood.dmgen.intf.FullColumnName
 import ru.vood.dmgen.intf.newIntf.ColumnEntityData
 import ru.vood.dmgen.intf.newIntf.ColumnKind
 import ru.vood.processor.datamodel.abstraction.model.MetaInformation
@@ -55,7 +56,7 @@ class ColumnEntityMapGenerator(
                                 }
 
 
-                                """${SimpleColumnName::class.simpleName}("${fromEntity.designClassShortName}_${fromEntity.entityFieldName}") to ${ColumnEntityData::class.simpleName}(
+                                """${FullColumnName::class.simpleName}("${fromEntity.designClassShortName}_${fromEntity.entityFieldName}") to ${ColumnEntityData::class.simpleName}(
                                 |    ${EntityName::class.java.canonicalName}( "${ent.designClassShortName}"),
                                 |${rootPackage.value}.${entityDataClassesGeneratorPackageName.value}.${
                                     CollectName.entityClassName(
@@ -70,30 +71,10 @@ class ColumnEntityMapGenerator(
 
                             }
 
-
-                        val syntheticCols = metaForeignKeys
-                            .filter { fk -> fk.fromEntity.flowEntityType != FlowEntityType.AGGREGATE }
-                            .filter { fk -> fk.toEntity == ent }
-                            .sortedBy { e -> e.fromEntity.entityFieldName }
-                            .map {fk ->
-                                val fromEntity = fk.fromEntity
-
-                                """${SimpleColumnName::class.simpleName}("${fromEntity.designClassShortName}_${fromEntity.entityFieldName}") to ${ColumnEntityData::class.simpleName}(
-                                |    ${EntityName::class.java.canonicalName}( "${ent.designClassShortName}"),
-                                |${rootPackage.value}.${entityDataClassesGeneratorPackageName.value}.${CollectName.entityClassName(ent)}::${fromEntity.entityFieldName},
-                                |${SimpleColumnName::class.simpleName}("${fromEntity.entityFieldName}"),
-                                |false,
-                                |"${fromEntity.comment}",
-                                |${ColumnKind.SYNTHETIC.name}
-                                |)""".trimMargin()
-                            }
-
-
-
                         val map = ent.fields
                             .sortedBy { ec -> ec.position }
                             .map { f ->
-                                """${SimpleColumnName::class.simpleName}("${ent.designClassShortName}_${f.name.value}") to ${ColumnEntityData::class.simpleName}(
+                                """${FullColumnName::class.simpleName}("${ent.designClassShortName}_${f.name.value}") to ${ColumnEntityData::class.simpleName}(
                                 |    ${EntityName::class.java.canonicalName}( "${ent.designClassShortName}"),
                                 |${rootPackage.value}.${entityDataClassesGeneratorPackageName.value}.${
                                     CollectName.entityClassName(
@@ -117,6 +98,7 @@ class ColumnEntityMapGenerator(
 import ${packageName.value}.${EntityEnumGenerator.nameClassEntityEnumGenerator}.*
 import ${ColumnEntityData::class.java.canonicalName}
 import ${SimpleColumnName::class.java.canonicalName}
+import ${FullColumnName::class.java.canonicalName}
 import ${ColumnKind::class.java.canonicalName}
 import ${ColumnKind::class.java.canonicalName}.*
 import kotlin.reflect.KProperty1
