@@ -30,7 +30,7 @@ class ColumnEntityEnumGenerator(
                                 """${ent.shortName}_${f.name.value}(
                                 |${ent.shortName},
                                 |${ent.modelClassName.value}::${f.name.value},
-                                |${ColumnName::class.java.canonicalName}("${f.name}"),
+                                |${ColumnName::class.simpleName}("${f.name.value}"),
                                 |"${f.comment}"
                                 |)""".trimMargin()
                             }
@@ -43,11 +43,12 @@ class ColumnEntityEnumGenerator(
                         
 import ${packageName.value}.${EntityEnumGenerator.nameClassEntityEnumGenerator}.*                        
 import kotlin.reflect.KProperty1
+import ${ColumnName::class.java.canonicalName}
 
 enum class $nameClass(
     override val entity: ${IMetaEntity::class.java.canonicalName},
     override val kProperty1: KProperty1<*, *>,
-    override val columnName: ${ColumnName::class.java.canonicalName},
+    override val columnName: ${ColumnName::class.simpleName},
     override val comment: String,
 ): ${IMetaColumnEntity::class.java.canonicalName} {
 $entities
