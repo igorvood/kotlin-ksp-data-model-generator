@@ -11,11 +11,12 @@ import ru.vood.processor.datamodel.abstraction.model.Dependency
 import ru.vood.processor.datamodel.abstraction.model.MetaEntity
 import ru.vood.processor.datamodel.abstraction.model.MetaForeignKey
 import ru.vood.processor.datamodel.abstraction.model.MetaInformation
+import ru.vood.processor.datamodel.abstraction.model.dto.SyntheticFieldInfo
 import ru.vood.processor.datamodel.gen.*
 import ru.vood.processor.datamodel.gen.CollectName.entityClassName
 import java.util.*
 
-class EntityDataClassesGenerator(
+class EntityDataClassesGeneratorNew(
     codeGenerator: CodeGenerator,
     rootPackage: PackageName,
     logger: KSPLogger
@@ -33,26 +34,29 @@ class EntityDataClassesGenerator(
 
         val metaEntity = aggregateInnerDep.metaEntity
 
-        val fk = aggregateInnerDep.children
-            .map { child ->
-                when (val fet = child.metaEntity.flowEntityType) {
-                    FlowEntityType.AGGREGATE -> Optional.empty<String>()
+        val childEntitiesSet = aggregateInnerDep.children.asSequence().map { it.metaEntity }.toSet()
+        val fkColumn = childEntitiesSet
+            .map { metaEntityFrom ->
+                when (val fet = metaEntityFrom.flowEntityType) {
+                    FlowEntityType.AGGREGATE -> Optional.empty<SyntheticFieldInfo>()
                     FlowEntityType.INNER_MANDATORY, FlowEntityType.INNER_OPTIONAL -> {
                         val currentFks =
-                            metaForeignKeys.filter { fk -> fk.toEntity == metaEntity && fk.fromEntity == child.metaEntity }
+                            metaForeignKeys.filter { fk -> fk.toEntity == metaEntityFrom && fk.fromEntity == metaEntityFrom }
                         val metaForeignKey =
-                            if (currentFks.size == 1) currentFks[0] else error("Found several fk from entity ${child.metaEntity.designClassFullClassName.value} to ${metaEntity.designClassFullClassName.value}  ")
+                            if (currentFks.size == 1) currentFks[0] else error("Found several fk from entity ${metaEntityFrom.designClassFullClassName.value} to ${metaEntityFrom.designClassFullClassName.value}  ")
+                        val isOptional = if (fet.isOptional) "?" else ""
+                        Optional.of(SyntheticFieldInfo(metaEntityFrom, isOptional, metaForeignKey.relationType))
 
-
-                        val s = if (fet.isOptional) "?" else ""
-                        val genField = genField(child.metaEntity, s, metaForeignKey.relationType)
-                        Optional.of(genField)
+//                        val genField = genField(metaEntity, isOptional, metaForeignKey.relationType)
+//                        Optional.of(genField)
                     }
-
                 }
             }
             .filter { !it.isEmpty }
             .map { it.get() }
+            .map { syntheticFieldInfo ->
+                genField(syntheticFieldInfo.metaEntity, syntheticFieldInfo.isOptional, syntheticFieldInfo.relationType)
+            }
             .joinToString(",\n")
 
 
@@ -61,14 +65,12 @@ class EntityDataClassesGenerator(
         val dataClass = metaEntity.designClassShortName
 
         val columns = metaEntity.fields.sortedBy { it.position }
-
-        val joinToString = columns.map { col ->
+        val simpleColumn = columns.map { col ->
             val kotlinMetaClass = col.type
-
             val nullableSymbol = if (col.isNullable) "?" else ""
             """${
                 col.comment?.let {
-                    """/**
+"""/**
 *$it
 */
 """.trimIndent()
@@ -99,8 +101,8 @@ import ${EntityName::class.java.canonicalName}
 @kotlinx.serialization.Serializable
 //@optics([OpticsTarget.LENS])
 data class $fullClassName (
-$joinToString,
-$fk
+$simpleColumn,
+$fkColumn
 
 ): $s         
 {
