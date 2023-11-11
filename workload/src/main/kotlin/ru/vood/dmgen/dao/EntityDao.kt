@@ -4,12 +4,9 @@ import kotlinx.serialization.KSerializer
 import kotlinx.serialization.json.Json
 import org.springframework.jdbc.core.JdbcOperations
 import org.springframework.stereotype.Repository
-import ru.vood.dmgen.datamodel.metaEnum.entityDataMap
 import ru.vood.dmgen.datamodel.metaEnum.uniqueKeyMap
-import ru.vood.dmgen.intf.EntityName
 import ru.vood.dmgen.intf.IContextOf
 import ru.vood.dmgen.intf.IEntity
-import ru.vood.dmgen.intf.newIntf.EntityData
 import ru.vood.dmgen.intf.newIntf.TypeUk
 import ru.vood.dmgen.intf.newIntf.UKEntityData
 
@@ -48,27 +45,22 @@ class EntityDao(
     @Suppress("UNCHECKED_CAST")
     final inline fun <reified T : IEntity<T>> findByUk(uk: IContextOf<T>): IEntity<out T> {
         val ktSerializer = uk.ktSerializer() as KSerializer<IContextOf<T>>
-        val encodeToString = Json.encodeToString(ktSerializer, uk)
-        val ukName = uk.ukName
+        val ktEntitySerializer = uk.ktEntitySerializer as KSerializer<T>
+        val ukJson = Json.encodeToString(ktSerializer, uk)
         val query = jdbcOperations.query(
             """
-                select e.entity_type, e.pk, e.payload
+                select e.payload
                     from entity_uk_context uc
                 join entity_context e on (uc.entity_type, uc.pk) = ((e.entity_type, e.pk))
                 where uc.entity_type_uk = ? and uc.uk = ?
                 """,
-            { rs, _ -> ET(rs.getString(1), rs.getString(2), rs.getString(3)) },
-            ukName.value, encodeToString
+            { rs, _ ->
+                json.decodeFromString(ktEntitySerializer, rs.getString(1))
+            },
+            uk.ukName.value, ukJson
         )
-        val et = query[0]
-        val ktEntitySerializer = uk.ktEntitySerializer as KSerializer<T>
-        return json.decodeFromString(ktEntitySerializer, et.payload)
+        return query[0]
     }
 
 }
 
-data class ET(
-    val entity_type: String,
-    val pk: String,
-    val payload: String
-)
