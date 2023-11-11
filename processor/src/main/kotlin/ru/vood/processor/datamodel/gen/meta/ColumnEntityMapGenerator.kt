@@ -28,10 +28,10 @@ class ColumnEntityMapGenerator(
                     .flatMap { ent ->
                         ent.fields
                             .map { f ->
-                                """${ColumnName::class.java.canonicalName}("${ent.shortName}_${f.name.value}") to ColumnEntityData(
+                                """${ColumnName::class.simpleName}("${ent.shortName}_${f.name.value}") to ${ColumnEntityData::class.simpleName}(
                                 |    ${EntityName::class.java.canonicalName}( "${ent.shortName}"),
                                 |${rootPackage.value}.${entityDataClassesGeneratorPackageName.value}.${ent.shortName}Entity::${f.name.value},
-                                |${ColumnName::class.java.canonicalName}("${f.name.value}"),
+                                |${ColumnName::class.simpleName}("${f.name.value}"),
                                 |"${f.comment}"
                                 |)""".trimMargin()
 
@@ -52,6 +52,7 @@ class ColumnEntityMapGenerator(
                         
 import ${packageName.value}.${EntityEnumGenerator.nameClassEntityEnumGenerator}.*
 import ${ColumnEntityData::class.java.canonicalName}
+import ${ColumnName::class.java.canonicalName}
 import kotlin.reflect.KProperty1
 
 

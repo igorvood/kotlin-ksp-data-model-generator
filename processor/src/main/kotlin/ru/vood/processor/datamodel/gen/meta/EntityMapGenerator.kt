@@ -28,11 +28,11 @@ class EntityMapGenerator(
 
                     .map {
 
-                        """${EntityName::class.java.canonicalName}("${it.shortName}") to EntityData(
+                        """${EntityName::class.java.canonicalName}("${it.shortName}") to ${EntityData::class.simpleName}(
                             |${it.modelClassName.value}::class, 
                             |${rootPackage.value}.${entityDataClassesGeneratorPackageName.value}.${it.shortName}Entity::class,
                             |${rootPackage.value}.${entityDataClassesGeneratorPackageName.value}.${it.shortName}Entity.serializer(),
-                            |${EntityName::class.java.canonicalName}("${it.shortName}"), 
+                            |${EntityName::class.simpleName}("${it.shortName}"), 
                             |"${it.comment}",
                             |${it.flowEntityType}
                             |)""".trimMargin()
@@ -47,6 +47,7 @@ import kotlinx.serialization.KSerializer
 import ${FlowEntityType::class.java.canonicalName}.*
 import ${FlowEntityType::class.java.canonicalName}
 import ${EntityData::class.java.canonicalName}
+import ${EntityName::class.java.canonicalName}
 
 val entityDataMap = mapOf(
 $entities
