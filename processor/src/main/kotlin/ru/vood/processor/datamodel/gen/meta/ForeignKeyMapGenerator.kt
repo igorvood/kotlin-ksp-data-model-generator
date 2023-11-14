@@ -11,7 +11,9 @@ import ru.vood.dmgen.intf.newIntf.FkPairNew
 import ru.vood.processor.datamodel.abstraction.model.MetaInformation
 import ru.vood.processor.datamodel.gen.*
 import ru.vood.processor.datamodel.gen.CollectName.entityClassName
+import ru.vood.processor.datamodel.gen.CollectName.ukClassName
 import ru.vood.processor.datamodel.gen.meta.ColumnEntityEnumGenerator.Companion.columnEntityEnumGeneratorNameClass
+import ru.vood.processor.datamodel.gen.runtime.ContextDataClassesGenerator.Companion.contextDataClassesGeneratorPackageName
 import ru.vood.processor.datamodel.gen.runtime.EntityDataClassesGenerator
 
 class ForeignKeyMapGenerator(
@@ -37,13 +39,20 @@ class ForeignKeyMapGenerator(
                             """${FkPairNew::class.simpleName}(${SimpleColumnName::class.simpleName}("${metaForeign.fromEntity.designClassShortName}_${fkPa.from.name.value}"), ${SimpleColumnName::class.simpleName}("${metaForeign.toEntity.designClassShortName}_${fkPa.to.name.value}"))"""
                         }.joinToString(",\n")
 
+                        val contextCols = metaForeign.fkCols.map { fkPa ->
+
+                            """data.${fkPa.from.name.value}"""
+                        }.joinToString(",")
+
                         """${FkName::class.simpleName}("${metaForeign.name.value}") to ${FKEntityData::class.simpleName}<${entityClassName(metaForeign.fromEntity)}>(
                         |${EntityName::class.simpleName}("${metaForeign.fromEntity.designClassShortName}"),
                         |${EntityName::class.simpleName}("${metaForeign.toEntity.designClassShortName}"),
                         |${UkName::class.simpleName}("${metaForeign.uk.name.value}"),
                         |${RelationType::class.java.canonicalName}.${metaForeign.relationType.name},
                         |setOf($fkCols),
-                        |
+                        |{data: ${entityClassName(metaForeign.fromEntity)} ->
+                        |  ${ukClassName(metaForeign.toEntity, metaForeign.uk.name)}(${contextCols})
+                        |}
                         |)""".trimMargin()
                     }
                     .sorted()
@@ -73,6 +82,7 @@ import ${SimpleColumnName::class.java.canonicalName}
 import ${UkName::class.java.canonicalName}
 import ${packageName.value}.${columnEntityEnumGeneratorNameClass}.*
 import ${rootPackage.value}.${EntityDataClassesGenerator.entityDataClassesGeneratorPackageName.value}.*
+import ${rootPackage.value}.${contextDataClassesGeneratorPackageName.value}.*
 
 
 val foreignKeyMap = mapOf(
