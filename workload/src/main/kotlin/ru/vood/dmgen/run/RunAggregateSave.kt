@@ -21,7 +21,9 @@ class RunAggregateSave(
         val paramDate = "asd"
         val dealParamOneToOneEntity = DealParamOneToOneEntity(dealId, paramDate)
 
-        entity.saveAggregate(DealEntity(dealId, "asd", null, true, null, dealParamOneToOneEntity, null, setOf()))
+        val aggregate = DealEntity(dealId, "asd", null, true, null, dealParamOneToOneEntity, null, setOf())
+        entity.saveAggregate(aggregate)
+//        entity.saveAggregate(aggregate)
 
         val findByUk1 = entity.findByUk(Deal_PKContext(dealId))
 
