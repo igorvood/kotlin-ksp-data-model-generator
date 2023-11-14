@@ -24,15 +24,16 @@ class EntityDao(
 
 
     final inline fun <reified T : IAggregate<T>> saveAggregate(aggregate: T) {
-        val simpleColumns = entitiesColumnsMap[aggregate.designEntityName]!!
-            .filter { col -> col.value.columnKind == ColumnKind.SIMPLE }
-        val entityName = aggregate.designEntityName
-        val uks = uniqueKeyMap.values.filter { it.entity == entityName }
-        val pkMeta = uks.first { it.typeUk == TypeUk.PK } as UKEntityData<T>
-        val pkDto = pkMeta.extractContext(aggregate)
-        val pkSerializer = pkDto.ktSerializer() as KSerializer<IContextOf<T>>
-        val entitySerializer = aggregate.ktSerializer() as KSerializer<IEntity<T>>
+        saveEntity(aggregate)
 
+//        val simpleColumns = entitiesColumnsMap[aggregate.designEntityName]!!
+//            .filter { col -> col.value.columnKind == ColumnKind.SIMPLE }
+//        val entityName = aggregate.designEntityName
+//        val uks = uniqueKeyMap.values.filter { it.entity == entityName }
+//        val pkMeta = uks.first { it.typeUk == TypeUk.PK } as UKEntityData<T>
+//        val pkDto = pkMeta.extractContext(aggregate)
+//        val pkSerializer = pkDto.ktSerializer() as KSerializer<IContextOf<T>>
+//        val entitySerializer = aggregate.ktSerializer() as KSerializer<IEntity<T>>
 
     }
 

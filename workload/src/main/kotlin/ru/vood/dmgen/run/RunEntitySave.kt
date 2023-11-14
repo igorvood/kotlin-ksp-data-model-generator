@@ -11,7 +11,7 @@ import ru.vood.dmgen.datamodel.runtime.dataclasses.context.DealParamOneToOne_UKC
 import ru.vood.dmgen.datamodel.runtime.dataclasses.context.Deal_PKContext
 import ru.vood.dmgen.datamodel.valueClasses.DealId
 
-@Service
+//@Service
 class RunEntitySave(
     val entity: EntityDao,
     val jdbcOperations: JdbcOperations

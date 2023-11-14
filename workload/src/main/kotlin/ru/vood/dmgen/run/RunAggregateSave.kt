@@ -9,7 +9,7 @@ import ru.vood.dmgen.datamodel.runtime.dataclasses.DealParamOneToOneEntity
 import ru.vood.dmgen.datamodel.runtime.dataclasses.context.Deal_PKContext
 import ru.vood.dmgen.datamodel.valueClasses.DealId
 
-//@Service
+@Service
 class RunAggregateSave(
     val entity: EntityDao,
     val jdbcOperations: JdbcOperations
