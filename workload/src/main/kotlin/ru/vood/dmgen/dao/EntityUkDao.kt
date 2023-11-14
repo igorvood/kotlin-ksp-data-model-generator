@@ -16,7 +16,7 @@ class EntityUkDao(
 
     val json = Json
 
-    final inline fun saveEntityUk(contextOf: EntityName, ukName: UkName, pkJson: String, ukJson: String) {
+    final fun saveEntityUk(contextOf: EntityName, ukName: UkName, pkJson: String, ukJson: String) {
         jdbcOperations.update(
             """insert into entity_uk_context(entity_type, entity_type_uk, pk, uk) VALUES (?, ?, ?, ?) """,
             contextOf.value, ukName.value, pkJson, ukJson
@@ -34,4 +34,18 @@ class EntityUkDao(
         saveEntityUk(entityName, ukData.ukName, pkJson, ukJson)
     }
 
+
+    final fun existUk(uk: UkName, function: String): Boolean {
+//        jdbcOperations.queryForObject()
+        val queryForObject = jdbcOperations.queryForObject(
+            """select count(1) from entity_uk_context where entity_type_uk = ? and uk = ? """,
+            Int::class.java,
+            uk.value, function
+        )
+        val let = queryForObject?:0
+        val b = if (let != 1) {
+            error("вай - вай - вай - нет форена")
+        } else true
+        return b
+    }
 }

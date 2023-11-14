@@ -10,7 +10,7 @@ interface IMetaFkEntityNew<T : IEntity<T>> {
     val uk: UkName
     val relationType: RelationType
     val fkCols: Set<FkPairNew>
-    val extractContext: (T) -> IContextOf<*>
+    val extractContext: (T) -> String//IContextOf<Any>
 //    val contextOfClass: KClass<IContextOf<T>>
 }
 
@@ -20,7 +20,7 @@ data class FKEntityData<T : IEntity<T>>(
     override val uk: UkName,
     override val relationType: RelationType,
     override val fkCols: Set<FkPairNew>,
-    override val extractContext: (T) -> IContextOf<*>
+    override val extractContext: (T) -> String//IContextOf<Any>
 //    override val contextOfClass: KClass<IContextOf<T>>
 ) : IMetaFkEntityNew<T> {
 }

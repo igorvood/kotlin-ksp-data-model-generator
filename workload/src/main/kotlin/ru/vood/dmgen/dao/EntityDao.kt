@@ -4,15 +4,13 @@ import kotlinx.serialization.KSerializer
 import kotlinx.serialization.json.Json
 import org.springframework.jdbc.core.JdbcOperations
 import org.springframework.stereotype.Repository
+import ru.vood.dmgen.datamodel.metaEnum.foreignKeyMap
 import ru.vood.dmgen.datamodel.metaEnum.uniqueKeyMap
-import ru.vood.dmgen.datamodel.runtime.dataclasses.DealEntity
 import ru.vood.dmgen.intf.IAggregate
 import ru.vood.dmgen.intf.IContextOf
 import ru.vood.dmgen.intf.IEntity
-import ru.vood.dmgen.intf.newIntf.ColumnKind
 import ru.vood.dmgen.intf.newIntf.TypeUk
 import ru.vood.dmgen.intf.newIntf.UKEntityData
-import ru.vood.dmgen.meta.DerivativeColumns.entitiesColumnsMap
 
 @Repository
 class EntityDao(
@@ -38,10 +36,20 @@ class EntityDao(
     }
 
 
-
     @Suppress("UNCHECKED_CAST")
     final inline fun <reified T : IEntity<T>> saveEntity(entity: T) {
         val entityName = entity.designEntityName
+
+        // тут очень не оптимально, нужно собрать мапу с правильным key
+        foreignKeyMap.values
+            .filter { it.fromEntity == entityName }
+            .forEach { we ->
+                val function = we.extractContext as (T) -> String
+                we.uk to function(entity)
+                entityUkDao.existUk(we.uk, function(entity))
+            }
+
+
         val uks = uniqueKeyMap.values.filter { it.entity == entityName }
         val pkMeta = uks.first { it.typeUk == TypeUk.PK } as UKEntityData<T>
         val pkDto = pkMeta.extractContext(entity)

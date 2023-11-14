@@ -51,7 +51,8 @@ class ForeignKeyMapGenerator(
                         |${RelationType::class.java.canonicalName}.${metaForeign.relationType.name},
                         |setOf($fkCols),
                         |{data: ${entityClassName(metaForeign.fromEntity)} ->
-                        |  ${ukClassName(metaForeign.toEntity, metaForeign.uk.name)}(${contextCols})
+                        |  
+                        |  Json.encodeToString(${ukClassName(metaForeign.toEntity, metaForeign.uk.name)}.serializer(),${ukClassName(metaForeign.toEntity, metaForeign.uk.name)}(${contextCols}))
                         |}
                         |)""".trimMargin()
                     }
@@ -71,6 +72,7 @@ class ForeignKeyMapGenerator(
                     val trimIndent =
                     """package ${packageName.value}
                         
+import kotlinx.serialization.json.Json                        
 import ${packageName.value}.${EntityEnumGenerator.nameClassEntityEnumGenerator}.*
 import ${packageName.value}.${UniqueKeyEnumGenerator.uniqueKeyEnumGeneratorNameClass}.*
 import ${FkPair::class.java.canonicalName}

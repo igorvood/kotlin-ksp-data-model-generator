@@ -25,6 +25,7 @@ class RunAggregateSave(
 
         val aggregate = DealEntity(dealId, "asd", null, true, null, dealParamOneToOneEntity, null, setOf())
         entity.saveAggregate(aggregate)
+//        val dealExtendDataEntity = DealExtendDataEntity(DealId("11"), "jhvjkhfg")
         val dealExtendDataEntity = DealExtendDataEntity(dealId, "jhvjkhfg")
         entity.saveAggregate(dealExtendDataEntity)
 //        entity.saveAggregate(aggregate)
