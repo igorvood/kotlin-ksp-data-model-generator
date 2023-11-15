@@ -50,11 +50,11 @@ class ForeignKeyMapGenerator(
                         |${UkName::class.simpleName}("${metaForeign.uk.name.value}"),
                         |${RelationType::class.java.canonicalName}.${metaForeign.relationType.name},
                         |setOf($fkCols),
-                        |{data: ${entityClassName(metaForeign.fromEntity)} ->
+                        |//{data: ${entityClassName(metaForeign.fromEntity)} ->
                         |  
-                        |  Json.encodeToString(${ukClassName(metaForeign.toEntity, metaForeign.uk.name)}.serializer(),${ukClassName(metaForeign.toEntity, metaForeign.uk.name)}(${contextCols}))
-                        |  TODO()
-                        |}
+                        |  //Json.encodeToString(${ukClassName(metaForeign.toEntity, metaForeign.uk.name)}.serializer(),${ukClassName(metaForeign.toEntity, metaForeign.uk.name)}(${contextCols}))
+                        |//  TODO()
+                        |//}
                         |)""".trimMargin()
                     }
                     .sorted()
