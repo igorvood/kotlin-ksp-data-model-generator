@@ -1,5 +1,7 @@
 package ru.vood.dmgen.dao
 
+
+
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.json.Json
 import org.springframework.jdbc.core.JdbcOperations
@@ -9,6 +11,7 @@ import ru.vood.dmgen.datamodel.metaEnum.uniqueKeyMap
 import ru.vood.dmgen.intf.IAggregate
 import ru.vood.dmgen.intf.IContextOf
 import ru.vood.dmgen.intf.IEntity
+import ru.vood.dmgen.intf.Serializer
 import ru.vood.dmgen.intf.newIntf.TypeUk
 import ru.vood.dmgen.intf.newIntf.UKEntityData
 
@@ -44,9 +47,15 @@ class EntityDao(
         foreignKeyMap.values
             .filter { it.fromEntity == entityName }
             .forEach { we ->
-                val function = we.extractContext as (T) -> String
-                we.uk to function(entity)
-                entityUkDao.existUk(we.uk, function(entity))
+//                val extractContext: (Nothing) -> IContextOf<IEntity<IEntity<*>>> = we.extractContext
+//                val function = we.extractContext as (T) -> IContextOf<out IEntity<out IEntity<*>>>
+//                val function1 = function(entity)
+//                val serializer = function1.ktEntitySerializer
+//                Json.encodeToString(serializer, function1)
+//                Json.encodeToString(serializer, function1)
+//
+//                we.uk to function1
+//                entityUkDao.existUk(we.uk, function(entity))
             }
 
 

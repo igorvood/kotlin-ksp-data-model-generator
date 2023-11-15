@@ -53,6 +53,7 @@ class ForeignKeyMapGenerator(
                         |{data: ${entityClassName(metaForeign.fromEntity)} ->
                         |  
                         |  Json.encodeToString(${ukClassName(metaForeign.toEntity, metaForeign.uk.name)}.serializer(),${ukClassName(metaForeign.toEntity, metaForeign.uk.name)}(${contextCols}))
+                        |  TODO()
                         |}
                         |)""".trimMargin()
                     }

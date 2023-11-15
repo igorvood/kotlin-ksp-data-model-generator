@@ -63,7 +63,7 @@ override fun ktSerializer() = serializer()
 override val ukName: UkName
     get() = ukNameConst
     
-override val ktEntitySerializer: KSerializer<*>
+override val ktEntitySerializer//: KSerializer<*>
     get() = ${entityName}.serializer()
 
 companion object{

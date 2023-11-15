@@ -6,7 +6,13 @@ import ru.vood.dmgen.annotation.UkName
 
 interface Serializer<T> {
 
-    fun ktSerializer(): KSerializer<*>
+    fun ktSerializer(): KSerializer<out Serializer<out T>>
+    fun castedKSerializer(): KSerializer<Serializer<T>> = ktSerializer() as KSerializer<Serializer<T>>
+
+    fun <SERIALISED_TYPE> serialiseIt(s: (Serializer<T>) -> SERIALISED_TYPE): SERIALISED_TYPE {
+        return s(this)
+    }
+
 }
 
 interface IEntity<T : IEntity<T>> : Serializer<T> {
@@ -20,7 +26,7 @@ interface IContextOf<T : IEntity<T>> : Serializer<T> {
 
     val ukName: UkName
 
-    val ktEntitySerializer: KSerializer<*>
+    val ktEntitySerializer: KSerializer<T>
 
 }
 
