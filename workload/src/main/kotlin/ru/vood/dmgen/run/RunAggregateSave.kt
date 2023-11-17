@@ -4,7 +4,6 @@ import org.springframework.boot.CommandLineRunner
 import org.springframework.jdbc.core.JdbcOperations
 import org.springframework.stereotype.Service
 import ru.vood.dmgen.dao.EntityDao
-import ru.vood.dmgen.datamodel.DealExtendData
 import ru.vood.dmgen.datamodel.runtime.dataclasses.DealEntity
 import ru.vood.dmgen.datamodel.runtime.dataclasses.DealExtendDataEntity
 import ru.vood.dmgen.datamodel.runtime.dataclasses.DealParamOneToOneEntity

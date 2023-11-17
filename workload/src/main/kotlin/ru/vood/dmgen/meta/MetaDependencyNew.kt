@@ -7,4 +7,4 @@ import ru.vood.dmgen.intf.newIntf.EntityData
 data class MetaDependencyNew<T : IEntity<out T>>(
     val toEntity: EntityName,
     val entityData: EntityData<out T>
-    )
+)

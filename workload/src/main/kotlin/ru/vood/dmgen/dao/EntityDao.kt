@@ -81,7 +81,7 @@ class EntityDao(
             uk.ukName.value, ukJson
         )
 
-        if (query.size==1)
+        if (query.size == 1)
             query[0]
         else error("Not found uk ${uk.ukName.value} with value ${ukJson}")
 

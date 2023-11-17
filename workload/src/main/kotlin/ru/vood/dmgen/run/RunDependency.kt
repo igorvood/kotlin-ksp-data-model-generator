@@ -37,7 +37,7 @@ class RunDependency : CommandLineRunner {
                 column.entity to column
             }
             .groupBy { it.first }
-            .map { it.key to it.value.map { ass -> ass.second}.toSet() }
+            .map { it.key to it.value.map { ass -> ass.second }.toSet() }
             .toMap()
 
     }
