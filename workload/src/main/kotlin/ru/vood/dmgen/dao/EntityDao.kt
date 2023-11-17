@@ -23,16 +23,6 @@ class EntityDao(
 
     final inline fun <reified T : IAggregate<T>> saveAggregate(aggregate: T) {
         saveEntity(aggregate)
-
-//        val simpleColumns = entitiesColumnsMap[aggregate.designEntityName]!!
-//            .filter { col -> col.value.columnKind == ColumnKind.SIMPLE }
-//        val entityName = aggregate.designEntityName
-//        val uks = uniqueKeyMap.values.filter { it.entity == entityName }
-//        val pkMeta = uks.first { it.typeUk == TypeUk.PK } as UKEntityData<T>
-//        val pkDto = pkMeta.extractContext(aggregate)
-//        val pkSerializer = pkDto.ktSerializer() as KSerializer<IContextOf<T>>
-//        val entitySerializer = aggregate.ktSerializer() as KSerializer<IEntity<T>>
-
     }
 
 
@@ -46,12 +36,6 @@ class EntityDao(
             .forEach { we ->
                 val fkContextFunction = we.extractJsonContext as (T) -> IContextOf<out IEntity<out IEntity<*>>>
                 val fkContextFunction1 = fkContextFunction(entity).toJson(Json)
-//                val function1 = function(entity)
-//                val serializer = function1.ktEntitySerializer
-//                Json.encodeToString(serializer, function1)
-//                Json.encodeToString(serializer, function1)
-//
-//                we.uk to function1
                 entityUkDao.existUk(we.uk, fkContextFunction1.value)
             }
 
