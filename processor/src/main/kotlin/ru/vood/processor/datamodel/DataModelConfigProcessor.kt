@@ -12,6 +12,7 @@ import ru.vood.processor.datamodel.gen.PackageName
 import ru.vood.processor.datamodel.gen.meta.*
 import ru.vood.processor.datamodel.gen.runtime.ContextDataClassesGenerator
 import ru.vood.processor.datamodel.gen.runtime.EntityDataClassesGenerator
+import ru.vood.processor.datamodel.gen.runtime.SyntheticFieldExtractorsGenerator
 
 class DataModelConfigProcessor(
     val codeGenerator: CodeGenerator,
@@ -53,8 +54,10 @@ class DataModelConfigProcessor(
         DependencyGenerator(codeGenerator, rootPackage, logger).createFiles(metaInformation)
 
 
+
         EntityDataClassesGenerator(codeGenerator, rootPackage, logger).createFiles(metaInformation)
         ContextDataClassesGenerator(codeGenerator, rootPackage, logger).createFiles(metaInformation)
+        SyntheticFieldExtractorsGenerator(codeGenerator, rootPackage, logger).createFiles(metaInformation)
         return symbols.toList()
 
     }
