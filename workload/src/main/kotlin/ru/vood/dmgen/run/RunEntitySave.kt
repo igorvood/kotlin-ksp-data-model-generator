@@ -22,13 +22,13 @@ class RunEntitySave(
         val dealId = DealId("12")
         val paramDate = "asd"
         val dealParamOneToOneEntity = DealParamOneToOneEntity(dealId, paramDate)
-        entity.saveEntity(dealParamOneToOneEntity)
+//        entity.saveEntity(dealParamOneToOneEntity)
 
-        val findByUk = entity.findByUk(DealParamOneToOne_PKContext(dealId))
-        println(findByUk)
-        val findByUk2 =
-            entity.findByUk<DealParamOneToOneEntity>(DealParamOneToOne_UKContext(dealId, paramDate))
-        println(findByUk2)
+//        val findByUk = entity.findByUk(DealParamOneToOne_PKContext(dealId))
+//        println(findByUk)
+//        val findByUk2 =
+//            entity.findByUk<DealParamOneToOneEntity>(DealParamOneToOne_UKContext(dealId, paramDate))
+//        println(findByUk2)
 
         entity.saveEntity(DealEntity(dealId, "asd", null, true, null, dealParamOneToOneEntity, null, setOf()))
 

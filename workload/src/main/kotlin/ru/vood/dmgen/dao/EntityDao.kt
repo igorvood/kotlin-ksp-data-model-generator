@@ -44,15 +44,15 @@ class EntityDao(
         foreignKeyMap.values
             .filter { it.fromEntity == entityName }
             .forEach { we ->
-//                val extractContext: (Nothing) -> IContextOf<IEntity<IEntity<*>>> = we.extractContext
-//                val function = we.extractContext as (T) -> IContextOf<out IEntity<out IEntity<*>>>
+                val fkContextFunction = we.extractJsonContext as (T) -> IContextOf<out IEntity<out IEntity<*>>>
+                val fkContextFunction1 = fkContextFunction(entity).toJson(Json)
 //                val function1 = function(entity)
 //                val serializer = function1.ktEntitySerializer
 //                Json.encodeToString(serializer, function1)
 //                Json.encodeToString(serializer, function1)
 //
 //                we.uk to function1
-//                entityUkDao.existUk(we.uk, function(entity))
+                entityUkDao.existUk(we.uk, fkContextFunction1.value)
             }
 
 
@@ -96,6 +96,11 @@ class EntityDao(
             },
             uk.ukName.value, ukJson
         )
+
+        if (query.size==1)
+            query[0]
+        else error("Not found uk ${uk.ukName.value} with value ${ukJson}")
+
         return query[0]
     }
 

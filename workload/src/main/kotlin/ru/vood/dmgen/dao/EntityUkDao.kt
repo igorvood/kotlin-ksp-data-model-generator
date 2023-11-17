@@ -44,7 +44,7 @@ class EntityUkDao(
         )
         val let = queryForObject?:0
         val b = if (let != 1) {
-            error("вай - вай - вай - нет форена")
+            error("вай - вай - вай - нет форена ${function} для uk ${uk.value}")
         } else true
         return b
     }
