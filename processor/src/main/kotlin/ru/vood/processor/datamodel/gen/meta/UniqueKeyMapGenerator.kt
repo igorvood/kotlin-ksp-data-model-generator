@@ -3,8 +3,8 @@ package ru.vood.processor.datamodel.gen.meta
 import com.google.devtools.ksp.processing.CodeGenerator
 import com.google.devtools.ksp.processing.KSPLogger
 import ru.vood.dmgen.annotation.UkName
-import ru.vood.dmgen.intf.SimpleColumnName
 import ru.vood.dmgen.intf.EntityName
+import ru.vood.dmgen.intf.SimpleColumnName
 import ru.vood.dmgen.intf.newIntf.TypeUk
 import ru.vood.dmgen.intf.newIntf.UKEntityData
 import ru.vood.processor.datamodel.abstraction.model.MetaInformation
@@ -44,7 +44,12 @@ class UniqueKeyMapGenerator(
                                 """${UkName::class.simpleName}("${ukDto.name.value}") to ${UKEntityData::class.simpleName}(
                                     |listOf($ukCols),
                                     |${EntityName::class.simpleName}("${metaEnt.designClassShortName}"),
-                                    |{data: ${CollectName.entityClassName(metaEnt)} -> ${CollectName.ukClassName(metaEnt, ukDto.name)}($constructorParams) },
+                                    |{data: ${CollectName.entityClassName(metaEnt)} -> ${
+                                    CollectName.ukClassName(
+                                        metaEnt,
+                                        ukDto.name
+                                    )
+                                }($constructorParams) },
                                     |${ukDto.typeUk.name}
                                     |//${rootPackage.value}${contextDataClassesGeneratorPackageName.value}.${metaEnt.designClassShortName}Context${ukDto.name.value}::class,
                                     |)""".trimMargin()

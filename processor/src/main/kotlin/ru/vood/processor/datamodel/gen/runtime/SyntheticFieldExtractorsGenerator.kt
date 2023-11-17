@@ -13,7 +13,6 @@ import ru.vood.processor.datamodel.abstraction.model.MetaForeignKey
 import ru.vood.processor.datamodel.abstraction.model.MetaInformation
 import ru.vood.processor.datamodel.gen.*
 import ru.vood.processor.datamodel.gen.CollectName.entityClassName
-import java.time.LocalDate
 import java.time.LocalDateTime
 import java.util.*
 import javax.annotation.processing.Generated
@@ -49,19 +48,19 @@ class SyntheticFieldExtractorsGenerator(
         val simpleColumns = metaEntity.fields
             .sortedBy { it.position }
             .map { col ->
-            val kotlinMetaClass = col.type
+                val kotlinMetaClass = col.type
 
-            val nullableSymbol = if (col.isNullable) "?" else ""
-            """${
-                col.comment?.let {
-                    """/**
+                val nullableSymbol = if (col.isNullable) "?" else ""
+                """${
+                    col.comment?.let {
+                        """/**
 *$it
 */
 """.trimIndent()
-                } ?: ""
-            }     
+                    } ?: ""
+                }     
 override val ${col.name.value}: $kotlinMetaClass$nullableSymbol""".trimIndent()
-        }
+            }
             .joinToString(",\n")
 
         val fullClassName = entityClassName(metaEntity)

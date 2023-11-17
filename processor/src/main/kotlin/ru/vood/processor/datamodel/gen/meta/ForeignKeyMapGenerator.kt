@@ -5,7 +5,9 @@ import com.google.devtools.ksp.processing.KSPLogger
 import ru.vood.dmgen.annotation.FkName
 import ru.vood.dmgen.annotation.RelationType
 import ru.vood.dmgen.annotation.UkName
-import ru.vood.dmgen.intf.*
+import ru.vood.dmgen.intf.EntityName
+import ru.vood.dmgen.intf.FkPair
+import ru.vood.dmgen.intf.SimpleColumnName
 import ru.vood.dmgen.intf.newIntf.FKEntityData
 import ru.vood.dmgen.intf.newIntf.FkPairNew
 import ru.vood.processor.datamodel.abstraction.model.MetaInformation
@@ -46,14 +48,23 @@ class ForeignKeyMapGenerator(
                             """data.${fkPa.from.name.value}"""
                         }.joinToString(",")
 
-                        """${FkName::class.simpleName}("${metaForeign.name.value}") to ${FKEntityData::class.simpleName}<${entityClassName(metaForeign.fromEntity)}>(
+                        """${FkName::class.simpleName}("${metaForeign.name.value}") to ${FKEntityData::class.simpleName}<${
+                            entityClassName(
+                                metaForeign.fromEntity
+                            )
+                        }>(
                         |${EntityName::class.simpleName}("${metaForeign.fromEntity.designClassShortName}"),
                         |${EntityName::class.simpleName}("${metaForeign.toEntity.designClassShortName}"),
                         |${UkName::class.simpleName}("${metaForeign.uk.name.value}"),
                         |${RelationType::class.java.canonicalName}.${metaForeign.relationType.name},
                         |setOf($fkCols),
                         |{data: ${entityClassName(metaForeign.fromEntity)} ->
-                        |//Json.encodeToString(${ukClassName(metaForeign.toEntity, metaForeign.uk.name)}.serializer(),${ukClassName(metaForeign.toEntity, metaForeign.uk.name)}(${contextCols}))
+                        |//Json.encodeToString(${
+                            ukClassName(
+                                metaForeign.toEntity,
+                                metaForeign.uk.name
+                            )
+                        }.serializer(),${ukClassName(metaForeign.toEntity, metaForeign.uk.name)}(${contextCols}))
                         |${ukClassName(metaForeign.toEntity, metaForeign.uk.name)}(${contextCols})
                         |}
                         |)""".trimMargin()
@@ -71,7 +82,7 @@ class ForeignKeyMapGenerator(
 //                ) : IMetaFkEntityNew<T> {
 
 
-                    val trimIndent =
+                val trimIndent =
                     """package ${packageName.value}
                         
 import kotlinx.serialization.json.Json                        

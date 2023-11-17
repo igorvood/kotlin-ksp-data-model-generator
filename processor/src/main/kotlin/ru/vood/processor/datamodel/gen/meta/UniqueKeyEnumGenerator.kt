@@ -39,7 +39,12 @@ class UniqueKeyEnumGenerator(
                                 """${ukDto.name.value}(
                                     |setOf($ukCols),
                                     |${packageName.value}.${nameClassEntityEnumGenerator}.${metaEnt.designClassShortName},
-                                    |${rootPackage.value}.${contextDataClassesGeneratorPackageName.value}.${CollectName.ukClassName(metaEnt, ukDto.name)}::class,
+                                    |${rootPackage.value}.${contextDataClassesGeneratorPackageName.value}.${
+                                    CollectName.ukClassName(
+                                        metaEnt,
+                                        ukDto.name
+                                    )
+                                }::class,
                                     |${ukDto.typeUk.name},
                                     |)""".trimMargin()
 
