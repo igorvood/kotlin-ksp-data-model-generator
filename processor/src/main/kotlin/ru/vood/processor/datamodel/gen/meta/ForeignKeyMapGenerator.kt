@@ -7,6 +7,7 @@ import ru.vood.dmgen.annotation.RelationType
 import ru.vood.dmgen.annotation.UkName
 import ru.vood.dmgen.intf.EntityName
 import ru.vood.dmgen.intf.FkPair
+import ru.vood.dmgen.intf.FullColumnName
 import ru.vood.dmgen.intf.SimpleColumnName
 import ru.vood.dmgen.intf.newIntf.FKEntityData
 import ru.vood.dmgen.intf.newIntf.FkPairNew
@@ -40,7 +41,7 @@ class ForeignKeyMapGenerator(
 //                        "${ent.shortName}_${f.name.value}"
                         val fkCols = metaForeign.fkCols.map { fkPa ->
 
-                            """${FkPairNew::class.simpleName}(${SimpleColumnName::class.simpleName}("${metaForeign.fromEntity.designClassShortName}_${fkPa.from.name.value}"), ${SimpleColumnName::class.simpleName}("${metaForeign.toEntity.designClassShortName}_${fkPa.to.name.value}"))"""
+                            """${FkPairNew::class.simpleName}(${FullColumnName::class.simpleName}("${metaForeign.fromEntity.designClassShortName}_${fkPa.from.name.value}"), ${FullColumnName::class.simpleName}("${metaForeign.toEntity.designClassShortName}_${fkPa.to.name.value}"))"""
                         }.joinToString(",\n")
 
                         val contextCols = metaForeign.fkCols.map { fkPa ->
@@ -99,6 +100,8 @@ import ${packageName.value}.${columnEntityEnumGeneratorNameClass}.*
 import ${rootPackage.value}.${EntityDataClassesGenerator.entityDataClassesGeneratorPackageName.value}.*
 import ${rootPackage.value}.${contextDataClassesGeneratorPackageName.value}.*
 import ${Generated::class.java.canonicalName}
+import ${FullColumnName::class.java.canonicalName}
+
 
 
 @Generated("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
