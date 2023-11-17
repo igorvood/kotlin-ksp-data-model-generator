@@ -10,7 +10,9 @@ interface Serializer<T> {
 
     fun ktSerializer(): KSerializer<out Serializer<out T>>
 
-    fun toJson(json: Json): JsonInString = JsonInString(json.encodeToString(ktSerializer() as KSerializer<Serializer<out T>>, this))
+    fun toJson(json: Json): JsonInString =
+        JsonInString(json.encodeToString(ktSerializer() as KSerializer<Serializer<out T>>, this))
+
     fun castedKSerializer(): KSerializer<Serializer<T>> = ktSerializer() as KSerializer<Serializer<T>>
 
     fun <SERIALISED_TYPE> serialiseIt(s: (Serializer<T>) -> SERIALISED_TYPE): SERIALISED_TYPE {

@@ -1,4 +1,4 @@
 package ru.vood.dmgen.annotation
 
 @JvmInline
-value class JsonInString (val value: String)
+value class JsonInString(val value: String)

@@ -1,9 +1,9 @@
 package ru.vood.dmgen.intf.newIntf
 
-import ru.vood.dmgen.intf.SimpleColumnName
 import ru.vood.dmgen.intf.EntityName
 import ru.vood.dmgen.intf.IContextOf
 import ru.vood.dmgen.intf.IEntity
+import ru.vood.dmgen.intf.SimpleColumnName
 
 interface IMetaUkEntityNew<T : IEntity<T>> {
     val columns: List<SimpleColumnName>

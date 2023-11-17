@@ -2,7 +2,10 @@ package ru.vood.dmgen.intf.newIntf
 
 import ru.vood.dmgen.annotation.RelationType
 import ru.vood.dmgen.annotation.UkName
-import ru.vood.dmgen.intf.*
+import ru.vood.dmgen.intf.EntityName
+import ru.vood.dmgen.intf.IContextOf
+import ru.vood.dmgen.intf.IEntity
+import ru.vood.dmgen.intf.SimpleColumnName
 
 interface IMetaFkEntityNew<T : IEntity<T>> {
     val fromEntity: EntityName
