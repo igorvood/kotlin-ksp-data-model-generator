@@ -15,6 +15,8 @@ import ru.vood.processor.datamodel.gen.CollectName.ukClassName
 import ru.vood.processor.datamodel.gen.meta.ColumnEntityEnumGenerator.Companion.columnEntityEnumGeneratorNameClass
 import ru.vood.processor.datamodel.gen.runtime.ContextDataClassesGenerator.Companion.contextDataClassesGeneratorPackageName
 import ru.vood.processor.datamodel.gen.runtime.EntityDataClassesGenerator
+import java.time.LocalDateTime
+import javax.annotation.processing.Generated
 
 class ForeignKeyMapGenerator(
     codeGenerator: CodeGenerator,
@@ -86,8 +88,10 @@ import ${UkName::class.java.canonicalName}
 import ${packageName.value}.${columnEntityEnumGeneratorNameClass}.*
 import ${rootPackage.value}.${EntityDataClassesGenerator.entityDataClassesGeneratorPackageName.value}.*
 import ${rootPackage.value}.${contextDataClassesGeneratorPackageName.value}.*
+import ${Generated::class.java.canonicalName}
 
 
+@Generated("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
 val foreignKeyMap = mapOf(
 $entitiesMap
 )

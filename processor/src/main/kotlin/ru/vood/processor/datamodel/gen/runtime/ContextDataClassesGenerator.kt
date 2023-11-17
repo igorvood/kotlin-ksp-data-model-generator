@@ -11,6 +11,9 @@ import ru.vood.processor.datamodel.abstraction.model.MetaInformation
 import ru.vood.processor.datamodel.gen.*
 import ru.vood.processor.datamodel.gen.CollectName.ukClassName
 import ru.vood.processor.datamodel.gen.meta.EntityEnumGenerator
+import java.time.LocalDate
+import java.time.LocalDateTime
+import javax.annotation.processing.Generated
 
 class ContextDataClassesGenerator(
     codeGenerator: CodeGenerator,
@@ -46,10 +49,12 @@ class ContextDataClassesGenerator(
                     
 import ${UkName::class.java.canonicalName}
 import ${EntityName::class.java.canonicalName}
+import ${Generated::class.java.canonicalName}
 import kotlinx.serialization.KSerializer
 import ${rootPackage.value}.${EntityDataClassesGenerator.entityDataClassesGeneratorPackageName.value}.$entityName
                     
 @kotlinx.serialization.Serializable
+@Generated("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
 data class $fullClassName (
 $joinToString
 ): ${IContextOf::class.java.canonicalName}<$entityName>//,

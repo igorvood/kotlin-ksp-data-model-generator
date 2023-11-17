@@ -10,6 +10,8 @@ import ru.vood.dmgen.intf.IMetaUkEntity
 import ru.vood.processor.datamodel.abstraction.model.MetaInformation
 import ru.vood.processor.datamodel.gen.*
 import ru.vood.processor.datamodel.gen.meta.ColumnEntityEnumGenerator.Companion.columnEntityEnumGeneratorNameClass
+import java.time.LocalDateTime
+import javax.annotation.processing.Generated
 
 class ForeignKeyEnumGenerator(
     codeGenerator: CodeGenerator,
@@ -52,7 +54,9 @@ import ${packageName.value}.${EntityEnumGenerator.nameClassEntityEnumGenerator}.
 import ${packageName.value}.${UniqueKeyEnumGenerator.uniqueKeyEnumGeneratorNameClass}.*
 import ${FkPair::class.java.canonicalName}
 import ${packageName.value}.${columnEntityEnumGeneratorNameClass}.*
+import ${Generated::class.java.canonicalName}
 
+@Generated("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
 enum class $nameClass(
     override val fromEntity: ${IMetaEntity::class.java.canonicalName},
     override val toEntity: ${IMetaEntity::class.java.canonicalName},

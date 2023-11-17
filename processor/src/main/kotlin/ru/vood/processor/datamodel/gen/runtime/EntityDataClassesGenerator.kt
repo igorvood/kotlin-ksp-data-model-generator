@@ -13,7 +13,10 @@ import ru.vood.processor.datamodel.abstraction.model.MetaForeignKey
 import ru.vood.processor.datamodel.abstraction.model.MetaInformation
 import ru.vood.processor.datamodel.gen.*
 import ru.vood.processor.datamodel.gen.CollectName.entityClassName
+import java.time.LocalDate
+import java.time.LocalDateTime
 import java.util.*
+import javax.annotation.processing.Generated
 
 class EntityDataClassesGenerator(
     codeGenerator: CodeGenerator,
@@ -77,8 +80,10 @@ ${
 """.trimIndent()
             } ?: ""
         }          
-import ${EntityName::class.java.canonicalName}                  
-                  
+import ${EntityName::class.java.canonicalName}     
+import ${Generated::class.java.canonicalName}
+
+@Generated("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
 @kotlinx.serialization.Serializable
 //@optics([OpticsTarget.LENS])
 data class $fullClassName (

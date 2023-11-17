@@ -10,6 +10,8 @@ import ru.vood.processor.datamodel.abstraction.model.MetaInformation
 import ru.vood.processor.datamodel.gen.*
 import ru.vood.processor.datamodel.gen.meta.EntityEnumGenerator.Companion.nameClassEntityEnumGenerator
 import ru.vood.processor.datamodel.gen.runtime.ContextDataClassesGenerator.Companion.contextDataClassesGeneratorPackageName
+import java.time.LocalDateTime
+import javax.annotation.processing.Generated
 
 class UniqueKeyEnumGenerator(
     codeGenerator: CodeGenerator,
@@ -53,9 +55,11 @@ class UniqueKeyEnumGenerator(
 import ${packageName.value}.${ColumnEntityEnumGenerator.columnEntityEnumGeneratorNameClass}.*
 import ${TypeUk::class.java.canonicalName}.*
 import ${TypeUk::class.java.canonicalName}
+import ${Generated::class.java.canonicalName}
 
 import kotlin.reflect.KClass
 
+@Generated("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
 enum class $nameClass(
     override val columns: Set<${IMetaColumnEntity::class.java.canonicalName}>,
     override val entity : ${IMetaEntity::class.java.canonicalName},

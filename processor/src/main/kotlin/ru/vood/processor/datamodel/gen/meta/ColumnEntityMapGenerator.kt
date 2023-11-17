@@ -12,6 +12,8 @@ import ru.vood.dmgen.intf.newIntf.ColumnKind
 import ru.vood.processor.datamodel.abstraction.model.MetaInformation
 import ru.vood.processor.datamodel.gen.*
 import ru.vood.processor.datamodel.gen.runtime.EntityDataClassesGenerator.Companion.entityDataClassesGeneratorPackageName
+import java.time.LocalDateTime
+import javax.annotation.processing.Generated
 
 class ColumnEntityMapGenerator(
     codeGenerator: CodeGenerator,
@@ -104,9 +106,10 @@ import ${SimpleColumnName::class.java.canonicalName}
 import ${FullColumnName::class.java.canonicalName}
 import ${ColumnKind::class.java.canonicalName}
 import ${ColumnKind::class.java.canonicalName}.*
+import ${Generated::class.java.canonicalName}
 import kotlin.reflect.KProperty1
 
-
+@Generated("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
 val columnEntityDataMap = mapOf(
 $simpleColumn,
 

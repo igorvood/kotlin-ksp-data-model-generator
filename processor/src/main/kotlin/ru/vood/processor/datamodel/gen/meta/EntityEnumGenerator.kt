@@ -9,6 +9,8 @@ import ru.vood.dmgen.intf.IMetaEntity
 import ru.vood.processor.datamodel.abstraction.model.MetaInformation
 import ru.vood.processor.datamodel.gen.*
 import ru.vood.processor.datamodel.gen.runtime.EntityDataClassesGenerator.Companion.entityDataClassesGeneratorPackageName
+import java.time.LocalDateTime
+import javax.annotation.processing.Generated
 
 class EntityEnumGenerator(
     codeGenerator: CodeGenerator,
@@ -43,8 +45,10 @@ import kotlin.reflect.KClass
 import kotlinx.serialization.KSerializer
 import ${FlowEntityType::class.java.canonicalName}.*
 import ${FlowEntityType::class.java.canonicalName}
+import ${Generated::class.java.canonicalName}
 
 
+@Generated("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
 enum class $nameClass(
 override val designClass: KClass<out Any>,
 override val runtimeClass: KClass<out ${IEntity::class.java.canonicalName}<*>>,

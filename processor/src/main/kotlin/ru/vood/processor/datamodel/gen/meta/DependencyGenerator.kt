@@ -7,6 +7,8 @@ import ru.vood.dmgen.intf.IMetaEntity
 import ru.vood.dmgen.intf.IMetaFkEntity
 import ru.vood.processor.datamodel.abstraction.model.MetaInformation
 import ru.vood.processor.datamodel.gen.*
+import java.time.LocalDateTime
+import javax.annotation.processing.Generated
 
 class DependencyGenerator(
     codeGenerator: CodeGenerator,
@@ -28,9 +30,10 @@ class DependencyGenerator(
                         
 import ${packageName.value}.${EntityEnumGenerator.nameClassEntityEnumGenerator}.*
 import ${packageName.value}.${ForeignKeyEnumGenerator.foreignKeyEnumGeneratorNameClass}.*
+import ${Generated::class.java.canonicalName}
 import ${FlowEntityType::class.java.canonicalName}.*
 
-
+@Generated("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
 object Dependency {
 
     val entityDependency : Map<${IMetaEntity::class.java.canonicalName}, Set<MetaDependency>> = collectDependency(${EntityEnumGenerator.nameClassEntityEnumGenerator}.values().toList(), ${ForeignKeyEnumGenerator.foreignKeyEnumGeneratorNameClass}.values().toList())

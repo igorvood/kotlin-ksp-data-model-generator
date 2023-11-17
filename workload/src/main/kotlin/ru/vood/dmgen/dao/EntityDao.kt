@@ -1,19 +1,16 @@
 package ru.vood.dmgen.dao
 
 
-
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.json.Json
 import org.springframework.jdbc.core.JdbcOperations
 import org.springframework.stereotype.Repository
 import ru.vood.dmgen.datamodel.metaEnum.foreignKeyMap
-import ru.vood.dmgen.datamodel.metaEnum.uniqueKeyMap
 import ru.vood.dmgen.intf.IAggregate
 import ru.vood.dmgen.intf.IContextOf
 import ru.vood.dmgen.intf.IEntity
-import ru.vood.dmgen.intf.Serializer
-import ru.vood.dmgen.intf.newIntf.TypeUk
 import ru.vood.dmgen.intf.newIntf.UKEntityData
+import ru.vood.dmgen.meta.DerivativeUk.entitiesUkMap
 
 @Repository
 class EntityDao(
@@ -59,8 +56,9 @@ class EntityDao(
             }
 
 
-        val uks = uniqueKeyMap.values.filter { it.entity == entityName }
-        val pkMeta = uks.first { it.typeUk == TypeUk.PK } as UKEntityData<T>
+        val indexesDto = entitiesUkMap[entityName] ?: error("Почему то не найдена сущность ${entityName.value}")
+
+        val pkMeta = indexesDto.pkEntityData as UKEntityData<T>
         val pkDto = pkMeta.extractContext(entity)
         val pkSerializer = pkDto.ktSerializer() as KSerializer<IContextOf<T>>
         val entitySerializer = entity.ktSerializer() as KSerializer<IEntity<T>>
@@ -72,11 +70,13 @@ class EntityDao(
             pkJson, entityName.value, entityJson
         )
 
-        uks.forEach { ukMeta ->
-            val ukMetaData = ukMeta as UKEntityData<T>
-            val ukData = ukMetaData.extractContext(entity)
-            entityUkDao.saveEntityUkDto(entityName, ukData, pkJson)
-        }
+
+        indexesDto.ukSet.plus(indexesDto.pkEntityData)
+            .forEach { ukMeta ->
+                val ukMetaData = ukMeta as UKEntityData<T>
+                val ukData = ukMetaData.extractContext(entity)
+                entityUkDao.saveEntityUkDto(entityName, ukData, pkJson)
+            }
     }
 
     @Suppress("UNCHECKED_CAST")

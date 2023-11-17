@@ -11,6 +11,8 @@ import ru.vood.processor.datamodel.abstraction.model.MetaInformation
 import ru.vood.processor.datamodel.gen.*
 import ru.vood.processor.datamodel.gen.runtime.ContextDataClassesGenerator.Companion.contextDataClassesGeneratorPackageName
 import ru.vood.processor.datamodel.gen.runtime.EntityDataClassesGenerator
+import java.time.LocalDateTime
+import javax.annotation.processing.Generated
 
 class UniqueKeyMapGenerator(
     codeGenerator: CodeGenerator,
@@ -64,8 +66,10 @@ import ${UkName::class.java.canonicalName}
 import ${SimpleColumnName::class.java.canonicalName}
 import ${EntityName::class.java.canonicalName}
 import kotlin.reflect.KClass
+import ${Generated::class.java.canonicalName}
 
 
+@Generated("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
 val uniqueKeyMap = mapOf(
 $entities
 

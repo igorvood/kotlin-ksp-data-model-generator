@@ -8,6 +8,8 @@ import ru.vood.dmgen.intf.newIntf.EntityData
 import ru.vood.processor.datamodel.abstraction.model.MetaInformation
 import ru.vood.processor.datamodel.gen.*
 import ru.vood.processor.datamodel.gen.runtime.EntityDataClassesGenerator.Companion.entityDataClassesGeneratorPackageName
+import java.time.LocalDateTime
+import javax.annotation.processing.Generated
 
 class EntityMapGenerator(
     codeGenerator: CodeGenerator,
@@ -48,7 +50,9 @@ import ${FlowEntityType::class.java.canonicalName}.*
 import ${FlowEntityType::class.java.canonicalName}
 import ${EntityData::class.java.canonicalName}
 import ${EntityName::class.java.canonicalName}
+import ${Generated::class.java.canonicalName}
 
+@Generated("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
 val entityDataMap = mapOf(
 $entities
 

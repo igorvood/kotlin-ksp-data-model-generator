@@ -7,6 +7,8 @@ import ru.vood.dmgen.intf.IMetaColumnEntity
 import ru.vood.dmgen.intf.IMetaEntity
 import ru.vood.processor.datamodel.abstraction.model.MetaInformation
 import ru.vood.processor.datamodel.gen.*
+import java.time.LocalDateTime
+import javax.annotation.processing.Generated
 
 class ColumnEntityEnumGenerator(
     codeGenerator: CodeGenerator,
@@ -44,7 +46,9 @@ class ColumnEntityEnumGenerator(
 import ${packageName.value}.${EntityEnumGenerator.nameClassEntityEnumGenerator}.*                        
 import kotlin.reflect.KProperty1
 import ${SimpleColumnName::class.java.canonicalName}
+import ${Generated::class.java.canonicalName}
 
+@Generated("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
 enum class $nameClass(
     override val entity: ${IMetaEntity::class.java.canonicalName},
     override val kProperty1: KProperty1<*, *>,

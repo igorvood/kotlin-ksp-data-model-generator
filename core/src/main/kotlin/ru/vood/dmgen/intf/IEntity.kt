@@ -1,12 +1,16 @@
 package ru.vood.dmgen.intf
 
 import kotlinx.serialization.KSerializer
+import kotlinx.serialization.json.Json
+import ru.vood.dmgen.annotation.JsonInString
 import ru.vood.dmgen.annotation.UkName
 
 
 interface Serializer<T> {
 
     fun ktSerializer(): KSerializer<out Serializer<out T>>
+
+    fun toJson(json: Json): JsonInString = JsonInString(json.encodeToString(ktSerializer() as KSerializer<Serializer<out T>>, this))
     fun castedKSerializer(): KSerializer<Serializer<T>> = ktSerializer() as KSerializer<Serializer<T>>
 
     fun <SERIALISED_TYPE> serialiseIt(s: (Serializer<T>) -> SERIALISED_TYPE): SERIALISED_TYPE {
