@@ -2,10 +2,7 @@ package ru.vood.dmgen.intf.newIntf
 
 import ru.vood.dmgen.annotation.RelationType
 import ru.vood.dmgen.annotation.UkName
-import ru.vood.dmgen.intf.EntityName
-import ru.vood.dmgen.intf.IContextOf
-import ru.vood.dmgen.intf.IEntity
-import ru.vood.dmgen.intf.SimpleColumnName
+import ru.vood.dmgen.intf.*
 
 interface IMetaFkEntityNew<T : IEntity<T>> {
     val fromEntity: EntityName
@@ -30,6 +27,6 @@ data class FKEntityData<T : IEntity<T>>(
 
 
 data class FkPairNew(
-    val from: SimpleColumnName,
-    val to: SimpleColumnName
+    val from: FullColumnName,
+    val to: FullColumnName
 )
