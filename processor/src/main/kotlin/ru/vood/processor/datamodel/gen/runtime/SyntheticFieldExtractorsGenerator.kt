@@ -80,6 +80,15 @@ $fk
 
 ): $s         
 {
+
+//    constructor(origin: DealEntity, ass: Map<EntityName, Any>) : this(origin, 
+//        ass[EntityName("asd")]!! as DealParamOneToOneSynthetic,
+//        ass[EntityName("asd")] as DealParamOneToOneOptionalSynthetic,
+//        ass[EntityName("asd")]!! as Set<DealParamSetSynthetic>,
+//        
+//    )
+
+
     override fun ktSerializer() = serializer()
     
     override val designEntityName: EntityName
