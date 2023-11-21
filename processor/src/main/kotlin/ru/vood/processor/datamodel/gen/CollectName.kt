@@ -12,4 +12,7 @@ object CollectName {
     fun entityClassName(metaEntity: MetaEntity): String =
         """${metaEntity.designClassShortName}Entity"""
 
+    fun syntheticClassName(metaEntity: MetaEntity): String =
+        """${metaEntity.designClassShortName}Synthetic"""
+
 }

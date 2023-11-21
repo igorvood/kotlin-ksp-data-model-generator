@@ -139,9 +139,9 @@ $fk
 
 
     override val subPackage: PackageName
-        get() = entityDataClassesGeneratorPackageName
+        get() = entitySyntheticDataClassesGeneratorPackageName
 
     companion object {
-        val entityDataClassesGeneratorPackageName = PackageName("runtime.dataclasses.extractor")
+        val entitySyntheticDataClassesGeneratorPackageName = PackageName("runtime.dataclassesSynthetic")
     }
 }

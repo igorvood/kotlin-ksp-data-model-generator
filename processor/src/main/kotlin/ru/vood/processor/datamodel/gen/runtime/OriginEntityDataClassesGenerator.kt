@@ -2,11 +2,8 @@ package ru.vood.processor.datamodel.gen.runtime
 
 import com.google.devtools.ksp.processing.CodeGenerator
 import com.google.devtools.ksp.processing.KSPLogger
-import ru.vood.dmgen.annotation.FlowEntityType
 import ru.vood.dmgen.annotation.RelationType
 import ru.vood.dmgen.intf.EntityName
-import ru.vood.dmgen.intf.IAggregate
-import ru.vood.dmgen.intf.IEntity
 import ru.vood.dmgen.intf.IEntityOrigin
 import ru.vood.processor.datamodel.abstraction.model.Dependency
 import ru.vood.processor.datamodel.abstraction.model.MetaEntity
@@ -15,7 +12,6 @@ import ru.vood.processor.datamodel.abstraction.model.MetaInformation
 import ru.vood.processor.datamodel.gen.*
 import ru.vood.processor.datamodel.gen.CollectName.entityClassName
 import java.time.LocalDateTime
-import java.util.*
 import javax.annotation.processing.Generated
 
 class OriginEntityDataClassesGenerator(
@@ -127,9 +123,9 @@ $simpleColumns
 
 
     override val subPackage: PackageName
-        get() = entityDataClassesGeneratorPackageName
+        get() = entityOriginDataClassesGeneratorPackageName
 
     companion object {
-        val entityDataClassesGeneratorPackageName = PackageName("runtime.dataclassesOrigin")
+        val entityOriginDataClassesGeneratorPackageName = PackageName("runtime.dataclassesOrigin")
     }
 }
