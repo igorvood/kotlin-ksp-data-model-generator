@@ -7,12 +7,15 @@ import ru.vood.dmgen.annotation.RelationType
 import ru.vood.dmgen.intf.EntityName
 import ru.vood.dmgen.intf.IAggregate
 import ru.vood.dmgen.intf.IEntity
+import ru.vood.dmgen.intf.IEntitySynthetic
 import ru.vood.processor.datamodel.abstraction.model.Dependency
 import ru.vood.processor.datamodel.abstraction.model.MetaEntity
 import ru.vood.processor.datamodel.abstraction.model.MetaForeignKey
 import ru.vood.processor.datamodel.abstraction.model.MetaInformation
 import ru.vood.processor.datamodel.gen.*
 import ru.vood.processor.datamodel.gen.CollectName.entityClassName
+import ru.vood.processor.datamodel.gen.CollectName.syntheticClassName
+import ru.vood.processor.datamodel.gen.runtime.OriginEntityDataClassesGenerator.Companion.entityOriginDataClassesGeneratorPackageName
 import java.time.LocalDateTime
 import java.util.*
 import javax.annotation.processing.Generated
@@ -45,29 +48,14 @@ class SyntheticFieldExtractorsGenerator(
             }
             .joinToString(",\n") { it.get() }
 
-        val simpleColumns = metaEntity.fields
-            .sortedBy { it.position }
-            .map { col ->
-                val kotlinMetaClass = col.type
 
-                val nullableSymbol = if (col.isNullable) "?" else ""
-                """${
-                    col.comment?.let {
-                        """/**
-*$it
-*/
-""".trimIndent()
-                    } ?: ""
-                }     
-override val ${col.name.value}: $kotlinMetaClass$nullableSymbol""".trimIndent()
-            }
-            .joinToString(",\n")
 
-        val fullClassName = entityClassName(metaEntity)
-        val s = when (metaEntity.flowEntityType) {
-            FlowEntityType.AGGREGATE -> """${IAggregate::class.java.canonicalName}<$fullClassName>, ${metaEntity.designClassFullClassName.value}"""
-            FlowEntityType.INNER_OPTIONAL, FlowEntityType.INNER_MANDATORY -> """${IEntity::class.java.canonicalName}<$fullClassName>, ${metaEntity.designClassFullClassName.value}"""
-        }
+        val originClassName = entityClassName(metaEntity)
+        val fullClassName = syntheticClassName(metaEntity)
+
+        val simpleColumns = "override val origin: $originClassName"
+        val s = """${IEntitySynthetic::class.java.simpleName}<$originClassName>"""
+
 
         val code = """package ${packageName.value}
                     
@@ -79,12 +67,13 @@ ${
 """.trimIndent()
             } ?: ""
         }          
-import ${EntityName::class.java.canonicalName}     
+import ${IEntitySynthetic::class.java.canonicalName}     
+import ${EntityName::class.java.canonicalName}
 import ${Generated::class.java.canonicalName}
+import ${rootPackage.value}.${entityOriginDataClassesGeneratorPackageName.value}.*
 
 @Generated("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
 @kotlinx.serialization.Serializable
-//@optics([OpticsTarget.LENS])
 data class $fullClassName (
 $simpleColumns,
 $fk
@@ -124,13 +113,13 @@ $fk
 
     private fun genField(toEntity: MetaEntity, question: String, relationType: RelationType) =
         when (relationType) {
-            RelationType.ONE_TO_ONE_OPTIONAL -> "val ${toEntity.entityFieldName} : ${packageName.value}.${
-                entityClassName(
+            RelationType.ONE_TO_ONE_OPTIONAL -> "val ${toEntity.entityFieldName} : ${
+                syntheticClassName(
                     toEntity
                 )
             }$question"
-            RelationType.MANY_TO_ONE -> "val ${toEntity.entityFieldName} : Set<${packageName.value}.${
-                entityClassName(
+            RelationType.MANY_TO_ONE -> "val ${toEntity.entityFieldName} : Set<${
+                syntheticClassName(
                     toEntity
                 )
             }>"
