@@ -26,6 +26,11 @@ interface IEntity<T : IEntity<T>> : Serializer<T> {
     val designEntityName: EntityName
 }
 
+interface IEntityOrigin<T : IEntityOrigin<T>> : Serializer<T> {
+
+    val designEntityName: EntityName
+}
+
 interface IContextOf<T : IEntity<T>> : Serializer<T> {
 
     val metaEntity: EntityName
