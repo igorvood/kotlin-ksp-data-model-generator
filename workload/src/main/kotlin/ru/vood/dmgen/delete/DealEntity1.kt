@@ -49,6 +49,11 @@ data class DealEntitySyntetic (
 
 ): IEntitySynthetic<DealEntity1>
 {
+
+    override fun syntheticField(entityName: EntityName): Set<IEntitySynthetic<out IEntityOrigin<*>>> {
+        TODO("Not yet implemented")
+    }
+
     override fun ktSerializer(): KSerializer<out Serializer<out DealEntity1>> = DealEntitySyntetic.serializer()
 
     override val designEntityName: EntityName

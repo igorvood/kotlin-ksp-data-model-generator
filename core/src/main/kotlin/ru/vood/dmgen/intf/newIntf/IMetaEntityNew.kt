@@ -13,6 +13,7 @@ interface IMetaEntityNew<T : IEntity<out T>> {
     val comment: String
     val serializer: KSerializer<out IEntity<out T>>
     val entityType: FlowEntityType
+
 }
 
 data class EntityData<T : IEntity<out T>>(

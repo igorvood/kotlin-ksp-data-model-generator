@@ -4,10 +4,7 @@ import com.google.devtools.ksp.processing.CodeGenerator
 import com.google.devtools.ksp.processing.KSPLogger
 import ru.vood.dmgen.annotation.FlowEntityType
 import ru.vood.dmgen.annotation.RelationType
-import ru.vood.dmgen.intf.EntityName
-import ru.vood.dmgen.intf.IAggregate
-import ru.vood.dmgen.intf.IEntity
-import ru.vood.dmgen.intf.IEntitySynthetic
+import ru.vood.dmgen.intf.*
 import ru.vood.processor.datamodel.abstraction.model.Dependency
 import ru.vood.processor.datamodel.abstraction.model.MetaEntity
 import ru.vood.processor.datamodel.abstraction.model.MetaForeignKey
@@ -48,6 +45,15 @@ class SyntheticFieldExtractorsGenerator(
             }
             .joinToString(",\n") { it.get() }
 
+        val fkFunCode = syntheticFieldInfos(chldrenEntities, metaForeignKeys, metaEntity, logger)
+            .map { syntheticFieldInfo ->
+                val s = if (syntheticFieldInfo.isOptional) "?" else ""
+                val genField = genWhenCondition(syntheticFieldInfo.metaEntity, s, syntheticFieldInfo.relationType)
+                Optional.of(genField)
+
+            }
+            .joinToString("\n") { it.get() }
+
 
 
         val originClassName = entityClassName(metaEntity)
@@ -70,6 +76,7 @@ ${
 import ${IEntitySynthetic::class.java.canonicalName}     
 import ${EntityName::class.java.canonicalName}
 import ${Generated::class.java.canonicalName}
+import ${IEntityOrigin::class.java.canonicalName}
 import ${rootPackage.value}.${entityOriginDataClassesGeneratorPackageName.value}.*
 
 @Generated("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
@@ -87,6 +94,15 @@ $fk
 //        ass[EntityName("asd")]!! as Set<DealParamSetSynthetic>,
 //        
 //    )
+
+    override fun syntheticField(entityName: EntityName): Set<IEntitySynthetic<out IEntityOrigin<*>>> {
+            val iEntitySynthetics: Set<IEntitySynthetic<out IEntityOrigin<*>>> = when (entityName) {
+                $fkFunCode
+                else -> error("No")
+            }
+        return iEntitySynthetics
+    }
+
 
 
     override fun ktSerializer() = serializer()
@@ -132,6 +148,24 @@ $fk
                     toEntity
                 )
             }>"
+            RelationType.UNNOWN -> error("Не известный тип")
+        }
+//            EntityName("Asdasd") -> setOf(dealParamOneToOne)
+//            EntityName("Asdasd") -> dealParamOneToOneOptional?.let { setOf(it) } ?: setOf()
+//            EntityName("Asdasd") -> dealParamSet
+
+
+    private fun genWhenCondition(toEntity: MetaEntity, question: String, relationType: RelationType) =
+        when (relationType) {
+            RelationType.ONE_TO_ONE_OPTIONAL -> {
+                if (question == "?") {
+                    """${EntityName::class.simpleName}("${toEntity.designClassShortName}") -> ${toEntity.entityFieldName}?.let { setOf(it) } ?: setOf()"""
+                } else {
+                    """${EntityName::class.simpleName}("${toEntity.designClassShortName}") -> setOf(${toEntity.entityFieldName})"""
+                }
+
+            }
+            RelationType.MANY_TO_ONE -> """${EntityName::class.simpleName}("${toEntity.designClassShortName}") -> ${toEntity.entityFieldName}"""
             RelationType.UNNOWN -> error("Не известный тип")
         }
 

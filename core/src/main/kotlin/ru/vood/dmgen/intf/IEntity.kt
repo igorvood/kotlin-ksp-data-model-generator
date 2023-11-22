@@ -35,6 +35,8 @@ interface IEntitySynthetic<T : IEntityOrigin<T>> : IEntityOrigin<T> {
 
     val origin: T
 
+    fun syntheticField(entityName: EntityName): Set<IEntitySynthetic<out IEntityOrigin<*>>>
+
 }
 
 interface IContextOf<T : IEntity<T>> : Serializer<T> {
