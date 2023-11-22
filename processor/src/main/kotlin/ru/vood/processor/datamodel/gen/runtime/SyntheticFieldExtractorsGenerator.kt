@@ -98,7 +98,7 @@ $fk
     override fun syntheticField(entityName: EntityName): Set<IEntitySynthetic<out IEntityOrigin<*>>> {
             val iEntitySynthetics: Set<IEntitySynthetic<out IEntityOrigin<*>>> = when (entityName) {
                 $fkFunCode
-                else -> error("No")
+                else -> error("In Entity ${'$'}{designEntityName.value} Not found synthetic field for ${'$'}{entityName.value}")
             }
         return iEntitySynthetics
     }
