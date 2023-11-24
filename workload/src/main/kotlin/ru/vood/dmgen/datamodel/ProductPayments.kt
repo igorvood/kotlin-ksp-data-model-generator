@@ -4,6 +4,7 @@ import ru.vood.dmgen.annotation.FlowEntity
 import ru.vood.dmgen.annotation.FlowEntityType
 import ru.vood.dmgen.annotation.ForeignKey
 import ru.vood.dmgen.annotation.Pk
+import ru.vood.dmgen.datamodel.noRelation.NoRelationData
 import ru.vood.dmgen.datamodel.valueClasses.DealId
 
 @FlowEntity(FlowEntityType.AGGREGATE)
@@ -33,5 +34,7 @@ interface ProductPayments {
     val id: String
 
     val summa: Long
+
+    val noRelationData: NoRelationData
 
 }
