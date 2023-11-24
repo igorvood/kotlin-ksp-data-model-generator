@@ -42,6 +42,7 @@ class DataModelConfigProcessor(
 
         EntityEnumGenerator(codeGenerator, rootPackage, logger).createFiles(metaInformation)
         EntityMapGenerator(codeGenerator, rootPackage, logger).createFiles(metaInformation)
+//        EntityConstructorMapGenerator(codeGenerator, rootPackage, logger).createFiles(metaInformation)
 
         ColumnEntityEnumGenerator(codeGenerator, rootPackage, logger).createFiles(metaInformation)
         ColumnEntityMapGenerator(codeGenerator, rootPackage, logger).createFiles(metaInformation)

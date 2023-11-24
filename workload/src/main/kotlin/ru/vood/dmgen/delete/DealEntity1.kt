@@ -5,11 +5,13 @@ package ru.vood.dmgen.delete
 */          
 import kotlinx.serialization.KSerializer
 import ru.vood.dmgen.datamodel.Deal
+import ru.vood.dmgen.datamodel.runtime.dataclassesOrigin.DealEntity
 import ru.vood.dmgen.intf.EntityName
 import javax.annotation.processing.Generated
 import ru.vood.dmgen.intf.IEntityOrigin
 import ru.vood.dmgen.intf.IEntitySynthetic
 import ru.vood.dmgen.intf.Serializer
+import ru.vood.dmgen.intf.newIntf.IConstructorSyntheticEntity
 
 
 @Generated("ru.vood.processor.datamodel.gen.runtime.OriginEntityDataClassesGenerator", date = "2023-11-21T20:07:49.996870249")
@@ -51,6 +53,14 @@ data class DealEntitySyntetic (
 {
 
     override fun syntheticField(entityName: EntityName): Set<IEntitySynthetic<out IEntityOrigin<*>>> {
+
+
+        val sdf: IConstructorSyntheticEntity<DealEntity> =
+        object: IConstructorSyntheticEntity<DealEntity>{
+            override fun construct(origin: DealEntity, ass: Map<EntityName, Any>): IEntitySynthetic<DealEntity> {
+                TODO("Not yet implemented")
+            }
+        }
         TODO("Not yet implemented")
     }
 
