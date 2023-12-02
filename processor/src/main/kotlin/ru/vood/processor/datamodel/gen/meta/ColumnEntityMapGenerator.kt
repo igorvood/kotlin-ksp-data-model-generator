@@ -113,7 +113,7 @@ class ColumnEntityMapGenerator(
                                 |${Simple::class.simpleName}<$entityClass, ${f.type}$question> {it.${f.name.value}}
                                 |)""".trimMargin()
                             }
-                        simpleF//.plus(syntheticF)
+                        simpleF.plus(syntheticF)
                     }
                     .joinToString(",\n")
 
