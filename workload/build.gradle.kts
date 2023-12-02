@@ -1,11 +1,11 @@
 plugins {
     id("com.google.devtools.ksp")
     kotlin("jvm")
-    kotlin("plugin.serialization") version "1.7.20"
+    kotlin("plugin.serialization")
 
     id("org.springframework.boot") version "2.7.16"
     id("io.spring.dependency-management") version "1.0.15.RELEASE"
-    kotlin("plugin.spring") version "1.7.20"
+    kotlin("plugin.spring")
 }
 
 repositories {
