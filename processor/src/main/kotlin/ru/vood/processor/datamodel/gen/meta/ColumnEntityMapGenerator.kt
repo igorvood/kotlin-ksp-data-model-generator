@@ -94,9 +94,15 @@ class ColumnEntityMapGenerator(
 
                             }
 
+
                         val simpleF = ent.fields
                             .sortedBy { ec -> ec.position }
                             .map { f ->
+                                val question = if (f.isNullable) {
+                                    "?"
+                                } else {
+                                    ""
+                                }
                                 """${FullColumnName::class.simpleName}("${ent.designClassShortName}_${f.name.value}") to ${ColumnEntityData::class.simpleName}(
                                 |    ${EntityName::class.java.canonicalName}( "${ent.designClassShortName}"),
                                 |//$entityClass::${f.name.value},
@@ -104,7 +110,7 @@ class ColumnEntityMapGenerator(
                                 |${f.isNullable},
                                 |"${f.comment}",
                                 |${ColumnKind.SIMPLE.name},
-                                |${Simple::class.simpleName}<$entityClass, ${f.type}?> {it.${f.name.value}}
+                                |${Simple::class.simpleName}<$entityClass, ${f.type}$question> {it.${f.name.value}}
                                 |)""".trimMargin()
                             }
                         simpleF//.plus(syntheticF)
