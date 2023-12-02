@@ -4,7 +4,7 @@ import ru.vood.dmgen.annotation.RelationType
 import ru.vood.dmgen.annotation.UkName
 import ru.vood.dmgen.intf.*
 
-interface IMetaFkEntityNew<T : IEntity<T>> {
+interface IMetaFkEntityNew<T : IEntityOrigin<T>> {
     val fromEntity: EntityName
     val toEntity: EntityName
     val uk: UkName
@@ -14,7 +14,7 @@ interface IMetaFkEntityNew<T : IEntity<T>> {
 //    val contextOfClass: KClass<IContextOf<T>>
 }
 
-data class FKEntityData<T : IEntity<T>>(
+data class FKEntityData<T : IEntityOrigin<T>>(
     override val fromEntity: EntityName,
     override val toEntity: EntityName,
     override val uk: UkName,

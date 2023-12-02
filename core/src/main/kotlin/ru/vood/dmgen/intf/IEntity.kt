@@ -26,10 +26,7 @@ interface IEntity<T : IEntity<T>> : Serializer<T> {
     val designEntityName: EntityName
 }
 
-interface IEntityOrigin<T : IEntityOrigin<T>> : Serializer<T> {
-
-    val designEntityName: EntityName
-}
+interface IEntityOrigin<T : IEntityOrigin<T>> : IEntity<T>
 
 interface IEntitySynthetic<T : IEntityOrigin<T>> : IEntityOrigin<T> {
 

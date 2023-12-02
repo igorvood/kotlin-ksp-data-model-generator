@@ -11,6 +11,7 @@ import ru.vood.processor.datamodel.abstraction.model.MetaInformation
 import ru.vood.processor.datamodel.gen.*
 import ru.vood.processor.datamodel.gen.runtime.ContextDataClassesGenerator.Companion.contextDataClassesGeneratorPackageName
 import ru.vood.processor.datamodel.gen.runtime.EntityDataClassesGenerator
+import ru.vood.processor.datamodel.gen.runtime.OriginEntityDataClassesGenerator.Companion.entityOriginDataClassesGeneratorPackageName
 import java.time.LocalDateTime
 import javax.annotation.processing.Generated
 
@@ -62,7 +63,7 @@ class UniqueKeyMapGenerator(
                 val trimIndent =
                     """package ${packageName.value}
                         
-import ${rootPackage.value}.${EntityDataClassesGenerator.entityDataClassesGeneratorPackageName.value}.*
+import ${rootPackage.value}.${entityOriginDataClassesGeneratorPackageName.value}.*
 import ${rootPackage.value}.${contextDataClassesGeneratorPackageName.value}.*
 import ${UKEntityData::class.java.canonicalName}
 import ${TypeUk::class.java.canonicalName}.*

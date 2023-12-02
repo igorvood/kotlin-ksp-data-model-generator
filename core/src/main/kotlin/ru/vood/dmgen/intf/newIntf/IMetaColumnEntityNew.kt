@@ -1,13 +1,11 @@
 package ru.vood.dmgen.intf.newIntf
 
-import ru.vood.dmgen.intf.EntityName
-import ru.vood.dmgen.intf.IEntity
-import ru.vood.dmgen.intf.SimpleColumnName
+import ru.vood.dmgen.intf.*
 import kotlin.reflect.KProperty1
 
-interface IMetaColumnEntityNew<T : IEntity<out T>> {
+interface IMetaColumnEntityNew<T : IEntityOrigin<out T>> {
     val entity: EntityName
-    val kProperty1: KProperty1<out T, *>
+//    val kProperty1: KProperty1<out T, *>
     val simpleColumnName: SimpleColumnName
     val isOptional: Boolean
     val comment: String
@@ -16,9 +14,9 @@ interface IMetaColumnEntityNew<T : IEntity<out T>> {
     val iColKind: IColKind<T, *>
 }
 
-data class ColumnEntityData<T : IEntity<out T>>(
+data class ColumnEntityData<T : IEntityOrigin<out T>>(
     override val entity: EntityName,
-    override val kProperty1: KProperty1<out T, *>,
+//    override val kProperty1: KProperty1<out T, *>,
     override val simpleColumnName: SimpleColumnName,
     override val isOptional: Boolean,
     override val comment: String,
@@ -33,21 +31,21 @@ enum class ColumnKind {
     SIMPLE, SYNTHETIC, SYNTHETIC_SET,
 }
 
-sealed interface IColKind<T : IEntity<out T>, out OUT> {
+sealed interface IColKind<T : IEntityOrigin<out T>, out OUT> {
     val extractFieldValue: (entity: T) -> OUT
 }
 
 @JvmInline
-value class Simple<T : IEntity<out T>, OUT>(
+value class Simple<T : IEntityOrigin<out T>, OUT>(
     override val extractFieldValue: (entity: T) -> OUT
 ) : IColKind<T, OUT>
 
 @JvmInline
-value class Synthetic<T : IEntity<out T>, OUT : IEntity< OUT>>(
+value class Synthetic<T : IEntitySynthetic<out T>, OUT : IEntitySynthetic<out OUT>>(
     override val extractFieldValue: (entity: T) -> Set<OUT>
 ) : IColKind<T, Set<OUT>>
 
 @JvmInline
-value class SyntheticSet<T : IEntity<out T>, OUT : IEntity< OUT>>(
+value class SyntheticSet<T : IEntityOrigin<out T>, OUT : IEntity< OUT>>(
     override val extractFieldValue: (entity: T) -> Set<OUT>
 ) : IColKind<T, Set<OUT>>

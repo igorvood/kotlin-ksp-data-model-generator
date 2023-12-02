@@ -11,7 +11,9 @@ import ru.vood.dmgen.intf.newIntf.*
 import ru.vood.processor.datamodel.abstraction.model.MetaInformation
 import ru.vood.processor.datamodel.gen.*
 import ru.vood.processor.datamodel.gen.CollectName.entityClassName
-import ru.vood.processor.datamodel.gen.runtime.EntityDataClassesGenerator.Companion.entityDataClassesGeneratorPackageName
+import ru.vood.processor.datamodel.gen.CollectName.syntheticClassName
+import ru.vood.processor.datamodel.gen.runtime.OriginEntityDataClassesGenerator.Companion.entityOriginDataClassesGeneratorPackageName
+import ru.vood.processor.datamodel.gen.runtime.SyntheticFieldExtractorsGenerator.Companion.entitySyntheticDataClassesGeneratorPackageName
 import java.time.LocalDateTime
 import javax.annotation.processing.Generated
 
@@ -44,12 +46,10 @@ class ColumnEntityMapGenerator(
                         logger.info(" syntheticFieldInfos     ${syntheticFieldInfos.size}   ${filter.size}  ${ent.entityFieldName}")
 
 
-                        val entityClass = """${rootPackage.value}.${entityDataClassesGeneratorPackageName.value}.${
-                            CollectName.entityClassName(
-                                ent
-                            )
-                        }"""
-                        val map1 = syntheticFieldInfos
+//                        val entityClass = """${ent.designClassFullClassName.value}"""
+                        val entityClass = entityClassName(ent)
+                        val syntheticClassName = syntheticClassName(ent)
+                        val syntheticF = syntheticFieldInfos
                             .sortedBy { it.metaEntity.entityFieldName }
                             .map { syntheticFieldInfo ->
                                 val fromEntity = syntheticFieldInfo.metaEntity
@@ -65,11 +65,15 @@ class ColumnEntityMapGenerator(
                                 }
 
                                 val columnKindType = when (syntheticFieldInfo.relationType) {
-                                    RelationType.ONE_TO_ONE_OPTIONAL -> if(isOptional)
-                                        "Synthetic<$entityClass, ${entityClassName(syntheticFieldInfo.metaEntity)}>{it.${fromEntity.entityFieldName}?.let{q->setOf(q)}?:setOf()}"
+                                    RelationType.ONE_TO_ONE_OPTIONAL -> if (isOptional)
+                                        "${Synthetic::class.simpleName}<$syntheticClassName, ${syntheticClassName(syntheticFieldInfo.metaEntity)}>{it.${fromEntity.entityFieldName}?.let{q->setOf(q)}?:setOf()}"
                                     else
-                                        "Synthetic<$entityClass, ${entityClassName(syntheticFieldInfo.metaEntity)} >{setOf(it.${fromEntity.entityFieldName})}"
-                                    RelationType.MANY_TO_ONE -> "SyntheticSet<$entityClass, ${entityClassName(syntheticFieldInfo.metaEntity)} >{it.${fromEntity.entityFieldName}}"
+                                        "${Synthetic::class.simpleName}<$syntheticClassName, ${syntheticClassName(syntheticFieldInfo.metaEntity)} >{setOf(it.${fromEntity.entityFieldName})}"
+                                    RelationType.MANY_TO_ONE -> "SyntheticSet<$syntheticClassName, ${
+                                        entityClassName(
+                                            syntheticFieldInfo.metaEntity
+                                        )
+                                    } >{it.${fromEntity.entityFieldName}}"
                                     RelationType.UNNOWN -> error("Не известный тип")
                                 }
 
@@ -80,7 +84,7 @@ class ColumnEntityMapGenerator(
                                 )
                                 """${FullColumnName::class.simpleName}("${fullColumnName.value}") to ${ColumnEntityData::class.simpleName}(
                                 |    ${EntityName::class.java.canonicalName}( "${ent.designClassShortName}"),
-                                |$entityClass::${fromEntity.entityFieldName},
+                                |//$syntheticClassName::${fromEntity.entityFieldName},
                                 |${SimpleColumnName::class.simpleName}("${fromEntity.entityFieldName}"),
                                 |${isOptional},
                                 |"${fromEntity.comment}",
@@ -90,20 +94,20 @@ class ColumnEntityMapGenerator(
 
                             }
 
-                        val map = ent.fields
+                        val simpleF = ent.fields
                             .sortedBy { ec -> ec.position }
                             .map { f ->
                                 """${FullColumnName::class.simpleName}("${ent.designClassShortName}_${f.name.value}") to ${ColumnEntityData::class.simpleName}(
                                 |    ${EntityName::class.java.canonicalName}( "${ent.designClassShortName}"),
-                                |$entityClass::${f.name.value},
+                                |//$entityClass::${f.name.value},
                                 |${SimpleColumnName::class.simpleName}("${f.name.value}"),
                                 |${f.isNullable},
                                 |"${f.comment}",
                                 |${ColumnKind.SIMPLE.name},
-                                |Simple<$entityClass, ${f.type}?> {it.${f.name.value}}
+                                |${Simple::class.simpleName}<$entityClass, ${f.type}?> {it.${f.name.value}}
                                 |)""".trimMargin()
                             }
-                        map.plus(map1)
+                        simpleF//.plus(syntheticF)
                     }
                     .joinToString(",\n")
 
@@ -111,7 +115,7 @@ class ColumnEntityMapGenerator(
                 val trimIndent =
                     """package ${packageName.value}
                         
-import ${packageName.value}.${EntityEnumGenerator.nameClassEntityEnumGenerator}.*
+//import ${packageName.value}.${EntityEnumGenerator.nameClassEntityEnumGenerator}.*
 import ${ColumnEntityData::class.java.canonicalName}
 import ${SimpleColumnName::class.java.canonicalName}
 import ${FullColumnName::class.java.canonicalName}
@@ -122,7 +126,8 @@ import ${IColKind::class.java.canonicalName}
 import ${Simple::class.java.canonicalName}
 import ${Synthetic::class.java.canonicalName}
 import ${SyntheticSet::class.java.canonicalName}
-import ${rootPackage.value}.${entityDataClassesGeneratorPackageName.value}.*
+import ${rootPackage.value}.${entitySyntheticDataClassesGeneratorPackageName.value}.*
+import ${rootPackage.value}.${entityOriginDataClassesGeneratorPackageName.value}.*
 
 import kotlin.reflect.KProperty1
 

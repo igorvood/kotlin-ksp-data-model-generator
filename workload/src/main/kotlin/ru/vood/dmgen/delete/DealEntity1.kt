@@ -6,6 +6,7 @@ package ru.vood.dmgen.delete
 import kotlinx.serialization.KSerializer
 import ru.vood.dmgen.datamodel.Deal
 import ru.vood.dmgen.datamodel.runtime.dataclassesOrigin.DealEntity
+import ru.vood.dmgen.datamodel.runtime.dataclassesOrigin.DealParamOneToOneOptionalEntity
 import ru.vood.dmgen.intf.EntityName
 import javax.annotation.processing.Generated
 import ru.vood.dmgen.intf.IEntityOrigin
@@ -46,7 +47,7 @@ override val bn: kotlin.Boolean?
 data class DealEntitySyntetic (
     override val origin: DealEntity1,
 //    val dealParamOneToOne : ru.vood.dmgen.datamodel.runtime.dataclasses.DealParamOneToOneEntity,
-    val dealParamOneToOneOptional : ru.vood.dmgen.datamodel.runtime.dataclasses.DealParamOneToOneOptionalEntity?,
+    val dealParamOneToOneOptional : DealParamOneToOneOptionalEntity?,
 //    val dealParamSet : Set<ru.vood.dmgen.datamodel.runtime.dataclasses.DealParamSetEntity>
 
 ): IEntitySynthetic<DealEntity1>

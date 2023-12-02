@@ -8,6 +8,7 @@ import ru.vood.dmgen.intf.newIntf.EntityData
 import ru.vood.processor.datamodel.abstraction.model.MetaInformation
 import ru.vood.processor.datamodel.gen.*
 import ru.vood.processor.datamodel.gen.runtime.EntityDataClassesGenerator.Companion.entityDataClassesGeneratorPackageName
+import ru.vood.processor.datamodel.gen.runtime.OriginEntityDataClassesGenerator.Companion.entityOriginDataClassesGeneratorPackageName
 import java.time.LocalDateTime
 import javax.annotation.processing.Generated
 
@@ -32,12 +33,12 @@ class EntityMapGenerator(
 
                         """${EntityName::class.simpleName}("${it.designClassShortName}") to ${EntityData::class.simpleName}(
                             |${it.designClassFullClassName.value}::class, 
-                            |${rootPackage.value}.${entityDataClassesGeneratorPackageName.value}.${
+                            |${
                             CollectName.entityClassName(
                                 it
                             )
                         }::class,
-                            |${rootPackage.value}.${entityDataClassesGeneratorPackageName.value}.${
+                            |${
                             CollectName.entityClassName(
                                 it
                             )
@@ -59,6 +60,7 @@ import ${FlowEntityType::class.java.canonicalName}
 import ${EntityData::class.java.canonicalName}
 import ${EntityName::class.java.canonicalName}
 import ${Generated::class.java.canonicalName}
+import ${rootPackage.value}.${entityOriginDataClassesGeneratorPackageName.value}.*
 
 @Generated("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
 val entityDataMap = mapOf(

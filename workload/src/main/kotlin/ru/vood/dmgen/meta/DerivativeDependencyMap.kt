@@ -6,6 +6,7 @@ import ru.vood.dmgen.datamodel.metaEnum.entityDataMap
 import ru.vood.dmgen.datamodel.metaEnum.foreignKeyMap
 import ru.vood.dmgen.intf.EntityName
 import ru.vood.dmgen.intf.IEntity
+import ru.vood.dmgen.intf.IEntityOrigin
 import ru.vood.dmgen.intf.newIntf.EntityData
 import ru.vood.dmgen.intf.newIntf.FKEntityData
 
@@ -45,7 +46,7 @@ object DerivativeDependencyMap {
         .toMap()
 
     private fun collectDependencyNew(
-        entities: Map<EntityName, EntityData<out IEntity<*>>>,
+        entities: Map<EntityName, EntityData<out IEntityOrigin<*>>>,
         foreignKey: Map<FkName, FKEntityData<*>>
     ): Map<EntityName, Set<MetaDependencyNew<*>>> {
         tailrec fun recursiveCollectDependency(

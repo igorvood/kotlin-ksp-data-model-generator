@@ -1,11 +1,8 @@
 package ru.vood.dmgen.intf.newIntf
 
-import ru.vood.dmgen.intf.EntityName
-import ru.vood.dmgen.intf.IContextOf
-import ru.vood.dmgen.intf.IEntity
-import ru.vood.dmgen.intf.SimpleColumnName
+import ru.vood.dmgen.intf.*
 
-interface IMetaUkEntityNew<T : IEntity<T>> {
+interface IMetaUkEntityNew<T : IEntityOrigin<T>> {
     val columns: List<SimpleColumnName>
     val entity: EntityName
     val extractContext: (T) -> IContextOf<T>
@@ -13,7 +10,7 @@ interface IMetaUkEntityNew<T : IEntity<T>> {
 //    val contextOfClass: KClass<IContextOf<T>>
 }
 
-data class UKEntityData<T : IEntity<T>>(
+data class UKEntityData<T : IEntityOrigin<T>>(
     override val columns: List<SimpleColumnName>,
     override val entity: EntityName,
     override val extractContext: (T) -> IContextOf<T>,

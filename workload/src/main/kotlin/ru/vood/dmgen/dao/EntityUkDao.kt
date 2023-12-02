@@ -8,6 +8,7 @@ import ru.vood.dmgen.annotation.UkName
 import ru.vood.dmgen.intf.EntityName
 import ru.vood.dmgen.intf.IContextOf
 import ru.vood.dmgen.intf.IEntity
+import ru.vood.dmgen.intf.IEntityOrigin
 
 @Repository
 class EntityUkDao(
@@ -24,7 +25,7 @@ class EntityUkDao(
 
     }
 
-    final inline fun <reified T : IEntity<T>> saveEntityUkDto(
+    final inline fun <reified T : IEntityOrigin<T>> saveEntityUkDto(
         entityName: EntityName,
         ukData: IContextOf<T>,
         pkJson: String

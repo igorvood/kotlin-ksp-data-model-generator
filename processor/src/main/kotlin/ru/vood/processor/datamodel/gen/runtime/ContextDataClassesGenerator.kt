@@ -10,6 +10,7 @@ import ru.vood.processor.datamodel.abstraction.model.MetaInformation
 import ru.vood.processor.datamodel.gen.*
 import ru.vood.processor.datamodel.gen.CollectName.ukClassName
 import ru.vood.processor.datamodel.gen.meta.EntityEnumGenerator
+import ru.vood.processor.datamodel.gen.runtime.OriginEntityDataClassesGenerator.Companion.entityOriginDataClassesGeneratorPackageName
 import java.time.LocalDateTime
 import javax.annotation.processing.Generated
 
@@ -49,7 +50,7 @@ import ${UkName::class.java.canonicalName}
 import ${EntityName::class.java.canonicalName}
 import ${Generated::class.java.canonicalName}
 import kotlinx.serialization.KSerializer
-import ${rootPackage.value}.${EntityDataClassesGenerator.entityDataClassesGeneratorPackageName.value}.$entityName
+import ${rootPackage.value}.${entityOriginDataClassesGeneratorPackageName.value}.$entityName
                     
 @kotlinx.serialization.Serializable
 @Generated("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")

@@ -3,7 +3,8 @@ package ru.vood.dmgen.run
 import org.springframework.boot.CommandLineRunner
 import org.springframework.stereotype.Service
 import ru.vood.dmgen.datamodel.metaEnum.columnEntityDataMap
-import ru.vood.dmgen.datamodel.runtime.dataclasses.DealEntity
+import ru.vood.dmgen.datamodel.runtime.dataclassesOrigin.DealEntity
+
 import ru.vood.dmgen.meta.DerivativeColumns.entitiesColumnsMap
 import ru.vood.dmgen.meta.DerivativeDependencyMap.aggregateChildDependencyMap
 import ru.vood.dmgen.meta.DerivativeDependencyMap.aggregateParentDependencyMap

@@ -6,9 +6,7 @@ import kotlinx.serialization.json.Json
 import org.springframework.jdbc.core.JdbcOperations
 import org.springframework.stereotype.Repository
 import ru.vood.dmgen.datamodel.metaEnum.foreignKeyMap
-import ru.vood.dmgen.intf.IAggregate
-import ru.vood.dmgen.intf.IContextOf
-import ru.vood.dmgen.intf.IEntity
+import ru.vood.dmgen.intf.*
 import ru.vood.dmgen.intf.newIntf.UKEntityData
 import ru.vood.dmgen.meta.DerivativeUk.entitiesUkMap
 
@@ -21,13 +19,13 @@ class EntityDao(
     val json = Json
 
 
-    final inline fun <reified T : IAggregate<T>> saveAggregate(aggregate: T) {
+    final inline fun <reified T : IEntitySynthetic<T>> saveAggregate(aggregate: T) {
         saveEntity(aggregate)
     }
 
 
     @Suppress("UNCHECKED_CAST")
-    final inline fun <reified T : IEntity<T>> saveEntity(entity: T) {
+    final inline fun <reified T : IEntityOrigin<T>> saveEntity(entity: T) {
         val entityName = entity.designEntityName
 
         // тут очень не оптимально, нужно собрать мапу с правильным key

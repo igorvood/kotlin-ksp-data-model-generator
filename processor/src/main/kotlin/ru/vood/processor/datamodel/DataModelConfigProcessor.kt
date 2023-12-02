@@ -40,24 +40,24 @@ class DataModelConfigProcessor(
 
         logger.info("root package ${rootPackage.value}")
 
-        EntityEnumGenerator(codeGenerator, rootPackage, logger).createFiles(metaInformation)
+//        EntityEnumGenerator(codeGenerator, rootPackage, logger).createFiles(metaInformation)
         EntityMapGenerator(codeGenerator, rootPackage, logger).createFiles(metaInformation)
 //        EntityConstructorMapGenerator(codeGenerator, rootPackage, logger).createFiles(metaInformation)
 
-        ColumnEntityEnumGenerator(codeGenerator, rootPackage, logger).createFiles(metaInformation)
+//        ColumnEntityEnumGenerator(codeGenerator, rootPackage, logger).createFiles(metaInformation)
         ColumnEntityMapGenerator(codeGenerator, rootPackage, logger).createFiles(metaInformation)
 
         UniqueKeyMapGenerator(codeGenerator, rootPackage, logger).createFiles(metaInformation)
-        UniqueKeyEnumGenerator(codeGenerator, rootPackage, logger).createFiles(metaInformation)
+//        UniqueKeyEnumGenerator(codeGenerator, rootPackage, logger).createFiles(metaInformation)
 
-        ForeignKeyEnumGenerator(codeGenerator, rootPackage, logger).createFiles(metaInformation)
+//        ForeignKeyEnumGenerator(codeGenerator, rootPackage, logger).createFiles(metaInformation)
         ForeignKeyMapGenerator(codeGenerator, rootPackage, logger).createFiles(metaInformation)
 
-        DependencyGenerator(codeGenerator, rootPackage, logger).createFiles(metaInformation)
+//        DependencyGenerator(codeGenerator, rootPackage, logger).createFiles(metaInformation)
 
 
 
-        EntityDataClassesGenerator(codeGenerator, rootPackage, logger).createFiles(metaInformation)
+//        EntityDataClassesGenerator(codeGenerator, rootPackage, logger).createFiles(metaInformation)
         ContextDataClassesGenerator(codeGenerator, rootPackage, logger).createFiles(metaInformation)
         SyntheticFieldExtractorsGenerator(codeGenerator, rootPackage, logger).createFiles(metaInformation)
         OriginEntityDataClassesGenerator(codeGenerator, rootPackage, logger).createFiles(metaInformation)
