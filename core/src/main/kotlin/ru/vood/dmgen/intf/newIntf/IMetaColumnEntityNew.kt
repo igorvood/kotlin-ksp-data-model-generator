@@ -1,7 +1,6 @@
 package ru.vood.dmgen.intf.newIntf
 
 import ru.vood.dmgen.intf.*
-import kotlin.reflect.KProperty1
 
 interface IMetaColumnEntityNew<T : IEntityOrigin<out T>> {
     val entity: EntityName
@@ -31,21 +30,21 @@ enum class ColumnKind {
     SIMPLE, SYNTHETIC, SYNTHETIC_SET,
 }
 
-sealed interface IColKind<T : IEntityOrigin<out T>, out OUT> {
+sealed interface IColKind<T : Serializer<out T>, out OUT> {
     val extractFieldValue: (entity: T) -> OUT
 }
 
 @JvmInline
-value class Simple<T : IEntityOrigin<out T>, OUT>(
+value class Simple<T : Serializer<out T>, OUT>(
     override val extractFieldValue: (entity: T) -> OUT
 ) : IColKind<T, OUT>
 
 @JvmInline
-value class Synthetic<T : IEntitySynthetic<out T>, OUT : IEntitySynthetic<out OUT>>(
+value class Synthetic<T : Serializer<out T>, OUT : Serializer<out OUT>>(
     override val extractFieldValue: (entity: T) -> Set<OUT>
 ) : IColKind<T, Set<OUT>>
 
 @JvmInline
-value class SyntheticSet<T : IEntityOrigin<out T>, OUT : IEntity< OUT>>(
+value class SyntheticSet<T : IEntityOrigin<out T>, OUT : IEntityOrigin< OUT>>(
     override val extractFieldValue: (entity: T) -> Set<OUT>
 ) : IColKind<T, Set<OUT>>

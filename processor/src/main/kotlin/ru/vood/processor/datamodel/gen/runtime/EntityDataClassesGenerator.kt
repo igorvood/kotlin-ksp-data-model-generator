@@ -6,7 +6,7 @@ import ru.vood.dmgen.annotation.FlowEntityType
 import ru.vood.dmgen.annotation.RelationType
 import ru.vood.dmgen.intf.EntityName
 import ru.vood.dmgen.intf.IAggregate
-import ru.vood.dmgen.intf.IEntity
+import ru.vood.dmgen.intf.IEntityOrigin
 import ru.vood.processor.datamodel.abstraction.model.Dependency
 import ru.vood.processor.datamodel.abstraction.model.MetaEntity
 import ru.vood.processor.datamodel.abstraction.model.MetaForeignKey
@@ -66,7 +66,7 @@ override val ${col.name.value}: $kotlinMetaClass$nullableSymbol""".trimIndent()
         val fullClassName = entityClassName(metaEntity)
         val s = when (metaEntity.flowEntityType) {
             FlowEntityType.AGGREGATE -> """${IAggregate::class.java.canonicalName}<$fullClassName>, ${metaEntity.designClassFullClassName.value}"""
-            FlowEntityType.INNER_OPTIONAL, FlowEntityType.INNER_MANDATORY -> """${IEntity::class.java.canonicalName}<$fullClassName>, ${metaEntity.designClassFullClassName.value}"""
+            FlowEntityType.INNER_OPTIONAL, FlowEntityType.INNER_MANDATORY -> """${IEntityOrigin::class.java.canonicalName}<$fullClassName>, ${metaEntity.designClassFullClassName.value}"""
         }
 
         val code = """package ${packageName.value}

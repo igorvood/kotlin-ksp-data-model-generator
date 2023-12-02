@@ -2,7 +2,6 @@ package ru.vood.dmgen.meta
 
 import ru.vood.dmgen.datamodel.metaEnum.uniqueKeyMap
 import ru.vood.dmgen.intf.EntityName
-import ru.vood.dmgen.intf.IEntity
 import ru.vood.dmgen.intf.IEntityOrigin
 import ru.vood.dmgen.intf.newIntf.TypeUk
 import ru.vood.dmgen.intf.newIntf.UKEntityData

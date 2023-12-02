@@ -7,7 +7,7 @@ import ru.vood.dmgen.annotation.UkName
 
 
 interface Serializer<T> {
-
+    val designEntityName: EntityName
     fun ktSerializer(): KSerializer<out Serializer<out T>>
 
     fun toJson(json: Json): JsonInString =
@@ -21,14 +21,14 @@ interface Serializer<T> {
 
 }
 
-interface IEntity<T : IEntity<T>> : Serializer<T> {
+interface IEntityOrigin<T : IEntityOrigin<T>> : Serializer<T> {
 
-    val designEntityName: EntityName
+
 }
 
-interface IEntityOrigin<T : IEntityOrigin<T>> : IEntity<T>
+//interface IEntityOrigin<T : IEntityOrigin<T>> : IEntity<T>
 
-interface IEntitySynthetic<T : IEntityOrigin<T>> : IEntityOrigin<T> {
+interface IEntitySynthetic<T : IEntityOrigin<out T>> : Serializer<T> {
 
     val origin: T
 
@@ -36,9 +36,9 @@ interface IEntitySynthetic<T : IEntityOrigin<T>> : IEntityOrigin<T> {
 
 }
 
-interface IContextOf<T : IEntity<T>> : Serializer<T> {
+interface IContextOf<T : IEntityOrigin<T>> : Serializer<T> {
 
-    val metaEntity: EntityName
+//    val metaEntity: EntityName
 
     val ukName: UkName
 
@@ -46,4 +46,4 @@ interface IContextOf<T : IEntity<T>> : Serializer<T> {
 
 }
 
-interface IAggregate<T : IAggregate<T>> : IEntity<T>
+interface IAggregate<T : IAggregate<T>> : IEntityOrigin<T>

@@ -3,7 +3,6 @@ package ru.vood.dmgen.intf.newIntf
 import kotlinx.serialization.KSerializer
 import ru.vood.dmgen.annotation.FlowEntityType
 import ru.vood.dmgen.intf.EntityName
-import ru.vood.dmgen.intf.IEntity
 import ru.vood.dmgen.intf.IEntityOrigin
 import kotlin.reflect.KClass
 

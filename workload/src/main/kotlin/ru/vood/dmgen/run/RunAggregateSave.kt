@@ -13,6 +13,8 @@ import ru.vood.dmgen.datamodel.runtime.dataclassesSynthetic.DealParamOneToOneSyn
 import ru.vood.dmgen.datamodel.runtime.dataclassesSynthetic.DealSynthetic
 import ru.vood.dmgen.datamodel.valueClasses.DealId
 
+import ru.vood.dmgen.intf.IEntitySynthetic
+
 @Service
 class RunAggregateSave(
     val entity: EntityDao,
@@ -25,16 +27,17 @@ class RunAggregateSave(
         val paramDate = "asd"
         val dealParamOneToOneEntity = DealParamOneToOneSynthetic(DealParamOneToOneEntity(dealId, paramDate))
 
-        val aggregate = DealSynthetic(DealEntity(dealId, "asd", null, true, null), dealParamOneToOneEntity, null, setOf())
-//        entity.saveAggregate(aggregate)
-//        val dealExtendDataEntity = DealExtendDataEntity(DealId("11"), "jhvjkhfg")
-        val dealExtendDataEntity = DealExtendDataSynthetic(DealExtendDataEntity( dealId, "jhvjkhfg"))
-//        entity.saveAggregate(dealExtendDataEntity)
-//        entity.saveAggregate(aggregate)
+        val aggregate: IEntitySynthetic<DealEntity> =
+            DealSynthetic(DealEntity(dealId, "asd", null, true, null), dealParamOneToOneEntity, null, setOf())
+        val dealExtendDataEntity = DealExtendDataSynthetic(DealExtendDataEntity(dealId, "jhvjkhfg"))
+        entity.saveAggregate(aggregate)
+        entity.saveAggregate(dealExtendDataEntity)
 
-//        val findByUk1 = entity.findByUk(Deal_PKContext(dealId))
 
-//        println(findByUk1)
+
+        val findByUk1 = entity.findByUk(Deal_PKContext(dealId))
+
+        println(findByUk1)
 
     }
 }

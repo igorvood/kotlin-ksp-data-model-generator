@@ -6,6 +6,8 @@ import kotlinx.serialization.json.Json
 import org.springframework.jdbc.core.JdbcOperations
 import org.springframework.stereotype.Repository
 import ru.vood.dmgen.datamodel.metaEnum.foreignKeyMap
+import ru.vood.dmgen.datamodel.runtime.dataclassesOrigin.DealEntity
+import ru.vood.dmgen.datamodel.runtime.dataclassesSynthetic.DealSynthetic
 import ru.vood.dmgen.intf.*
 import ru.vood.dmgen.intf.newIntf.UKEntityData
 import ru.vood.dmgen.meta.DerivativeUk.entitiesUkMap
@@ -19,9 +21,11 @@ class EntityDao(
     val json = Json
 
 
-    final inline fun <reified T : IEntitySynthetic<T>> saveAggregate(aggregate: T) {
-        saveEntity(aggregate)
+    final inline fun<reified T: IEntityOrigin<T> > saveAggregate(aggregate: IEntitySynthetic<T>) {
+        saveEntity(aggregate.origin)
     }
+    
+    
 
 
     @Suppress("UNCHECKED_CAST")
@@ -32,7 +36,7 @@ class EntityDao(
         foreignKeyMap.values
             .filter { it.fromEntity == entityName }
             .forEach { we ->
-                val fkContextFunction = we.extractJsonContext as (T) -> IContextOf<out IEntity<out IEntity<*>>>
+                val fkContextFunction = we.extractJsonContext as (T) -> IContextOf<out IEntityOrigin<*>>
                 val fkContextFunction1 = fkContextFunction(entity).toJson(Json)
                 entityUkDao.existUk(we.uk, fkContextFunction1.value)
             }
@@ -43,7 +47,7 @@ class EntityDao(
         val pkMeta = indexesDto.pkEntityData as UKEntityData<T>
         val pkDto = pkMeta.extractContext(entity)
         val pkSerializer = pkDto.ktSerializer() as KSerializer<IContextOf<T>>
-        val entitySerializer = entity.ktSerializer() as KSerializer<IEntity<T>>
+        val entitySerializer = entity.ktSerializer() as KSerializer<IEntityOrigin<T>>
         val pkJson = json.encodeToString(pkSerializer, pkDto)
         val entityJson = json.encodeToString(entitySerializer, entity)
 
@@ -62,7 +66,7 @@ class EntityDao(
     }
 
     @Suppress("UNCHECKED_CAST")
-    final inline fun <reified T : IEntity<T>> findByUk(uk: IContextOf<T>): IEntity<out T> {
+    final inline fun <reified T : IEntityOrigin<T>> findByUk(uk: IContextOf<T>): IEntityOrigin<out T> {
         val ktSerializer = uk.ktSerializer() as KSerializer<IContextOf<T>>
         val ktEntitySerializer = uk.ktEntitySerializer as KSerializer<T>
         val ukJson = Json.encodeToString(ktSerializer, uk)

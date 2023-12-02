@@ -4,7 +4,7 @@ import com.google.devtools.ksp.processing.CodeGenerator
 import com.google.devtools.ksp.processing.KSPLogger
 import ru.vood.dmgen.annotation.FlowEntityType
 import ru.vood.dmgen.intf.EntityName
-import ru.vood.dmgen.intf.IEntity
+import ru.vood.dmgen.intf.IEntityOrigin
 import ru.vood.dmgen.intf.IMetaEntity
 import ru.vood.processor.datamodel.abstraction.model.MetaInformation
 import ru.vood.processor.datamodel.gen.*
@@ -59,8 +59,8 @@ import ${Generated::class.java.canonicalName}
 @Generated("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
 enum class $nameClass(
 override val designClass: KClass<out Any>,
-override val runtimeClass: KClass<out ${IEntity::class.java.canonicalName}<*>>,
-override val serializer: KSerializer<out ${IEntity::class.java.canonicalName}<*>>,
+override val runtimeClass: KClass<out ${IEntityOrigin::class.java.canonicalName}<*>>,
+override val serializer: KSerializer<out ${IEntityOrigin::class.java.canonicalName}<*>>,
 override val entityName: ${EntityName::class.java.canonicalName},
 override val comment: String,
 override val entityType: FlowEntityType
