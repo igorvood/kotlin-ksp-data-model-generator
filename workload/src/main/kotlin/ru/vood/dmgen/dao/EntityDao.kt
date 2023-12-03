@@ -22,7 +22,32 @@ class EntityDao(
 
 
     final inline fun<reified T: IEntityOrigin<T> > saveAggregate(aggregate: IEntitySynthetic<T>) {
-        saveEntity(aggregate.origin)
+        val entityName = aggregate.designEntityName
+
+        val indexesDto = entitiesUkMap[entityName] ?: error("Почему то не найдена сущность ${entityName.value}")
+
+        val pkMeta = indexesDto.pkEntityData as UKEntityData<T>
+        val pkDto = pkMeta.extractContext(aggregate.origin)
+        val pkSerializer = pkDto.ktSerializer() as KSerializer<IContextOf<T>>
+        val entitySerializer = aggregate.ktSerializer() as KSerializer<IEntitySynthetic<T>>
+        val pkJson = json.encodeToString(pkSerializer, pkDto)
+        val entityJson = json.encodeToString(entitySerializer, aggregate)
+
+        jdbcOperations.update(
+            """insert into entity_context(pk, entity_type, payload) VALUES (?, ?, ?) """,
+            pkJson, entityName.value, entityJson
+        )
+
+
+        indexesDto.ukSet.plus(indexesDto.pkEntityData)
+            .forEach { ukMeta ->
+                val ukMetaData = ukMeta as UKEntityData<T>
+                val ukData = ukMetaData.extractContext(aggregate.origin)
+                entityUkDao.saveEntityUkDto(entityName, ukData, pkJson)
+            }
+
+
+//        saveEntity(aggregate.origin)
     }
     
     

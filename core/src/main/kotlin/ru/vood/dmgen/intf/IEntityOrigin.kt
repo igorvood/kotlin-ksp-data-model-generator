@@ -28,7 +28,7 @@ interface IEntityOrigin<T : IEntityOrigin<T>> : Serializer<T> {
 
 //interface IEntityOrigin<T : IEntityOrigin<T>> : IEntity<T>
 
-interface IEntitySynthetic<T : IEntityOrigin<out T>> : Serializer<T> {
+interface IEntitySynthetic<T : IEntityOrigin< T>> : IEntityOrigin< T> {
 
     val origin: T
 
