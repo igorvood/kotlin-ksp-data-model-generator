@@ -66,10 +66,10 @@ class ColumnEntityMapGenerator(
 
                                 val columnKindType = when (syntheticFieldInfo.relationType) {
                                     RelationType.ONE_TO_ONE_OPTIONAL -> if (isOptional)
-                                        "${Synthetic::class.simpleName}<$syntheticClassName, ${syntheticClassName(syntheticFieldInfo.metaEntity)}>{it.${fromEntity.entityFieldName}?.let{q->setOf(q)}?:setOf()}"
+                                        "${Synthetic::class.simpleName}<$entityClass, $syntheticClassName, ${entityClassName(syntheticFieldInfo.metaEntity)}>{it.${fromEntity.entityFieldName}?.let{q->setOf(q)}?:setOf()}"
                                     else
-                                        "${Synthetic::class.simpleName}<$syntheticClassName, ${syntheticClassName(syntheticFieldInfo.metaEntity)} >{setOf(it.${fromEntity.entityFieldName})}"
-                                    RelationType.MANY_TO_ONE -> "SyntheticSet<$syntheticClassName, ${
+                                        "${Synthetic::class.simpleName}<$entityClass, $syntheticClassName, ${entityClassName(syntheticFieldInfo.metaEntity)} >{setOf(it.${fromEntity.entityFieldName})}"
+                                    RelationType.MANY_TO_ONE -> "SyntheticSet<$entityClass, $syntheticClassName, ${
                                         entityClassName(
                                             syntheticFieldInfo.metaEntity
                                         )
@@ -113,7 +113,7 @@ class ColumnEntityMapGenerator(
                                 |${Simple::class.simpleName}<$entityClass, ${f.type}$question> {it.${f.name.value}}
                                 |)""".trimMargin()
                             }
-                        simpleF//.plus(syntheticF)
+                        simpleF.plus(syntheticF)
                     }
                     .joinToString(",\n")
 

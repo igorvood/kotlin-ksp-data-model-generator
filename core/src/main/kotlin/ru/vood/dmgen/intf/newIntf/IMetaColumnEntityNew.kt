@@ -2,18 +2,20 @@ package ru.vood.dmgen.intf.newIntf
 
 import ru.vood.dmgen.intf.*
 
-interface IMetaColumnEntityNew<T : IEntityOrigin<out T>> {
+interface IMetaColumnEntityNew<T> {
     val entity: EntityName
-//    val kProperty1: KProperty1<out T, *>
+
+    //    val kProperty1: KProperty1<out T, *>
     val simpleColumnName: SimpleColumnName
     val isOptional: Boolean
     val comment: String
+
     @Deprecated("use iColKind")
     val columnKind: ColumnKind
     val iColKind: IColKind<T, *>
 }
 
-data class ColumnEntityData<T : IEntityOrigin<out T>>(
+data class ColumnEntityData<T>(
     override val entity: EntityName,
 //    override val kProperty1: KProperty1<out T, *>,
     override val simpleColumnName: SimpleColumnName,
@@ -30,21 +32,28 @@ enum class ColumnKind {
     SIMPLE, SYNTHETIC, SYNTHETIC_SET,
 }
 
-sealed interface IColKind<T : Serializer<out T>, out OUT> {
+sealed interface IColKind<in T, out OUT> {
     val extractFieldValue: (entity: T) -> OUT
 }
 
+
 @JvmInline
-value class Simple<T : Serializer<out T>, OUT>(
+value class Simple<T : IEntityOrigin<out T>, OUT>(
     override val extractFieldValue: (entity: T) -> OUT
 ) : IColKind<T, OUT>
 
 @JvmInline
-value class Synthetic<T : Serializer<out T>, OUT : Serializer<out OUT>>(
-    override val extractFieldValue: (entity: T) -> Set<OUT>
-) : IColKind<T, Set<OUT>>
+value class Synthetic<
+        ORIG_IN :  IEntityOrigin<out ORIG_IN>,
+        SINTH_IN: IEntitySynthetic<out ORIG_IN>,
+        OUT : IEntityOrigin<OUT>>(
+    override val extractFieldValue: (entity: SINTH_IN) -> Set<IEntitySynthetic<OUT>>
+) : IColKind<SINTH_IN, Set<IEntitySynthetic<OUT>>>
 
 @JvmInline
-value class SyntheticSet<T : IEntityOrigin<out T>, OUT : IEntityOrigin< OUT>>(
-    override val extractFieldValue: (entity: T) -> Set<OUT>
-) : IColKind<T, Set<OUT>>
+value class SyntheticSet<
+        ORIG_IN :  IEntityOrigin<out ORIG_IN>,
+        SINTH_IN: IEntitySynthetic<out ORIG_IN>,
+        OUT : IEntityOrigin<OUT>>(
+    override val extractFieldValue: (entity: SINTH_IN) -> Set<IEntitySynthetic<OUT>>
+) : IColKind<SINTH_IN, Set<IEntitySynthetic<OUT>>>
