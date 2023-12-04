@@ -2,6 +2,8 @@ package ru.vood.dmgen.delete
 
 import ru.vood.dmgen.datamodel.runtime.dataclassesOrigin.DealEntity
 import ru.vood.dmgen.datamodel.runtime.dataclassesOrigin.DealParamOneToOneEntity
+import ru.vood.dmgen.datamodel.runtime.dataclassesOrigin.DealParamOneToOneOptionalEntity
+import ru.vood.dmgen.datamodel.runtime.dataclassesOrigin.DealParamSetEntity
 import ru.vood.dmgen.datamodel.runtime.dataclassesSynthetic.DealParamOneToOneSynthetic
 import ru.vood.dmgen.datamodel.runtime.dataclassesSynthetic.DealSynthetic
 import ru.vood.dmgen.datamodel.valueClasses.DealId
@@ -39,9 +41,12 @@ value class Synthetic<
 ) : IColKind<SINTH_IN, Set<IEntitySynthetic<OUT>>>
 
 @JvmInline
-value class SyntheticSet<T : IEntityOrigin<out T>, OUT : IEntityOrigin<OUT>>(
-    override val extractFieldValue: (entity: T) -> Set<OUT>
-) : IColKind<T, Set<OUT>>
+value class SyntheticSet<
+        ORIG_IN :  IEntityOrigin<out ORIG_IN>,
+        SINTH_IN: IEntitySynthetic<out ORIG_IN>,
+        OUT : IEntityOrigin<OUT>>(
+    override val extractFieldValue: (entity: SINTH_IN) -> Set<IEntitySynthetic<OUT>>
+) : IColKind<SINTH_IN, Set<IEntitySynthetic<OUT>>>
 
 
 fun asdsad() {
@@ -80,30 +85,30 @@ val columnEntityDataMap = mapOf(
     ),
 
 
-//    FullColumnName("DealParamOneToOneOptional_dealParamOneToOneOptional") to ru.vood.dmgen.intf.newIntf.ColumnEntityData(
-//        EntityName("Deal"),
-////DealSynthetic::dealParamOneToOneOptional,
-//        SimpleColumnName("dealParamOneToOneOptional"),
-//        true,
-//        "null",
-//        ColumnKind.SYNTHETIC,
-//        Synthetic<DealSynthetic, DealParamOneToOneOptionalSynthetic> {
-//            it.dealParamOneToOneOptional?.let { q ->
-//                setOf(
-//                    q
-//                )
-//            } ?: setOf()
-//        }
-//    ),
-//    FullColumnName("DealParamSet_dealParamSet") to ru.vood.dmgen.intf.newIntf.ColumnEntityData(
-//        EntityName("Deal"),
-////DealSynthetic::dealParamSet,
-//        SimpleColumnName("dealParamSet"),
-//        false,
-//        "null",
-//        ColumnKind.SYNTHETIC_SET,
-//        SyntheticSet<DealSynthetic, DealParamSetEntity> { it.dealParamSet }
-//    ),
+    FullColumnName("DealParamOneToOneOptional_dealParamOneToOneOptional") to ColumnEntityData(
+        EntityName("Deal"),
+//DealSynthetic::dealParamOneToOneOptional,
+        SimpleColumnName("dealParamOneToOneOptional"),
+        true,
+        "null",
+        ColumnKind.SYNTHETIC,
+        Synthetic<DealEntity, DealSynthetic, DealParamOneToOneOptionalEntity> {
+            it.dealParamOneToOneOptional?.let { q ->
+                setOf(
+                    q
+                )
+            } ?: setOf()
+        }
+    ),
+    FullColumnName("DealParamSet_dealParamSet") to ColumnEntityData(
+        EntityName("Deal"),
+//DealSynthetic::dealParamSet,
+        SimpleColumnName("dealParamSet"),
+        false,
+        "null",
+        ColumnKind.SYNTHETIC_SET,
+        SyntheticSet<DealEntity, DealSynthetic, DealParamSetEntity> { it.dealParamSet }
+    ),
 
     FullColumnName("Deal_id") to ColumnEntityData(
         EntityName("Deal"),
