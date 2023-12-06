@@ -2,6 +2,7 @@ package ru.vood.dmgen.run
 
 import org.slf4j.LoggerFactory
 import org.springframework.boot.CommandLineRunner
+import org.springframework.core.annotation.Order
 import org.springframework.jdbc.core.JdbcOperations
 import org.springframework.stereotype.Service
 import ru.vood.dmgen.dao.EntityDao
@@ -10,6 +11,7 @@ import ru.vood.dmgen.datamodel.runtime.dataclassesOrigin.DealEntity
 import ru.vood.dmgen.datamodel.valueClasses.DealId
 
 @Service
+@Order(300)
 class RunEntitySave(
     val entity: EntityDao,
     val jdbcOperations: JdbcOperations

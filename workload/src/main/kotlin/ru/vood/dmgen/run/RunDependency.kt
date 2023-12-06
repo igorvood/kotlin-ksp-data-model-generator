@@ -2,6 +2,7 @@ package ru.vood.dmgen.run
 
 import org.slf4j.LoggerFactory
 import org.springframework.boot.CommandLineRunner
+import org.springframework.core.annotation.Order
 import org.springframework.stereotype.Service
 import ru.vood.dmgen.datamodel.metaEnum.columnEntityDataMap
 import ru.vood.dmgen.datamodel.runtime.dataclassesOrigin.DealEntity
@@ -13,6 +14,7 @@ import ru.vood.dmgen.meta.DerivativeDependencyMap.entityDependencyChildMap
 import ru.vood.dmgen.meta.DerivativeDependencyMap.entityDependencyParentMap
 
 @Service
+@Order(100)
 class RunDependency : CommandLineRunner {
 
     private val log = LoggerFactory.getLogger(this.javaClass)
