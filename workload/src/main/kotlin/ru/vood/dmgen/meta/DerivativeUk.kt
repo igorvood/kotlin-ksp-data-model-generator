@@ -11,7 +11,7 @@ object DerivativeUk {
     val entitiesUkMap = uniqueKeyMap.values.map { uk ->
         uk.entity to uk
     }
-        .groupBy(Pair<EntityName, UKEntityData<out IEntityOrigin<*>>>::first)
+        .groupBy(Pair<EntityName, UKEntityData<out IEntityOrigin>>::first)
         .map { d ->
             val map = d.value.map { it.second }
             val filter = map.filter { it.typeUk == TypeUk.PK }

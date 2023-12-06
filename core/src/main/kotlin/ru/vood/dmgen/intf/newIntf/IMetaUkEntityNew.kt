@@ -8,7 +8,7 @@ import ru.vood.dmgen.intf.SimpleColumnName
 import kotlin.reflect.KClass
 
 
-data class UKEntityData<T : IEntityOrigin<T>>(
+data class UKEntityData<T : IEntityOrigin>(
     val columns: List<SimpleColumnName>,
     val serializer: KSerializer<out IContextOf<out T>>,
     val ukClass: KClass<out IContextOf<out T>>,

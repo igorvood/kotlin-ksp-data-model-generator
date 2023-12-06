@@ -8,13 +8,13 @@ import ru.vood.dmgen.intf.IContextOf
 import ru.vood.dmgen.intf.IEntityOrigin
 
 
-data class FKEntityData<T : IEntityOrigin<T>>(
+data class FKEntityData<T : IEntityOrigin>(
     val fromEntity: EntityName,
     val toEntity: EntityName,
     val uk: UkName,
     val relationType: RelationType,
     val fkCols: Set<FkPairNew>,
-    val extractJsonContext: (T) -> IContextOf<out IEntityOrigin<*>>
+    val extractJsonContext: (T) -> IContextOf<out IEntityOrigin>
 //    override val contextOfClass: KClass<IContextOf<T>>
 )
 

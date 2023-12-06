@@ -51,7 +51,7 @@ override val ${col.name.value}: $kotlinMetaClass$nullableSymbol""".trimIndent()
 
         val fullClassName = entityClassName(metaEntity)
         val s =
-            """${IEntityOrigin::class.java.simpleName}<$fullClassName>, ${metaEntity.designClassFullClassName.value}"""
+            """${IEntityOrigin::class.java.simpleName}/*<$fullClassName>*/, ${metaEntity.designClassFullClassName.value}"""
 
 
         val code = """package ${packageName.value}
@@ -76,7 +76,7 @@ $simpleColumns
 
 ): $s         
 {
-    override fun ktSerializer() = serializer()
+    //override fun ktSerializer() = serializer()
     
     override val designEntityName: EntityName
         get() = designEntityNameConst

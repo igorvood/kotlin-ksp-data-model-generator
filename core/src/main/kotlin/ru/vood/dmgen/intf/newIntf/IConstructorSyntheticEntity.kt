@@ -4,7 +4,7 @@ import ru.vood.dmgen.intf.EntityName
 import ru.vood.dmgen.intf.IEntityOrigin
 import ru.vood.dmgen.intf.IEntitySynthetic
 
-interface IConstructorSyntheticEntity<T : IEntityOrigin<T>> {
+interface IConstructorSyntheticEntity<T : IEntityOrigin> {
 
 
     fun construct(origin: T, ass: Map<EntityName, Any>): IEntitySynthetic<T>

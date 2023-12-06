@@ -27,22 +27,22 @@ sealed interface IColKind<in T, out OUT> {
 
 
 @JvmInline
-value class Simple<T : IEntityOrigin<out T>, OUT>(
+value class Simple<T : IEntityOrigin, OUT>(
     override val extractFieldValue: (entity: T) -> OUT
 ) : IColKind<T, OUT>
 
 @JvmInline
 value class Synthetic<
-        ORIG_IN : IEntityOrigin<out ORIG_IN>,
+        ORIG_IN : IEntityOrigin,
         SINTH_IN : IEntitySynthetic<out ORIG_IN>,
-        OUT : IEntityOrigin<OUT>>(
+        OUT : IEntityOrigin>(
     override val extractFieldValue: (entity: SINTH_IN) -> Set<IEntitySynthetic<OUT>>
 ) : IColKind<SINTH_IN, Set<IEntitySynthetic<OUT>>>
 
 @JvmInline
 value class SyntheticSet<
-        ORIG_IN : IEntityOrigin<out ORIG_IN>,
+        ORIG_IN : IEntityOrigin,
         SINTH_IN : IEntitySynthetic<out ORIG_IN>,
-        OUT : IEntityOrigin<OUT>>(
+        OUT : IEntityOrigin>(
     override val extractFieldValue: (entity: SINTH_IN) -> Set<IEntitySynthetic<OUT>>
 ) : IColKind<SINTH_IN, Set<IEntitySynthetic<OUT>>>

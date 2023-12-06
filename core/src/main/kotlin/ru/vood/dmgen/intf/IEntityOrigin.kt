@@ -6,33 +6,23 @@ import ru.vood.dmgen.annotation.JsonInString
 import ru.vood.dmgen.annotation.UkName
 
 
-interface SerializableEntity<T> {
+interface SerializableEntity {
     val designEntityName: EntityName
-    fun ktSerializer(): KSerializer<out SerializableEntity<out T>>
-
-    fun toJson(json: Json): JsonInString =
-        JsonInString(json.encodeToString(ktSerializer() as KSerializer<SerializableEntity<out T>>, this))
-
-    fun castedKSerializer(): KSerializer<SerializableEntity<T>> = ktSerializer() as KSerializer<SerializableEntity<T>>
-
-    fun <SERIALISED_TYPE> serialiseIt(s: (SerializableEntity<T>) -> SERIALISED_TYPE): SERIALISED_TYPE {
-        return s(this)
-    }
 
 }
 
-interface IEntityOrigin<T : IEntityOrigin<T>> : SerializableEntity<T> {
+interface IEntityOrigin : SerializableEntity {
 
 
 }
 
 //interface IEntityOrigin<T : IEntityOrigin<T>> : IEntity<T>
 
-interface IEntitySynthetic<T : IEntityOrigin<T>> : IEntityOrigin<T> {
+interface IEntitySynthetic<T : IEntityOrigin> : IEntityOrigin {
 
     val origin: T
 
-    fun syntheticField(entityName: EntityName): Set<IEntitySynthetic<out IEntityOrigin<*>>>
+    fun syntheticField(entityName: EntityName): Set<IEntitySynthetic<out IEntityOrigin>>
 
 //    fun <OUT> syntheticDtoEncodeTo(
 //        serializer: (
@@ -41,7 +31,7 @@ interface IEntitySynthetic<T : IEntityOrigin<T>> : IEntityOrigin<T> {
 
 }
 
-interface IContextOf<T : IEntityOrigin<T>> : SerializableEntity<T> {
+interface IContextOf<T : IEntityOrigin> : SerializableEntity {
 
 //    val metaEntity: EntityName
 
@@ -53,4 +43,4 @@ interface IContextOf<T : IEntityOrigin<T>> : SerializableEntity<T> {
 
 }
 
-interface IAggregate<T : IAggregate<T>> : IEntityOrigin<T>
+interface IAggregate : IEntityOrigin

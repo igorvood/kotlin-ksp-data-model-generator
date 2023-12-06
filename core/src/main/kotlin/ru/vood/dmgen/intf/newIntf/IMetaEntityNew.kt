@@ -9,11 +9,11 @@ import kotlin.reflect.KClass
 
 
 
-data class EntityData<T : IEntityOrigin<out T>>(
+data class EntityData<T : IEntityOrigin>(
      val designClass: KClass<out Any>,
      val runtimeClass: KClass<out T>,
      val runtimeSyntheticClass: KClass<out T>,
-     val serializer: KSerializer<out IEntityOrigin<out T>>,
+     val serializer: KSerializer<out IEntityOrigin>,
      val serializerSynthetic: KSerializer<out IEntitySynthetic<out T>>,
      val entityName: EntityName,
      val comment: String,

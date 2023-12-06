@@ -45,7 +45,7 @@ object DerivativeDependencyMap {
         .toMap()
 
     private fun collectDependencyNew(
-        entities: Map<EntityName, EntityData<out IEntityOrigin<*>>>,
+        entities: Map<EntityName, EntityData<out IEntityOrigin>>,
         foreignKey: Map<FkName, FKEntityData<*>>
     ): Map<EntityName, Set<MetaDependencyNew<*>>> {
         tailrec fun recursiveCollectDependency(

@@ -5,6 +5,7 @@ import kotlinx.serialization.KSerializer
 import kotlinx.serialization.json.Json
 import org.springframework.jdbc.core.JdbcOperations
 import org.springframework.stereotype.Repository
+import ru.vood.dmgen.datamodel.metaEnum.entityDataMap
 import ru.vood.dmgen.datamodel.metaEnum.foreignKeyMap
 import ru.vood.dmgen.intf.*
 import ru.vood.dmgen.intf.newIntf.Simple
@@ -22,20 +23,20 @@ class EntityDao(
     val json = Json
 
 
-    final inline fun <T : IEntityOrigin<T>> saveAggregate(aggregate: IEntitySynthetic<T>) {
+    final inline fun <reified T : IEntityOrigin> saveAggregate(aggregate: IEntitySynthetic<T>) {
         val entityName = aggregate.designEntityName
-
-
+        val indexesDto = entitiesUkMap[entityName] ?: error("Почему то не найдена сущность ${entityName.value}")
+        val pkSerializer = indexesDto.pkEntityData.serializer as KSerializer<Any>
+        val entityData = entityDataMap[entityName]?: error("Почему то не найдена сущность ${entityName.value}")
+        val serializerSynthetic = entityData.serializerSynthetic as KSerializer<Any>
         checkFk(entityName, aggregate.origin)
 
-        val indexesDto = entitiesUkMap[entityName] ?: error("Почему то не найдена сущность ${entityName.value}")
+
 
         val pkMeta = indexesDto.pkEntityData as UKEntityData<T>
         val pkDto = pkMeta.extractContext(aggregate.origin)
-        val pkSerializer = pkDto.ktSerializer() as KSerializer<IContextOf<T>>
-        val entitySerializer = aggregate.ktSerializer() as KSerializer<IEntitySynthetic<T>>
         val pkJson = json.encodeToString(pkSerializer, pkDto)
-        val entityJson = json.encodeToString(entitySerializer, aggregate)
+        val entityJson = json.encodeToString(serializerSynthetic, aggregate as Any)
 
         jdbcOperations.update(
             """insert into entity_context(pk, entity_type, payload) VALUES (?, ?, ?) """,
@@ -51,18 +52,19 @@ class EntityDao(
             }
     }
 
-    final inline fun <T : IEntityOrigin<T>> saveAggregateByPart(aggregate: IEntitySynthetic<T>) {
+    final inline fun <T : IEntityOrigin> saveAggregateByPart(aggregate: IEntitySynthetic<T>) {
         val entityName = aggregate.designEntityName
+        val indexesDto = entitiesUkMap[entityName] ?: error("Почему то не найдена сущность ${entityName.value}")
+        val pkSerializer = indexesDto.pkEntityData.serializer as KSerializer<Any>
+        val entityData = entityDataMap[entityName]?: error("Почему то не найдена сущность ${entityName.value}")
+        val entitySerializer = entityData.serializerSynthetic as KSerializer<Any>
 
         checkFk(entityName, aggregate.origin)
 
 
-        val indexesDto = entitiesUkMap[entityName] ?: error("Почему то не найдена сущность ${entityName.value}")
 
         val pkMeta = indexesDto.pkEntityData as UKEntityData<T>
         val pkDto = pkMeta.extractContext(aggregate.origin)
-        val pkSerializer = pkDto.ktSerializer() as KSerializer<IContextOf<T>>
-        val entitySerializer = aggregate.ktSerializer() as KSerializer<IEntitySynthetic<T>>
         val pkJson = json.encodeToString(pkSerializer, pkDto)
         val entityJson = json.encodeToString(entitySerializer, aggregate)
 
@@ -105,16 +107,16 @@ class EntityDao(
             val indexesDto = entitiesUkMap[entityName] ?: error("Почему то не найдена сущность ${entityName.value}")
 
 
-            entitySynthetics.forEach { synth ->
-                val pkMeta = indexesDto.pkEntityData// as UKEntityData<out IEntityOrigin<Any> >
-                val origin: IEntityOrigin<*> = synth.origin
-                val pkDto = pkMeta.extractContext(origin as Nothing)
-                val pkSerializer = pkDto.ktSerializer() as KSerializer<Any>
-                val entitySerializer = synth.ktSerializer() as KSerializer<Any>
-                val pkJson = json.encodeToString(pkSerializer, pkDto as Any)
-                val entityJson = json.encodeToString(entitySerializer, synth.origin)
-
-            }
+//            entitySynthetics.forEach { synth ->
+//                val pkMeta = indexesDto.pkEntityData// as UKEntityData<out IEntityOrigin<Any> >
+//                val origin: IEntityOrigin = synth.origin
+//                val pkDto = pkMeta.extractContext(origin as Nothing)
+//                val pkSerializer = pkDto.ktSerializer() as KSerializer<Any>
+//                val entitySerializer = synth.ktSerializer() as KSerializer<Any>
+//                val pkJson = json.encodeToString(pkSerializer, pkDto as Any)
+//                val entityJson = json.encodeToString(entitySerializer, synth.origin)
+//
+//            }
 
 
 //
@@ -141,19 +143,21 @@ class EntityDao(
 
 
     @Suppress("UNCHECKED_CAST")
-    final inline fun <reified T : IEntityOrigin<T>> saveEntity(entity: T) {
+    final inline fun <reified T : IEntityOrigin> saveEntity(entity: T) {
         val entityName = entity.designEntityName
+        val indexesDto = entitiesUkMap[entityName] ?: error("Почему то не найдена сущность ${entityName.value}")
+        val pkSerializer = indexesDto.pkEntityData.serializer as KSerializer<Any>
+        val entityData = entityDataMap[entityName]?: error("Почему то не найдена сущность ${entityName.value}")
+        val entitySerializer = entityData.serializer as KSerializer<Any>
+
 
         // тут очень не оптимально, нужно собрать мапу с правильным key
         checkFk(entityName, entity)
 
 
-        val indexesDto = entitiesUkMap[entityName] ?: error("Почему то не найдена сущность ${entityName.value}")
 
         val pkMeta = indexesDto.pkEntityData as UKEntityData<T>
         val pkDto = pkMeta.extractContext(entity)
-        val pkSerializer = pkDto.ktSerializer() as KSerializer<IContextOf<T>>
-        val entitySerializer = entity.ktSerializer() as KSerializer<IEntityOrigin<T>>
         val pkJson = json.encodeToString(pkSerializer, pkDto)
         val entityJson = json.encodeToString(entitySerializer, entity)
 
@@ -171,21 +175,23 @@ class EntityDao(
             }
     }
 
-    fun <T : IEntityOrigin<T>> checkFk(entityName: EntityName, entity: T) {
+    fun <T : IEntityOrigin> checkFk(entityName: EntityName, entity: T) {
         // тут очень не оптимально, нужно собрать мапу с правильным key
         foreignKeyMap.values
             .filter { it.fromEntity == entityName }
             .forEach { we ->
-                val fkContextFunction = we.extractJsonContext as (T) -> IContextOf<out IEntityOrigin<*>>
-                val fkContextFunction1 = fkContextFunction(entity).toJson(Json)
-                entityUkDao.existUk(we.uk, fkContextFunction1.value)
+                val fkContextFunction = we.extractJsonContext as (T) -> IContextOf<out IEntityOrigin>
+//                val fkContextFunction1 = fkContextFunction(entity).toJson(Json)
+//                entityUkDao.existUk(we.uk, fkContextFunction1.value)
             }
     }
 
 
     @Suppress("UNCHECKED_CAST")
-    final inline fun <reified T : IEntityOrigin<T>> findSyntheticEntityByUk(uk: IContextOf<T>): IEntitySynthetic<out IEntityOrigin<out T>> {
-        val ktSerializer = uk.ktSerializer() as KSerializer<IContextOf<T>>
+    final inline fun <reified T : IEntityOrigin> findSyntheticEntityByUk(uk: IContextOf<T>): IEntitySynthetic<out IEntityOrigin> {
+        val entityName = uk.designEntityName
+        val indexesDto = entitiesUkMap[entityName] ?: error("Почему то не найдена сущность ${entityName.value}")
+        val ktSerializer = indexesDto.pkEntityData.serializer as KSerializer<IContextOf<T>>
         val ktEntitySerializer = uk.ktSyntheticEntitySerializer as KSerializer<IEntitySynthetic<T>>
         val ukJson = Json.encodeToString(ktSerializer, uk)
         val query = jdbcOperations.query(
@@ -209,8 +215,11 @@ class EntityDao(
     }
 
     @Suppress("UNCHECKED_CAST")
-    final inline fun <reified T : IEntityOrigin<T>> findEntityByUk(uk: IContextOf<T>): IEntityOrigin<out T> {
-        val ktSerializer = uk.ktSerializer() as KSerializer<IContextOf<T>>
+    final inline fun <reified T : IEntityOrigin> findEntityByUk(uk: IContextOf<T>): IEntityOrigin {
+        val entityName = uk.designEntityName
+        val indexesDto = entitiesUkMap[entityName] ?: error("Почему то не найдена сущность ${entityName.value}")
+
+        val ktSerializer = indexesDto.pkEntityData.serializer as KSerializer<IContextOf<T>>
         val ktEntitySerializer = uk.ktEntitySerializer as KSerializer<T>
         val ukJson = Json.encodeToString(ktSerializer, uk)
         val query = jdbcOperations.query(

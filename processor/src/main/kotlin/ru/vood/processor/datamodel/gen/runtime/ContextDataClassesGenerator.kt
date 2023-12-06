@@ -65,7 +65,7 @@ $joinToString
 override val designEntityName: ${EntityName::class.simpleName}
         get() = metaEntityConst
         
-override fun ktSerializer() = serializer()
+//override fun ktSerializer() = serializer()
         
 override val ukName: UkName
     get() = ukNameConst

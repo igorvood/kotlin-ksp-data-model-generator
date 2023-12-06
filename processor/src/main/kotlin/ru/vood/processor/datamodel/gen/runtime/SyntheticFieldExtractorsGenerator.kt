@@ -95,8 +95,8 @@ $fk
 //        
 //    )
 
-    override fun syntheticField(entityName: ${EntityName::class.simpleName}): Set<${IEntitySynthetic::class.simpleName}<out ${IEntityOrigin::class.simpleName} <*>>> {
-            val iEntitySynthetics: Set<${IEntitySynthetic::class.simpleName}<out ${IEntityOrigin::class.simpleName} <*>>> = when (entityName) {
+    override fun syntheticField(entityName: ${EntityName::class.simpleName}): Set<${IEntitySynthetic::class.simpleName}<out ${IEntityOrigin::class.simpleName} /*<*>*/>> {
+            val iEntitySynthetics: Set<${IEntitySynthetic::class.simpleName}<out ${IEntityOrigin::class.simpleName}/* <*>*/>> = when (entityName) {
                 $fkFunCode
                 else -> error("In Entity ${'$'}{designEntityName.value} Not found synthetic field for ${'$'}{entityName.value}")
             }
@@ -105,7 +105,7 @@ $fk
 
 
 
-    override fun ktSerializer() = serializer()
+    //override fun ktSerializer() = serializer()
     
     override val designEntityName: EntityName
         get() = designEntityNameConst
