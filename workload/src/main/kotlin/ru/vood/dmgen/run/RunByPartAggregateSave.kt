@@ -21,7 +21,7 @@ import ru.vood.dmgen.intf.IEntitySynthetic
 
 @Service
 @Order(200)
-class RunAggregateSave(
+class RunByPartAggregateSave(
     val entity: EntityDao,
     val jdbcOperations: JdbcOperations
 ) : CommandLineRunner {
@@ -49,7 +49,7 @@ class RunAggregateSave(
 
 
         val findByUk1 = entity.findSyntheticEntityByUk(Deal_PKContext(dealId))
-        log.info("=============RUN Aggregate save and find ================================")
+        log.info("=============RUN BY part Aggregate save and find ================================")
         log.info(findByUk1.toString())
 
     }

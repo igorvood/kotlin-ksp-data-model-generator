@@ -59,12 +59,12 @@ fun asdsad() {
 
     val iEntitySynthetic: IEntitySynthetic<DealEntity> = dealSynthetic
     val iEntityOrigin: IEntityOrigin<DealEntity> = dealSynthetic
-    val serializer: Serializer<DealEntity> = dealSynthetic
+    val serializer: SerializableEntity<DealEntity> = dealSynthetic
 
 
     val IEntitySynthetic: IEntitySynthetic<DealParamOneToOneEntity> = dealParamOneToOneEntity
     val IEntityOrigin: IEntityOrigin<DealParamOneToOneEntity> = dealParamOneToOneEntity
-    val Serializer: Serializer<DealParamOneToOneEntity> = dealParamOneToOneEntity
+    val Serializer: SerializableEntity<DealParamOneToOneEntity> = dealParamOneToOneEntity
 
 //    val synthetic: Synthetic<IEntityOrigin<DealEntity>, IEntitySynthetic<DealEntity>, IEntityOrigin<DealParamOneToOneEntity>> =
 //        Synthetic<DealEntity, DealSynthetic, DealParamOneToOneEntity> { setOf(it.dealParamOneToOne) }

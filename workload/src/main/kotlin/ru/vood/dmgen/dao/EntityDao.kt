@@ -80,9 +80,15 @@ class EntityDao(
             }
 
 
-        val map = DerivativeColumns.entitiesColumnsMap[aggregate.designEntityName]
+        val childEntityNames = DerivativeColumns.entitiesColumnsMap[aggregate.designEntityName]
             ?.entries
-            ?.filter { it.value.iColKind !is Simple }?.map { it.key to it.value }
+            ?.filter { it.value.iColKind !is Simple }?.map { it.value.outEntity!! }
+            ?.map {it to aggregate.syntheticField(it) }
+            ?.filter { it.second.isNotEmpty() }
+            ?.toMap()
+            ?: mapOf()
+
+        saveChildEntities(childEntityNames)
 
 
         val entitiesSyntheticColumnsMap1 = entitiesSyntheticColumnsMap
@@ -90,6 +96,48 @@ class EntityDao(
 //
         val size = entitiesSyntheticColumnsMap1.size
 //        saveEntity(aggregate.origin)
+    }
+
+    fun saveChildEntities(childEntityNames: Map<EntityName, Set<IEntitySynthetic<*>>>) {
+        childEntityNames.map { entry ->
+            val entityName = entry.key
+            val entitySynthetics = entry.value
+            val indexesDto = entitiesUkMap[entityName] ?: error("Почему то не найдена сущность ${entityName.value}")
+
+
+            entitySynthetics.forEach {synth ->
+                val pkMeta = indexesDto.pkEntityData// as UKEntityData<out IEntityOrigin<Any> >
+                val origin: IEntityOrigin<*> = synth.origin
+                val pkDto = pkMeta.extractContext(origin as Nothing)
+                val pkSerializer = pkDto.ktSerializer() as KSerializer<Any>
+                val entitySerializer = synth.ktSerializer() as KSerializer<Any>
+                val pkJson = json.encodeToString(pkSerializer, pkDto as Any)
+                val entityJson = json.encodeToString(entitySerializer, synth.origin)
+
+            }
+
+
+
+//
+//
+//            jdbcOperations.update(
+//                """insert into entity_context(pk, entity_type, payload) VALUES (?, ?, ?) """,
+//                pkJson, entityName.value, entityJson
+//            )
+//
+//
+//            indexesDto.ukSet.plus(indexesDto.pkEntityData)
+//                .forEach { ukMeta ->
+//                    val ukMetaData = ukMeta as UKEntityData<T>
+//                    val ukData = ukMetaData.extractContext(aggregate.origin)
+//                    entityUkDao.saveEntityUkDto(entityName, ukData, pkJson)
+//                }
+
+        }
+
+
+
+        TODO("Not yet implemented")
     }
 
 

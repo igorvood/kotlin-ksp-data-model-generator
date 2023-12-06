@@ -12,7 +12,7 @@ import ru.vood.dmgen.intf.EntityName
 import javax.annotation.processing.Generated
 import ru.vood.dmgen.intf.IEntityOrigin
 import ru.vood.dmgen.intf.IEntitySynthetic
-import ru.vood.dmgen.intf.Serializer
+import ru.vood.dmgen.intf.SerializableEntity
 import ru.vood.dmgen.intf.newIntf.IConstructorSyntheticEntity
 
 
@@ -66,7 +66,7 @@ data class DealEntitySyntetic (
         TODO("Not yet implemented")
     }
 
-    override fun ktSerializer(): KSerializer<out Serializer<out DealEntity1>> = DealEntitySyntetic.serializer()
+    override fun ktSerializer(): KSerializer<out SerializableEntity<out DealEntity1>> = DealEntitySyntetic.serializer()
 
     override val designEntityName: EntityName
         get() = TODO("Not yet implemented")
