@@ -12,6 +12,7 @@ interface IMetaFkEntity {
 
 }
 
+@Deprecated("удалить")
 data class FkPair(
     val from: IMetaColumnEntity,
     val to: IMetaColumnEntity

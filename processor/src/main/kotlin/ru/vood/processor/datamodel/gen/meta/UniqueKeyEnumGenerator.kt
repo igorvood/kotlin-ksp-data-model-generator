@@ -13,6 +13,7 @@ import ru.vood.processor.datamodel.gen.runtime.ContextDataClassesGenerator.Compa
 import java.time.LocalDateTime
 import javax.annotation.processing.Generated
 
+@Deprecated("удалить")
 class UniqueKeyEnumGenerator(
     codeGenerator: CodeGenerator,
     rootPackage: PackageName,

@@ -13,6 +13,8 @@ import ru.vood.processor.datamodel.gen.meta.ColumnEntityEnumGenerator.Companion.
 import java.time.LocalDateTime
 import javax.annotation.processing.Generated
 
+
+@Deprecated("удалить")
 class ForeignKeyEnumGenerator(
     codeGenerator: CodeGenerator,
     rootPackage: PackageName,

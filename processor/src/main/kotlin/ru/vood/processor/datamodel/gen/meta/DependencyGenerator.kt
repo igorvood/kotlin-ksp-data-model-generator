@@ -10,6 +10,7 @@ import ru.vood.processor.datamodel.gen.*
 import java.time.LocalDateTime
 import javax.annotation.processing.Generated
 
+@Deprecated("удалить")
 class DependencyGenerator(
     codeGenerator: CodeGenerator,
     rootPackage: PackageName,

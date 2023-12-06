@@ -12,6 +12,7 @@ import ru.vood.processor.datamodel.gen.runtime.EntityDataClassesGenerator.Compan
 import java.time.LocalDateTime
 import javax.annotation.processing.Generated
 
+@Deprecated("удалить")
 class EntityEnumGenerator(
     codeGenerator: CodeGenerator,
     rootPackage: PackageName,
