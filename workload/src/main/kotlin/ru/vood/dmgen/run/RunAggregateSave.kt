@@ -43,9 +43,9 @@ class RunAggregateSave(
 
 
 
-        val findByUk1 = entity.findByUk(Deal_PKContext(dealId))
+//        val findByUk1 = entity.findByUk(Deal_PKContext(dealId))
 
-        println(findByUk1)
+//        println(findByUk1)
 
     }
 }

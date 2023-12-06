@@ -1,5 +1,4 @@
 plugins {
-    id("com.google.devtools.ksp")
     kotlin("jvm")
     kotlin("plugin.serialization")
 
@@ -14,21 +13,13 @@ repositories {
 
 dependencies {
     implementation(project(":core"))
-    implementation(project(":processor"))
-    ksp(project(":processor"))
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1")
-//    implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation(project(":dataModel"))
     implementation("org.springframework.boot:spring-boot-starter-data-jdbc")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     implementation("org.liquibase:liquibase-core")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1")
     runtimeOnly("org.postgresql:postgresql")
 
-}
-
-ksp {
-    arg("PROD", "prod")
-    arg("TEST", "test")
-    arg("DEV", "dev")
 }
 
 kotlin {

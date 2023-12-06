@@ -7,6 +7,7 @@ import kotlinx.serialization.KSerializer
 import ru.vood.dmgen.datamodel.Deal
 import ru.vood.dmgen.datamodel.runtime.dataclassesOrigin.DealEntity
 import ru.vood.dmgen.datamodel.runtime.dataclassesOrigin.DealParamOneToOneOptionalEntity
+import ru.vood.dmgen.datamodel.valueClasses.DealId
 import ru.vood.dmgen.intf.EntityName
 import javax.annotation.processing.Generated
 import ru.vood.dmgen.intf.IEntityOrigin
@@ -18,16 +19,16 @@ import ru.vood.dmgen.intf.newIntf.IConstructorSyntheticEntity
 @Generated("ru.vood.processor.datamodel.gen.runtime.OriginEntityDataClassesGenerator", date = "2023-11-21T20:07:49.996870249")
 @kotlinx.serialization.Serializable
 open class DealEntity1 (
-/**
+    /**
 *Это ее идентификатор
 */     
-override val id: ru.vood.dmgen.datamodel.valueClasses.DealId,
-override val s: kotlin.String,
-override val sn: kotlin.String?,
-override val b: kotlin.Boolean,
-override val bn: kotlin.Boolean?
+override val id: DealId,
+    override val s: kotlin.String,
+    override val sn: kotlin.String?,
+    override val b: kotlin.Boolean,
+    override val bn: kotlin.Boolean?
 
-): IEntityOrigin<DealEntity1>, ru.vood.dmgen.datamodel.Deal
+): IEntityOrigin<DealEntity1>, Deal
 {
     override fun ktSerializer() = serializer()
     
