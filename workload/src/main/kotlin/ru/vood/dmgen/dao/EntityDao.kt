@@ -25,6 +25,9 @@ class EntityDao(
     final inline fun <T : IEntityOrigin<T>> saveAggregate(aggregate: IEntitySynthetic<T>) {
         val entityName = aggregate.designEntityName
 
+
+        checkFk(entityName, aggregate.origin)
+
         val indexesDto = entitiesUkMap[entityName] ?: error("Почему то не найдена сущность ${entityName.value}")
 
         val pkMeta = indexesDto.pkEntityData as UKEntityData<T>
@@ -50,6 +53,9 @@ class EntityDao(
 
     final inline fun <T : IEntityOrigin<T>> saveAggregateByPart(aggregate: IEntitySynthetic<T>) {
         val entityName = aggregate.designEntityName
+
+        checkFk(entityName, aggregate.origin)
+
 
         val indexesDto = entitiesUkMap[entityName] ?: error("Почему то не найдена сущность ${entityName.value}")
 
@@ -92,13 +98,7 @@ class EntityDao(
         val entityName = entity.designEntityName
 
         // тут очень не оптимально, нужно собрать мапу с правильным key
-        foreignKeyMap.values
-            .filter { it.fromEntity == entityName }
-            .forEach { we ->
-                val fkContextFunction = we.extractJsonContext as (T) -> IContextOf<out IEntityOrigin<*>>
-                val fkContextFunction1 = fkContextFunction(entity).toJson(Json)
-                entityUkDao.existUk(we.uk, fkContextFunction1.value)
-            }
+        checkFk(entityName, entity)
 
 
         val indexesDto = entitiesUkMap[entityName] ?: error("Почему то не найдена сущность ${entityName.value}")
@@ -121,6 +121,17 @@ class EntityDao(
                 val ukMetaData = ukMeta as UKEntityData<T>
                 val ukData = ukMetaData.extractContext(entity)
                 entityUkDao.saveEntityUkDto(entityName, ukData, pkJson)
+            }
+    }
+
+    fun <T : IEntityOrigin<T>> checkFk(entityName: EntityName, entity: T) {
+        // тут очень не оптимально, нужно собрать мапу с правильным key
+        foreignKeyMap.values
+            .filter { it.fromEntity == entityName }
+            .forEach { we ->
+                val fkContextFunction = we.extractJsonContext as (T) -> IContextOf<out IEntityOrigin<*>>
+                val fkContextFunction1 = fkContextFunction(entity).toJson(Json)
+                entityUkDao.existUk(we.uk, fkContextFunction1.value)
             }
     }
 
