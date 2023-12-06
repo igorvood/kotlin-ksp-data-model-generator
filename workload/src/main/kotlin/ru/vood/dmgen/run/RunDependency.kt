@@ -1,5 +1,6 @@
 package ru.vood.dmgen.run
 
+import org.slf4j.LoggerFactory
 import org.springframework.boot.CommandLineRunner
 import org.springframework.stereotype.Service
 import ru.vood.dmgen.datamodel.metaEnum.columnEntityDataMap
@@ -13,8 +14,10 @@ import ru.vood.dmgen.meta.DerivativeDependencyMap.entityDependencyParentMap
 
 @Service
 class RunDependency : CommandLineRunner {
-    override fun run(vararg args: String?) {
 
+    private val log = LoggerFactory.getLogger(this.javaClass)
+    override fun run(vararg args: String?) {
+        log.info("=============RUN Dependency ================================")
         val serializer = DealEntity.serializer()
         val descriptor = serializer.descriptor
 

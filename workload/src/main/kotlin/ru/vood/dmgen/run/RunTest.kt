@@ -20,8 +20,8 @@ class RunTest : CommandLineRunner {
         val decodeFromString =
             Json.decodeFromString<DealEntitySyntetic>(DealEntitySyntetic.serializer(), encodeToString)
 
-        println(encodeToString)
-        println(decodeFromString)
+//        println(encodeToString)
+//        println(decodeFromString)
 
     }
 }

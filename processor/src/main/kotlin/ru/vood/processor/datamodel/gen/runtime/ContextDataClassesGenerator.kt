@@ -11,6 +11,7 @@ import ru.vood.processor.datamodel.gen.*
 import ru.vood.processor.datamodel.gen.CollectName.ukClassName
 import ru.vood.processor.datamodel.gen.meta.EntityEnumGenerator
 import ru.vood.processor.datamodel.gen.runtime.OriginEntityDataClassesGenerator.Companion.entityOriginDataClassesGeneratorPackageName
+import ru.vood.processor.datamodel.gen.runtime.SyntheticFieldExtractorsGenerator.Companion.entitySyntheticDataClassesGeneratorPackageName
 import java.time.LocalDateTime
 import javax.annotation.processing.Generated
 
@@ -33,6 +34,7 @@ class ContextDataClassesGenerator(
                 val metaEntity = contextData.first
                 val dataClass = metaEntity.designClassShortName
                 val entityName = CollectName.entityClassName(metaEntity)
+                val syntheticEntityName = CollectName.syntheticClassName(metaEntity)
                 val ukName = contextData.second.key.name
                 val columns = contextData.second.value.sortedBy { it.name.value }
 
@@ -51,6 +53,7 @@ import ${EntityName::class.java.canonicalName}
 import ${Generated::class.java.canonicalName}
 import kotlinx.serialization.KSerializer
 import ${rootPackage.value}.${entityOriginDataClassesGeneratorPackageName.value}.$entityName
+import ${rootPackage.value}.${entitySyntheticDataClassesGeneratorPackageName.value}.*
                     
 @kotlinx.serialization.Serializable
 @Generated("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
@@ -69,6 +72,10 @@ override val ukName: UkName
     
 override val ktEntitySerializer//: KSerializer<*>
     get() = ${entityName}.serializer()
+
+
+override val ktSyntheticEntitySerializer//: KSerializer<*>
+    get() = ${syntheticEntityName}.serializer()
 
 companion object{
     val ukNameConst = UkName("${ukName.value}")

@@ -1,5 +1,6 @@
 package ru.vood.dmgen.run
 
+import org.slf4j.LoggerFactory
 import org.springframework.boot.CommandLineRunner
 import org.springframework.jdbc.core.JdbcOperations
 import org.springframework.stereotype.Service
@@ -13,6 +14,8 @@ class RunEntitySave(
     val entity: EntityDao,
     val jdbcOperations: JdbcOperations
 ) : CommandLineRunner {
+
+    private val log = LoggerFactory.getLogger(this.javaClass)
     override fun run(vararg args: String?) {
         jdbcOperations.update("delete from entity_context")
 
@@ -26,12 +29,12 @@ class RunEntitySave(
 //        val findByUk2 =
 //            entity.findByUk<DealParamOneToOneEntity>(DealParamOneToOne_UKContext(dealId, paramDate))
 //        println(findByUk2)
+        log.info("=============RUN entity save and find ================================")
 
         entity.saveEntity(DealEntity(dealId, "asd", null, true, null))
 
-        val findByUk = entity.findByUk(Deal_PKContext(dealId))
-//
-        println(findByUk)
+        val findByUk = entity.findEntityByUk(Deal_PKContext(dealId))
+        log.info("$findByUk")
 
     }
 }

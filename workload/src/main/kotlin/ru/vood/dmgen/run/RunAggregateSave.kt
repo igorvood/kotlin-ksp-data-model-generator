@@ -2,6 +2,7 @@ package ru.vood.dmgen.run
 
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.json.Json
+import org.slf4j.LoggerFactory
 import org.springframework.boot.CommandLineRunner
 import org.springframework.jdbc.core.JdbcOperations
 import org.springframework.stereotype.Service
@@ -22,6 +23,8 @@ class RunAggregateSave(
     val entity: EntityDao,
     val jdbcOperations: JdbcOperations
 ) : CommandLineRunner {
+
+    private val log = LoggerFactory.getLogger(this.javaClass)
     override fun run(vararg args: String?) {
         val json = Json
 
@@ -38,14 +41,14 @@ class RunAggregateSave(
         val aggregate: IEntitySynthetic<DealEntity> =
             DealSynthetic(DealEntity(dealId, "asd", null, true, null), dealParamOneToOneEntity, null, setOf())
         val dealExtendDataEntity = DealExtendDataSynthetic(DealExtendDataEntity(dealId, "jhvjkhfg"))
-        entity.saveAggregate(aggregate)
-        entity.saveAggregate(dealExtendDataEntity)
+        entity.saveAggregateByPart(aggregate)
+        entity.saveAggregateByPart(dealExtendDataEntity)
 
 
 
-//        val findByUk1 = entity.findByUk(Deal_PKContext(dealId))
-
-//        println(findByUk1)
+        val findByUk1 = entity.findSyntheticEntityByUk(Deal_PKContext(dealId))
+        log.info("=============RUN Aggregate save and find ================================")
+        log.info(findByUk1.toString())
 
     }
 }

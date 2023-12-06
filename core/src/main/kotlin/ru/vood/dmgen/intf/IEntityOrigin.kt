@@ -4,7 +4,6 @@ import kotlinx.serialization.KSerializer
 import kotlinx.serialization.json.Json
 import ru.vood.dmgen.annotation.JsonInString
 import ru.vood.dmgen.annotation.UkName
-import ru.vood.dmgen.intf.dto.EncodeTo
 
 
 interface Serializer<T> {
@@ -29,7 +28,7 @@ interface IEntityOrigin<T : IEntityOrigin<T>> : Serializer<T> {
 
 //interface IEntityOrigin<T : IEntityOrigin<T>> : IEntity<T>
 
-interface IEntitySynthetic<T : IEntityOrigin< T>> : IEntityOrigin< T> {
+interface IEntitySynthetic<T : IEntityOrigin<T>> : IEntityOrigin<T> {
 
     val origin: T
 
@@ -49,6 +48,8 @@ interface IContextOf<T : IEntityOrigin<T>> : Serializer<T> {
     val ukName: UkName
 
     val ktEntitySerializer: KSerializer<T>
+
+    val ktSyntheticEntitySerializer: KSerializer<out IEntitySynthetic<out T>>
 
 }
 
