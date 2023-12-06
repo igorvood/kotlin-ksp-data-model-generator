@@ -8,6 +8,7 @@ import ru.vood.dmgen.intf.newIntf.EntityData
 import ru.vood.processor.datamodel.abstraction.model.MetaInformation
 import ru.vood.processor.datamodel.gen.*
 import ru.vood.processor.datamodel.gen.runtime.OriginEntityDataClassesGenerator.Companion.entityOriginDataClassesGeneratorPackageName
+import ru.vood.processor.datamodel.gen.runtime.SyntheticFieldExtractorsGenerator.Companion.entitySyntheticDataClassesGeneratorPackageName
 import java.time.LocalDateTime
 import javax.annotation.processing.Generated
 
@@ -32,16 +33,10 @@ class EntityMapGenerator(
 
                         """${EntityName::class.simpleName}("${it.designClassShortName}") to ${EntityData::class.simpleName}(
                             |${it.designClassFullClassName.value}::class, 
-                            |${
-                            CollectName.entityClassName(
-                                it
-                            )
-                        }::class,
-                            |${
-                            CollectName.entityClassName(
-                                it
-                            )
-                        }.serializer(),
+                            |${CollectName.entityClassName(it)}::class,
+                            |${CollectName.syntheticClassName(it)}::class,
+                            |${CollectName.entityClassName(it)}.serializer(),
+                            |${CollectName.syntheticClassName(it)}.serializer(),
                             |${EntityName::class.simpleName}("${it.designClassShortName}"), 
                             |"${it.comment}",
                             |${it.flowEntityType}
@@ -60,6 +55,7 @@ import ${EntityData::class.java.canonicalName}
 import ${EntityName::class.java.canonicalName}
 import ${Generated::class.java.canonicalName}
 import ${rootPackage.value}.${entityOriginDataClassesGeneratorPackageName.value}.*
+import ${rootPackage.value}.${entitySyntheticDataClassesGeneratorPackageName.value}.*
 
 @Generated("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
 val entityDataMap = mapOf(

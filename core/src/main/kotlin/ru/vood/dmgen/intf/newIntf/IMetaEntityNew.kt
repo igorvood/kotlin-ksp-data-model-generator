@@ -12,8 +12,9 @@ import kotlin.reflect.KClass
 data class EntityData<T : IEntityOrigin<out T>>(
      val designClass: KClass<out Any>,
      val runtimeClass: KClass<out T>,
+     val runtimeSyntheticClass: KClass<out T>,
      val serializer: KSerializer<out IEntityOrigin<out T>>,
-//     val serializerSynthetic: KSerializer<out IEntityOrigin<out T>>,
+     val serializerSynthetic: KSerializer<out IEntitySynthetic<out T>>,
      val entityName: EntityName,
      val comment: String,
      val entityType: FlowEntityType
