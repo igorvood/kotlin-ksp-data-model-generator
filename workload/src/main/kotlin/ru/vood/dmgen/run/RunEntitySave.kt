@@ -6,11 +6,8 @@ import org.springframework.core.annotation.Order
 import org.springframework.jdbc.core.JdbcOperations
 import org.springframework.stereotype.Service
 import ru.vood.dmgen.dao.EntityDao
-import ru.vood.dmgen.datamodel.runtime.dataclasses.context.DealParamOneToOne_PKContext
-import ru.vood.dmgen.datamodel.runtime.dataclasses.context.DealParamOneToOne_UKContext
 import ru.vood.dmgen.datamodel.runtime.dataclasses.context.Deal_PKContext
 import ru.vood.dmgen.datamodel.runtime.dataclassesOrigin.DealEntity
-import ru.vood.dmgen.datamodel.runtime.dataclassesOrigin.DealParamOneToOneEntity
 import ru.vood.dmgen.datamodel.valueClasses.DealId
 
 @Service

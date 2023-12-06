@@ -11,7 +11,7 @@ import ru.vood.dmgen.intf.*
 import ru.vood.dmgen.intf.newIntf.ColumnKind
 
 
-data class ColumnEntityData<T >(
+data class ColumnEntityData<T>(
     val entity: EntityName,
 //    override val kProperty1: KProperty1<out T, *>,
     val simpleColumnName: SimpleColumnName,
@@ -23,7 +23,7 @@ data class ColumnEntityData<T >(
 
 )
 
-sealed interface IColKind<in T , out OUT> {
+sealed interface IColKind<in T, out OUT> {
     val extractFieldValue: (entity: T) -> OUT
 }
 
@@ -34,16 +34,16 @@ value class Simple<T : IEntityOrigin<out T>, OUT>(
 
 @JvmInline
 value class Synthetic<
-       out ORIG_IN :  IEntityOrigin<out ORIG_IN>,
-        SINTH_IN: IEntitySynthetic<out ORIG_IN>,
-       out OUT : IEntityOrigin<out OUT>>(
+        out ORIG_IN : IEntityOrigin<out ORIG_IN>,
+        SINTH_IN : IEntitySynthetic<out ORIG_IN>,
+        out OUT : IEntityOrigin<out OUT>>(
     override val extractFieldValue: (entity: SINTH_IN) -> Set<IEntitySynthetic<out OUT>>
 ) : IColKind<SINTH_IN, Set<IEntitySynthetic<out OUT>>>
 
 @JvmInline
 value class SyntheticSet<
-        ORIG_IN :  IEntityOrigin<out ORIG_IN>,
-        SINTH_IN: IEntitySynthetic<out ORIG_IN>,
+        ORIG_IN : IEntityOrigin<out ORIG_IN>,
+        SINTH_IN : IEntitySynthetic<out ORIG_IN>,
         OUT : IEntityOrigin<OUT>>(
     override val extractFieldValue: (entity: SINTH_IN) -> Set<IEntitySynthetic<OUT>>
 ) : IColKind<SINTH_IN, Set<IEntitySynthetic<OUT>>>

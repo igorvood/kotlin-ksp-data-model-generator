@@ -4,9 +4,7 @@ import kotlinx.serialization.KSerializer
 import kotlinx.serialization.json.Json
 import org.slf4j.LoggerFactory
 import org.springframework.boot.CommandLineRunner
-import org.springframework.core.annotation.Order
 import org.springframework.jdbc.core.JdbcOperations
-import org.springframework.stereotype.Service
 import ru.vood.dmgen.dao.EntityDao
 import ru.vood.dmgen.datamodel.runtime.dataclasses.context.Deal_PKContext
 import ru.vood.dmgen.datamodel.runtime.dataclassesOrigin.DealEntity
@@ -16,7 +14,6 @@ import ru.vood.dmgen.datamodel.runtime.dataclassesSynthetic.DealExtendDataSynthe
 import ru.vood.dmgen.datamodel.runtime.dataclassesSynthetic.DealParamOneToOneSynthetic
 import ru.vood.dmgen.datamodel.runtime.dataclassesSynthetic.DealSynthetic
 import ru.vood.dmgen.datamodel.valueClasses.DealId
-
 import ru.vood.dmgen.intf.IEntitySynthetic
 
 //@Service
@@ -45,7 +42,6 @@ class RunByPartAggregateSave(
         val dealExtendDataEntity = DealExtendDataSynthetic(DealExtendDataEntity(dealId, "jhvjkhfg"))
         entity.saveAggregateByPart(aggregate)
         entity.saveAggregateByPart(dealExtendDataEntity)
-
 
 
         val findByUk1 = entity.findSyntheticEntityByUk(Deal_PKContext(dealId))

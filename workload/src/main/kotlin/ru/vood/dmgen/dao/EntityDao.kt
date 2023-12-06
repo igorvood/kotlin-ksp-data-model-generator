@@ -83,7 +83,7 @@ class EntityDao(
         val childEntityNames = DerivativeColumns.entitiesColumnsMap[aggregate.designEntityName]
             ?.entries
             ?.filter { it.value.iColKind !is Simple }?.map { it.value.outEntity!! }
-            ?.map {it to aggregate.syntheticField(it) }
+            ?.map { it to aggregate.syntheticField(it) }
             ?.filter { it.second.isNotEmpty() }
             ?.toMap()
             ?: mapOf()
@@ -105,7 +105,7 @@ class EntityDao(
             val indexesDto = entitiesUkMap[entityName] ?: error("Почему то не найдена сущность ${entityName.value}")
 
 
-            entitySynthetics.forEach {synth ->
+            entitySynthetics.forEach { synth ->
                 val pkMeta = indexesDto.pkEntityData// as UKEntityData<out IEntityOrigin<Any> >
                 val origin: IEntityOrigin<*> = synth.origin
                 val pkDto = pkMeta.extractContext(origin as Nothing)
@@ -115,7 +115,6 @@ class EntityDao(
                 val entityJson = json.encodeToString(entitySerializer, synth.origin)
 
             }
-
 
 
 //

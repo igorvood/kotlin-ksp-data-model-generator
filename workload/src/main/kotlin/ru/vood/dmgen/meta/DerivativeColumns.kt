@@ -10,14 +10,16 @@ object DerivativeColumns {
             column.entity to column
         }
         .groupBy { it.first }
-        .map { it.key to it.value.map { ass -> ass.second }
-            .map { asdsa -> asdsa.simpleColumnName to asdsa }.toMap() }
+        .map {
+            it.key to it.value.map { ass -> ass.second }
+                .map { asdsa -> asdsa.simpleColumnName to asdsa }.toMap()
+        }
         .toMap()
 
     val entitiesSyntheticColumnsMap = entitiesColumnsMap
         .entries
-        .map { asd->asd.key to asd.value.filter { c->c.value.iColKind !is Simple } }
-        .filter { asd->asd.second.isNotEmpty() }
+        .map { asd -> asd.key to asd.value.filter { c -> c.value.iColKind !is Simple } }
+        .filter { asd -> asd.second.isNotEmpty() }
         .toMap()
 
 }
