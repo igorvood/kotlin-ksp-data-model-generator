@@ -6,10 +6,13 @@ import kotlinx.serialization.json.Json
 import org.springframework.jdbc.core.JdbcOperations
 import org.springframework.stereotype.Repository
 import ru.vood.dmgen.datamodel.metaEnum.foreignKeyMap
-import ru.vood.dmgen.datamodel.runtime.dataclassesOrigin.DealEntity
-import ru.vood.dmgen.datamodel.runtime.dataclassesSynthetic.DealSynthetic
 import ru.vood.dmgen.intf.*
+import ru.vood.dmgen.intf.newIntf.Simple
+import ru.vood.dmgen.intf.newIntf.Synthetic
+import ru.vood.dmgen.intf.newIntf.SyntheticSet
 import ru.vood.dmgen.intf.newIntf.UKEntityData
+import ru.vood.dmgen.meta.DerivativeColumns
+import ru.vood.dmgen.meta.DerivativeColumns.entitiesSyntheticColumnsMap
 import ru.vood.dmgen.meta.DerivativeUk.entitiesUkMap
 
 @Repository
@@ -21,7 +24,7 @@ class EntityDao(
     val json = Json
 
 
-    final inline fun<reified T: IEntityOrigin<T> > saveAggregate(aggregate: IEntitySynthetic<T>) {
+    final inline fun <T : IEntityOrigin<T>> saveAggregate(aggregate: IEntitySynthetic<T>) {
         val entityName = aggregate.designEntityName
 
         val indexesDto = entitiesUkMap[entityName] ?: error("Почему то не найдена сущность ${entityName.value}")
@@ -47,10 +50,17 @@ class EntityDao(
             }
 
 
+        val map = DerivativeColumns.entitiesColumnsMap[aggregate.designEntityName]
+            ?.entries
+            ?.filter { it.value.iColKind !is Simple }?.map { it.key to it.value }
+
+
+        val entitiesSyntheticColumnsMap1 = entitiesSyntheticColumnsMap
+
+//
+        val size = entitiesSyntheticColumnsMap1.size
 //        saveEntity(aggregate.origin)
     }
-    
-    
 
 
     @Suppress("UNCHECKED_CAST")

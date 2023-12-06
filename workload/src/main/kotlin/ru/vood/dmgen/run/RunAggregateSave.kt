@@ -1,5 +1,7 @@
 package ru.vood.dmgen.run
 
+import kotlinx.serialization.KSerializer
+import kotlinx.serialization.json.Json
 import org.springframework.boot.CommandLineRunner
 import org.springframework.jdbc.core.JdbcOperations
 import org.springframework.stereotype.Service
@@ -21,6 +23,12 @@ class RunAggregateSave(
     val jdbcOperations: JdbcOperations
 ) : CommandLineRunner {
     override fun run(vararg args: String?) {
+        val json = Json
+
+        val serializer: KSerializer<Any> = D.serializer() as KSerializer<Any>
+
+        val encodeToString = json.encodeToString(serializer, D("ASd"))
+
         jdbcOperations.update("delete from entity_context")
 
         val dealId = DealId("12")
@@ -41,3 +49,6 @@ class RunAggregateSave(
 
     }
 }
+
+@kotlinx.serialization.Serializable
+data class D(val df: String)

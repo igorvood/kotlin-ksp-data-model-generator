@@ -34,11 +34,11 @@ value class Simple<T : IEntityOrigin<out T>, OUT>(
 
 @JvmInline
 value class Synthetic<
-        ORIG_IN :  IEntityOrigin<out ORIG_IN>,
+       out ORIG_IN :  IEntityOrigin<out ORIG_IN>,
         SINTH_IN: IEntitySynthetic<out ORIG_IN>,
-        OUT : IEntityOrigin<OUT>>(
-    override val extractFieldValue: (entity: SINTH_IN) -> Set<IEntitySynthetic<OUT>>
-) : IColKind<SINTH_IN, Set<IEntitySynthetic<OUT>>>
+       out OUT : IEntityOrigin<out OUT>>(
+    override val extractFieldValue: (entity: SINTH_IN) -> Set<IEntitySynthetic<out OUT>>
+) : IColKind<SINTH_IN, Set<IEntitySynthetic<out OUT>>>
 
 @JvmInline
 value class SyntheticSet<
@@ -66,7 +66,8 @@ fun asdsad() {
     val IEntityOrigin: IEntityOrigin<DealParamOneToOneEntity> = dealParamOneToOneEntity
     val Serializer: Serializer<DealParamOneToOneEntity> = dealParamOneToOneEntity
 
-    Synthetic<DealEntity, DealSynthetic , DealParamOneToOneEntity> { setOf( it.dealParamOneToOne)}
+//    val synthetic: Synthetic<IEntityOrigin<DealEntity>, IEntitySynthetic<DealEntity>, IEntityOrigin<DealParamOneToOneEntity>> =
+//        Synthetic<DealEntity, DealSynthetic, DealParamOneToOneEntity> { setOf(it.dealParamOneToOne) }
 
 //    Synthetic<IEntityOrigin<DealEntity>, IEntitySynthetic<DealParamOneToOneEntity>> {TODO()}
 
