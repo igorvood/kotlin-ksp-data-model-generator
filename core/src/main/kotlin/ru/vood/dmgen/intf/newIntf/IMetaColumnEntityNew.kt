@@ -46,16 +46,16 @@ value class Simple<T : IEntityOrigin<out T>, OUT>(
 
 @JvmInline
 value class Synthetic<
-        ORIG_IN :  IEntityOrigin<out ORIG_IN>,
-        SINTH_IN: IEntitySynthetic<out ORIG_IN>,
+        ORIG_IN : IEntityOrigin<out ORIG_IN>,
+        SINTH_IN : IEntitySynthetic<out ORIG_IN>,
         OUT : IEntityOrigin<OUT>>(
     override val extractFieldValue: (entity: SINTH_IN) -> Set<IEntitySynthetic<OUT>>
 ) : IColKind<SINTH_IN, Set<IEntitySynthetic<OUT>>>
 
 @JvmInline
 value class SyntheticSet<
-        ORIG_IN :  IEntityOrigin<out ORIG_IN>,
-        SINTH_IN: IEntitySynthetic<out ORIG_IN>,
+        ORIG_IN : IEntityOrigin<out ORIG_IN>,
+        SINTH_IN : IEntitySynthetic<out ORIG_IN>,
         OUT : IEntityOrigin<OUT>>(
     override val extractFieldValue: (entity: SINTH_IN) -> Set<IEntitySynthetic<OUT>>
 ) : IColKind<SINTH_IN, Set<IEntitySynthetic<OUT>>>
