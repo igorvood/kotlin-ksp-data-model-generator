@@ -95,8 +95,8 @@ $fk
 //        
 //    )
 
-    override fun syntheticField(entityName: EntityName): Set<IEntitySynthetic<out IEntityOrigin<*>>> {
-            val iEntitySynthetics: Set<IEntitySynthetic<out IEntityOrigin<*>>> = when (entityName) {
+    override fun syntheticField(entityName: ${EntityName::class.simpleName}): Set<${IEntitySynthetic::class.simpleName}<out ${IEntityOrigin::class.simpleName} <*>>> {
+            val iEntitySynthetics: Set<${IEntitySynthetic::class.simpleName}<out ${IEntityOrigin::class.simpleName} <*>>> = when (entityName) {
                 $fkFunCode
                 else -> error("In Entity ${'$'}{designEntityName.value} Not found synthetic field for ${'$'}{entityName.value}")
             }

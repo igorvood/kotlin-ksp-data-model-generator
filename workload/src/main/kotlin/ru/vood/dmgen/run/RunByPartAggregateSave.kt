@@ -19,8 +19,8 @@ import ru.vood.dmgen.datamodel.valueClasses.DealId
 
 import ru.vood.dmgen.intf.IEntitySynthetic
 
-@Service
-@Order(200)
+//@Service
+//@Order(200)
 class RunByPartAggregateSave(
     val entity: EntityDao,
     val jdbcOperations: JdbcOperations
