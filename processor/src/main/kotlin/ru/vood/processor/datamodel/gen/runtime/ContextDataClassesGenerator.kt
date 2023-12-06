@@ -45,7 +45,7 @@ class ContextDataClassesGenerator(
                 }
                     .joinToString(",\n")
 
-                val fullClassName = ukClassName(metaEntity, ukName)
+                val fullClassName = ukClassName(ukName)
                 val code = """package ${packageName.value}
                     
 import ${UkName::class.java.canonicalName}

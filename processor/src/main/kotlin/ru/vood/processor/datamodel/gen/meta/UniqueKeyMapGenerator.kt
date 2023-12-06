@@ -41,12 +41,15 @@ class UniqueKeyMapGenerator(
                                     .sorted()
                                     .joinToString(",")
 
+                                val ukClassName = CollectName.ukClassName(ukDto.name)
+
                                 """${UkName::class.simpleName}("${ukDto.name.value}") to ${UKEntityData::class.simpleName}(
                                     |listOf($ukCols),
+                                    |${ukClassName}.serializer(),
+                                    |${ukClassName}::class,
                                     |${EntityName::class.simpleName}("${metaEnt.designClassShortName}"),
                                     |{data: ${CollectName.entityClassName(metaEnt)} -> ${
                                     CollectName.ukClassName(
-                                        metaEnt,
                                         ukDto.name
                                     )
                                 }($constructorParams) },

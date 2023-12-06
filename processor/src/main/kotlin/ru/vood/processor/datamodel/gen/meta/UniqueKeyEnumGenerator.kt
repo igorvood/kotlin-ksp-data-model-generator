@@ -42,7 +42,6 @@ class UniqueKeyEnumGenerator(
                                     |${packageName.value}.${nameClassEntityEnumGenerator}.${metaEnt.designClassShortName},
                                     |${rootPackage.value}.${contextDataClassesGeneratorPackageName.value}.${
                                     CollectName.ukClassName(
-                                        metaEnt,
                                         ukDto.name
                                     )
                                 }::class,

@@ -62,11 +62,10 @@ class ForeignKeyMapGenerator(
                         |{data: ${entityClassName(metaForeign.fromEntity)} ->
                         |//Json.encodeToString(${
                             ukClassName(
-                                metaForeign.toEntity,
                                 metaForeign.uk.name
                             )
-                        }.serializer(),${ukClassName(metaForeign.toEntity, metaForeign.uk.name)}(${contextCols}))
-                        |${ukClassName(metaForeign.toEntity, metaForeign.uk.name)}(${contextCols})
+                        }.serializer(),${ukClassName(metaForeign.uk.name)}(${contextCols}))
+                        |${ukClassName(metaForeign.uk.name)}(${contextCols})
                         |}
                         |)""".trimMargin()
                     }
