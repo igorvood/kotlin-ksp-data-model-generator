@@ -9,9 +9,11 @@ import ru.vood.dmgen.annotation.FlowEntity
 import ru.vood.processor.datamodel.abstraction.model.MetaEntity
 import ru.vood.processor.datamodel.abstraction.model.metaInformation
 import ru.vood.processor.datamodel.gen.PackageName
-import ru.vood.processor.datamodel.gen.meta.*
+import ru.vood.processor.datamodel.gen.meta.ColumnEntityMapGenerator
+import ru.vood.processor.datamodel.gen.meta.EntityMapGenerator
+import ru.vood.processor.datamodel.gen.meta.ForeignKeyMapGenerator
+import ru.vood.processor.datamodel.gen.meta.UniqueKeyMapGenerator
 import ru.vood.processor.datamodel.gen.runtime.ContextDataClassesGenerator
-import ru.vood.processor.datamodel.gen.runtime.EntityDataClassesGenerator
 import ru.vood.processor.datamodel.gen.runtime.OriginEntityDataClassesGenerator
 import ru.vood.processor.datamodel.gen.runtime.SyntheticFieldExtractorsGenerator
 
@@ -54,7 +56,6 @@ class DataModelConfigProcessor(
         ForeignKeyMapGenerator(codeGenerator, rootPackage, logger).createFiles(metaInformation)
 
 //        DependencyGenerator(codeGenerator, rootPackage, logger).createFiles(metaInformation)
-
 
 
 //        EntityDataClassesGenerator(codeGenerator, rootPackage, logger).createFiles(metaInformation)

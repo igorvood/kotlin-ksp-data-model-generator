@@ -50,7 +50,8 @@ override val ${col.name.value}: $kotlinMetaClass$nullableSymbol""".trimIndent()
             .joinToString(",\n")
 
         val fullClassName = entityClassName(metaEntity)
-        val s ="""${IEntityOrigin::class.java.simpleName}<$fullClassName>, ${metaEntity.designClassFullClassName.value}"""
+        val s =
+            """${IEntityOrigin::class.java.simpleName}<$fullClassName>, ${metaEntity.designClassFullClassName.value}"""
 
 
         val code = """package ${packageName.value}

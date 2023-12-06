@@ -2,9 +2,10 @@ package ru.vood.processor.datamodel.gen.runtime
 
 import com.google.devtools.ksp.processing.CodeGenerator
 import com.google.devtools.ksp.processing.KSPLogger
-import ru.vood.dmgen.annotation.FlowEntityType
 import ru.vood.dmgen.annotation.RelationType
-import ru.vood.dmgen.intf.*
+import ru.vood.dmgen.intf.EntityName
+import ru.vood.dmgen.intf.IEntityOrigin
+import ru.vood.dmgen.intf.IEntitySynthetic
 import ru.vood.processor.datamodel.abstraction.model.Dependency
 import ru.vood.processor.datamodel.abstraction.model.MetaEntity
 import ru.vood.processor.datamodel.abstraction.model.MetaForeignKey
@@ -53,7 +54,6 @@ class SyntheticFieldExtractorsGenerator(
 
             }
             .joinToString("\n") { it.get() }
-
 
 
         val originClassName = entityClassName(metaEntity)
