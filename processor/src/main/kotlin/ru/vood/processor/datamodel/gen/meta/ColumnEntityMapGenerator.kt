@@ -83,7 +83,8 @@ class ColumnEntityMapGenerator(
                                     SimpleColumnName(fromEntity.entityFieldName)
                                 )
                                 """${FullColumnName::class.simpleName}("${fullColumnName.value}") to ${ColumnEntityData::class.simpleName}(
-                                |    ${EntityName::class.java.canonicalName}( "${ent.designClassShortName}"),
+                                |    ${EntityName::class.java.simpleName}( "${ent.designClassShortName}"),
+                                |    ${EntityName::class.java.simpleName}( "${fromEntity.designClassShortName}"),
                                 |//$syntheticClassName::${fromEntity.entityFieldName},
                                 |${SimpleColumnName::class.simpleName}("${fromEntity.entityFieldName}"),
                                 |${isOptional},
@@ -104,7 +105,8 @@ class ColumnEntityMapGenerator(
                                     ""
                                 }
                                 """${FullColumnName::class.simpleName}("${ent.designClassShortName}_${f.name.value}") to ${ColumnEntityData::class.simpleName}(
-                                |    ${EntityName::class.java.canonicalName}( "${ent.designClassShortName}"),
+                                |    ${EntityName::class.java.simpleName}( "${ent.designClassShortName}"),
+                                |    null,
                                 |//$entityClass::${f.name.value},
                                 |${SimpleColumnName::class.simpleName}("${f.name.value}"),
                                 |${f.isNullable},
@@ -126,6 +128,7 @@ import ${ColumnEntityData::class.java.canonicalName}
 import ${SimpleColumnName::class.java.canonicalName}
 import ${FullColumnName::class.java.canonicalName}
 import ${ColumnKind::class.java.canonicalName}
+import ${EntityName::class.java.canonicalName}
 import ${ColumnKind::class.java.canonicalName}.*
 import ${Generated::class.java.canonicalName}
 import ${IColKind::class.java.canonicalName}

@@ -4,6 +4,7 @@ import ru.vood.dmgen.intf.*
 
 interface IMetaColumnEntityNew<T> {
     val entity: EntityName
+    val outEntity: EntityName?
 
     //    val kProperty1: KProperty1<out T, *>
     val simpleColumnName: SimpleColumnName
@@ -17,6 +18,7 @@ interface IMetaColumnEntityNew<T> {
 
 data class ColumnEntityData<T>(
     override val entity: EntityName,
+    override val outEntity: EntityName?,
 //    override val kProperty1: KProperty1<out T, *>,
     override val simpleColumnName: SimpleColumnName,
     override val isOptional: Boolean,
