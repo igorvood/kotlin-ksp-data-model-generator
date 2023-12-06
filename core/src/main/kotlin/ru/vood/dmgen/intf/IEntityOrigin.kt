@@ -4,6 +4,7 @@ import kotlinx.serialization.KSerializer
 import kotlinx.serialization.json.Json
 import ru.vood.dmgen.annotation.JsonInString
 import ru.vood.dmgen.annotation.UkName
+import ru.vood.dmgen.intf.dto.EncodeTo
 
 
 interface Serializer<T> {
@@ -33,6 +34,11 @@ interface IEntitySynthetic<T : IEntityOrigin< T>> : IEntityOrigin< T> {
     val origin: T
 
     fun syntheticField(entityName: EntityName): Set<IEntitySynthetic<out IEntityOrigin<*>>>
+
+//    fun <OUT> syntheticDtoEncodeTo(
+//        serializer: (
+////            IEntitySynthetic<in T >
+//        ) -> EncodeTo<OUT>): EncodeTo<OUT>
 
 }
 
