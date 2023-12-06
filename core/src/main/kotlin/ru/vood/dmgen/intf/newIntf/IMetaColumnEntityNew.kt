@@ -2,32 +2,19 @@ package ru.vood.dmgen.intf.newIntf
 
 import ru.vood.dmgen.intf.*
 
-interface IMetaColumnEntityNew<T> {
-    val entity: EntityName
-    val outEntity: EntityName?
-
-    //    val kProperty1: KProperty1<out T, *>
-    val simpleColumnName: SimpleColumnName
-    val isOptional: Boolean
-    val comment: String
-
-    @Deprecated("use iColKind")
-    val columnKind: ColumnKind
-    val iColKind: IColKind<T, *>
-}
 
 data class ColumnEntityData<T>(
-    override val entity: EntityName,
-    override val outEntity: EntityName?,
+     val entity: EntityName,
+     val outEntity: EntityName?,
 //    override val kProperty1: KProperty1<out T, *>,
-    override val simpleColumnName: SimpleColumnName,
-    override val isOptional: Boolean,
-    override val comment: String,
+     val simpleColumnName: SimpleColumnName,
+     val isOptional: Boolean,
+     val comment: String,
     @Deprecated("use iColKind")
-    override val columnKind: ColumnKind,
-    override val iColKind: IColKind<T, *>
+     val columnKind: ColumnKind,
+     val iColKind: IColKind<T, *>
 
-) : IMetaColumnEntityNew<T>
+)
 
 
 enum class ColumnKind {
