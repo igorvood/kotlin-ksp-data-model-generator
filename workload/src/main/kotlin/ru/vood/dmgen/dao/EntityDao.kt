@@ -56,7 +56,7 @@ class EntityDao(
         val indexesDto = entitiesUkMap[entityName] ?: error("Почему то не найдена сущность ${entityName.value}")
         val pkSerializer = indexesDto.pkEntityData.serializer as KSerializer<Any>
         val entityData = entityDataMap[entityName] ?: error("Почему то не найдена сущность ${entityName.value}")
-        val entitySerializer = entityData.serializerSynthetic as KSerializer<Any>
+        val entitySerializer = entityData.serializer as KSerializer<Any>
 
         checkFk(entityName, aggregate.origin)
 
@@ -64,7 +64,7 @@ class EntityDao(
         val pkMeta = indexesDto.pkEntityData as UKEntityData<T>
         val pkDto = pkMeta.extractContext(aggregate.origin)
         val pkJson = json.encodeToString(pkSerializer, pkDto)
-        val entityJson = json.encodeToString(entitySerializer, aggregate)
+        val entityJson = json.encodeToString(entitySerializer, aggregate.origin)
 
         jdbcOperations.update(
             """insert into entity_context(pk, entity_type, payload) VALUES (?, ?, ?) """,

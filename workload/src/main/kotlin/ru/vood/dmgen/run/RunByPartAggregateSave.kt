@@ -29,6 +29,7 @@ class RunByPartAggregateSave(
 
     private val log = LoggerFactory.getLogger(this.javaClass)
     override fun run(vararg args: String?) {
+        log.info("=============RUN BY part Aggregate save and find ================================")
         val json = Json
 
         val serializer: KSerializer<Any> = D.serializer() as KSerializer<Any>
@@ -49,9 +50,9 @@ class RunByPartAggregateSave(
         entity.saveAggregateByPart(dealExtendDataEntity)
 
 
-        val findByUk1 = entity.findSyntheticEntityByUk(Deal_PKContext(dealId))
-        log.info("=============RUN BY part Aggregate save and find ================================")
-        log.info(findByUk1.toString())
+//        val findByUk1 = entity.findOrignEntityByUk(Deal_PKContext(dealId))
+
+        log.info(aggregate.toString())
 
     }
 }
