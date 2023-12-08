@@ -45,7 +45,7 @@ class RunByPartAggregateSave(
                     DealParamSetSynthetic(DealParamSetEntity(dealId, 2, "2")),
                 )
             )
-        val dealExtendDataEntity = DealExtendDataSynthetic(DealExtendDataEntity(dealId, "jhvjkhfg"))
+        val dealExtendDataEntity = DealExtendDataSynthetic(DealExtendDataEntity(dealId, "extendData"))
         entity.saveAggregateByPart(aggregate)
         entity.saveAggregateByPart(dealExtendDataEntity)
 

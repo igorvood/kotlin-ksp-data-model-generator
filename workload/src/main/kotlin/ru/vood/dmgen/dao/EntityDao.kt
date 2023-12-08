@@ -65,7 +65,7 @@ class EntityDao(
 
 
         val pkMeta = indexesDto.pkEntityData as UKEntityData<T>
-        val pkDto = pkMeta.extractContext(aggregate.origin)
+        val pkDto: IContextOf<T> = pkMeta.extractContext(aggregate.origin)
         val pkJson = json.encodeToString(pkSerializer, pkDto)
         val entityJson = json.encodeToString(entitySerializer, aggregate.origin)
 
@@ -85,7 +85,7 @@ class EntityDao(
 
         val childEntityNames = childEntity(designEntityName, aggregate)
 
-        saveChildEntities(childEntityNames)
+        saveChildEntities(childEntityNames, pkDto as IContextOf<IEntityOrigin> )
 
 
         val entitiesSyntheticColumnsMap1 = entitiesSyntheticColumnsMap
@@ -106,7 +106,10 @@ class EntityDao(
         ?.toMap()
         ?: mapOf())
 
-    fun saveChildEntities(childEntityNames: Map<EntityName, Set<IEntitySynthetic<out IEntityOrigin>>>) {
+    fun saveChildEntities(
+        childEntityNames: Map<EntityName, Set<IEntitySynthetic<out IEntityOrigin>>>,
+        pkDtoParent: IContextOf<IEntityOrigin>
+    ) {
         childEntityNames.map { entry ->
             val entityName = entry.key
             val entitySynthetics = entry.value
@@ -123,10 +126,13 @@ class EntityDao(
 
                 val entitySerializer = entityData.serializer as KSerializer<Any>
                 val entityJson = json.encodeToString(entitySerializer, synth.origin)
+                val indexesDtoParent = entitiesUkMap[pkDtoParent.designEntityName]?: error("asdasdasdasdas 9280347jkhlkb ")
+                val pkSerializerParent = indexesDtoParent.pkEntityData.serializer as KSerializer<Any>
+                val pkJsonParent = json.encodeToString(pkSerializerParent, pkDtoParent)
 
                 jdbcOperations.update(
-                    """insert into entity_context(pk, entity_type, payload) VALUES (?, ?, ?) """,
-                    pkJson, entityName.value, entityJson
+                    """insert into entity_context(pk, entity_type, payload, parent_entity_type, parent_pk) VALUES (?, ?, ?, ?, ?) """,
+                    pkJson, entityName.value, entityJson, pkDtoParent.designEntityName.value, pkJsonParent
                 )
 
                 indexesDto.ukAndPkMap.values
@@ -138,7 +144,7 @@ class EntityDao(
                 }
 
                 val childEntity = childEntity(entityName, synth)
-                saveChildEntities(childEntity)
+                saveChildEntities(childEntity, pkDto)
 //
             }
 
