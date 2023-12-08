@@ -19,6 +19,19 @@ interface DealParamOneToOne {
     val paramDate: String
 }
 
+@FlowEntity(FlowEntityType.INNER_MANDATORY)
+@ForeignKey(
+    kClass = "ru.vood.dmgen.datamodel.DealParamOneToOne",
+    "InnerToDealParamOneToOne_DealParamOneToOne_FK",
+    cols = [ForeignKeyColumns("dealId", "dealId")]
+)
+interface InnerToDealParamOneToOne {
+    @Pk
+    val dealId: DealId
+    val paramDate: String
+}
+
+
 @FlowEntity
 @ForeignKey(
     kClass = "ru.vood.dmgen.datamodel.Deal",

@@ -1,8 +1,10 @@
 package ru.vood.dmgen.dao
 
 
+import kotlinx.serialization.InternalSerializationApi
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.internal.decodeStringToJsonTree
 import org.springframework.jdbc.core.JdbcOperations
 import org.springframework.stereotype.Repository
 import ru.vood.dmgen.datamodel.metaEnum.entityDataMap
@@ -52,7 +54,8 @@ class EntityDao(
     }
 
     final fun <T : IEntityOrigin> saveAggregateByPart(aggregate: IEntitySynthetic<T>) {
-        val entityName = aggregate.designEntityName
+        val designEntityName = aggregate.designEntityName
+        val entityName = designEntityName
         val indexesDto = entitiesUkMap[entityName] ?: error("Почему то не найдена сущность ${entityName.value}")
         val pkSerializer = indexesDto.pkEntityData.serializer as KSerializer<Any>
         val entityData = entityDataMap[entityName] ?: error("Почему то не найдена сущность ${entityName.value}")
@@ -80,13 +83,7 @@ class EntityDao(
             }
 
 
-        val childEntityNames = DerivativeColumns.entitiesColumnsMap[aggregate.designEntityName]
-            ?.entries
-            ?.filter { it.value.iColKind !is Simple }?.map { it.value.outEntity!! }
-            ?.map { it to aggregate.syntheticField(it) }
-            ?.filter { it.second.isNotEmpty() }
-            ?.toMap()
-            ?: mapOf()
+        val childEntityNames = childEntity(designEntityName, aggregate)
 
         saveChildEntities(childEntityNames)
 
@@ -97,6 +94,17 @@ class EntityDao(
         val size = entitiesSyntheticColumnsMap1.size
 //        saveEntity(aggregate.origin)
     }
+
+    private fun <T : IEntityOrigin> childEntity(
+        designEntityName: EntityName,
+        aggregate: IEntitySynthetic<T>
+    ) = (DerivativeColumns.entitiesColumnsMap[designEntityName]
+        ?.entries
+        ?.filter { it.value.iColKind !is Simple }?.map { it.value.outEntity!! }
+        ?.map { it to aggregate.syntheticField(it) }
+        ?.filter { it.second.isNotEmpty() }
+        ?.toMap()
+        ?: mapOf())
 
     fun saveChildEntities(childEntityNames: Map<EntityName, Set<IEntitySynthetic<out IEntityOrigin>>>) {
         childEntityNames.map { entry ->
@@ -128,8 +136,13 @@ class EntityDao(
                     entityUkDao.saveEntityUkDto(entityName, ukData, pkJson, ukMetaData)
                     println(ukMetaData)
                 }
+
+                val childEntity = childEntity(entityName, synth)
+                saveChildEntities(childEntity)
 //
             }
+
+
 
 
 //
@@ -198,6 +211,7 @@ class EntityDao(
             }
     }
 
+    @OptIn(InternalSerializationApi::class)
     final inline fun <reified T : IEntityOrigin> findSyntheticEntityCollectPartByUk(uk: IContextOf<T>): IEntitySynthetic<out IEntityOrigin> {
         val entityName = uk.designEntityName
         val indexesDto = entitiesUkMap[entityName] ?: error("Почему то не найдена сущность ${entityName.value}")
@@ -212,7 +226,8 @@ class EntityDao(
                 where uc.entity_type_uk = ? and uc.uk = ?
                 """,
             { rs, _ ->
-                json.decodeFromString(ktEntitySerializer, rs.getString(1))
+                json.decodeStringToJsonTree(ktEntitySerializer, rs.getString(1))
+//                json.decodeFromString(ktEntitySerializer, rs.getString(1))
             },
             uk.ukName.value, ukJson
         )

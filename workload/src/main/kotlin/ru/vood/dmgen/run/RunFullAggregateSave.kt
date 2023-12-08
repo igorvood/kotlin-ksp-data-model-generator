@@ -10,9 +10,11 @@ import ru.vood.dmgen.datamodel.runtime.dataclasses.context.Deal_PKContext
 import ru.vood.dmgen.datamodel.runtime.dataclassesOrigin.DealEntity
 import ru.vood.dmgen.datamodel.runtime.dataclassesOrigin.DealExtendDataEntity
 import ru.vood.dmgen.datamodel.runtime.dataclassesOrigin.DealParamOneToOneEntity
+import ru.vood.dmgen.datamodel.runtime.dataclassesOrigin.InnerToDealParamOneToOneEntity
 import ru.vood.dmgen.datamodel.runtime.dataclassesSynthetic.DealExtendDataSynthetic
 import ru.vood.dmgen.datamodel.runtime.dataclassesSynthetic.DealParamOneToOneSynthetic
 import ru.vood.dmgen.datamodel.runtime.dataclassesSynthetic.DealSynthetic
+import ru.vood.dmgen.datamodel.runtime.dataclassesSynthetic.InnerToDealParamOneToOneSynthetic
 import ru.vood.dmgen.datamodel.valueClasses.DealId
 import ru.vood.dmgen.intf.IEntitySynthetic
 
@@ -30,7 +32,10 @@ class RunFullAggregateSave(
 
         val dealId = DealId("12")
         val paramDate = "asd"
-        val dealParamOneToOneEntity = DealParamOneToOneSynthetic(DealParamOneToOneEntity(dealId, paramDate))
+        val dealParamOneToOneEntity = DealParamOneToOneSynthetic(DealParamOneToOneEntity(dealId, paramDate), InnerToDealParamOneToOneSynthetic(
+            InnerToDealParamOneToOneEntity(dealId, paramDate)
+        )
+        )
 
         val aggregate: IEntitySynthetic<DealEntity> =
             DealSynthetic(DealEntity(dealId, "asd", null, true, null), dealParamOneToOneEntity, null, setOf())
