@@ -199,7 +199,7 @@ class EntityDao(
 
 
     @Suppress("UNCHECKED_CAST")
-    final inline fun <reified T : IEntityOrigin> findSyntheticEntityByUk(uk: IContextOf<T>): IEntitySynthetic<out IEntityOrigin> {
+    final inline fun <reified T : IEntityOrigin> findSyntheticEntityOneRowByUk(uk: IContextOf<T>): IEntitySynthetic<out IEntityOrigin> {
         val entityName = uk.designEntityName
         val indexesDto = entitiesUkMap[entityName] ?: error("Почему то не найдена сущность ${entityName.value}")
         val ktSerializer = indexesDto.pkEntityData.serializer as KSerializer<IContextOf<T>>

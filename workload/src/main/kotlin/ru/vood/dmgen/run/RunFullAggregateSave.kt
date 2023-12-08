@@ -39,7 +39,7 @@ class RunFullAggregateSave(
         entity.saveAggregate(dealExtendDataEntity)
 
 
-        val findByUk1 = entity.findSyntheticEntityByUk(Deal_PKContext(dealId))
+        val findByUk1 = entity.findSyntheticEntityOneRowByUk(Deal_PKContext(dealId))
         log.info("=============RUN FULL  Aggregate save and find ================================")
         log.info(findByUk1.toString())
 
