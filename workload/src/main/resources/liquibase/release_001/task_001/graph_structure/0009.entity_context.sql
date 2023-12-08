@@ -2,6 +2,10 @@ create table entity_context
 (
   entity_type varchar(256) not null,
   pk varchar(512) not null,
+
+  parent_entity_type varchar(256),
+  parent_pk varchar(512),
+
   payload text not null,
   constraint entity_context_pk primary key (entity_type, pk)
 )
