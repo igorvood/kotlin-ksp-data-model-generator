@@ -1,6 +1,7 @@
 package ru.vood.dmgen.intf.newIntf
 
 import kotlinx.serialization.KSerializer
+import ru.vood.dmgen.annotation.UkName
 import ru.vood.dmgen.intf.EntityName
 import ru.vood.dmgen.intf.IContextOf
 import ru.vood.dmgen.intf.IEntityOrigin
@@ -9,6 +10,7 @@ import kotlin.reflect.KClass
 
 
 data class UKEntityData<T : IEntityOrigin>(
+    val ukName: UkName,
     val columns: List<SimpleColumnName>,
     val serializer: KSerializer<out IContextOf<out T>>,
     val ukClass: KClass<out IContextOf<out T>>,

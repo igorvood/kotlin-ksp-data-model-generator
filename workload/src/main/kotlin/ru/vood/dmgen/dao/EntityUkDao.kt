@@ -8,6 +8,7 @@ import ru.vood.dmgen.annotation.UkName
 import ru.vood.dmgen.intf.EntityName
 import ru.vood.dmgen.intf.IContextOf
 import ru.vood.dmgen.intf.IEntityOrigin
+import ru.vood.dmgen.intf.newIntf.UKEntityData
 import ru.vood.dmgen.meta.DerivativeUk
 
 @Repository
@@ -25,15 +26,13 @@ class EntityUkDao(
 
     }
 
-    final inline fun <T : IEntityOrigin> saveEntityUkDto(
+    final fun <T : IEntityOrigin> saveEntityUkDto(
         entityName: EntityName,
         ukData: IContextOf<T>,
-        pkJson: String
+        pkJson: String,
+        ukMetaData: UKEntityData<T>
     ) {
-        val entityName = ukData.designEntityName
-        val indexesDto = DerivativeUk.entitiesUkMap[entityName] ?: error("Почему то не найдена сущность ${entityName.value}")
-
-        val ukSerializer = indexesDto.pkEntityData.serializer as KSerializer<IContextOf<T>>
+        val ukSerializer = ukMetaData.serializer as KSerializer<IContextOf<T>>
         val ukJson = Json.encodeToString(ukSerializer, ukData)
         saveEntityUk(entityName, ukData.ukName, pkJson, ukJson)
     }

@@ -5,5 +5,8 @@ import ru.vood.dmgen.intf.newIntf.UKEntityData
 
 data class IndexesDto(
     val pkEntityData: UKEntityData<out IEntityOrigin>,
-    val ukSet: Set<UKEntityData<out IEntityOrigin>>
-)
+    val ukOnlySet: Set<UKEntityData<out IEntityOrigin>>
+){
+    val ukAndPkMap = ukOnlySet.plus(pkEntityData).associateBy { it.ukName }
+
+}

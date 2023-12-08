@@ -23,14 +23,13 @@ class EntityDao(
     val json = Json
 
 
-    final inline fun <reified T : IEntityOrigin> saveAggregate(aggregate: IEntitySynthetic<T>) {
+    final fun <T : IEntityOrigin> saveAggregate(aggregate: IEntitySynthetic<T>) {
         val entityName = aggregate.designEntityName
         val indexesDto = entitiesUkMap[entityName] ?: error("Почему то не найдена сущность ${entityName.value}")
         val pkSerializer = indexesDto.pkEntityData.serializer as KSerializer<Any>
-        val entityData = entityDataMap[entityName]?: error("Почему то не найдена сущность ${entityName.value}")
+        val entityData = entityDataMap[entityName] ?: error("Почему то не найдена сущность ${entityName.value}")
         val serializerSynthetic = entityData.serializerSynthetic as KSerializer<Any>
         checkFk(entityName, aggregate.origin)
-
 
 
         val pkMeta = indexesDto.pkEntityData as UKEntityData<T>
@@ -44,23 +43,22 @@ class EntityDao(
         )
 
 
-        indexesDto.ukSet.plus(indexesDto.pkEntityData)
+        indexesDto.ukAndPkMap.values
             .forEach { ukMeta ->
                 val ukMetaData = ukMeta as UKEntityData<T>
                 val ukData = ukMetaData.extractContext(aggregate.origin)
-                entityUkDao.saveEntityUkDto(entityName, ukData, pkJson)
+                entityUkDao.saveEntityUkDto(entityName, ukData, pkJson, ukMetaData)
             }
     }
 
-    final inline fun <T : IEntityOrigin> saveAggregateByPart(aggregate: IEntitySynthetic<T>) {
+    final fun <T : IEntityOrigin> saveAggregateByPart(aggregate: IEntitySynthetic<T>) {
         val entityName = aggregate.designEntityName
         val indexesDto = entitiesUkMap[entityName] ?: error("Почему то не найдена сущность ${entityName.value}")
         val pkSerializer = indexesDto.pkEntityData.serializer as KSerializer<Any>
-        val entityData = entityDataMap[entityName]?: error("Почему то не найдена сущность ${entityName.value}")
+        val entityData = entityDataMap[entityName] ?: error("Почему то не найдена сущность ${entityName.value}")
         val entitySerializer = entityData.serializerSynthetic as KSerializer<Any>
 
         checkFk(entityName, aggregate.origin)
-
 
 
         val pkMeta = indexesDto.pkEntityData as UKEntityData<T>
@@ -74,11 +72,11 @@ class EntityDao(
         )
 
 
-        indexesDto.ukSet.plus(indexesDto.pkEntityData)
+        indexesDto.ukAndPkMap.values
             .forEach { ukMeta ->
                 val ukMetaData = ukMeta as UKEntityData<T>
                 val ukData = ukMetaData.extractContext(aggregate.origin)
-                entityUkDao.saveEntityUkDto(entityName, ukData, pkJson)
+                entityUkDao.saveEntityUkDto(entityName, ukData, pkJson, ukMetaData)
             }
 
 
@@ -100,23 +98,38 @@ class EntityDao(
 //        saveEntity(aggregate.origin)
     }
 
-    fun saveChildEntities(childEntityNames: Map<EntityName, Set<IEntitySynthetic<*>>>) {
+    fun saveChildEntities(childEntityNames: Map<EntityName, Set<IEntitySynthetic<out IEntityOrigin>>>) {
         childEntityNames.map { entry ->
             val entityName = entry.key
             val entitySynthetics = entry.value
+            val entityData = entityDataMap[entityName] ?: error("Почему то не найдена сущность ${entityName.value}")
             val indexesDto = entitiesUkMap[entityName] ?: error("Почему то не найдена сущность ${entityName.value}")
 
 
-//            entitySynthetics.forEach { synth ->
-//                val pkMeta = indexesDto.pkEntityData// as UKEntityData<out IEntityOrigin<Any> >
-//                val origin: IEntityOrigin = synth.origin
-//                val pkDto = pkMeta.extractContext(origin as Nothing)
-//                val pkSerializer = pkDto.ktSerializer() as KSerializer<Any>
-//                val entitySerializer = synth.ktSerializer() as KSerializer<Any>
-//                val pkJson = json.encodeToString(pkSerializer, pkDto as Any)
-//                val entityJson = json.encodeToString(entitySerializer, synth.origin)
+            entitySynthetics.forEach { synth: IEntitySynthetic<out IEntityOrigin> ->
+                val pkMeta: UKEntityData<IEntityOrigin> = indexesDto.pkEntityData as UKEntityData<IEntityOrigin>
+                val origin = synth.origin
+                val pkDto = pkMeta.extractContext(origin)
+                val pkSerializer = pkMeta.serializer as KSerializer<Any>
+                val pkJson = json.encodeToString(pkSerializer, pkDto)
+
+                val entitySerializer = entityData.serializer as KSerializer<Any>
+                val entityJson = json.encodeToString(entitySerializer, synth.origin)
+
+                jdbcOperations.update(
+                    """insert into entity_context(pk, entity_type, payload) VALUES (?, ?, ?) """,
+                    pkJson, entityName.value, entityJson
+                )
+
+                indexesDto.ukAndPkMap.values
+                .forEach { ukMeta ->
+                    val ukMetaData = ukMeta as UKEntityData<IEntityOrigin>
+                    val ukData = ukMetaData.extractContext(origin)
+                    entityUkDao.saveEntityUkDto(entityName, ukData, pkJson, ukMetaData)
+                    println(ukMetaData)
+                }
 //
-//            }
+            }
 
 
 //
@@ -136,9 +149,8 @@ class EntityDao(
 
         }
 
+        println(1)
 
-
-        TODO("Not yet implemented")
     }
 
 
@@ -147,13 +159,12 @@ class EntityDao(
         val entityName = entity.designEntityName
         val indexesDto = entitiesUkMap[entityName] ?: error("Почему то не найдена сущность ${entityName.value}")
         val pkSerializer = indexesDto.pkEntityData.serializer as KSerializer<Any>
-        val entityData = entityDataMap[entityName]?: error("Почему то не найдена сущность ${entityName.value}")
+        val entityData = entityDataMap[entityName] ?: error("Почему то не найдена сущность ${entityName.value}")
         val entitySerializer = entityData.serializer as KSerializer<Any>
 
 
         // тут очень не оптимально, нужно собрать мапу с правильным key
         checkFk(entityName, entity)
-
 
 
         val pkMeta = indexesDto.pkEntityData as UKEntityData<T>
@@ -167,11 +178,11 @@ class EntityDao(
         )
 
 
-        indexesDto.ukSet.plus(indexesDto.pkEntityData)
+        indexesDto.ukAndPkMap.values
             .forEach { ukMeta ->
                 val ukMetaData = ukMeta as UKEntityData<T>
                 val ukData = ukMetaData.extractContext(entity)
-                entityUkDao.saveEntityUkDto(entityName, ukData, pkJson)
+                entityUkDao.saveEntityUkDto(entityName, ukData, pkJson, ukMetaData)
             }
     }
 

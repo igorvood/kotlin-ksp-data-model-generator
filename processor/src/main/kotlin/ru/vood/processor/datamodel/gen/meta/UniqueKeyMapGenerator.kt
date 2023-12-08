@@ -44,6 +44,7 @@ class UniqueKeyMapGenerator(
                                 val ukClassName = CollectName.ukClassName(ukDto.name)
 
                                 """${UkName::class.simpleName}("${ukDto.name.value}") to ${UKEntityData::class.simpleName}(
+                                    |${UkName::class.simpleName}("${ukDto.name.value}"),
                                     |listOf($ukCols),
                                     |${ukClassName}.serializer(),
                                     |${ukClassName}::class,
