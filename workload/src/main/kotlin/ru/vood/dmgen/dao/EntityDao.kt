@@ -192,11 +192,36 @@ class EntityDao(
             .filter { it.fromEntity == entityName }
             .forEach { we ->
                 val fkContextFunction = we.extractJsonContext as (T) -> IContextOf<out IEntityOrigin>
+
 //                val fkContextFunction1 = fkContextFunction(entity).toJson(Json)
 //                entityUkDao.existUk(we.uk, fkContextFunction1.value)
             }
     }
 
+    final inline fun <reified T : IEntityOrigin> findSyntheticEntityCollectPartByUk(uk: IContextOf<T>): IEntitySynthetic<out IEntityOrigin> {
+        val entityName = uk.designEntityName
+        val indexesDto = entitiesUkMap[entityName] ?: error("Почему то не найдена сущность ${entityName.value}")
+        val ktSerializer = indexesDto.pkEntityData.serializer as KSerializer<IContextOf<T>>
+        val ktEntitySerializer = uk.ktEntitySerializer as KSerializer<T>
+        val ukJson = Json.encodeToString(ktSerializer, uk)
+        val query = jdbcOperations.query(
+            """
+                select e.payload
+                    from entity_uk_context uc
+                join entity_context e on (uc.entity_type, uc.pk) = ((e.entity_type, e.pk))
+                where uc.entity_type_uk = ? and uc.uk = ?
+                """,
+            { rs, _ ->
+                json.decodeFromString(ktEntitySerializer, rs.getString(1))
+            },
+            uk.ukName.value, ukJson
+        )
+
+        println(1)
+
+        TODO()
+
+    }
 
     @Suppress("UNCHECKED_CAST")
     final inline fun <reified T : IEntityOrigin> findSyntheticEntityOneRowByUk(uk: IContextOf<T>): IEntitySynthetic<out IEntityOrigin> {
