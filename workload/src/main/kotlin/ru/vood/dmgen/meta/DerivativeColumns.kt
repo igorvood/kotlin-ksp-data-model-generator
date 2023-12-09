@@ -22,4 +22,16 @@ object DerivativeColumns {
         .filter { asd -> asd.second.isNotEmpty() }
         .toMap()
 
+    val entitiesSyntheticColumnsByEntityMap = entitiesColumnsMap
+        .entries
+        .map { asd ->
+            asd.key to asd.value
+                .filter { c -> c.value.iColKind !is Simple }
+                .entries
+                .map { it.value.outEntity!! to it.value }
+                .toMap()
+        }
+        .filter { asd -> asd.second.isNotEmpty() }
+        .toMap()
+
 }
