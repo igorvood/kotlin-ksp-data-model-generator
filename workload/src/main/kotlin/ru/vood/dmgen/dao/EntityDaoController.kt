@@ -7,13 +7,11 @@ import kotlinx.serialization.json.*
 import kotlinx.serialization.json.internal.decodeStringToJsonTree
 import org.springframework.jdbc.core.JdbcOperations
 import org.springframework.stereotype.Repository
-import ru.vood.dmgen.annotation.UkName
 import ru.vood.dmgen.dao.dto.ChildEntityDto
 import ru.vood.dmgen.dao.dto.PKJsonVal
 import ru.vood.dmgen.dao.dto.PayLoadJsonVal
 import ru.vood.dmgen.dao.dto.UKJsonVal
 import ru.vood.dmgen.datamodel.metaEnum.entityDataMap
-import ru.vood.dmgen.datamodel.metaEnum.foreignKeyMap
 import ru.vood.dmgen.intf.*
 import ru.vood.dmgen.intf.newIntf.Simple
 import ru.vood.dmgen.intf.newIntf.Synthetic
@@ -22,47 +20,49 @@ import ru.vood.dmgen.intf.newIntf.UKEntityData
 import ru.vood.dmgen.meta.DerivativeColumns
 import ru.vood.dmgen.meta.DerivativeColumns.entitiesSyntheticColumnsByEntityMap
 import ru.vood.dmgen.meta.DerivativeColumns.entitiesSyntheticColumnsMap
+import ru.vood.dmgen.meta.DerivativeFKs.foreignKeyMapFromEntity
 import ru.vood.dmgen.meta.DerivativeUk.entitiesUkMap
+import ru.vood.dmgen.serial.ModelJsonSerializer
 
 @Repository
 class EntityDaoController(
     val jdbcOperations: JdbcOperations,
     val entityDao: EntityDao,
-
     val entityUkDao: EntityUkDaoController,
+    val serializer: ModelJsonSerializer,
 
-) {
 
-    val json = Json
-
+    ) {
 
     /**Сохранение агрегата полностью, в одной строке, при это сохраняется только первичный и уникальные ключи,
      * оригинальной ДТО, связанной с аггрегатом
      * */
     final fun <T : IEntityOrigin> saveAggregate(aggregate: IEntitySynthetic<T>) {
-        val entityName = aggregate.designEntityName
-        val indexesDto = entitiesUkMap[entityName] ?: error("Почему то не найдена сущность ${entityName.value}")
-        val entityData = entityDataMap[entityName] ?: error("Почему то не найдена сущность ${entityName.value}")
-        val pkMeta = indexesDto.pkEntityData as UKEntityData<T>
+//        Вытаскиваю мету
+        val entityNameOrigin = aggregate.designEntityName
+        val indexesDtoOrigin =
+            entitiesUkMap[entityNameOrigin] ?: error("Почему то не найдена сущность ${entityNameOrigin.value}")
+        val entityDataOrigin =
+            entityDataMap[entityNameOrigin] ?: error("Почему то не найдена сущность ${entityNameOrigin.value}")
+        val pkMetaOrigin = indexesDtoOrigin.pkEntityData as UKEntityData<T>
 
-        val pkSerializer = indexesDto.pkEntityData.serializer as KSerializer<Any>
-        val serializerSynthetic = entityData.serializerSynthetic as KSerializer<Any>
-        checkFk(entityName, aggregate.origin)
-
-
-
-        val pkDto = pkMeta.extractContext(aggregate.origin)
-        val pkJson = PKJsonVal(json.encodeToString(pkSerializer, pkDto))
-        val entityJson = PayLoadJsonVal(json.encodeToString(serializerSynthetic, aggregate as Any))
-
-        entityDao.saveFullAggregateNoParent(pkJson, entityName, entityJson)
+        val pkSerializerOrigin = indexesDtoOrigin.pkEntityData.serializer as KSerializer<Any>
+        val serializerSynthetic = entityDataOrigin.serializerSynthetic as KSerializer<Any>
+        checkFk(entityNameOrigin, aggregate.origin)
 
 
-        indexesDto.ukAndPkMap.values
+        val pkDto = pkMetaOrigin.extractContext(aggregate.origin)
+        val pkJson = PKJsonVal(serializer.modelJsonSerializer.encodeToString(pkSerializerOrigin, pkDto))
+        val entityJson = PayLoadJsonVal(serializer.modelJsonSerializer.encodeToString(serializerSynthetic, aggregate as Any))
+
+        entityDao.saveFullAggregateNoParent(pkJson, entityNameOrigin, entityJson)
+
+
+        indexesDtoOrigin.ukAndPkMap.values
             .forEach { ukMeta ->
                 val ukMetaData = ukMeta as UKEntityData<T>
                 val ukData = ukMetaData.extractContext(aggregate.origin)
-                entityUkDao.saveEntityUkDto(entityName, ukData, pkJson.value, ukMetaData)
+                entityUkDao.saveEntityUkDto(entityNameOrigin, ukData, pkJson.value, ukMetaData)
             }
     }
 
@@ -79,8 +79,8 @@ class EntityDaoController(
 
         val pkMeta = indexesDto.pkEntityData as UKEntityData<T>
         val pkDto: IContextOf<T> = pkMeta.extractContext(aggregate.origin)
-        val pkJson = PKJsonVal(json.encodeToString(pkSerializer, pkDto))
-        val entityJson = PayLoadJsonVal(json.encodeToString(entitySerializer, aggregate.origin))
+        val pkJson = PKJsonVal(serializer.modelJsonSerializer.encodeToString(pkSerializer, pkDto))
+        val entityJson = PayLoadJsonVal(serializer.modelJsonSerializer.encodeToString(entitySerializer, aggregate.origin))
 
 
         entityDao.saveFullAggregateNoParent(pkJson, entityName, entityJson)
@@ -133,14 +133,14 @@ class EntityDaoController(
                 val origin = synth.origin
                 val pkDto = pkMeta.extractContext(origin)
                 val pkSerializer = pkMeta.serializer as KSerializer<Any>
-                val pkJson = json.encodeToString(pkSerializer, pkDto)
+                val pkJson = serializer.modelJsonSerializer.encodeToString(pkSerializer, pkDto)
 
                 val entitySerializer = entityData.serializer as KSerializer<Any>
-                val entityJson = json.encodeToString(entitySerializer, synth.origin)
+                val entityJson = serializer.modelJsonSerializer.encodeToString(entitySerializer, synth.origin)
                 val indexesDtoParent =
                     entitiesUkMap[pkDtoParent.designEntityName] ?: error("asdasdasdasdas 9280347jkhlkb ")
                 val pkSerializerParent = indexesDtoParent.pkEntityData.serializer as KSerializer<Any>
-                val pkJsonParent = json.encodeToString(pkSerializerParent, pkDtoParent)
+                val pkJsonParent = serializer.modelJsonSerializer.encodeToString(pkSerializerParent, pkDtoParent)
 
                 jdbcOperations.update(
                     """insert into entity_context(pk, entity_type, payload, parent_entity_type, parent_pk) VALUES (?, ?, ?, ?, ?) """,
@@ -195,8 +195,8 @@ class EntityDaoController(
 
         val pkMeta = indexesDto.pkEntityData as UKEntityData<T>
         val pkDto = pkMeta.extractContext(entity)
-        val pkJson = json.encodeToString(pkSerializer, pkDto)
-        val entityJson = json.encodeToString(entitySerializer, entity)
+        val pkJson = serializer.modelJsonSerializer.encodeToString(pkSerializer, pkDto)
+        val entityJson = serializer.modelJsonSerializer.encodeToString(entitySerializer, entity)
 
         jdbcOperations.update(
             """insert into entity_context(pk, entity_type, payload) VALUES (?, ?, ?) """,
@@ -212,19 +212,21 @@ class EntityDaoController(
             }
     }
 
+    @Suppress("UNCHECKED_CAST")
     fun <T : IEntityOrigin> checkFk(entityName: EntityName, entity: T) {
-        // тут очень не оптимально, нужно собрать мапу с правильным key
-        foreignKeyMap.values
-            .filter { it.fromEntity == entityName }
-            .forEach { we ->
-                val fkContextFunction = we.extractJsonContext as (T) -> IContextOf<out IEntityOrigin>
-
-//                val fkContextFunction1 = fkContextFunction(entity).toJson(Json)
-//                entityUkDao.existUk(we.uk, fkContextFunction1.value)
+        val fkEntityDataSet = foreignKeyMapFromEntity[entityName] ?: setOf()
+        fkEntityDataSet
+            .forEach { fkEntityData ->
+                val extractContextByFKFunction = fkEntityData.extractJsonContext as (T) -> IContextOf<out IEntityOrigin>
+                val parentContextValue = extractContextByFKFunction(entity)
+                val ukEntityData =
+                    entitiesUkMap[parentContextValue.designEntityName]!!.ukAndPkMap[parentContextValue.ukName]!!
+                val ukSerializer = ukEntityData.serializer as KSerializer<Any>
+                val encodeToString = UKJsonVal(serializer.modelJsonSerializer.encodeToString(ukSerializer, parentContextValue))
+                entityUkDao.existUk(fkEntityData.uk, encodeToString.value)
             }
     }
 
-    @OptIn(InternalSerializationApi::class)
     final fun <T : IEntityOrigin> findSyntheticEntityCollectPartByUk(uk: IContextOf<T>): IEntitySynthetic<out IEntityOrigin> {
         val originEntityName = uk.designEntityName
         val indexesDto =
@@ -232,8 +234,8 @@ class EntityDaoController(
         val ktSerializer = indexesDto.pkEntityData.serializer as KSerializer<IContextOf<T>>
         val ktEntitySerializer = uk.ktEntitySerializer as KSerializer<T>
         val ukJson = UKJsonVal(Json.encodeToString(ktSerializer, uk))
-        val findEnt = findEnt(ktEntitySerializer, uk.ukName, ukJson)
-        val originJsonElement = json.encodeToJsonElement(ktEntitySerializer, findEnt)
+        val findEnt = entityDao.findEnt(ktEntitySerializer, uk.ukName, ukJson)
+        val originJsonElement = serializer.modelJsonSerializer.encodeToJsonElement(ktEntitySerializer, findEnt)
 
 
         val queryJsons = jdbcOperations.query(
@@ -291,8 +293,7 @@ order by levell
         val serializerSynthetic = entityDataMap[originEntityName]!!.serializerSynthetic
 
 
-
-        val decodeFromJsonElement = json.decodeFromJsonElement(serializerSynthetic, jsonObject)
+        val decodeFromJsonElement = serializer.modelJsonSerializer.decodeFromJsonElement(serializerSynthetic, jsonObject)
 
 
 
@@ -354,7 +355,7 @@ order by levell
 
             val childrenJsonElementForOutEntity = collectChildrenJsonElement(outEntity, childEntityDtos)
             val childrenJsonForEntityName = childEntityDto.map { chDto ->
-                val originJsonElement = json.decodeStringToJsonTree(entityData.serializer, chDto.payload.value)
+                val originJsonElement = serializer.modelJsonSerializer.decodeStringToJsonTree(entityData.serializer, chDto.payload.value)
                 collectSyntheticJsonObject(childrenJsonElementForOutEntity, outEntity, originJsonElement)
             }
 
@@ -397,29 +398,7 @@ order by levell
         val ukJson = UKJsonVal(Json.encodeToString(ktSerializer, uk))
         val ukName = uk.ukName
 
-        return findEnt(ktEntitySerializer, ukName, ukJson)
-    }
-
-    private fun <TT> findEnt(
-        ktEntitySerializer: KSerializer<TT>,
-        ukName: UkName,
-        ukJson: UKJsonVal
-    ): TT {
-        val query = jdbcOperations.query(
-            """
-                        select e.payload
-                            from entity_uk_context uc
-                        join entity_context e on (uc.entity_type, uc.pk) = ((e.entity_type, e.pk))
-                        where uc.entity_type_uk = ? and uc.uk = ?
-                        """,
-            { rs, _ ->
-                json.decodeFromString(ktEntitySerializer, rs.getString(1))
-            },
-            ukName.value, ukJson.value
-        )
-        return if (query.size == 1)
-            query[0]
-        else error("Not found uk ${ukName.value} with value ${ukJson.value}")
+        return entityDao.findEnt(ktEntitySerializer, ukName, ukJson)
     }
 
     @Suppress("UNCHECKED_CAST")
@@ -438,7 +417,7 @@ order by levell
                 where uc.entity_type_uk = ? and uc.uk = ?
                 """,
             { rs, _ ->
-                json.decodeFromString(ktEntitySerializer, rs.getString(1))
+                serializer.modelJsonSerializer.decodeFromString(ktEntitySerializer, rs.getString(1))
             },
             uk.ukName.value, ukJson
         )
