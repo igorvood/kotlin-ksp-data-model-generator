@@ -27,7 +27,7 @@ class EntityDao(
         )
     }
 
-    fun <TT> findEnt(
+    fun <TT> findEntityByUk(
         ktEntitySerializer: KSerializer<TT>,
         ukName: UkName,
         ukJson: UKJsonVal

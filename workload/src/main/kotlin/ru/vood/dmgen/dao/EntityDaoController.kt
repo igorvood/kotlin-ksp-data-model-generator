@@ -234,7 +234,7 @@ class EntityDaoController(
         val ktSerializer = indexesDto.pkEntityData.serializer as KSerializer<IContextOf<T>>
         val ktEntitySerializer = uk.ktEntitySerializer as KSerializer<T>
         val ukJson = UKJsonVal(Json.encodeToString(ktSerializer, uk))
-        val findEnt = entityDao.findEnt(ktEntitySerializer, uk.ukName, ukJson)
+        val findEnt = entityDao.findEntityByUk(ktEntitySerializer, uk.ukName, ukJson)
         val originJsonElement = serializer.modelJsonSerializer.encodeToJsonElement(ktEntitySerializer, findEnt)
 
 
@@ -398,7 +398,7 @@ order by levell
         val ukJson = UKJsonVal(Json.encodeToString(ktSerializer, uk))
         val ukName = uk.ukName
 
-        return entityDao.findEnt(ktEntitySerializer, ukName, ukJson)
+        return entityDao.findEntityByUk(ktEntitySerializer, ukName, ukJson)
     }
 
     @Suppress("UNCHECKED_CAST")
