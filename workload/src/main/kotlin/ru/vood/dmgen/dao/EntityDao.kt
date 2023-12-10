@@ -33,23 +33,28 @@ class EntityDao(
     val json = Json
 
 
+    /**Сохранение агрегата полностью, в одной строке, при это сохраняется только первичный и уникальные ключи,
+     * оригинальной ДТО, связанной с аггрегатом
+     * */
     final fun <T : IEntityOrigin> saveAggregate(aggregate: IEntitySynthetic<T>) {
         val entityName = aggregate.designEntityName
         val indexesDto = entitiesUkMap[entityName] ?: error("Почему то не найдена сущность ${entityName.value}")
-        val pkSerializer = indexesDto.pkEntityData.serializer as KSerializer<Any>
         val entityData = entityDataMap[entityName] ?: error("Почему то не найдена сущность ${entityName.value}")
+        val pkMeta = indexesDto.pkEntityData as UKEntityData<T>
+
+        val pkSerializer = indexesDto.pkEntityData.serializer as KSerializer<Any>
         val serializerSynthetic = entityData.serializerSynthetic as KSerializer<Any>
         checkFk(entityName, aggregate.origin)
 
 
-        val pkMeta = indexesDto.pkEntityData as UKEntityData<T>
+
         val pkDto = pkMeta.extractContext(aggregate.origin)
-        val pkJson = json.encodeToString(pkSerializer, pkDto)
-        val entityJson = json.encodeToString(serializerSynthetic, aggregate as Any)
+        val pkJson = PKJsonVal(json.encodeToString(pkSerializer, pkDto))
+        val entityJson = PayLoadJsonVal(json.encodeToString(serializerSynthetic, aggregate as Any))
 
         jdbcOperations.update(
             """insert into entity_context(pk, entity_type, payload) VALUES (?, ?, ?) """,
-            pkJson, entityName.value, entityJson
+            pkJson.value, entityName.value, entityJson.value
         )
 
 
@@ -57,7 +62,7 @@ class EntityDao(
             .forEach { ukMeta ->
                 val ukMetaData = ukMeta as UKEntityData<T>
                 val ukData = ukMetaData.extractContext(aggregate.origin)
-                entityUkDao.saveEntityUkDto(entityName, ukData, pkJson, ukMetaData)
+                entityUkDao.saveEntityUkDto(entityName, ukData, pkJson.value, ukMetaData)
             }
     }
 
