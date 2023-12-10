@@ -27,10 +27,8 @@ class RunEntitySave(
 //        entity.saveEntity(dealParamOneToOneEntity)
 
 //        val findByUk1 = entity.findEntityByUk(DealParamOneToOne_PKContext(dealId))
-//        println(findByUk1)
 //        val findByUk2 =
 //            entity.findEntityByUk<DealParamOneToOneEntity>(DealParamOneToOne_UKContext(dealId, paramDate))
-//        println(findByUk2)
 
 
         entity.saveEntity(DealEntity(dealId, "asd", null, true, null))

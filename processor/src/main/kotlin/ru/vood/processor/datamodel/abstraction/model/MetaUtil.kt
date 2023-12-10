@@ -129,10 +129,7 @@ fun metaInformation(annotatedDataClasses: List<KSAnnotated>, logger: KSPLogger):
     checkDublicateFKName(collectMetaForeignKey)
 
     val fieldsFk = fieldsFk(collectMetaForeignKey)
-    val metaInformation = MetaInformation(fieldsFk, entities)
-    val message = metaInformation.aggregateInnerDep()
-    println(message)
-    return metaInformation
+    return MetaInformation(fieldsFk, entities)
 }
 
 private fun checkDublicateFKName(collectMetaForeignKey: Set<MetaForeignKeyTemporary>) {

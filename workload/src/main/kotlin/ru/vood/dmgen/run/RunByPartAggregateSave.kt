@@ -50,9 +50,10 @@ class RunByPartAggregateSave(
         entity.saveAggregateByPart(dealExtendDataEntity)
 
 
-//        val findByUk1 = entity.findSyntheticEntityCollectPartByUk(Deal_PKContext(dealId))
+        val findByUk1 = entity.findSyntheticEntityCollectPartByUk(Deal_PKContext(dealId))
 
         log.info(aggregate.toString())
+        log.info(findByUk1.toString())
 
     }
 }

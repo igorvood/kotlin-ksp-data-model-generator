@@ -83,11 +83,6 @@ class DataModelConfigProcessor(
                         }
                     }
 
-                    if (collector.isEmpty()) {
-                        println(1)
-                    }
-
-
                     commonPackageRecurcive(collector, packacges.drop(1))
                 }
             }
