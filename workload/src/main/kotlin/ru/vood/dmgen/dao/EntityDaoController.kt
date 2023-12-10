@@ -22,6 +22,7 @@ import ru.vood.dmgen.meta.DerivativeColumns.entitiesSyntheticColumnsByEntityMap
 import ru.vood.dmgen.meta.DerivativeColumns.entitiesSyntheticColumnsMap
 import ru.vood.dmgen.meta.DerivativeFKs.foreignKeyMapFromEntity
 import ru.vood.dmgen.meta.DerivativeUk.entitiesUkMap
+import ru.vood.dmgen.meta.IndexesDto
 import ru.vood.dmgen.serial.ModelJsonSerializer
 
 @Repository
@@ -239,37 +240,7 @@ class EntityDaoController(
         val pkVal = entityDao.findPKJsonVal(uk, ukJson)
 
 
-        val childEntityDtos = jdbcOperations.query(
-            """with recursive temp1(entity_type, pk, parent_entity_type, parent_pk, payload, levell)
-                   as (select T1.entity_type,
-                              T1.pk,
-                              T1.parent_entity_type,
-                              T1.parent_pk,
-                              T1.payload,
-                              1
-                       from entity_context T1
-                       where
-                           T1.parent_pk = ?
-                         and T1.parent_entity_type = ?
-                       union all
-                       select t2.entity_type,
-                              t2.pk,
-                              t2.parent_entity_type,
-                              t2.parent_pk,
-                              t2.payload,
-                              levell + 1
-                       from entity_context t2
-                                inner join temp1
-                                           on t2.parent_entity_type = temp1.entity_type and t2.parent_pk = temp1.pk)
-select entity_type, pk, parent_entity_type, parent_pk, payload, levell
-from temp1
-order by levell
-                                    """,
-            { rs, _ ->
-                ChildEntityDto(entityType = EntityName(rs.getString(1)), payload = PayLoadJsonVal(rs.getString(5)))
-            },
-            pkVal.value, indexesDto.pkEntityData.entity.value
-        ).groupBy { it.entityType }
+        val childEntityDtos = entityDao.findAllChildEntityDto(pkVal, indexesDto)
 
         val collectChildrenJsonElement = collectChildrenJsonElement(originEntityName, childEntityDtos)
         val jsonObject = collectSyntheticJsonObject(collectChildrenJsonElement, originEntityName, originJsonElement)

@@ -7,12 +7,14 @@ import kotlinx.serialization.json.internal.decodeStringToJsonTree
 import org.springframework.jdbc.core.JdbcOperations
 import org.springframework.stereotype.Repository
 import ru.vood.dmgen.annotation.UkName
+import ru.vood.dmgen.dao.dto.ChildEntityDto
 import ru.vood.dmgen.dao.dto.PKJsonVal
 import ru.vood.dmgen.dao.dto.PayLoadJsonVal
 import ru.vood.dmgen.dao.dto.UKJsonVal
 import ru.vood.dmgen.intf.EntityName
 import ru.vood.dmgen.intf.IContextOf
 import ru.vood.dmgen.intf.IEntityOrigin
+import ru.vood.dmgen.meta.IndexesDto
 import ru.vood.dmgen.serial.ModelJsonSerializer
 
 @Repository
@@ -96,5 +98,40 @@ class EntityDao(
 
         return queryJsons[0]
     }
+
+    fun findAllChildEntityDto(
+        pkVal: PKJsonVal,
+        indexesDto: IndexesDto
+    ) = jdbcOperations.query(
+        """with recursive temp1(entity_type, pk, parent_entity_type, parent_pk, payload, levell)
+                       as (select T1.entity_type,
+                                  T1.pk,
+                                  T1.parent_entity_type,
+                                  T1.parent_pk,
+                                  T1.payload,
+                                  1
+                           from entity_context T1
+                           where
+                               T1.parent_pk = ?
+                             and T1.parent_entity_type = ?
+                           union all
+                           select t2.entity_type,
+                                  t2.pk,
+                                  t2.parent_entity_type,
+                                  t2.parent_pk,
+                                  t2.payload,
+                                  levell + 1
+                           from entity_context t2
+                                    inner join temp1
+                                               on t2.parent_entity_type = temp1.entity_type and t2.parent_pk = temp1.pk)
+    select entity_type, pk, parent_entity_type, parent_pk, payload, levell
+    from temp1
+    order by levell
+                                        """,
+        { rs, _ ->
+            ChildEntityDto(entityType = EntityName(rs.getString(1)), payload = PayLoadJsonVal(rs.getString(5)))
+        },
+        pkVal.value, indexesDto.pkEntityData.entity.value
+    ).groupBy { it.entityType }
 
 }
