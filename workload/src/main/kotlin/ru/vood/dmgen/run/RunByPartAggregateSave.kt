@@ -7,7 +7,7 @@ import org.springframework.boot.CommandLineRunner
 import org.springframework.core.annotation.Order
 import org.springframework.jdbc.core.JdbcOperations
 import org.springframework.stereotype.Service
-import ru.vood.dmgen.dao.EntityDao
+import ru.vood.dmgen.dao.EntityDaoController
 import ru.vood.dmgen.datamodel.runtime.dataclasses.context.Deal_PKContext
 import ru.vood.dmgen.datamodel.runtime.dataclassesOrigin.*
 import ru.vood.dmgen.datamodel.runtime.dataclassesSynthetic.*
@@ -17,7 +17,7 @@ import ru.vood.dmgen.intf.IEntitySynthetic
 @Service
 @Order(200)
 class RunByPartAggregateSave(
-    val entity: EntityDao,
+    val entity: EntityDaoController,
     val jdbcOperations: JdbcOperations
 ) : CommandLineRunner {
 

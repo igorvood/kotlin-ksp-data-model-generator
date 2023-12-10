@@ -9,10 +9,9 @@ import ru.vood.dmgen.intf.EntityName
 import ru.vood.dmgen.intf.IContextOf
 import ru.vood.dmgen.intf.IEntityOrigin
 import ru.vood.dmgen.intf.newIntf.UKEntityData
-import ru.vood.dmgen.meta.DerivativeUk
 
 @Repository
-class EntityUkDao(
+class EntityUkDaoController(
     val jdbcOperations: JdbcOperations
 ) {
 
