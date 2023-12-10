@@ -79,20 +79,18 @@ class EntityDaoController(
 
         val pkMeta = indexesDto.pkEntityData as UKEntityData<T>
         val pkDto: IContextOf<T> = pkMeta.extractContext(aggregate.origin)
-        val pkJson = json.encodeToString(pkSerializer, pkDto)
-        val entityJson = json.encodeToString(entitySerializer, aggregate.origin)
+        val pkJson = PKJsonVal(json.encodeToString(pkSerializer, pkDto))
+        val entityJson = PayLoadJsonVal(json.encodeToString(entitySerializer, aggregate.origin))
 
-        jdbcOperations.update(
-            """insert into entity_context(pk, entity_type, payload) VALUES (?, ?, ?) """,
-            pkJson, entityName.value, entityJson
-        )
+
+        entityDao.saveFullAggregateNoParent(pkJson, entityName, entityJson)
 
 
         indexesDto.ukAndPkMap.values
             .forEach { ukMeta ->
                 val ukMetaData = ukMeta as UKEntityData<T>
                 val ukData = ukMetaData.extractContext(aggregate.origin)
-                entityUkDao.saveEntityUkDto(entityName, ukData, pkJson, ukMetaData)
+                entityUkDao.saveEntityUkDto(entityName, ukData, pkJson.value, ukMetaData)
             }
 
 
