@@ -1,6 +1,9 @@
 package ru.vood.dmgen.dao
 
+import kotlinx.serialization.InternalSerializationApi
 import kotlinx.serialization.KSerializer
+import kotlinx.serialization.json.JsonElement
+import kotlinx.serialization.json.internal.decodeStringToJsonTree
 import org.springframework.jdbc.core.JdbcOperations
 import org.springframework.stereotype.Repository
 import ru.vood.dmgen.annotation.UkName
@@ -8,6 +11,8 @@ import ru.vood.dmgen.dao.dto.PKJsonVal
 import ru.vood.dmgen.dao.dto.PayLoadJsonVal
 import ru.vood.dmgen.dao.dto.UKJsonVal
 import ru.vood.dmgen.intf.EntityName
+import ru.vood.dmgen.intf.IContextOf
+import ru.vood.dmgen.intf.IEntityOrigin
 import ru.vood.dmgen.serial.ModelJsonSerializer
 
 @Repository
@@ -47,6 +52,49 @@ class EntityDao(
         return if (query.size == 1)
             query[0]
         else error("Not found uk ${ukName.value} with value ${ukJson.value}")
+    }
+
+    @OptIn(InternalSerializationApi::class)
+    fun <TT> findEntityAsJsonElementByUk(
+        ktEntitySerializer: KSerializer<TT>,
+        ukName: UkName,
+        ukJson: UKJsonVal
+    ): JsonElement {
+        val query = jdbcOperations.query(
+            """
+                        select e.payload
+                            from entity_uk_context uc
+                        join entity_context e on (uc.entity_type, uc.pk) = ((e.entity_type, e.pk))
+                        where uc.entity_type_uk = ? and uc.uk = ?
+                        """,
+            { rs, _ ->
+                serializer.modelJsonSerializer.decodeStringToJsonTree(ktEntitySerializer, rs.getString(1))
+            },
+            ukName.value, ukJson.value
+        )
+        return if (query.size == 1)
+            query[0]
+        else error("Not found uk ${ukName.value} with value ${ukJson.value}")
+    }
+
+    fun <T : IEntityOrigin> findPKJsonVal(
+        uk: IContextOf<T>,
+        ukJson: UKJsonVal
+    ): PKJsonVal {
+        val queryJsons = jdbcOperations.query(
+            """
+                    select e.pk
+                        from entity_uk_context uc
+                    join entity_context e on (uc.entity_type, uc.pk) = ((e.entity_type, e.pk))
+                    where uc.entity_type_uk = ? and uc.uk = ?
+                    """,
+            { rs, _ ->
+                PKJsonVal(rs.getString(1))
+            },
+            uk.ukName.value, ukJson.value
+        )
+
+        return queryJsons[0]
     }
 
 }

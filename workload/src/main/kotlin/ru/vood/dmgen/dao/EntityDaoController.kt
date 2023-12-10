@@ -234,26 +234,9 @@ class EntityDaoController(
         val ktSerializer = indexesDto.pkEntityData.serializer as KSerializer<IContextOf<T>>
         val ktEntitySerializer = uk.ktEntitySerializer as KSerializer<T>
         val ukJson = UKJsonVal(Json.encodeToString(ktSerializer, uk))
-        val findEnt = entityDao.findEntityByUk(ktEntitySerializer, uk.ukName, ukJson)
-        val originJsonElement = serializer.modelJsonSerializer.encodeToJsonElement(ktEntitySerializer, findEnt)
+        val originJsonElement = entityDao.findEntityAsJsonElementByUk(ktEntitySerializer, uk.ukName, ukJson)
 
-
-        val queryJsons = jdbcOperations.query(
-            """
-                select e.pk
-                    from entity_uk_context uc
-                join entity_context e on (uc.entity_type, uc.pk) = ((e.entity_type, e.pk))
-                where uc.entity_type_uk = ? and uc.uk = ?
-                """,
-            { rs, _ ->
-                PKJsonVal(rs.getString(1))
-//                json.decodeStringToJsonTree(ktEntitySerializer, rs.getString(1))
-//                json.decodeFromString(ktEntitySerializer, rs.getString(1))
-            },
-            uk.ukName.value, ukJson.value
-        )
-
-        val pkVal = queryJsons[0]
+        val pkVal = entityDao.findPKJsonVal(uk, ukJson)
 
 
         val childEntityDtos = jdbcOperations.query(
