@@ -103,6 +103,7 @@ class EntityDaoController(
         entityDao.saveFullAggregateNoParent(pkJson, entityNameOrigin, entityJson)
 
         // Сохранение всех уникальных ключей основной сущности
+        //TODO надобы сохранение батчем сделать
         indexesDto.ukAndPkMap.values
             .forEach { ukMeta ->
                 val ukMetaData = ukMeta as UKEntityData<T>
@@ -208,6 +209,7 @@ class EntityDaoController(
     }
 
 
+    /**сохранение обычной сущности, не синтетической, принцип как у синтетики, только дочерние не сохраняются*/
     @Suppress("UNCHECKED_CAST")
     final inline fun <reified T : IEntityOrigin> saveEntity(entity: T) {
         val entityName = entity.designEntityName
@@ -216,10 +218,7 @@ class EntityDaoController(
         val entityData = entityDataMap[entityName] ?: error("Почему то не найдена сущность ${entityName.value}")
         val entitySerializer = entityData.serializer as KSerializer<Any>
 
-
-        // тут очень не оптимально, нужно собрать мапу с правильным key
         checkFk(entityName, entity)
-
 
         val pkMeta = indexesDto.pkEntityData as UKEntityData<T>
         val pkDto = pkMeta.extractContext(entity)
