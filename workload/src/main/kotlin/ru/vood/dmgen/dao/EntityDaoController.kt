@@ -112,6 +112,7 @@ class EntityDaoController(
             }
 
 //        вытаскиваю все дочерние сущности из текущей
+//        TODO тут бы вытаскивание по легковеснее сделать, Думаю надо мету в ином разрезе собрать и это поможет
         val childEntityNames = childEntity(entityNameOrigin, aggregate)
 
 //        сохраняю все дочерние сущности
