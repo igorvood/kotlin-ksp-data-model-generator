@@ -24,6 +24,8 @@ import ru.vood.dmgen.meta.DerivativeFKs.foreignKeyMapFromEntity
 import ru.vood.dmgen.meta.DerivativeUk.entitiesUkMap
 import ru.vood.dmgen.serial.ModelJsonSerializer
 
+/** TODO сохранения происходят не в тразакциях, для MVP этого достаточно, но для прода надо продумать
+ * */
 @Repository
 class EntityDaoController(
     val jdbcOperations: JdbcOperations,
@@ -34,6 +36,7 @@ class EntityDaoController(
 
     /**Сохранение агрегата полностью, в одной строке, при это сохраняется только первичный и уникальные ключи,
      * оригинальной ДТО, связанной с аггрегатом
+     *
      * */
     final fun <T : IEntityOrigin> saveAggregate(aggregate: IEntitySynthetic<T>) {
 //        Вытаскиваю мету
