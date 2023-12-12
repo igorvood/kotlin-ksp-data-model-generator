@@ -3,7 +3,7 @@ package ru.vood.dmgen.meta
 import ru.vood.dmgen.intf.IEntityOrigin
 import ru.vood.dmgen.intf.newIntf.UKEntityData
 
-/**Мета информаци по уникальным индексам и первичным ключам*/
+/**Мета информация по уникальным индексам и первичным ключам*/
 data class IndexesMetaDto(
     /**Мета по первичному ключу*/
     val pkEntityData: UKEntityData<out IEntityOrigin>,
