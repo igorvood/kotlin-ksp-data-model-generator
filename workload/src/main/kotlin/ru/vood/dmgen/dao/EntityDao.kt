@@ -134,4 +134,22 @@ class EntityDao(
         pkVal.value, indexesMetaDto.pkEntityData.entity.value
     ).groupBy { it.entityType }
 
+
+    fun saveChldrenEntity(
+        pkChildrenJson: PKJsonVal,
+        childrenEntityName: EntityName,
+        childrenEntityJson: PayLoadJsonVal,
+        pkDtoParentEntityName: EntityName,
+        pkJsonParent: PKJsonVal
+    ) {
+        jdbcOperations.update(
+            """insert into entity_context(pk, entity_type, payload, parent_entity_type, parent_pk) VALUES (?, ?, ?, ?, ?) """,
+            pkChildrenJson.value,
+            childrenEntityName.value,
+            childrenEntityJson.value,
+            pkDtoParentEntityName.value,
+            pkJsonParent.value
+        )
+    }
+
 }

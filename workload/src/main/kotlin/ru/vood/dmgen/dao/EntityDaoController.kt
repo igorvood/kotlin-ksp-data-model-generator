@@ -171,14 +171,12 @@ class EntityDaoController(
                 val childrenEntityJson =
                     PayLoadJsonVal(serializer.modelJsonSerializer.encodeToString(childrenEntitySerializer, synth.origin))
 
-
-                jdbcOperations.update(
-                    """insert into entity_context(pk, entity_type, payload, parent_entity_type, parent_pk) VALUES (?, ?, ?, ?, ?) """,
-                    pkChildrenJson.value,
-                    childrenEntityName.value,
-                    childrenEntityJson.value,
-                    pkDtoParentEntityName.value,
-                    pkJsonParent.value
+                entityDao.saveChldrenEntity(
+                    pkChildrenJson,
+                    childrenEntityName,
+                    childrenEntityJson,
+                    pkDtoParentEntityName,
+                    pkJsonParent
                 )
 
                 indexesDto.ukAndPkMap.values
@@ -212,6 +210,7 @@ class EntityDaoController(
         }
 
     }
+
 
 
     @Suppress("UNCHECKED_CAST")
