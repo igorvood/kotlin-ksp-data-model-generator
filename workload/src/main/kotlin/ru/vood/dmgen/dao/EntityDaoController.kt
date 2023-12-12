@@ -196,6 +196,8 @@ class EntityDaoController(
                         entityUkDao.saveEntityUkDto(childrenEntityName, ukData, pkChildrenJson.value, ukMetaData)
                     }
 //              у текущей дочерней могут быть свои дочериние. посему надо вызвать рекурсивно, для их сохранения
+//TODO тут, если заметить то тут рекрсивно вызывается очень много раз. Думаю есть большой потенциал для опртимизации, просто подумать надо сильнее.
+// TODO для оптимизации надо рекурсивный вызов вынести за пределы итераторов, если такое возможно
                 val childEntity = childEntity(childrenEntityName, synth)
                 saveChildEntities(childEntity, pkChildrenDto)
             }
