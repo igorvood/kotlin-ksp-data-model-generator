@@ -136,6 +136,7 @@ class EntityDaoController(
         /**первичный ключ основной сущности*/
         pkDtoParent: IContextOf<IEntityOrigin>
     ) {
+        val pkDtoParentEntityName = pkDtoParent.designEntityName
 //        Бегаю по всем дочерним
         childEntityNames.map { entry ->
             val childrenEntityName = entry.key
@@ -159,7 +160,7 @@ class EntityDaoController(
             val childrenEntitySerializer = childrenEntityData.serializer as KSerializer<Any>
             val pkSerializerParent = indexesDtoParent.pkEntityData.serializer as KSerializer<Any>
 
-            val pkJsonParent = serializer.modelJsonSerializer.encodeToString(pkSerializerParent, pkDtoParent)
+            val pkJsonParent = PKJsonVal(serializer.modelJsonSerializer.encodeToString(pkSerializerParent, pkDtoParent))
 
 //            багаю по каждой конкретной дочерней сущности из коллекции и пыжусь сохранить
             childrenSynthetics.forEach { synth: IEntitySynthetic<out IEntityOrigin> ->
@@ -168,15 +169,16 @@ class EntityDaoController(
 
                 val pkChildrenJson = PKJsonVal(serializer.modelJsonSerializer.encodeToString(pkChildrenSerializer, pkChildrenDto))
                 val childrenEntityJson =
-                    serializer.modelJsonSerializer.encodeToString(childrenEntitySerializer, synth.origin)
+                    PayLoadJsonVal(serializer.modelJsonSerializer.encodeToString(childrenEntitySerializer, synth.origin))
+
 
                 jdbcOperations.update(
                     """insert into entity_context(pk, entity_type, payload, parent_entity_type, parent_pk) VALUES (?, ?, ?, ?, ?) """,
                     pkChildrenJson.value,
                     childrenEntityName.value,
-                    childrenEntityJson,
-                    pkDtoParent.designEntityName.value,
-                    pkJsonParent
+                    childrenEntityJson.value,
+                    pkDtoParentEntityName.value,
+                    pkJsonParent.value
                 )
 
                 indexesDto.ukAndPkMap.values
