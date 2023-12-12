@@ -150,36 +150,39 @@ class EntityDaoController(
 //            вытаскиваю мету по дочерней сущности
             val childrenEntityData = entityDataMap[childrenEntityName] ?: error("Почему то не найдена сущность ${childrenEntityName.value}")
             val indexesDto = entitiesUkMap[childrenEntityName] ?: error("Почему то не найдена сущность ${childrenEntityName.value}")
+            val pkMeta: UKEntityData<IEntityOrigin> = indexesDto.pkEntityData as UKEntityData<IEntityOrigin>
+            val indexesDtoParent =
+                entitiesUkMap[pkDtoParent.designEntityName] ?: error("asdasdasdasdas 9280347jkhlkb ")
 
+//            сериализаторы
+            val pkChildrenSerializer = pkMeta.serializer as KSerializer<Any>
+            val childrenEntitySerializer = childrenEntityData.serializer as KSerializer<Any>
+            val pkSerializerParent = indexesDtoParent.pkEntityData.serializer as KSerializer<Any>
 
+            val pkJsonParent = serializer.modelJsonSerializer.encodeToString(pkSerializerParent, pkDtoParent)
+
+//            багаю по каждой конкретной дочерней сущности из коллекции и пыжусь сохранить
             childrenSynthetics.forEach { synth: IEntitySynthetic<out IEntityOrigin> ->
-                val pkMeta: UKEntityData<IEntityOrigin> = indexesDto.pkEntityData as UKEntityData<IEntityOrigin>
-                val origin = synth.origin
-                val pkDto = pkMeta.extractContext(origin)
-                val pkSerializer = pkMeta.serializer as KSerializer<Any>
-                val pkJson = serializer.modelJsonSerializer.encodeToString(pkSerializer, pkDto)
+                val childrenOrigin = synth.origin
+                val pkChildrenDto = pkMeta.extractContext(childrenOrigin)
 
-                val entitySerializer = childrenEntityData.serializer as KSerializer<Any>
-                val entityJson = serializer.modelJsonSerializer.encodeToString(entitySerializer, synth.origin)
-                val indexesDtoParent =
-                    entitiesUkMap[pkDtoParent.designEntityName] ?: error("asdasdasdasdas 9280347jkhlkb ")
-                val pkSerializerParent = indexesDtoParent.pkEntityData.serializer as KSerializer<Any>
-                val pkJsonParent = serializer.modelJsonSerializer.encodeToString(pkSerializerParent, pkDtoParent)
+                val pkChildrenJson = serializer.modelJsonSerializer.encodeToString(pkChildrenSerializer, pkChildrenDto)
+                val entityJson = serializer.modelJsonSerializer.encodeToString(childrenEntitySerializer, synth.origin)
 
                 jdbcOperations.update(
                     """insert into entity_context(pk, entity_type, payload, parent_entity_type, parent_pk) VALUES (?, ?, ?, ?, ?) """,
-                    pkJson, childrenEntityName.value, entityJson, pkDtoParent.designEntityName.value, pkJsonParent
+                    pkChildrenJson, childrenEntityName.value, entityJson, pkDtoParent.designEntityName.value, pkJsonParent
                 )
 
                 indexesDto.ukAndPkMap.values
                     .forEach { ukMeta ->
                         val ukMetaData = ukMeta as UKEntityData<IEntityOrigin>
-                        val ukData = ukMetaData.extractContext(origin)
-                        entityUkDao.saveEntityUkDto(childrenEntityName, ukData, pkJson, ukMetaData)
+                        val ukData = ukMetaData.extractContext(childrenOrigin)
+                        entityUkDao.saveEntityUkDto(childrenEntityName, ukData, pkChildrenJson, ukMetaData)
                     }
 
                 val childEntity = childEntity(childrenEntityName, synth)
-                saveChildEntities(childEntity, pkDto)
+                saveChildEntities(childEntity, pkChildrenDto)
 //
             }
 
