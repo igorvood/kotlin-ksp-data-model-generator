@@ -9,7 +9,7 @@ import ru.vood.dmgen.intf.EntityName
 import ru.vood.dmgen.intf.FkPair
 import ru.vood.dmgen.intf.FullColumnName
 import ru.vood.dmgen.intf.SimpleColumnName
-import ru.vood.dmgen.intf.newIntf.FKEntityData
+import ru.vood.dmgen.intf.newIntf.FKMetaData
 import ru.vood.dmgen.intf.newIntf.FkPairNew
 import ru.vood.processor.datamodel.abstraction.model.MetaInformation
 import ru.vood.processor.datamodel.gen.*
@@ -49,7 +49,7 @@ class ForeignKeyMapGenerator(
                             """data.${fkPa.from.name.value}"""
                         }.joinToString(",")
 
-                        """${FkName::class.simpleName}("${metaForeign.name.value}") to ${FKEntityData::class.simpleName}<${
+                        """${FkName::class.simpleName}("${metaForeign.name.value}") to ${FKMetaData::class.simpleName}<${
                             entityClassName(
                                 metaForeign.fromEntity
                             )
@@ -90,7 +90,7 @@ import kotlinx.serialization.json.Json
 //import ${packageName.value}.${UniqueKeyEnumGenerator.uniqueKeyEnumGeneratorNameClass}.*
 import ${FkPair::class.java.canonicalName}
 import ${FkName::class.java.canonicalName}
-import ${FKEntityData::class.java.canonicalName}
+import ${FKMetaData::class.java.canonicalName}
 import ${EntityName::class.java.canonicalName}
 import ${FkPairNew::class.java.canonicalName}
 import ${SimpleColumnName::class.java.canonicalName}
