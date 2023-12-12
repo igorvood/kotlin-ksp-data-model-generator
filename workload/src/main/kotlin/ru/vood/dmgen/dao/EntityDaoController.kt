@@ -167,11 +167,11 @@ class EntityDaoController(
                 val pkChildrenDto = pkMeta.extractContext(childrenOrigin)
 
                 val pkChildrenJson = serializer.modelJsonSerializer.encodeToString(pkChildrenSerializer, pkChildrenDto)
-                val entityJson = serializer.modelJsonSerializer.encodeToString(childrenEntitySerializer, synth.origin)
+                val childrenEntityJson = serializer.modelJsonSerializer.encodeToString(childrenEntitySerializer, synth.origin)
 
                 jdbcOperations.update(
                     """insert into entity_context(pk, entity_type, payload, parent_entity_type, parent_pk) VALUES (?, ?, ?, ?, ?) """,
-                    pkChildrenJson, childrenEntityName.value, entityJson, pkDtoParent.designEntityName.value, pkJsonParent
+                    pkChildrenJson, childrenEntityName.value, childrenEntityJson, pkDtoParent.designEntityName.value, pkJsonParent
                 )
 
                 indexesDto.ukAndPkMap.values
