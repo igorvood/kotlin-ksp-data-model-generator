@@ -30,9 +30,7 @@ class EntityDaoController(
     val entityDao: EntityDao,
     val entityUkDao: EntityUkDaoController,
     val serializer: ModelJsonSerializer,
-
-
-    ) {
+) {
 
     /**Сохранение агрегата полностью, в одной строке, при это сохраняется только первичный и уникальные ключи,
      * оригинальной ДТО, связанной с аггрегатом
@@ -148,8 +146,10 @@ class EntityDaoController(
             val childrenSynthetics = entry.value
 
 //            вытаскиваю мету по дочерней сущности
-            val childrenEntityData = entityDataMap[childrenEntityName] ?: error("Почему то не найдена сущность ${childrenEntityName.value}")
-            val indexesDto = entitiesUkMap[childrenEntityName] ?: error("Почему то не найдена сущность ${childrenEntityName.value}")
+            val childrenEntityData =
+                entityDataMap[childrenEntityName] ?: error("Почему то не найдена сущность ${childrenEntityName.value}")
+            val indexesDto =
+                entitiesUkMap[childrenEntityName] ?: error("Почему то не найдена сущность ${childrenEntityName.value}")
             val pkMeta: UKEntityData<IEntityOrigin> = indexesDto.pkEntityData as UKEntityData<IEntityOrigin>
             val indexesDtoParent =
                 entitiesUkMap[pkDtoParent.designEntityName] ?: error("asdasdasdasdas 9280347jkhlkb ")
@@ -166,19 +166,24 @@ class EntityDaoController(
                 val childrenOrigin = synth.origin
                 val pkChildrenDto = pkMeta.extractContext(childrenOrigin)
 
-                val pkChildrenJson = serializer.modelJsonSerializer.encodeToString(pkChildrenSerializer, pkChildrenDto)
-                val childrenEntityJson = serializer.modelJsonSerializer.encodeToString(childrenEntitySerializer, synth.origin)
+                val pkChildrenJson = PKJsonVal(serializer.modelJsonSerializer.encodeToString(pkChildrenSerializer, pkChildrenDto))
+                val childrenEntityJson =
+                    serializer.modelJsonSerializer.encodeToString(childrenEntitySerializer, synth.origin)
 
                 jdbcOperations.update(
                     """insert into entity_context(pk, entity_type, payload, parent_entity_type, parent_pk) VALUES (?, ?, ?, ?, ?) """,
-                    pkChildrenJson, childrenEntityName.value, childrenEntityJson, pkDtoParent.designEntityName.value, pkJsonParent
+                    pkChildrenJson.value,
+                    childrenEntityName.value,
+                    childrenEntityJson,
+                    pkDtoParent.designEntityName.value,
+                    pkJsonParent
                 )
 
                 indexesDto.ukAndPkMap.values
                     .forEach { ukMeta ->
                         val ukMetaData = ukMeta as UKEntityData<IEntityOrigin>
                         val ukData = ukMetaData.extractContext(childrenOrigin)
-                        entityUkDao.saveEntityUkDto(childrenEntityName, ukData, pkChildrenJson, ukMetaData)
+                        entityUkDao.saveEntityUkDto(childrenEntityName, ukData, pkChildrenJson.value, ukMetaData)
                     }
 
                 val childEntity = childEntity(childrenEntityName, synth)
