@@ -20,7 +20,7 @@ object DerivativeUk {
             } else error("for ${d.key.value} must be one PK")
 
             val ukSet = map.filter { it.typeUk == TypeUk.UK }.toSet()
-            d.key to IndexesDto(pkEntityData, ukSet)
+            d.key to IndexesMetaDto(pkEntityData, ukSet)
         }
         .toMap()
 

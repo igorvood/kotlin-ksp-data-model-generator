@@ -109,17 +109,12 @@ class EntityDaoController(
                 entityUkDao.saveEntityUkDto(entityNameOrigin, ukData, pkJson.value, ukMetaData)
             }
 
-
+//        вытаскиваю все дочерние сущности из текущей
         val childEntityNames = childEntity(entityNameOrigin, aggregate)
 
+//        сохраняю все дочерние сущности
         saveChildEntities(childEntityNames, pkDto as IContextOf<IEntityOrigin>)
 
-
-        val entitiesSyntheticColumnsMap1 = entitiesSyntheticColumnsMap
-
-//
-        val size = entitiesSyntheticColumnsMap1.size
-//        saveEntity(aggregate.origin)
     }
 
     /**вытаскиваю все дочерние сущности из текущей
@@ -127,7 +122,7 @@ class EntityDaoController(
     private fun <T : IEntityOrigin> childEntity(
         designEntityName: EntityName,
         aggregate: IEntitySynthetic<T>
-    ) =
+    ): Map<EntityName, Set<IEntitySynthetic<out IEntityOrigin>>> =
         DerivativeColumns.entitiesColumnsMap[designEntityName]
             ?.entries
             ?.filter { it.value.iColKind !is Simple }?.map { it.value.outEntity!! }
@@ -136,25 +131,35 @@ class EntityDaoController(
             ?.toMap()
             ?: mapOf()
 
-    fun saveChildEntities(
+    /**сохраняю все дочерние сущности */
+    private fun saveChildEntities(
+        /**Дочерние сущности */
         childEntityNames: Map<EntityName, Set<IEntitySynthetic<out IEntityOrigin>>>,
+        /**первичный ключ основной сущности*/
         pkDtoParent: IContextOf<IEntityOrigin>
     ) {
+//        Бегаю по всем дочерним
         childEntityNames.map { entry ->
-            val entityName = entry.key
-            val entitySynthetics = entry.value
-            val entityData = entityDataMap[entityName] ?: error("Почему то не найдена сущность ${entityName.value}")
-            val indexesDto = entitiesUkMap[entityName] ?: error("Почему то не найдена сущность ${entityName.value}")
+            val childrenEntityName = entry.key
+            // тут коллекция дочерних, потому как может быть от 0 до n сущностей.
+            // например для опциональной тут может быть 0 или 1
+            // Обязательной строго 1
+            // для коллекции от 0 до n
+            val childrenSynthetics = entry.value
+
+//            вытаскиваю мету по дочерней сущности
+            val childrenEntityData = entityDataMap[childrenEntityName] ?: error("Почему то не найдена сущность ${childrenEntityName.value}")
+            val indexesDto = entitiesUkMap[childrenEntityName] ?: error("Почему то не найдена сущность ${childrenEntityName.value}")
 
 
-            entitySynthetics.forEach { synth: IEntitySynthetic<out IEntityOrigin> ->
+            childrenSynthetics.forEach { synth: IEntitySynthetic<out IEntityOrigin> ->
                 val pkMeta: UKEntityData<IEntityOrigin> = indexesDto.pkEntityData as UKEntityData<IEntityOrigin>
                 val origin = synth.origin
                 val pkDto = pkMeta.extractContext(origin)
                 val pkSerializer = pkMeta.serializer as KSerializer<Any>
                 val pkJson = serializer.modelJsonSerializer.encodeToString(pkSerializer, pkDto)
 
-                val entitySerializer = entityData.serializer as KSerializer<Any>
+                val entitySerializer = childrenEntityData.serializer as KSerializer<Any>
                 val entityJson = serializer.modelJsonSerializer.encodeToString(entitySerializer, synth.origin)
                 val indexesDtoParent =
                     entitiesUkMap[pkDtoParent.designEntityName] ?: error("asdasdasdasdas 9280347jkhlkb ")
@@ -163,17 +168,17 @@ class EntityDaoController(
 
                 jdbcOperations.update(
                     """insert into entity_context(pk, entity_type, payload, parent_entity_type, parent_pk) VALUES (?, ?, ?, ?, ?) """,
-                    pkJson, entityName.value, entityJson, pkDtoParent.designEntityName.value, pkJsonParent
+                    pkJson, childrenEntityName.value, entityJson, pkDtoParent.designEntityName.value, pkJsonParent
                 )
 
                 indexesDto.ukAndPkMap.values
                     .forEach { ukMeta ->
                         val ukMetaData = ukMeta as UKEntityData<IEntityOrigin>
                         val ukData = ukMetaData.extractContext(origin)
-                        entityUkDao.saveEntityUkDto(entityName, ukData, pkJson, ukMetaData)
+                        entityUkDao.saveEntityUkDto(childrenEntityName, ukData, pkJson, ukMetaData)
                     }
 
-                val childEntity = childEntity(entityName, synth)
+                val childEntity = childEntity(childrenEntityName, synth)
                 saveChildEntities(childEntity, pkDto)
 //
             }

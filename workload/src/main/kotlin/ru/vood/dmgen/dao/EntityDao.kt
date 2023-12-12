@@ -14,7 +14,7 @@ import ru.vood.dmgen.dao.dto.UKJsonVal
 import ru.vood.dmgen.intf.EntityName
 import ru.vood.dmgen.intf.IContextOf
 import ru.vood.dmgen.intf.IEntityOrigin
-import ru.vood.dmgen.meta.IndexesDto
+import ru.vood.dmgen.meta.IndexesMetaDto
 import ru.vood.dmgen.serial.ModelJsonSerializer
 
 @Repository
@@ -101,7 +101,7 @@ class EntityDao(
 
     fun findAllChildEntityDto(
         pkVal: PKJsonVal,
-        indexesDto: IndexesDto
+        indexesMetaDto: IndexesMetaDto
     ) = jdbcOperations.query(
         """with recursive temp1(entity_type, pk, parent_entity_type, parent_pk, payload, levell)
                        as (select T1.entity_type,
@@ -131,7 +131,7 @@ class EntityDao(
         { rs, _ ->
             ChildEntityDto(entityType = EntityName(rs.getString(1)), payload = PayLoadJsonVal(rs.getString(5)))
         },
-        pkVal.value, indexesDto.pkEntityData.entity.value
+        pkVal.value, indexesMetaDto.pkEntityData.entity.value
     ).groupBy { it.entityType }
 
 }
