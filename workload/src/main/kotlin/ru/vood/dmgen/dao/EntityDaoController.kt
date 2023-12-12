@@ -164,53 +164,43 @@ class EntityDaoController(
 
 //            багаю по каждой конкретной дочерней сущности из коллекции и пыжусь сохранить
             childrenSynthetics.forEach { synth: IEntitySynthetic<out IEntityOrigin> ->
+//                Вытаскиваю нужные ДТО
                 val childrenOrigin = synth.origin
                 val pkChildrenDto = pkMeta.extractContext(childrenOrigin)
 
-                val pkChildrenJson = PKJsonVal(serializer.modelJsonSerializer.encodeToString(pkChildrenSerializer, pkChildrenDto))
+//                Генеррю json-ы
+                val pkChildrenJson =
+                    PKJsonVal(serializer.modelJsonSerializer.encodeToString(pkChildrenSerializer, pkChildrenDto))
                 val childrenEntityJson =
-                    PayLoadJsonVal(serializer.modelJsonSerializer.encodeToString(childrenEntitySerializer, synth.origin))
+                    PayLoadJsonVal(
+                        serializer.modelJsonSerializer.encodeToString(
+                            childrenEntitySerializer,
+                            synth.origin
+                        )
+                    )
 
+//                сохраняю сущность
                 entityDao.saveChldrenEntity(
-                    pkChildrenJson,
-                    childrenEntityName,
-                    childrenEntityJson,
-                    pkDtoParentEntityName,
-                    pkJsonParent
+                    pkChildrenJson = pkChildrenJson,
+                    childrenEntityName = childrenEntityName,
+                    childrenEntityJson = childrenEntityJson,
+                    pkDtoParentEntityName = pkDtoParentEntityName,
+                    pkJsonParent = pkJsonParent
                 )
 
+//                Сохраняю уникальные ключи
                 indexesDto.ukAndPkMap.values
                     .forEach { ukMeta ->
                         val ukMetaData = ukMeta as UKEntityData<IEntityOrigin>
                         val ukData = ukMetaData.extractContext(childrenOrigin)
                         entityUkDao.saveEntityUkDto(childrenEntityName, ukData, pkChildrenJson.value, ukMetaData)
                     }
-
+//              у текущей дочерней могут быть свои дочериние. посему надо вызвать рекурсивно, для их сохранения
                 val childEntity = childEntity(childrenEntityName, synth)
                 saveChildEntities(childEntity, pkChildrenDto)
-//
             }
-
-
-//
-//
-//            jdbcOperations.update(
-//                """insert into entity_context(pk, entity_type, payload) VALUES (?, ?, ?) """,
-//                pkJson, entityName.value, entityJson
-//            )
-//
-//
-//            indexesDto.ukSet.plus(indexesDto.pkEntityData)
-//                .forEach { ukMeta ->
-//                    val ukMetaData = ukMeta as UKEntityData<T>
-//                    val ukData = ukMetaData.extractContext(aggregate.origin)
-//                    entityUkDao.saveEntityUkDto(entityName, ukData, pkJson)
-//                }
-
         }
-
     }
-
 
 
     @Suppress("UNCHECKED_CAST")
