@@ -3,15 +3,23 @@ package ru.vood.dmgen.intf.newIntf
 import ru.vood.dmgen.intf.*
 
 
+/**Мета данные по реквизиту сущности*/
 data class ColumnEntityData<T>(
+    /**имя сущности*/
      val entity: EntityName,
+    /**имя сущности, если реквизит является иной сущностью, по сути это форен*/
      val outEntity: EntityName?,
 //    override val kProperty1: KProperty1<out T, *>,
+    /**имя колонки*/
      val simpleColumnName: SimpleColumnName,
+    /**признак опциональности колонки*/
      val isOptional: Boolean,
+    /**коментарий колонки*/
      val comment: String,
     @Deprecated("use iColKind")
+    /**тип колонки*/
      val columnKind: ColumnKind,
+    /**тип колонки*/
      val iColKind: IColKind<T, *>
 
 )

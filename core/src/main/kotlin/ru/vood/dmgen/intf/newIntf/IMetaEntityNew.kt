@@ -9,7 +9,7 @@ import kotlin.reflect.KClass
 
 
 
-/**Мета данные по сущности ключу*/
+/**Мета данные по сущности*/
 data class EntityData<T : IEntityOrigin>(
      /**интрефейс описывающий структуру сущности */
      val designClass: KClass<out Any>,
