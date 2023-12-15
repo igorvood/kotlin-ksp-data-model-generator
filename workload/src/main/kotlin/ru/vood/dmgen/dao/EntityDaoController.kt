@@ -38,6 +38,7 @@ class EntityDaoController(
      * оригинальной ДТО, связанной с аггрегатом
      *
      * */
+    @Suppress("UNCHECKED_CAST")
     final fun <T : IEntityOrigin> saveAggregate(aggregate: IEntitySynthetic<T>) {
 //        Вытаскиваю мету
         val entityNameOrigin = aggregate.designEntityName
@@ -75,6 +76,7 @@ class EntityDaoController(
 
     /**Сохранение агрегата по частям, каждая саб сущность помещается в отдельную строчку таблицы,
      * с сохранением всех ее уникальных ключей*/
+    @Suppress("UNCHECKED_CAST")
     final fun <T : IEntityOrigin> saveAggregateByPart(aggregate: IEntitySynthetic<T>) {
         // Вытаскиваю мету
         val entityNameOrigin = aggregate.designEntityName
@@ -135,6 +137,7 @@ class EntityDaoController(
             ?: mapOf()
 
     /**сохраняю все дочерние сущности */
+    @Suppress("UNCHECKED_CAST")
     private fun saveChildEntities(
         /**Дочерние сущности */
         childEntityNames: Map<EntityName, Set<IEntitySynthetic<out IEntityOrigin>>>,
@@ -256,12 +259,13 @@ class EntityDaoController(
             }
     }
 
+    @Suppress("UNCHECKED_CAST")
     final fun <T : IEntityOrigin> findSyntheticEntityCollectPartByUk(uk: IContextOf<T>): IEntitySynthetic<out IEntityOrigin> {
         val originEntityName = uk.designEntityName
         val indexesDto =
             entitiesUkMap[originEntityName] ?: error("Почему то не найдена сущность ${originEntityName.value}")
         val ktSerializer = indexesDto.pkEntityData.serializer as KSerializer<IContextOf<T>>
-        val ktEntitySerializer = uk.ktEntitySerializer as KSerializer<T>
+        val ktEntitySerializer = uk.ktEntitySerializer
         val ukJson = UKJsonVal(Json.encodeToString(ktSerializer, uk))
         val originJsonElement = entityDao.findEntityAsJsonElementByUk(ktEntitySerializer, uk.ukName, ukJson)
 
@@ -385,7 +389,7 @@ class EntityDaoController(
         val indexesDto = entitiesUkMap[entityName] ?: error("Почему то не найдена сущность ${entityName.value}")
 
         val ktSerializer = indexesDto.pkEntityData.serializer as KSerializer<IContextOf<T>>
-        val ktEntitySerializer = uk.ktEntitySerializer as KSerializer<T>
+        val ktEntitySerializer = uk.ktEntitySerializer
         val ukJson = Json.encodeToString(ktSerializer, uk)
         val query = jdbcOperations.query(
             """
