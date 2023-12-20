@@ -8,9 +8,12 @@ import org.springframework.core.annotation.Order
 import org.springframework.jdbc.core.JdbcOperations
 import org.springframework.stereotype.Service
 import ru.vood.dmgen.dao.EntityDaoController
-import ru.vood.dmgen.datamodel.runtime.dataclasses.context.Deal_PKContext
-import ru.vood.dmgen.datamodel.runtime.dataclassesOrigin.*
-import ru.vood.dmgen.datamodel.runtime.dataclassesSynthetic.*
+import ru.vood.dmgen.datamodel.*
+import ru.vood.dmgen.datamodel.a.DealEntity
+import ru.vood.dmgen.datamodel.a.DealSynthetic
+import ru.vood.dmgen.datamodel.a.Deal_PKContext
+import ru.vood.dmgen.datamodel.b.DealExtendDataEntity
+import ru.vood.dmgen.datamodel.b.DealExtendDataSynthetic
 import ru.vood.dmgen.datamodel.valueClasses.DealId
 import ru.vood.dmgen.intf.IEntitySynthetic
 

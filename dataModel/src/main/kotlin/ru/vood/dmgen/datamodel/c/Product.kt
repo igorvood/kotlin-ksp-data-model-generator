@@ -1,4 +1,4 @@
-package ru.vood.dmgen.datamodel
+package ru.vood.dmgen.datamodel.c
 
 import ru.vood.dmgen.annotation.*
 import ru.vood.dmgen.datamodel.valueClasses.DealId
@@ -7,7 +7,7 @@ import ru.vood.dmgen.datamodel.valueClasses.DealId
 @ForeignKey(
 //    kClass = Deal::class.java.canonicalName,
 
-    kClass = "ru.vood.dmgen.datamodel.Deal",
+    kClass = "ru.vood.dmgen.datamodel.a.Deal",
     "Product_FK_1",
     cols = [ForeignKeyColumns("dealId", "id")]
 )

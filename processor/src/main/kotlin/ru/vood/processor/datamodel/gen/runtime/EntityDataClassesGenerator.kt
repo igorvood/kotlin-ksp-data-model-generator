@@ -69,7 +69,9 @@ override val ${col.name.value}: $kotlinMetaClass$nullableSymbol""".trimIndent()
             FlowEntityType.INNER_OPTIONAL, FlowEntityType.INNER_MANDATORY -> """${IEntityOrigin::class.java.canonicalName}<$fullClassName>, ${metaEntity.designClassFullClassName.value}"""
         }
 
-        val code = """package ${packageName.value}
+//        val code = """package ${packageName.value}
+        val code = """package ${metaEntity.designClassPackageName}
+            
                     
 ${
             metaEntity.comment?.let {

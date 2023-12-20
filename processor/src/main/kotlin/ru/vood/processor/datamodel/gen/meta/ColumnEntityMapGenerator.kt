@@ -49,6 +49,7 @@ class ColumnEntityMapGenerator(
 //                        val entityClass = """${ent.designClassFullClassName.value}"""
                         val entityClass = entityClassName(ent)
                         val syntheticClassName = syntheticClassName(ent)
+                        val designClassPackageName = ent.designClassPackageName
                         val syntheticF = syntheticFieldInfos
                             .sortedBy { it.metaEntity.entityFieldName }
                             .map { syntheticFieldInfo ->
@@ -66,18 +67,18 @@ class ColumnEntityMapGenerator(
 
                                 val columnKindType = when (syntheticFieldInfo.relationType) {
                                     RelationType.ONE_TO_ONE_OPTIONAL -> if (isOptional)
-                                        "${Synthetic::class.simpleName}<$entityClass, $syntheticClassName, ${
+                                        "${Synthetic::class.simpleName}<$designClassPackageName.$entityClass, $designClassPackageName.$syntheticClassName, ${syntheticFieldInfo.metaEntity.designClassPackageName}.${
                                             entityClassName(
                                                 syntheticFieldInfo.metaEntity
                                             )
                                         }>{it.${fromEntity.entityFieldName}?.let{q->setOf(q)}?:setOf()}"
                                     else
-                                        "${Synthetic::class.simpleName}<$entityClass, $syntheticClassName, ${
+                                        "${Synthetic::class.simpleName}<$designClassPackageName.$entityClass, $designClassPackageName.$syntheticClassName, ${syntheticFieldInfo.metaEntity.designClassPackageName}.${
                                             entityClassName(
                                                 syntheticFieldInfo.metaEntity
                                             )
                                         } >{setOf(it.${fromEntity.entityFieldName})}"
-                                    RelationType.MANY_TO_ONE -> "SyntheticSet<$entityClass, $syntheticClassName, ${
+                                    RelationType.MANY_TO_ONE -> "SyntheticSet<$designClassPackageName.$entityClass, $designClassPackageName.$syntheticClassName, ${syntheticFieldInfo.metaEntity.designClassPackageName}.${
                                         entityClassName(
                                             syntheticFieldInfo.metaEntity
                                         )
@@ -120,7 +121,7 @@ class ColumnEntityMapGenerator(
                                 |${f.isNullable},
                                 |"${f.comment}",
                                 |${ColumnKind.SIMPLE.name},
-                                |${Simple::class.simpleName}<$entityClass, ${f.type}$question> {it.${f.name.value}}
+                                |${Simple::class.simpleName}<$designClassPackageName.$entityClass, ${f.type}$question> {it.${f.name.value}}
                                 |)""".trimMargin()
                             }
                         simpleF.plus(syntheticF)
@@ -143,8 +144,8 @@ import ${IColKind::class.java.canonicalName}
 import ${Simple::class.java.canonicalName}
 import ${Synthetic::class.java.canonicalName}
 import ${SyntheticSet::class.java.canonicalName}
-import ${rootPackage.value}.${entitySyntheticDataClassesGeneratorPackageName.value}.*
-import ${rootPackage.value}.${entityOriginDataClassesGeneratorPackageName.value}.*
+//import ${rootPackage.value}.${entitySyntheticDataClassesGeneratorPackageName.value}.*
+//import ${rootPackage.value}.${entityOriginDataClassesGeneratorPackageName.value}.*
 
 import kotlin.reflect.KProperty1
 

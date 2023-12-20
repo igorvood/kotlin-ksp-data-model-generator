@@ -54,7 +54,7 @@ override val ${col.name.value}: $kotlinMetaClass$nullableSymbol""".trimIndent()
             """${IEntityOrigin::class.java.simpleName}/*<$fullClassName>*/, ${metaEntity.designClassFullClassName.value}"""
 
 
-        val code = """package ${packageName.value}
+        val code = """package ${metaEntity.designClassPackageName}
                     
 ${
             metaEntity.comment?.let {
@@ -96,7 +96,7 @@ $simpleColumns
             .flatten()
             .toSet()
 
-        val plus = collector.plus(GeneratedFile(FileName(fullClassName), GeneratedCode(code), packageName)).plus(map)
+        val plus = collector.plus(GeneratedFile(FileName(fullClassName), GeneratedCode(code), PackageName(metaEntity.designClassPackageName))).plus(map)
 
 
         return plus

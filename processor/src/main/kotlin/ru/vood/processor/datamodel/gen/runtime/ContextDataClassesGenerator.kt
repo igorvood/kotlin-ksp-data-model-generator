@@ -46,14 +46,14 @@ class ContextDataClassesGenerator(
                     .joinToString(",\n")
 
                 val fullClassName = ukClassName(ukName)
-                val code = """package ${packageName.value}
+                val code = """package ${metaEntity.designClassPackageName}
                     
 import ${UkName::class.java.canonicalName}
 import ${EntityName::class.java.canonicalName}
 import ${Generated::class.java.canonicalName}
 import kotlinx.serialization.KSerializer
-import ${rootPackage.value}.${entityOriginDataClassesGeneratorPackageName.value}.$entityName
-import ${rootPackage.value}.${entitySyntheticDataClassesGeneratorPackageName.value}.*
+//import ${rootPackage.value}.${entityOriginDataClassesGeneratorPackageName.value}.$entityName
+//import ${rootPackage.value}.${entitySyntheticDataClassesGeneratorPackageName.value}.*
                     
 @kotlinx.serialization.Serializable
 @Generated("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
@@ -88,7 +88,7 @@ companion object{
                 """.trimIndent()
 
                 logger.info("Create $fullClassName")
-                GeneratedFile(FileName(fullClassName), GeneratedCode(code), packageName)
+                GeneratedFile(FileName(fullClassName), GeneratedCode(code), PackageName(metaEntity.designClassPackageName))
 
 
             }.toSet()

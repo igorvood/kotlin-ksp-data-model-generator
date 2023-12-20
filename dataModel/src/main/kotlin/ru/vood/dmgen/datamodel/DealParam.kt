@@ -5,7 +5,7 @@ import ru.vood.dmgen.datamodel.valueClasses.DealId
 
 @FlowEntity(FlowEntityType.INNER_MANDATORY)
 @ForeignKey(
-    kClass = "ru.vood.dmgen.datamodel.Deal",
+    kClass = "ru.vood.dmgen.datamodel.a.Deal",
     "DealParamOneToOne_Deal_FK",
     cols = [ForeignKeyColumns("dealId", "id")]
 )
@@ -34,7 +34,7 @@ interface InnerToDealParamOneToOne {
 
 @FlowEntity
 @ForeignKey(
-    kClass = "ru.vood.dmgen.datamodel.Deal",
+    kClass = "ru.vood.dmgen.datamodel.a.Deal",
     "DealParamOneToOneOptional_Deal_FK",
     cols = [ForeignKeyColumns("dealId", "id")]
 )
@@ -46,7 +46,7 @@ interface DealParamOneToOneOptional {
 
 @FlowEntity//(FlowEntityType.INNER_MANDATORY)
 @ForeignKey(
-    kClass = "ru.vood.dmgen.datamodel.Deal",
+    kClass = "ru.vood.dmgen.datamodel.a.Deal",
     "DealParamSet_Deal_FK",
     cols = [ForeignKeyColumns("dealId", "id")]
 )

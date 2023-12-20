@@ -4,11 +4,11 @@ import ru.vood.dmgen.annotation.*
 import ru.vood.dmgen.datamodel.valueClasses.DealId
 
 //@FlowEntity(FlowEntityType.INNER_MANDATORY)
-//@ForeignKey(
-//    kClass = "ru.vood.dmgen.datamodel.Deal",
-//    "DealOneOfData_FK",
-//    cols = [ForeignKeyColumns("dealId", "id")]
-//)
+@ForeignKey(
+    kClass = "ru.vood.dmgen.datamodel.a.Deal",
+    "DealOneOfData_FK",
+    cols = [ForeignKeyColumns("dealId", "id")]
+)
 @kotlinx.serialization.Serializable
 sealed interface DealOneOfData {
     @Pk
@@ -18,12 +18,11 @@ sealed interface DealOneOfData {
 
 
 //@FlowEntity(FlowEntityType.INNER_MANDATORY)
-//@ForeignKey(
-//    kClass = "ru.vood.dmgen.datamodel.DealOneOfData",
-//    "DealOneData_FK",
-//    cols = [ForeignKeyColumns("dealId", "dealId")]
-//)
-
+@ForeignKey(
+    kClass = "ru.vood.dmgen.datamodel.DealOneOfData",
+    "DealOneData_FK",
+    cols = [ForeignKeyColumns("dealId", "dealId")]
+)
 interface DealOneData {
     @Pk
     @Comment("Это ее идентификатор")
@@ -34,12 +33,11 @@ interface DealOneData {
 
 
 //@FlowEntity(FlowEntityType.INNER_MANDATORY)
-//@ForeignKey(
-//    kClass = "ru.vood.dmgen.datamodel.DealOneOfData",
-//    "DealTwoData_FK",
-//    cols = [ForeignKeyColumns("dealId", "dealId")]
-//)
-
+@ForeignKey(
+    kClass = "ru.vood.dmgen.datamodel.DealOneOfData",
+    "DealTwoData_FK",
+    cols = [ForeignKeyColumns("dealId", "dealId")]
+)
 interface DealTwoData {
     @Pk
     @Comment("Это ее идентификатор")

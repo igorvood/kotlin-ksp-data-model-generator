@@ -37,7 +37,13 @@ class SyntheticFieldExtractorsGenerator(
         val metaEntity = aggregateInnerDep.metaEntity
 
         val chldrenEntities = aggregateInnerDep.children.map { it.metaEntity }
-        val fk = syntheticFieldInfos(chldrenEntities, metaForeignKeys, metaEntity, logger)
+        val syntheticFieldInfos = syntheticFieldInfos(chldrenEntities, metaForeignKeys, metaEntity, logger)
+
+        val syntheticFieldImport = syntheticFieldInfos
+            .map { "import ${it.metaEntity.designClassPackageName}.${syntheticClassName(it.metaEntity)}" }
+            .joinToString(separator = "\n")
+
+        val fk = syntheticFieldInfos
             .map { syntheticFieldInfo ->
                 val s = if (syntheticFieldInfo.isOptional) "?" else ""
                 val genField = genField(syntheticFieldInfo.metaEntity, s, syntheticFieldInfo.relationType)
@@ -46,7 +52,7 @@ class SyntheticFieldExtractorsGenerator(
             }
             .joinToString(",\n") { it.get() }
 
-        val fkFunCode = syntheticFieldInfos(chldrenEntities, metaForeignKeys, metaEntity, logger)
+        val fkFunCode = syntheticFieldInfos
             .map { syntheticFieldInfo ->
                 val s = if (syntheticFieldInfo.isOptional) "?" else ""
                 val genField = genWhenCondition(syntheticFieldInfo.metaEntity, s, syntheticFieldInfo.relationType)
@@ -63,7 +69,7 @@ class SyntheticFieldExtractorsGenerator(
         val s = """${IEntitySynthetic::class.java.simpleName}<$originClassName>"""
 
 
-        val code = """package ${packageName.value}
+        val code = """package ${metaEntity.designClassPackageName}
                     
 ${
             metaEntity.comment?.let {
@@ -77,7 +83,8 @@ import ${IEntitySynthetic::class.java.canonicalName}
 import ${EntityName::class.java.canonicalName}
 import ${Generated::class.java.canonicalName}
 import ${IEntityOrigin::class.java.canonicalName}
-import ${rootPackage.value}.${entityOriginDataClassesGeneratorPackageName.value}.*
+${syntheticFieldImport}
+//import ${rootPackage.value}.${entityOriginDataClassesGeneratorPackageName.value}.*
 
 @Generated("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
 @kotlinx.serialization.Serializable
@@ -125,7 +132,7 @@ $fk
             .flatten()
             .toSet()
 
-        val plus = collector.plus(GeneratedFile(FileName(fullClassName), GeneratedCode(code), packageName)).plus(map)
+        val plus = collector.plus(GeneratedFile(FileName(fullClassName), GeneratedCode(code), PackageName(metaEntity.designClassPackageName))).plus(map)
 
 
         return plus

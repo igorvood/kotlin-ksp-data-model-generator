@@ -24,6 +24,7 @@ class EntityMapGenerator(
 
     override fun textGenerator(metaInfo: MetaInformation): Set<GeneratedFile> {
         val generatedClassData = metaInfo.entities.values.toSet()
+
         return when (generatedClassData.isEmpty()) {
             true -> setOf()
             false -> {
@@ -54,8 +55,9 @@ import ${FlowEntityType::class.java.canonicalName}
 import ${EntityData::class.java.canonicalName}
 import ${EntityName::class.java.canonicalName}
 import ${Generated::class.java.canonicalName}
-import ${rootPackage.value}.${entityOriginDataClassesGeneratorPackageName.value}.*
-import ${rootPackage.value}.${entitySyntheticDataClassesGeneratorPackageName.value}.*
+//import ${rootPackage.value}.${entityOriginDataClassesGeneratorPackageName.value}.*
+//import ${rootPackage.value}.${entitySyntheticDataClassesGeneratorPackageName.value}.*
+${metaInfo.allEntityPackagesImport}
 
 @Generated("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
 val entityDataMap = mapOf(

@@ -6,15 +6,15 @@ import org.springframework.core.annotation.Order
 import org.springframework.jdbc.core.JdbcOperations
 import org.springframework.stereotype.Service
 import ru.vood.dmgen.dao.EntityDaoController
-import ru.vood.dmgen.datamodel.runtime.dataclasses.context.Deal_PKContext
-import ru.vood.dmgen.datamodel.runtime.dataclassesOrigin.DealEntity
-import ru.vood.dmgen.datamodel.runtime.dataclassesOrigin.DealExtendDataEntity
-import ru.vood.dmgen.datamodel.runtime.dataclassesOrigin.DealParamOneToOneEntity
-import ru.vood.dmgen.datamodel.runtime.dataclassesOrigin.InnerToDealParamOneToOneEntity
-import ru.vood.dmgen.datamodel.runtime.dataclassesSynthetic.DealExtendDataSynthetic
-import ru.vood.dmgen.datamodel.runtime.dataclassesSynthetic.DealParamOneToOneSynthetic
-import ru.vood.dmgen.datamodel.runtime.dataclassesSynthetic.DealSynthetic
-import ru.vood.dmgen.datamodel.runtime.dataclassesSynthetic.InnerToDealParamOneToOneSynthetic
+import ru.vood.dmgen.datamodel.DealParamOneToOneEntity
+import ru.vood.dmgen.datamodel.DealParamOneToOneSynthetic
+import ru.vood.dmgen.datamodel.InnerToDealParamOneToOneEntity
+import ru.vood.dmgen.datamodel.InnerToDealParamOneToOneSynthetic
+import ru.vood.dmgen.datamodel.a.DealEntity
+import ru.vood.dmgen.datamodel.a.DealSynthetic
+import ru.vood.dmgen.datamodel.a.Deal_PKContext
+import ru.vood.dmgen.datamodel.b.DealExtendDataEntity
+import ru.vood.dmgen.datamodel.b.DealExtendDataSynthetic
 import ru.vood.dmgen.datamodel.valueClasses.DealId
 import ru.vood.dmgen.intf.IEntitySynthetic
 
@@ -32,7 +32,8 @@ class RunFullAggregateSave(
 
         val dealId = DealId("12")
         val paramDate = "asd"
-        val dealParamOneToOneEntity = DealParamOneToOneSynthetic(DealParamOneToOneEntity(dealId, paramDate), InnerToDealParamOneToOneSynthetic(
+        val dealParamOneToOneEntity = DealParamOneToOneSynthetic(
+            DealParamOneToOneEntity(dealId, paramDate), InnerToDealParamOneToOneSynthetic(
             InnerToDealParamOneToOneEntity(dealId, paramDate)
         )
         )

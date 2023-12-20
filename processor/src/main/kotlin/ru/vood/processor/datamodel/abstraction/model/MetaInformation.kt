@@ -8,6 +8,9 @@ data class MetaInformation(
     val entities: Map<ModelClassName, MetaEntity>
 ) {
 
+
+    val allEntityPackagesImport = entities.values.distinctBy { it.designClassPackageName }.map { "import ${it.designClassPackageName}.*" }.joinToString("\n")
+
     fun aggregateInnerDep(): Dependency {
 
         val filter =

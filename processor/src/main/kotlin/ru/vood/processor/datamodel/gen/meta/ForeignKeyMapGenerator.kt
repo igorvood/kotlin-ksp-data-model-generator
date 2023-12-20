@@ -96,10 +96,11 @@ import ${FkPairNew::class.java.canonicalName}
 import ${SimpleColumnName::class.java.canonicalName}
 import ${UkName::class.java.canonicalName}
 //import ${packageName.value}.${columnEntityEnumGeneratorNameClass}.*
-import ${rootPackage.value}.${entityOriginDataClassesGeneratorPackageName.value}.*
-import ${rootPackage.value}.${contextDataClassesGeneratorPackageName.value}.*
+//import ${rootPackage.value}.${entityOriginDataClassesGeneratorPackageName.value}.*
+//import ${rootPackage.value}.${contextDataClassesGeneratorPackageName.value}.*
 import ${Generated::class.java.canonicalName}
 import ${FullColumnName::class.java.canonicalName}
+${metaInfo.allEntityPackagesImport}
 
 
 

@@ -4,8 +4,8 @@ import org.slf4j.LoggerFactory
 import org.springframework.boot.CommandLineRunner
 import org.springframework.core.annotation.Order
 import org.springframework.stereotype.Service
+import ru.vood.dmgen.datamodel.a.DealEntity
 import ru.vood.dmgen.datamodel.metaEnum.columnEntityDataMap
-import ru.vood.dmgen.datamodel.runtime.dataclassesOrigin.DealEntity
 
 import ru.vood.dmgen.meta.DerivativeColumns.entitiesColumnsMap
 import ru.vood.dmgen.meta.DerivativeDependencyMap.aggregateChildDependencyMap
