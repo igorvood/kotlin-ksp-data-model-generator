@@ -91,16 +91,17 @@ class ColumnEntityMapGenerator(
                                     EntityName(fromEntity.designClassShortName),
                                     SimpleColumnName(fromEntity.entityFieldName)
                                 )
+
+
                                 """${FullColumnName::class.simpleName}("${fullColumnName.value}") to ${ColumnEntityData::class.simpleName}(
-                                |${EntityName::class.java.simpleName}( "${ent.designClassShortName}"),
-                                |${EntityName::class.java.simpleName}( "${fromEntity.designClassShortName}"),
-                                |//$syntheticClassName::${fromEntity.entityFieldName},
-                                |${SimpleColumnName::class.simpleName}("${fromEntity.entityFieldName}"),
-                                |${isOptional},
-                                |"${fromEntity.comment}",
-                                |${columnKind.name},
-                                |$columnKindType,
-                                |null
+                                |entity= ${EntityName::class.java.simpleName}( "${ent.designClassShortName}"),
+                                |outEntity = ${EntityName::class.java.simpleName}( "${fromEntity.designClassShortName}"),
+                                |simpleColumnName = ${SimpleColumnName::class.simpleName}("${fromEntity.entityFieldName}"),
+                                |isOptional= ${isOptional},
+                                |comment ="${fromEntity.comment}",
+                                |columnKind = ${columnKind.name},
+                                |iColKind = $columnKindType,
+                                |simpleColumnType = null
                                 |)""".trimMargin()
 
                             }
@@ -114,16 +115,35 @@ class ColumnEntityMapGenerator(
                                 } else {
                                     ""
                                 }
+                                /* /**имя сущности*/
+    val entity: EntityName,
+    /**имя сущности, если реквизит является иной сущностью, по сути это форен*/
+    val outEntity: EntityName?,
+//    override val kProperty1: KProperty1<out T, *>,
+    /**имя колонки*/
+    val simpleColumnName: SimpleColumnName,
+    /**признак опциональности колонки*/
+    val isOptional: Boolean,
+    /**коментарий колонки*/
+    val comment: String,
+    @Deprecated("use iColKind")
+    /**тип колонки*/
+    val columnKind: ColumnKind,
+    /**ф-ция экстрактор значения колонки*/
+    val iColKind: IColKind<T, *>,
+    /**простой тип колонки*/
+    val simpleColumnType: SimpleColumnType?*/
+
                                 """${FullColumnName::class.simpleName}("${ent.designClassShortName}_${col.name.value}") to ${ColumnEntityData::class.simpleName}(
-                                |    ${EntityName::class.java.simpleName}( "${ent.designClassShortName}"),
-                                |    null,
+                                |entity = ${EntityName::class.java.simpleName}( "${ent.designClassShortName}"),
+                                |outEntity= null,
                                 |//$entityClass::${col.name.value},
-                                |${SimpleColumnName::class.simpleName}("${col.name.value}"),
-                                |${col.isNullable},
-                                |"${col.comment}",
-                                |${ColumnKind.SIMPLE.name},
-                                |${Simple::class.simpleName}<$entityClass, ${col.type}$question> {it.${col.name.value}},
-                                |${SimpleColumnType::class.simpleName}("${col.type}")
+                                |simpleColumnName = ${SimpleColumnName::class.simpleName}("${col.name.value}"),
+                                |isOptional = ${col.isNullable},
+                                |comment = "${col.comment}",
+                                |columnKind= ${ColumnKind.SIMPLE.name},
+                                |iColKind = ${Simple::class.simpleName}<$entityClass, ${col.type}$question> {it.${col.name.value}},
+                                |simpleColumnType= ${SimpleColumnType::class.simpleName}("${col.type}")
                                 |)""".trimMargin()
                             }
                         simpleF.plus(syntheticF)

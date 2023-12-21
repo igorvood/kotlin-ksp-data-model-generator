@@ -341,7 +341,7 @@ class EntityDaoController(
                 collectSyntheticJsonObject(childrenJsonElementForOutEntity, outEntity, originJsonElement)
             }
 
-            val (_, _, _, isOptional, _, _, iColKind) = entitiesSyntheticColumnsByEntityMap[entityName]!![outEntity]!!
+            val (_, _, isOptional, _, iColKind, _, _) = entitiesSyntheticColumnsByEntityMap[entityName]!![outEntity]!!
 
             val any = when (iColKind) {
                 is SyntheticSet<*, *, *> -> JsonArray(childrenJsonForEntityName)
