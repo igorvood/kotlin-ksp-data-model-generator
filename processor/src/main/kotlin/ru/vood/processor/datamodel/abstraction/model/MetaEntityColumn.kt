@@ -16,6 +16,12 @@ class MetaEntityColumn(
 
     val isNullable: Boolean = element.type.resolve().nullability == Nullability.NULLABLE
 
+    val question = if (isNullable) {
+        "?"
+    } else {
+        ""
+    }
+
     val type = with(element.type.resolve().declaration) { packageName.asString() + "." + simpleName.asString() }
 
     @OptIn(KspExperimental::class)

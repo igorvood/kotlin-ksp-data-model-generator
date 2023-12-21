@@ -57,14 +57,6 @@ class ColumnEntityMapGenerator(
                                 val isOptional =
                                     syntheticFieldInfo.isOptional && syntheticFieldInfo.relationType == RelationType.ONE_TO_ONE_OPTIONAL
 
-                                val isOptionaklStr = if (isOptional) "?" else ""
-
-                                val columnKind = when (syntheticFieldInfo.relationType) {
-                                    RelationType.ONE_TO_ONE_OPTIONAL -> ColumnKind.SYNTHETIC
-                                    RelationType.MANY_TO_ONE -> ColumnKind.SYNTHETIC_SET
-                                    RelationType.UNNOWN -> error("Не известный тип")
-                                }
-
                                 val columnKindType = when (syntheticFieldInfo.relationType) {
                                     RelationType.ONE_TO_ONE_OPTIONAL -> if (isOptional)
                                         "${Synthetic::class.simpleName}<$entityClass, $syntheticClassName, ${syntheticFieldInfo.metaEntity.designClassPackageName}.${
@@ -99,7 +91,6 @@ class ColumnEntityMapGenerator(
                                 |${ColumnEntityData<*>::simpleColumnName.name} = ${SimpleColumnName::class.simpleName}("${fromEntity.entityFieldName}"),
                                 |${ColumnEntityData<*>::isOptional.name}= ${isOptional},
                                 |${ColumnEntityData<*>::comment.name} ="${fromEntity.comment}",
-                                |${ColumnEntityData<*>::columnKind.name} = ${columnKind.name},
                                 |${ColumnEntityData<*>::iColKind.name} = $columnKindType,
                                 |${ColumnEntityData<*>::simpleColumnType.name} = null
                                 |)""".trimMargin()
@@ -110,11 +101,6 @@ class ColumnEntityMapGenerator(
                         val simpleF = ent.fields
                             .sortedBy { ec -> ec.position }
                             .map { col ->
-                                val question = if (col.isNullable) {
-                                    "?"
-                                } else {
-                                    ""
-                                }
                                 """${FullColumnName::class.simpleName}("${ent.designClassShortName}_${col.name.value}") to ${ColumnEntityData::class.simpleName}(
                                 |${ColumnEntityData<*>::entity.name} = ${EntityName::class.java.simpleName}( "${ent.designClassShortName}"),
                                 |${ColumnEntityData<*>::outEntity.name}= null,
@@ -122,8 +108,7 @@ class ColumnEntityMapGenerator(
                                 |${ColumnEntityData<*>::simpleColumnName.name} = ${SimpleColumnName::class.simpleName}("${col.name.value}"),
                                 |${ColumnEntityData<*>::isOptional.name} = ${col.isNullable},
                                 |${ColumnEntityData<*>::comment.name} = "${col.comment}",
-                                |${ColumnEntityData<*>::columnKind.name} = ${ColumnKind.SIMPLE.name},
-                                |${ColumnEntityData<*>::iColKind.name} = ${Simple::class.simpleName}<$entityClass, ${col.type}$question> {it.${col.name.value}},
+                                |${ColumnEntityData<*>::iColKind.name} = ${Simple::class.simpleName}<$entityClass, ${col.type}${col.question}> {it.${col.name.value}},
                                 |${ColumnEntityData<*>::simpleColumnType.name}= ${SimpleColumnType::class.simpleName}("${col.type}")
                                 |)""".trimMargin()
                             }
@@ -140,9 +125,9 @@ import ${SimpleColumnType::class.java.canonicalName}
 import ${ColumnEntityData::class.java.canonicalName}
 import ${SimpleColumnName::class.java.canonicalName}
 import ${FullColumnName::class.java.canonicalName}
-import ${ColumnKind::class.java.canonicalName}
+
 import ${EntityName::class.java.canonicalName}
-import ${ColumnKind::class.java.canonicalName}.*
+
 import ${Generated::class.java.canonicalName}
 import ${IColKind::class.java.canonicalName}
 import ${Simple::class.java.canonicalName}

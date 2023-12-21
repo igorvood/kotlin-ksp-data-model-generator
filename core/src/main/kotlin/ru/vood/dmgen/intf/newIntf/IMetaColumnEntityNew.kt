@@ -22,20 +22,10 @@ data class ColumnEntityData<T>(
     /**простой тип колонки*/
     val simpleColumnType: SimpleColumnType?,
 
-    @Deprecated("use iColKind")
-    /**тип колонки*/
-    val columnKind: ColumnKind,
-
-
-
     )
 
 @JvmInline
 value class SimpleColumnType(val value: String)
-
-enum class ColumnKind {
-    SIMPLE, SYNTHETIC, SYNTHETIC_SET,
-}
 
 sealed interface IColKind<in T, out OUT> {
     val extractFieldValue: (entity: T) -> OUT
