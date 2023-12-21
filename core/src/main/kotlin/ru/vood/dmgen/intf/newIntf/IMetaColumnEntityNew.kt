@@ -14,7 +14,7 @@ data class ColumnEntityData<T>(
     /**коментарий колонки*/
     val comment: String,
     /**ф-ция экстрактор значения колонки*/
-    val iColKind: IColKind<T, *>,
+    val iColExtractFunction: IColExtractFunction<T, *>,
 
 
     /**имя сущности, если реквизит является иной сущностью, по сути это форен*/
@@ -27,7 +27,7 @@ data class ColumnEntityData<T>(
 @JvmInline
 value class SimpleColumnType(val value: String)
 
-sealed interface IColKind<in T, out OUT> {
+sealed interface IColExtractFunction<in T, out OUT> {
     val extractFieldValue: (entity: T) -> OUT
 }
 
@@ -35,7 +35,7 @@ sealed interface IColKind<in T, out OUT> {
 @JvmInline
 value class Simple<T : IEntityOrigin, OUT>(
     override val extractFieldValue: (entity: T) -> OUT
-) : IColKind<T, OUT>
+) : IColExtractFunction<T, OUT>
 
 @JvmInline
 value class Synthetic<
@@ -43,7 +43,7 @@ value class Synthetic<
         SINTH_IN : IEntitySynthetic<out ORIG_IN>,
         OUT : IEntityOrigin>(
     override val extractFieldValue: (entity: SINTH_IN) -> Set<IEntitySynthetic<OUT>>
-) : IColKind<SINTH_IN, Set<IEntitySynthetic<OUT>>>
+) : IColExtractFunction<SINTH_IN, Set<IEntitySynthetic<OUT>>>
 
 @JvmInline
 value class SyntheticSet<
@@ -51,4 +51,4 @@ value class SyntheticSet<
         SINTH_IN : IEntitySynthetic<out ORIG_IN>,
         OUT : IEntityOrigin>(
     override val extractFieldValue: (entity: SINTH_IN) -> Set<IEntitySynthetic<OUT>>
-) : IColKind<SINTH_IN, Set<IEntitySynthetic<OUT>>>
+) : IColExtractFunction<SINTH_IN, Set<IEntitySynthetic<OUT>>>

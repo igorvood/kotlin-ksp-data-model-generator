@@ -91,7 +91,7 @@ class ColumnEntityMapGenerator(
                                 |${ColumnEntityData<*>::simpleColumnName.name} = ${SimpleColumnName::class.simpleName}("${fromEntity.entityFieldName}"),
                                 |${ColumnEntityData<*>::isOptional.name}= ${isOptional},
                                 |${ColumnEntityData<*>::comment.name} ="${fromEntity.comment}",
-                                |${ColumnEntityData<*>::iColKind.name} = $columnKindType,
+                                |${ColumnEntityData<*>::iColExtractFunction.name} = $columnKindType,
                                 |${ColumnEntityData<*>::simpleColumnType.name} = null
                                 |)""".trimMargin()
 
@@ -108,7 +108,7 @@ class ColumnEntityMapGenerator(
                                 |${ColumnEntityData<*>::simpleColumnName.name} = ${SimpleColumnName::class.simpleName}("${col.name.value}"),
                                 |${ColumnEntityData<*>::isOptional.name} = ${col.isNullable},
                                 |${ColumnEntityData<*>::comment.name} = "${col.comment}",
-                                |${ColumnEntityData<*>::iColKind.name} = ${Simple::class.simpleName}<$entityClass, ${col.type}${col.question}> {it.${col.name.value}},
+                                |${ColumnEntityData<*>::iColExtractFunction.name} = ${Simple::class.simpleName}<$entityClass, ${col.type}${col.question}> {it.${col.name.value}},
                                 |${ColumnEntityData<*>::simpleColumnType.name}= ${SimpleColumnType::class.simpleName}("${col.type}")
                                 |)""".trimMargin()
                             }
@@ -129,7 +129,7 @@ import ${FullColumnName::class.java.canonicalName}
 import ${EntityName::class.java.canonicalName}
 
 import ${Generated::class.java.canonicalName}
-import ${IColKind::class.java.canonicalName}
+import ${IColExtractFunction::class.java.canonicalName}
 import ${Simple::class.java.canonicalName}
 import ${Synthetic::class.java.canonicalName}
 import ${SyntheticSet::class.java.canonicalName}

@@ -130,7 +130,7 @@ class EntityDaoController(
     ): Map<EntityName, Set<IEntitySynthetic<out IEntityOrigin>>> =
         DerivativeColumns.entitiesColumnsMap[designEntityName]
             ?.entries
-            ?.filter { it.value.iColKind !is Simple }?.map { it.value.outEntity!! }
+            ?.filter { it.value.iColExtractFunction !is Simple }?.map { it.value.outEntity!! }
             ?.map { it to aggregate.syntheticField(it) }
             ?.filter { it.second.isNotEmpty() }
             ?.toMap()

@@ -33,7 +33,7 @@ class PumlGenerator {
                                 ""
                             }
                             val typeCol = col.outEntity?.let {
-                                when(col.iColKind){
+                                when(col.iColExtractFunction){
                                     is Simple -> error("такого быть не должно, никогда")
                                     is Synthetic<*,*,*> -> it.value
                                     is SyntheticSet<*,*,*> -> "SetOf(${it.value})"
