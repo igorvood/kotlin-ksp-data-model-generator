@@ -2,8 +2,10 @@ package datamodel
 
 import org.junit.jupiter.api.Test
 import ru.vood.dmgen.annotation.FlowEntityType
+import ru.vood.dmgen.annotation.RelationType
 import ru.vood.dmgen.datamodel.metaEnum.entityDataMap
 import ru.vood.dmgen.meta.DerivativeDependencyMap.entityDependencyParentMap
+import ru.vood.dmgen.meta.DerivativeFKs.foreignKeyMapFromEntity
 import java.io.File
 
 class PumlGenerator {
@@ -17,20 +19,25 @@ class PumlGenerator {
                     FlowEntityType.INNER_OPTIONAL, FlowEntityType.INNER_MANDATORY -> "Green"
                     FlowEntityType.AGGREGATE -> "Red"
                 }
-
-                """${en.value} [label="${en.value}" shape=box color=$s];"""
+//                uasp_streaming_unp_convertor_unp_convertor_aggregate_ca [
+//label="{<f0> uasp_streaming_unp_convertor |<f1> unp_convertor_aggregate_ca|<f2> Описание не заполнено.\n\n\n}" shape=Mrecord];
+//ProductPayments [label="{<f0> ProductPayments}" shape=box color=Red];
+                """${en.value} [label="{<f0> ${en.value}|<f1> asd }" shape=Mrecord color=$s];"""
             }
             .joinToString("\n")
 
 
-        val map = entityDependencyParentMap.entries
+        val arrows = foreignKeyMapFromEntity.entries
             .flatMap { e ->
                 val entityName = e.key
                 val toEntities = e.value
-
-
-                toEntities.map { to ->
-                    """${entityName.value} -> ${to.toEntity.value}[label="earliest"]"""
+                toEntities.map { fkMetaData ->
+                    val arrowStr = when (fkMetaData.relationType) {
+                        RelationType.MANY_TO_ONE -> "->"
+                        RelationType.UNNOWN -> error("ASdasdasdasfasdf")
+                        RelationType.ONE_TO_ONE_OPTIONAL -> "->"
+                    }
+                    """${entityName.value} ${arrowStr} ${fkMetaData.toEntity.value}[label="${fkMetaData.relationType}"];"""
                 }
 
             }
@@ -48,7 +55,7 @@ class PumlGenerator {
             out.println(head)
             out.println(entities)
             out.println("")
-            out.println(map)
+            out.println(arrows)
             out.println(tail)
 
         }
