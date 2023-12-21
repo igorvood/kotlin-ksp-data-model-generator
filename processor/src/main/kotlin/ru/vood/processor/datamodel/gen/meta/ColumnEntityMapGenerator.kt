@@ -78,7 +78,7 @@ class ColumnEntityMapGenerator(
                                                 syntheticFieldInfo.metaEntity
                                             )
                                         } >{setOf(it.${fromEntity.entityFieldName})}"
-                                    RelationType.MANY_TO_ONE -> "SyntheticSet<$entityClass, $syntheticClassName, ${syntheticFieldInfo.metaEntity.designClassPackageName}.${
+                                    RelationType.MANY_TO_ONE -> "${SyntheticSet::class.simpleName}<$entityClass, $syntheticClassName, ${syntheticFieldInfo.metaEntity.designClassPackageName}.${
                                         entityClassName(
                                             syntheticFieldInfo.metaEntity
                                         )
@@ -94,14 +94,14 @@ class ColumnEntityMapGenerator(
 
 
                                 """${FullColumnName::class.simpleName}("${fullColumnName.value}") to ${ColumnEntityData::class.simpleName}(
-                                |entity= ${EntityName::class.java.simpleName}( "${ent.designClassShortName}"),
-                                |outEntity = ${EntityName::class.java.simpleName}( "${fromEntity.designClassShortName}"),
-                                |simpleColumnName = ${SimpleColumnName::class.simpleName}("${fromEntity.entityFieldName}"),
-                                |isOptional= ${isOptional},
-                                |comment ="${fromEntity.comment}",
-                                |columnKind = ${columnKind.name},
-                                |iColKind = $columnKindType,
-                                |simpleColumnType = null
+                                |${ColumnEntityData<*>::entity.name}= ${EntityName::class.java.simpleName}( "${ent.designClassShortName}"),
+                                |${ColumnEntityData<*>::outEntity.name} = ${EntityName::class.java.simpleName}( "${fromEntity.designClassShortName}"),
+                                |${ColumnEntityData<*>::simpleColumnName.name} = ${SimpleColumnName::class.simpleName}("${fromEntity.entityFieldName}"),
+                                |${ColumnEntityData<*>::isOptional.name}= ${isOptional},
+                                |${ColumnEntityData<*>::comment.name} ="${fromEntity.comment}",
+                                |${ColumnEntityData<*>::columnKind.name} = ${columnKind.name},
+                                |${ColumnEntityData<*>::iColKind.name} = $columnKindType,
+                                |${ColumnEntityData<*>::simpleColumnType.name} = null
                                 |)""".trimMargin()
 
                             }
@@ -115,35 +115,16 @@ class ColumnEntityMapGenerator(
                                 } else {
                                     ""
                                 }
-                                /* /**имя сущности*/
-    val entity: EntityName,
-    /**имя сущности, если реквизит является иной сущностью, по сути это форен*/
-    val outEntity: EntityName?,
-//    override val kProperty1: KProperty1<out T, *>,
-    /**имя колонки*/
-    val simpleColumnName: SimpleColumnName,
-    /**признак опциональности колонки*/
-    val isOptional: Boolean,
-    /**коментарий колонки*/
-    val comment: String,
-    @Deprecated("use iColKind")
-    /**тип колонки*/
-    val columnKind: ColumnKind,
-    /**ф-ция экстрактор значения колонки*/
-    val iColKind: IColKind<T, *>,
-    /**простой тип колонки*/
-    val simpleColumnType: SimpleColumnType?*/
-
                                 """${FullColumnName::class.simpleName}("${ent.designClassShortName}_${col.name.value}") to ${ColumnEntityData::class.simpleName}(
-                                |entity = ${EntityName::class.java.simpleName}( "${ent.designClassShortName}"),
-                                |outEntity= null,
+                                |${ColumnEntityData<*>::entity.name} = ${EntityName::class.java.simpleName}( "${ent.designClassShortName}"),
+                                |${ColumnEntityData<*>::outEntity.name}= null,
                                 |//$entityClass::${col.name.value},
-                                |simpleColumnName = ${SimpleColumnName::class.simpleName}("${col.name.value}"),
-                                |isOptional = ${col.isNullable},
-                                |comment = "${col.comment}",
-                                |columnKind= ${ColumnKind.SIMPLE.name},
-                                |iColKind = ${Simple::class.simpleName}<$entityClass, ${col.type}$question> {it.${col.name.value}},
-                                |simpleColumnType= ${SimpleColumnType::class.simpleName}("${col.type}")
+                                |${ColumnEntityData<*>::simpleColumnName.name} = ${SimpleColumnName::class.simpleName}("${col.name.value}"),
+                                |${ColumnEntityData<*>::isOptional.name} = ${col.isNullable},
+                                |${ColumnEntityData<*>::comment.name} = "${col.comment}",
+                                |${ColumnEntityData<*>::columnKind.name} = ${ColumnKind.SIMPLE.name},
+                                |${ColumnEntityData<*>::iColKind.name} = ${Simple::class.simpleName}<$entityClass, ${col.type}$question> {it.${col.name.value}},
+                                |${ColumnEntityData<*>::simpleColumnType.name}= ${SimpleColumnType::class.simpleName}("${col.type}")
                                 |)""".trimMargin()
                             }
                         simpleF.plus(syntheticF)
