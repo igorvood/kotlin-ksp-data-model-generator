@@ -64,9 +64,10 @@ override val ${col.name.value}: $kotlinMetaClass$nullableSymbol""".trimIndent()
             .joinToString(",\n")
 
         val fullClassName = entityClassName(metaEntity)
-        val s = when (metaEntity.flowEntityType) {
+        val implementsIntf = when (metaEntity.flowEntityType) {
             FlowEntityType.AGGREGATE -> """${IAggregate::class.java.canonicalName}<$fullClassName>, ${metaEntity.designClassFullClassName.value}"""
-            FlowEntityType.INNER_OPTIONAL, FlowEntityType.INNER_MANDATORY -> """${IEntityOrigin::class.java.canonicalName}<$fullClassName>, ${metaEntity.designClassFullClassName.value}"""
+            FlowEntityType.INNER_OPTIONAL, FlowEntityType.INNER_MANDATORY,
+            -> """${IEntityOrigin::class.java.canonicalName}<$fullClassName>, ${metaEntity.designClassFullClassName.value}"""
         }
 
 //        val code = """package ${packageName.value}
@@ -91,7 +92,7 @@ data class $fullClassName (
 $simpleColumns,
 $fk
 
-): $s         
+): $implementsIntf         
 {
     override fun ktSerializer() = serializer()
     

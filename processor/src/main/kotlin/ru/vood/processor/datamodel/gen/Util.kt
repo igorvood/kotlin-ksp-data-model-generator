@@ -23,7 +23,8 @@ fun syntheticFieldInfos(
         .map { childredMetaEntity ->
             when (val fet = childredMetaEntity.flowEntityType) {
                 FlowEntityType.AGGREGATE -> Optional.empty<SyntheticFieldInfo>()
-                FlowEntityType.INNER_MANDATORY, FlowEntityType.INNER_OPTIONAL -> {
+                FlowEntityType.INNER_MANDATORY, FlowEntityType.INNER_OPTIONAL,
+                -> {
                     val currentFks =
                         metaForeignKeys.filter { fk -> fk.toEntity == metaEntity && fk.fromEntity == childredMetaEntity }
                     val metaForeignKey =

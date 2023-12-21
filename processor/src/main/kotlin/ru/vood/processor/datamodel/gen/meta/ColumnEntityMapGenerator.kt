@@ -49,7 +49,7 @@ class ColumnEntityMapGenerator(
 //                        val entityClass = """${ent.designClassFullClassName.value}"""
                         val entityClass = entityClassName(ent)
                         val syntheticClassName = syntheticClassName(ent)
-                        val designClassPackageName = ent.designClassPackageName
+
                         val syntheticF = syntheticFieldInfos
                             .sortedBy { it.metaEntity.entityFieldName }
                             .map { syntheticFieldInfo ->
@@ -67,18 +67,18 @@ class ColumnEntityMapGenerator(
 
                                 val columnKindType = when (syntheticFieldInfo.relationType) {
                                     RelationType.ONE_TO_ONE_OPTIONAL -> if (isOptional)
-                                        "${Synthetic::class.simpleName}<$designClassPackageName.$entityClass, $designClassPackageName.$syntheticClassName, ${syntheticFieldInfo.metaEntity.designClassPackageName}.${
+                                        "${Synthetic::class.simpleName}<$entityClass, $syntheticClassName, ${syntheticFieldInfo.metaEntity.designClassPackageName}.${
                                             entityClassName(
                                                 syntheticFieldInfo.metaEntity
                                             )
                                         }>{it.${fromEntity.entityFieldName}?.let{q->setOf(q)}?:setOf()}"
                                     else
-                                        "${Synthetic::class.simpleName}<$designClassPackageName.$entityClass, $designClassPackageName.$syntheticClassName, ${syntheticFieldInfo.metaEntity.designClassPackageName}.${
+                                        "${Synthetic::class.simpleName}<$entityClass, $syntheticClassName, ${syntheticFieldInfo.metaEntity.designClassPackageName}.${
                                             entityClassName(
                                                 syntheticFieldInfo.metaEntity
                                             )
                                         } >{setOf(it.${fromEntity.entityFieldName})}"
-                                    RelationType.MANY_TO_ONE -> "SyntheticSet<$designClassPackageName.$entityClass, $designClassPackageName.$syntheticClassName, ${syntheticFieldInfo.metaEntity.designClassPackageName}.${
+                                    RelationType.MANY_TO_ONE -> "SyntheticSet<$entityClass, $syntheticClassName, ${syntheticFieldInfo.metaEntity.designClassPackageName}.${
                                         entityClassName(
                                             syntheticFieldInfo.metaEntity
                                         )
@@ -121,7 +121,7 @@ class ColumnEntityMapGenerator(
                                 |${f.isNullable},
                                 |"${f.comment}",
                                 |${ColumnKind.SIMPLE.name},
-                                |${Simple::class.simpleName}<$designClassPackageName.$entityClass, ${f.type}$question> {it.${f.name.value}}
+                                |${Simple::class.simpleName}<$entityClass, ${f.type}$question> {it.${f.name.value}}
                                 |)""".trimMargin()
                             }
                         simpleF.plus(syntheticF)
@@ -146,8 +146,8 @@ import ${Synthetic::class.java.canonicalName}
 import ${SyntheticSet::class.java.canonicalName}
 //import ${rootPackage.value}.${entitySyntheticDataClassesGeneratorPackageName.value}.*
 //import ${rootPackage.value}.${entityOriginDataClassesGeneratorPackageName.value}.*
-
 import kotlin.reflect.KProperty1
+${metaInfo.allEntityPackagesImport}
 
 @Generated("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
 val columnEntityDataMap = mapOf(

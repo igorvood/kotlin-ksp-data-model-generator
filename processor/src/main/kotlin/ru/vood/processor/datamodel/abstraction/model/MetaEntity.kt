@@ -14,6 +14,11 @@ import ru.vood.processor.datamodel.abstraction.model.dto.UkDto
 @OptIn(KspExperimental::class)
 data class MetaEntity(val ksAnnotated: KSClassDeclaration, val logger: KSPLogger) {
 
+
+    val sealedChildren = ksAnnotated.getSealedSubclasses().map { ModelClassName(it.simpleName.asString()) }.toSet()
+
+    val isSealedObject = sealedChildren.isNotEmpty()
+
     val designClassShortName: String = ksAnnotated.simpleName.asString()
 
     val designClassPackageName: String = ksAnnotated.packageName.asString()
@@ -34,7 +39,6 @@ data class MetaEntity(val ksAnnotated: KSClassDeclaration, val logger: KSPLogger
     val uniqueKeysAnnotations = ksAnnotated.getAnnotationsByType(Uk::class).toList()
 
     val pkColumns by lazy {
-
         val pkCols = fields.filter { it.inPk }.map { it.name }.toSet()
         val notNullPkCols = fields.filter { it.inPk && !it.isNullable }.map { it.name }.toSet()
 
