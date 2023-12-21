@@ -1,0 +1,31 @@
+@startuml
+digraph dfd{
+	node[shape=record]
+Deal [label="{<f0> Deal|<f1> id: \ns: \nsn: ?\nb: \nbn: ?\ndealParamOneToOne: DealParamOneToOne\ndealParamOneToOneOptional: DealParamOneToOneOptional?\ndealParamSet: SetOf(DealParamSet) }" shape=Mrecord color=Red];
+DealExtendData [label="{<f0> DealExtendData|<f1> dealId: \nextendData:  }" shape=Mrecord color=Red];
+DealOneData [label="{<f0> DealOneData|<f1> dealId: \none: ? }" shape=Mrecord color=Green];
+DealOneOfData [label="{<f0> DealOneOfData|<f1> dealId: \ndealOneData: DealOneData\ndealTwoData: DealTwoData }" shape=Mrecord color=Green];
+DealParamOneToOne [label="{<f0> DealParamOneToOne|<f1> dealId: \nparamDate: \ninnerToDealParamOneToOne: InnerToDealParamOneToOne }" shape=Mrecord color=Green];
+DealParamOneToOneOptional [label="{<f0> DealParamOneToOneOptional|<f1> dealId: \nparamDate:  }" shape=Mrecord color=Yellow];
+DealParamSet [label="{<f0> DealParamSet|<f1> dealId: \nid: \nparamDate:  }" shape=Mrecord color=Yellow];
+DealTwoData [label="{<f0> DealTwoData|<f1> dealId: \ntwo: ? }" shape=Mrecord color=Green];
+InnerToDealParamOneToOne [label="{<f0> InnerToDealParamOneToOne|<f1> dealId: \nparamDate:  }" shape=Mrecord color=Green];
+OneOfDto [label="{<f0> OneOfDto|<f1> dealId: \nparamDate: \ndealOneOfData: DealOneOfData }" shape=Mrecord color=Red];
+Product [label="{<f0> Product|<f1> id: \ndealId: \notherSystemProductId: \nproductName: \ninn: ?\nln: ?\ndn: ?\nfn: ?\nbn: ?\nisdsdd: ?\nl: \nd: \nf: \nb:  }" shape=Mrecord color=Red];
+ProductPayments [label="{<f0> ProductPayments|<f1> productId: \ndealId: \nid: \nsumma: \nnoRelationData:  }" shape=Mrecord color=Red];
+
+DealExtendData -> Deal[label="ONE_TO_ONE_OPTIONAL"];
+DealOneData -> DealOneOfData[label="ONE_TO_ONE_OPTIONAL"];
+DealOneOfData -> OneOfDto[label="ONE_TO_ONE_OPTIONAL"];
+DealParamOneToOneOptional -> Deal[label="ONE_TO_ONE_OPTIONAL"];
+DealParamOneToOne -> Deal[label="ONE_TO_ONE_OPTIONAL"];
+DealParamSet -> Deal[label="MANY_TO_ONE"];
+DealTwoData -> DealOneOfData[label="ONE_TO_ONE_OPTIONAL"];
+InnerToDealParamOneToOne -> DealParamOneToOne[label="ONE_TO_ONE_OPTIONAL"];
+OneOfDto -> Deal[label="ONE_TO_ONE_OPTIONAL"];
+ProductPayments -> Deal[label="MANY_TO_ONE"];
+ProductPayments -> Product[label="MANY_TO_ONE"];
+Product -> Deal[label="MANY_TO_ONE"];
+
+}
+@enduml

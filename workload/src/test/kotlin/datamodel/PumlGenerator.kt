@@ -4,6 +4,10 @@ import org.junit.jupiter.api.Test
 import ru.vood.dmgen.annotation.FlowEntityType
 import ru.vood.dmgen.annotation.RelationType
 import ru.vood.dmgen.datamodel.metaEnum.entityDataMap
+import ru.vood.dmgen.intf.newIntf.Simple
+import ru.vood.dmgen.intf.newIntf.Synthetic
+import ru.vood.dmgen.intf.newIntf.SyntheticSet
+import ru.vood.dmgen.meta.DerivativeColumns.entitiesColumnsMap
 import ru.vood.dmgen.meta.DerivativeDependencyMap.entityDependencyParentMap
 import ru.vood.dmgen.meta.DerivativeFKs.foreignKeyMapFromEntity
 import java.io.File
@@ -15,14 +19,31 @@ class PumlGenerator {
 
         val entities = entityDependencyParentMap.keys
             .map { en ->
-                val s = when (val entityData = entityDataMap[en]!!.entityType) {
-                    FlowEntityType.INNER_OPTIONAL, FlowEntityType.INNER_MANDATORY -> "Green"
+                val colourName = when (val entityData = entityDataMap[en]!!.entityType) {
+                    FlowEntityType.INNER_OPTIONAL -> "Yellow"
+                    FlowEntityType.INNER_MANDATORY -> "Green"
                     FlowEntityType.AGGREGATE -> "Red"
                 }
-//                uasp_streaming_unp_convertor_unp_convertor_aggregate_ca [
-//label="{<f0> uasp_streaming_unp_convertor |<f1> unp_convertor_aggregate_ca|<f2> Описание не заполнено.\n\n\n}" shape=Mrecord];
-//ProductPayments [label="{<f0> ProductPayments}" shape=box color=Red];
-                """${en.value} [label="{<f0> ${en.value}|<f1> asd }" shape=Mrecord color=$s];"""
+                val culumns =
+                    entitiesColumnsMap[en]!!.values
+                        .map { col ->
+                            val question = if (col.isOptional) {
+                                "?"
+                            } else {
+                                ""
+                            }
+                            val typeCol = col.outEntity?.let {
+                                when(col.iColKind){
+                                    is Simple -> ""
+                                    is Synthetic<*,*,*> -> it.value
+                                    is SyntheticSet<*,*,*> -> "SetOf(${it.value})"
+                                }
+
+                            }?:""
+                            "${col.simpleColumnName.value}: $typeCol$question" }
+                        .joinToString("\\n")
+
+                """${en.value} [label="{<f0> ${en.value}|<f1> $culumns }" shape=Mrecord color=$colourName];"""
             }
             .joinToString("\n")
 
