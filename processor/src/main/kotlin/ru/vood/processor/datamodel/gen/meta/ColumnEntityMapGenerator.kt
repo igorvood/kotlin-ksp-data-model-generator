@@ -92,14 +92,15 @@ class ColumnEntityMapGenerator(
                                     SimpleColumnName(fromEntity.entityFieldName)
                                 )
                                 """${FullColumnName::class.simpleName}("${fullColumnName.value}") to ${ColumnEntityData::class.simpleName}(
-                                |    ${EntityName::class.java.simpleName}( "${ent.designClassShortName}"),
-                                |    ${EntityName::class.java.simpleName}( "${fromEntity.designClassShortName}"),
+                                |${EntityName::class.java.simpleName}( "${ent.designClassShortName}"),
+                                |${EntityName::class.java.simpleName}( "${fromEntity.designClassShortName}"),
                                 |//$syntheticClassName::${fromEntity.entityFieldName},
                                 |${SimpleColumnName::class.simpleName}("${fromEntity.entityFieldName}"),
                                 |${isOptional},
                                 |"${fromEntity.comment}",
                                 |${columnKind.name},
-                                |$columnKindType
+                                |$columnKindType,
+                                |null
                                 |)""".trimMargin()
 
                             }
@@ -107,21 +108,22 @@ class ColumnEntityMapGenerator(
 
                         val simpleF = ent.fields
                             .sortedBy { ec -> ec.position }
-                            .map { f ->
-                                val question = if (f.isNullable) {
+                            .map { col ->
+                                val question = if (col.isNullable) {
                                     "?"
                                 } else {
                                     ""
                                 }
-                                """${FullColumnName::class.simpleName}("${ent.designClassShortName}_${f.name.value}") to ${ColumnEntityData::class.simpleName}(
+                                """${FullColumnName::class.simpleName}("${ent.designClassShortName}_${col.name.value}") to ${ColumnEntityData::class.simpleName}(
                                 |    ${EntityName::class.java.simpleName}( "${ent.designClassShortName}"),
                                 |    null,
-                                |//$entityClass::${f.name.value},
-                                |${SimpleColumnName::class.simpleName}("${f.name.value}"),
-                                |${f.isNullable},
-                                |"${f.comment}",
+                                |//$entityClass::${col.name.value},
+                                |${SimpleColumnName::class.simpleName}("${col.name.value}"),
+                                |${col.isNullable},
+                                |"${col.comment}",
                                 |${ColumnKind.SIMPLE.name},
-                                |${Simple::class.simpleName}<$entityClass, ${f.type}$question> {it.${f.name.value}}
+                                |${Simple::class.simpleName}<$entityClass, ${col.type}$question> {it.${col.name.value}},
+                                |${SimpleColumnType::class.simpleName}("${col.type}")
                                 |)""".trimMargin()
                             }
                         simpleF.plus(syntheticF)
@@ -133,6 +135,7 @@ class ColumnEntityMapGenerator(
                     """package ${packageName.value}
                         
 //import ${packageName.value}.${EntityEnumGenerator.nameClassEntityEnumGenerator}.*
+import ${SimpleColumnType::class.java.canonicalName}
 import ${ColumnEntityData::class.java.canonicalName}
 import ${SimpleColumnName::class.java.canonicalName}
 import ${FullColumnName::class.java.canonicalName}

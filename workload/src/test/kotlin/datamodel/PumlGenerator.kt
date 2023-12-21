@@ -34,12 +34,11 @@ class PumlGenerator {
                             }
                             val typeCol = col.outEntity?.let {
                                 when(col.iColKind){
-                                    is Simple -> ""
+                                    is Simple -> error("такого быть не должно, никогда")
                                     is Synthetic<*,*,*> -> it.value
                                     is SyntheticSet<*,*,*> -> "SetOf(${it.value})"
                                 }
-
-                            }?:""
+                            }?:col.simpleColumnType!!.value
                             "${col.simpleColumnName.value}: $typeCol$question" }
                         .joinToString("\\n")
 

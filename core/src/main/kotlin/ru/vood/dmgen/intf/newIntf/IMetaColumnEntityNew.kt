@@ -6,24 +6,29 @@ import ru.vood.dmgen.intf.*
 /**Мета данные по реквизиту сущности*/
 data class ColumnEntityData<T>(
     /**имя сущности*/
-     val entity: EntityName,
+    val entity: EntityName,
     /**имя сущности, если реквизит является иной сущностью, по сути это форен*/
-     val outEntity: EntityName?,
+    val outEntity: EntityName?,
 //    override val kProperty1: KProperty1<out T, *>,
     /**имя колонки*/
-     val simpleColumnName: SimpleColumnName,
+    val simpleColumnName: SimpleColumnName,
     /**признак опциональности колонки*/
-     val isOptional: Boolean,
+    val isOptional: Boolean,
     /**коментарий колонки*/
-     val comment: String,
+    val comment: String,
     @Deprecated("use iColKind")
     /**тип колонки*/
-     val columnKind: ColumnKind,
-    /**тип колонки*/
-     val iColKind: IColKind<T, *>
+    val columnKind: ColumnKind,
+    /**ф-ция экстрактор значения колонки*/
+    val iColKind: IColKind<T, *>,
+    /**простой тип колонки*/
+    val simpleColumnType: SimpleColumnType?
+
 
 )
 
+@JvmInline
+value class SimpleColumnType(val value: String)
 
 enum class ColumnKind {
     SIMPLE, SYNTHETIC, SYNTHETIC_SET,
