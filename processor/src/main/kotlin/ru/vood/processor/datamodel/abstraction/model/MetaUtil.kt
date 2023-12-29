@@ -90,8 +90,6 @@ fun collectMetaForeignKey(
             } else {
                 uks.entries.first().key
             }
-
-//                .size != toCols.size
             val fkCols = fromCols.withIndex()
                 .map { from -> FkCol(from.value, toCols[from.index]) }
                 .toSet()
