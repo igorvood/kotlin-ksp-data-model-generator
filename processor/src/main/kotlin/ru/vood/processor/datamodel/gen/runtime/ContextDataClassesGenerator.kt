@@ -51,35 +51,29 @@ class ContextDataClassesGenerator(
 import ${UkName::class.java.canonicalName}
 import ${EntityName::class.java.canonicalName}
 import ${Generated::class.java.canonicalName}
-import kotlinx.serialization.KSerializer
-//import ${rootPackage.value}.${entityOriginDataClassesGeneratorPackageName.value}.$entityName
-//import ${rootPackage.value}.${entitySyntheticDataClassesGeneratorPackageName.value}.*
                     
 @kotlinx.serialization.Serializable
 @Generated("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
 data class $fullClassName (
 $joinToString
-): ${IContextOf::class.java.canonicalName}<$entityName>//,
-//${IEntityOrigin::class.java.canonicalName}<$fullClassName>
+): ${IContextOf::class.java.canonicalName}<$entityName>
 {
 override val designEntityName: ${EntityName::class.simpleName}
         get() = metaEntityConst
         
-//override fun ktSerializer() = serializer()
-        
 override val ukName: UkName
     get() = ukNameConst
     
-override val ktEntitySerializer//: KSerializer<*>
+override val ktEntitySerializer
     get() = ${entityName}.serializer()
 
 
-override val ktSyntheticEntitySerializer//: KSerializer<*>
+override val ktSyntheticEntitySerializer
     get() = ${syntheticEntityName}.serializer()
 
 companion object{
     val ukNameConst = UkName("${ukName.value}")
-    val metaEntityConst = EntityName("$dataClass")// ${rootPackage.value}.${AbstractDataDictionaryGenerator.subPackageAbstractDataDictionaryGenerator.value}.${EntityEnumGenerator.nameClassEntityEnumGenerator}.$dataClass
+    val metaEntityConst = EntityName("$dataClass")
 }
                 
         

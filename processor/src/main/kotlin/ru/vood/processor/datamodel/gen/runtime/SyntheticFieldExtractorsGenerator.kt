@@ -57,7 +57,6 @@ class SyntheticFieldExtractorsGenerator(
                 val s = if (syntheticFieldInfo.isOptional) "?" else ""
                 val genField = genWhenCondition(syntheticFieldInfo.metaEntity, s, syntheticFieldInfo.relationType)
                 Optional.of(genField)
-
             }
             .joinToString("\n") { it.get() }
 
@@ -84,43 +83,31 @@ import ${EntityName::class.java.canonicalName}
 import ${Generated::class.java.canonicalName}
 import ${IEntityOrigin::class.java.canonicalName}
 ${syntheticFieldImport}
-//import ${rootPackage.value}.${entityOriginDataClassesGeneratorPackageName.value}.*
 
 @Generated("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
 @kotlinx.serialization.Serializable
 data class $fullClassName (
+
 $simpleColumns,
+
 $fk
 
 ): $s         
 {
-
-//    constructor(origin: DealEntity, ass: Map<EntityName, Any>) : this(origin, 
-//        ass[EntityName("asd")]!! as DealParamOneToOneSynthetic,
-//        ass[EntityName("asd")] as DealParamOneToOneOptionalSynthetic,
-//        ass[EntityName("asd")]!! as Set<DealParamSetSynthetic>,
-//        
-//    )
-
-    override fun syntheticField(entityName: ${EntityName::class.simpleName}): Set<${IEntitySynthetic::class.simpleName}<out ${IEntityOrigin::class.simpleName} /*<*>*/>> {
-            val iEntitySynthetics: Set<${IEntitySynthetic::class.simpleName}<out ${IEntityOrigin::class.simpleName}/* <*>*/>> = when (entityName) {
+    override fun syntheticField(entityName: ${EntityName::class.simpleName}): Set<${IEntitySynthetic::class.simpleName}<out ${IEntityOrigin::class.simpleName}>> {
+            val iEntitySynthetics: Set<${IEntitySynthetic::class.simpleName}<out ${IEntityOrigin::class.simpleName}>> = 
+            when (entityName) {
                 $fkFunCode
                 else -> error("In Entity ${'$'}{designEntityName.value} Not found synthetic field for ${'$'}{entityName.value}")
             }
         return iEntitySynthetics
     }
 
-
-
-    //override fun ktSerializer() = serializer()
-    
     override val designEntityName: EntityName
         get() = designEntityNameConst
 
-    
     companion object{
         val designEntityNameConst = EntityName("${metaEntity.designClassShortName}")
-    
     }
 }
                     
