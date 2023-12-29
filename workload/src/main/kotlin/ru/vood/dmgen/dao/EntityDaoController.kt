@@ -13,12 +13,10 @@ import ru.vood.dmgen.dao.dto.PayLoadJsonVal
 import ru.vood.dmgen.dao.dto.UKJsonVal
 import ru.vood.dmgen.datamodel.metaEnum.entityDataMap
 import ru.vood.dmgen.intf.*
-import ru.vood.dmgen.intf.newIntf.Simple
-import ru.vood.dmgen.intf.newIntf.Synthetic
-import ru.vood.dmgen.intf.newIntf.SyntheticSet
-import ru.vood.dmgen.intf.newIntf.UKEntityData
+import ru.vood.dmgen.intf.newIntf.*
 import ru.vood.dmgen.meta.DerivativeColumns
 import ru.vood.dmgen.meta.DerivativeColumns.entitiesSyntheticColumnsByEntityMap
+import ru.vood.dmgen.meta.DerivativeColumns.entitiesSyntheticColumnsByEntityMap2
 import ru.vood.dmgen.meta.DerivativeColumns.entitiesSyntheticColumnsMap
 import ru.vood.dmgen.meta.DerivativeFKs.foreignKeyMapFromEntity
 import ru.vood.dmgen.meta.DerivativeUk.entitiesUkMap
@@ -130,7 +128,8 @@ class EntityDaoController(
     ): Map<EntityName, Set<IEntitySynthetic<out IEntityOrigin>>> =
         DerivativeColumns.entitiesColumnsMap[designEntityName]
             ?.entries
-            ?.filter { it.value.iColExtractFunction !is Simple }?.map { it.value.outEntity!! }
+            ?.filter { it.value.colType is EntityType }
+            ?.map { (it.value.colType as EntityType).entityName }
             ?.map { it to aggregate.syntheticField(it) }
             ?.filter { it.second.isNotEmpty() }
             ?.toMap()
@@ -287,7 +286,7 @@ class EntityDaoController(
         originJsonElement: JsonElement
     ): JsonObject {
 
-        val metaSyntheticColumn = entitiesSyntheticColumnsByEntityMap[originEntityName] ?: mapOf()
+        val metaSyntheticColumn = entitiesSyntheticColumnsByEntityMap2[originEntityName] ?: mapOf()
 
         val map1 = metaSyntheticColumn.entries
             .map { entry ->
@@ -318,11 +317,13 @@ class EntityDaoController(
         entityName: EntityName,
         childEntityDtos: Map<EntityName, List<ChildEntityDto>>
     ): Map<EntityName, JsonElement> {
-        val columnMap = entitiesSyntheticColumnsMap[entityName] ?: mapOf()
-        val map = columnMap.values.map { columnEntityData ->
-            val outEntity = columnEntityData.outEntity!!
+        val syntheticColumnEntityData = entitiesSyntheticColumnsMap[entityName]
+        val columnMap = syntheticColumnEntityData ?: listOf()
+        val map = columnMap.map { columnEntityData ->
 
-//            val outEntitySyntheticColumns = entitiesSyntheticColumnsMap[outEntity]?: mapOf()
+
+            val outEntity = columnEntityData.colTypeSynthetic.entityName
+
 
             val entityData = entityDataMap[outEntity] ?: error("mcvnbjkxchhgsdjkhgf")
 
@@ -341,7 +342,11 @@ class EntityDaoController(
                 collectSyntheticJsonObject(childrenJsonElementForOutEntity, outEntity, originJsonElement)
             }
 
-            val (_, _, isOptional, _, iColKind, _, _) = entitiesSyntheticColumnsByEntityMap[entityName]!![outEntity]!!
+            val columnEntityData1 =
+                entitiesSyntheticColumnsByEntityMap2[entityName]!![outEntity]!! as SyntheticColumnEntityData
+            val isOptional = columnEntityData1.isOptional
+            val iColKind = columnEntityData1.iColExtractFunction
+
 
             val any = when (iColKind) {
                 is SyntheticSet<*, *, *> -> JsonArray(childrenJsonForEntityName)

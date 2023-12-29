@@ -1,7 +1,12 @@
 package ru.vood.dmgen.meta
 
 import ru.vood.dmgen.datamodel.metaEnum.columnEntityDataMap
-import ru.vood.dmgen.intf.newIntf.Simple
+import ru.vood.dmgen.intf.EntityType
+import ru.vood.dmgen.intf.IEntityOrigin
+import ru.vood.dmgen.intf.SimpleColumnName
+import ru.vood.dmgen.intf.newIntf.ColumnEntityData
+import ru.vood.dmgen.intf.newIntf.IColExtractFunction
+import ru.vood.dmgen.intf.newIntf.SyntheticColumnEntityData
 
 object DerivativeColumns {
 
@@ -18,20 +23,32 @@ object DerivativeColumns {
 
     val entitiesSyntheticColumnsMap = entitiesColumnsMap
         .entries
-        .map { asd -> asd.key to asd.value.filter { c -> c.value.iColExtractFunction !is Simple } }
+        .map { asd ->
+            asd.key to asd.value
+                .filter { c -> c.value.colType is EntityType }
+                .map { c: Map.Entry<SimpleColumnName, ColumnEntityData<out IEntityOrigin>> ->
+                    val iColExtractFunction = c.value.iColExtractFunction as IColExtractFunction<IEntityOrigin, *>
+                    SyntheticColumnEntityData<IEntityOrigin>(
+                        c.value.entity,
+                        c.value.simpleColumnName,
+                        c.value.isOptional,
+                        c.value.comment,
+                        iColExtractFunction,
+                        (c.value.colType as EntityType).entityName
+                    )
+                }
+        }
         .filter { asd -> asd.second.isNotEmpty() }
         .toMap()
-//    Map<EntityName, Set<IEntitySynthetic<out IEntityOrigin>>>
-    val entitiesSyntheticColumnsByEntityMap = entitiesColumnsMap
+
+
+    val entitiesSyntheticColumnsByEntityMap2 = entitiesSyntheticColumnsMap
         .entries
         .map { asd ->
             asd.key to asd.value
-                .filter { c -> c.value.iColExtractFunction !is Simple }
-                .entries
-                .map { it.value.outEntity!! to it.value }
+                .map { qwe -> qwe.colTypeSynthetic.entityName to qwe }
                 .toMap()
         }
-        .filter { asd -> asd.second.isNotEmpty() }
         .toMap()
 
 

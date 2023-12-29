@@ -4,7 +4,7 @@ import ru.vood.dmgen.intf.*
 
 
 /**Мета данные по реквизиту сущности*/
-data class ColumnEntityData<T>(
+open class ColumnEntityData<T>(
     /**имя сущности*/
     val entity: EntityName,
     /**имя колонки*/
@@ -15,17 +15,43 @@ data class ColumnEntityData<T>(
     val comment: String,
     /**ф-ция экстрактор значения колонки*/
     val iColExtractFunction: IColExtractFunction<T, *>,
-
-
     /**имя сущности, если реквизит является иной сущностью, по сути это форен*/
-    val outEntity: EntityName?,
+    private val outEntity: EntityName?,
     /**простой тип колонки*/
-    val simpleColumnType: SimpleColumnType?,
+    private val simpleColumnType: SimpleColumnType?,
 
-    )
+    ) {
 
-@JvmInline
-value class SimpleColumnType(val value: String)
+    val colType: IColType by lazy {
+
+
+        if (outEntity != null) {
+            return@lazy EntityType(outEntity)
+        }
+
+        if (simpleColumnType != null) {
+            return@lazy SympleType(simpleColumnType)
+        }
+
+        error("asdasdasd")
+//        TODO()
+    }
+}
+
+class SyntheticColumnEntityData<T>(
+    entity: EntityName,
+    /**имя колонки*/
+    simpleColumnName: SimpleColumnName,
+    /**признак опциональности колонки*/
+    isOptional: Boolean,
+    /**коментарий колонки*/
+    comment: String,
+    /**ф-ция экстрактор значения колонки*/
+    iColExtractFunction: IColExtractFunction<T, *>,
+    outEntity: EntityName
+) : ColumnEntityData<T>(entity, simpleColumnName, isOptional, comment, iColExtractFunction, outEntity, null){
+    val colTypeSynthetic = colType as EntityType
+}
 
 sealed interface IColExtractFunction<in T, out OUT> {
     val extractFieldValue: (entity: T) -> OUT

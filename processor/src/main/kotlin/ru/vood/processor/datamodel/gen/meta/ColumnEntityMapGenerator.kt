@@ -7,6 +7,7 @@ import ru.vood.dmgen.annotation.RelationType
 import ru.vood.dmgen.intf.EntityName
 import ru.vood.dmgen.intf.FullColumnName
 import ru.vood.dmgen.intf.SimpleColumnName
+import ru.vood.dmgen.intf.SimpleColumnType
 import ru.vood.dmgen.intf.newIntf.*
 import ru.vood.processor.datamodel.abstraction.model.MetaInformation
 import ru.vood.processor.datamodel.gen.*
@@ -87,12 +88,14 @@ class ColumnEntityMapGenerator(
 
                                 """${FullColumnName::class.simpleName}("${fullColumnName.value}") to ${ColumnEntityData::class.simpleName}(
                                 |${ColumnEntityData<*>::entity.name}= ${EntityName::class.java.simpleName}( "${ent.designClassShortName}"),
-                                |${ColumnEntityData<*>::outEntity.name} = ${EntityName::class.java.simpleName}( "${fromEntity.designClassShortName}"),
+                                |//ColumnEntityData<*>::entity.name = ${EntityName::class.java.simpleName}( "${fromEntity.designClassShortName}"),
+                                |outEntity = ${EntityName::class.java.simpleName}( "${fromEntity.designClassShortName}"),
                                 |${ColumnEntityData<*>::simpleColumnName.name} = ${SimpleColumnName::class.simpleName}("${fromEntity.entityFieldName}"),
                                 |${ColumnEntityData<*>::isOptional.name}= ${isOptional},
                                 |${ColumnEntityData<*>::comment.name} ="${fromEntity.comment}",
                                 |${ColumnEntityData<*>::iColExtractFunction.name} = $columnKindType,
-                                |${ColumnEntityData<*>::simpleColumnType.name} = null
+                                |//ColumnEntityData<*>::simpleColumnType.name = null
+                                |simpleColumnType = null
                                 |)""".trimMargin()
 
                             }
@@ -103,13 +106,15 @@ class ColumnEntityMapGenerator(
                             .map { col ->
                                 """${FullColumnName::class.simpleName}("${ent.designClassShortName}_${col.name.value}") to ${ColumnEntityData::class.simpleName}(
                                 |${ColumnEntityData<*>::entity.name} = ${EntityName::class.java.simpleName}( "${ent.designClassShortName}"),
-                                |${ColumnEntityData<*>::outEntity.name}= null,
+                                |//ColumnEntityData<*>::outEntity.name= null,
+                                |outEntity= null,
                                 |//$entityClass::${col.name.value},
                                 |${ColumnEntityData<*>::simpleColumnName.name} = ${SimpleColumnName::class.simpleName}("${col.name.value}"),
                                 |${ColumnEntityData<*>::isOptional.name} = ${col.isNullable},
                                 |${ColumnEntityData<*>::comment.name} = "${col.comment}",
                                 |${ColumnEntityData<*>::iColExtractFunction.name} = ${Simple::class.simpleName}<$entityClass, ${col.type}${col.question}> {it.${col.name.value}},
-                                |${ColumnEntityData<*>::simpleColumnType.name}= ${SimpleColumnType::class.simpleName}("${col.type}")
+                                |//ColumnEntityData<*>::simpleColumnType.name= ${SimpleColumnType::class.simpleName}("${col.type}")
+                                |simpleColumnType= ${SimpleColumnType::class.simpleName}("${col.type}")
                                 |)""".trimMargin()
                             }
                         simpleF.plus(syntheticF)
