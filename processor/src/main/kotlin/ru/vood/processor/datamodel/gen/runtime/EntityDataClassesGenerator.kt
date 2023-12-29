@@ -39,7 +39,7 @@ class EntityDataClassesGenerator(
         val fk = syntheticFieldInfos(chldrenEntities, metaForeignKeys, metaEntity, logger)
             .map { syntheticFieldInfo ->
                 val s = if (syntheticFieldInfo.isOptional) "?" else ""
-                val genField = genField(syntheticFieldInfo.metaEntity, s, syntheticFieldInfo.relationType)
+                val genField = genField(syntheticFieldInfo.metaEntity, syntheticFieldInfo.relationType)
                 Optional.of(genField)
 
             }
@@ -125,20 +125,15 @@ $fk
         OPTIONAL
     }
 
-    private fun genField(toEntity: MetaEntity, question: String, relationType: RelationType) =
-        when (relationType) {
-            RelationType.ONE_TO_ONE_OPTIONAL -> "val ${toEntity.entityFieldName} : ${packageName.value}.${
-                entityClassName(
-                    toEntity
-                )
-            }$question"
-            RelationType.MANY_TO_ONE -> "val ${toEntity.entityFieldName} : Set<${packageName.value}.${
-                entityClassName(
-                    toEntity
-                )
-            }>"
+    private fun genField(toEntity: MetaEntity, relationType: RelationType): String {
+        val entityClassName = entityClassName(toEntity)
+        return when (relationType) {
+            RelationType.ONE_TO_ONE_OPTIONAL -> "val ${toEntity.entityFieldName} : ${packageName.value}.$entityClassName?"
+            RelationType.ONE_TO_ONE_MANDATORY  -> "val ${toEntity.entityFieldName} : ${packageName.value}.$entityClassName"
+            RelationType.MANY_TO_ONE -> "val ${toEntity.entityFieldName} : Set<${packageName.value}.$entityClassName>"
             RelationType.UNNOWN -> error("Не известный тип")
         }
+    }
 
 
     override val subPackage: PackageName

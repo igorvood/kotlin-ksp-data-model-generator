@@ -222,8 +222,14 @@ private fun fieldsFk(
                 .filter { ukCols -> ukCols.equalsAnyOrder(fromEntityFkCols) }
 
             val relationType =
+                // такой UK найден, значит тип связи один к одному
                 if (uksOneTOne.size == 1) {
-                    RelationType.ONE_TO_ONE_OPTIONAL
+                    // определяю опциональность связи
+                    when(fromMetaEntity.flowEntityType.isOptional){
+                        true -> RelationType.ONE_TO_ONE_OPTIONAL
+                        false -> RelationType.ONE_TO_ONE_MANDATORY
+                    }
+
                 } else {
                     val fkCols = fkTemp.fkCols.map { it.from.name }
 

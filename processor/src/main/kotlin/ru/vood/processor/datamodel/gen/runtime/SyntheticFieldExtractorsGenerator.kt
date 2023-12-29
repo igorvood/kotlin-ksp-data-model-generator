@@ -13,7 +13,6 @@ import ru.vood.processor.datamodel.abstraction.model.MetaInformation
 import ru.vood.processor.datamodel.gen.*
 import ru.vood.processor.datamodel.gen.CollectName.entityClassName
 import ru.vood.processor.datamodel.gen.CollectName.syntheticClassName
-import ru.vood.processor.datamodel.gen.runtime.OriginEntityDataClassesGenerator.Companion.entityOriginDataClassesGeneratorPackageName
 import java.time.LocalDateTime
 import java.util.*
 import javax.annotation.processing.Generated
@@ -46,7 +45,7 @@ class SyntheticFieldExtractorsGenerator(
         val fk = syntheticFieldInfos
             .map { syntheticFieldInfo ->
                 val s = if (syntheticFieldInfo.isOptional) "?" else ""
-                val genField = genField(syntheticFieldInfo.metaEntity, s, syntheticFieldInfo.relationType)
+                val genField = genField(syntheticFieldInfo.metaEntity, syntheticFieldInfo.relationType)
                 Optional.of(genField)
 
             }
@@ -55,7 +54,7 @@ class SyntheticFieldExtractorsGenerator(
         val fkFunCode = syntheticFieldInfos
             .map { syntheticFieldInfo ->
                 val s = if (syntheticFieldInfo.isOptional) "?" else ""
-                val genField = genWhenCondition(syntheticFieldInfo.metaEntity, s, syntheticFieldInfo.relationType)
+                val genField = genWhenCondition(syntheticFieldInfo.metaEntity, syntheticFieldInfo.relationType)
                 Optional.of(genField)
             }
             .joinToString("\n") { it.get() }
@@ -119,46 +118,36 @@ $fk
             .flatten()
             .toSet()
 
-        val plus = collector.plus(GeneratedFile(FileName(fullClassName), GeneratedCode(code), PackageName(metaEntity.designClassPackageName))).plus(map)
+        val plus = collector.plus(
+            GeneratedFile(
+                FileName(fullClassName),
+                GeneratedCode(code),
+                PackageName(metaEntity.designClassPackageName)
+            )
+        ).plus(map)
 
 
         return plus
     }
-
-    enum class Relation {
-        MANDATORY,
-        OPTIONAL
-    }
-
-    private fun genField(toEntity: MetaEntity, question: String, relationType: RelationType) =
-        when (relationType) {
-            RelationType.ONE_TO_ONE_OPTIONAL -> "val ${toEntity.entityFieldName} : ${
-                syntheticClassName(
-                    toEntity
-                )
-            }$question"
-            RelationType.MANY_TO_ONE -> "val ${toEntity.entityFieldName} : Set<${
-                syntheticClassName(
-                    toEntity
-                )
-            }>"
+    private fun genField(toEntity: MetaEntity, relationType: RelationType): String {
+        val syntheticClassName = syntheticClassName(
+            toEntity
+        )
+        return when (relationType) {
+            RelationType.ONE_TO_ONE_OPTIONAL -> "val ${toEntity.entityFieldName} : $syntheticClassName?"
+            RelationType.ONE_TO_ONE_MANDATORY -> "val ${toEntity.entityFieldName} : $syntheticClassName"
+            RelationType.MANY_TO_ONE -> "val ${toEntity.entityFieldName} : Set<$syntheticClassName>"
             RelationType.UNNOWN -> error("Не известный тип")
         }
-//            EntityName("Asdasd") -> setOf(dealParamOneToOne)
-//            EntityName("Asdasd") -> dealParamOneToOneOptional?.let { setOf(it) } ?: setOf()
-//            EntityName("Asdasd") -> dealParamSet
+    }
 
-
-    private fun genWhenCondition(toEntity: MetaEntity, question: String, relationType: RelationType) =
+    private fun genWhenCondition(toEntity: MetaEntity, relationType: RelationType) =
         when (relationType) {
-            RelationType.ONE_TO_ONE_OPTIONAL -> {
-                if (question == "?") {
-                    """${EntityName::class.simpleName}("${toEntity.designClassShortName}") -> ${toEntity.entityFieldName}?.let { setOf(it) } ?: setOf()"""
-                } else {
-                    """${EntityName::class.simpleName}("${toEntity.designClassShortName}") -> setOf(${toEntity.entityFieldName})"""
-                }
+            RelationType.ONE_TO_ONE_OPTIONAL ->
+                """${EntityName::class.simpleName}("${toEntity.designClassShortName}") -> ${toEntity.entityFieldName}?.let { setOf(it) } ?: setOf()"""
+            RelationType.ONE_TO_ONE_MANDATORY ->
+                """${EntityName::class.simpleName}("${toEntity.designClassShortName}") -> setOf(${toEntity.entityFieldName})"""
 
-            }
             RelationType.MANY_TO_ONE -> """${EntityName::class.simpleName}("${toEntity.designClassShortName}") -> ${toEntity.entityFieldName}"""
             RelationType.UNNOWN -> error("Не известный тип")
         }

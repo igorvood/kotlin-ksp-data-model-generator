@@ -2,11 +2,9 @@ package ru.vood.processor.datamodel.gen.runtime
 
 import com.google.devtools.ksp.processing.CodeGenerator
 import com.google.devtools.ksp.processing.KSPLogger
-import ru.vood.dmgen.annotation.RelationType
 import ru.vood.dmgen.intf.EntityName
 import ru.vood.dmgen.intf.IEntityOrigin
 import ru.vood.processor.datamodel.abstraction.model.Dependency
-import ru.vood.processor.datamodel.abstraction.model.MetaEntity
 import ru.vood.processor.datamodel.abstraction.model.MetaForeignKey
 import ru.vood.processor.datamodel.abstraction.model.MetaInformation
 import ru.vood.processor.datamodel.gen.*
@@ -94,32 +92,17 @@ $simpleColumns
             .flatten()
             .toSet()
 
-        val plus = collector.plus(GeneratedFile(FileName(fullClassName), GeneratedCode(code), PackageName(metaEntity.designClassPackageName))).plus(map)
+        val plus = collector.plus(
+            GeneratedFile(
+                FileName(fullClassName),
+                GeneratedCode(code),
+                PackageName(metaEntity.designClassPackageName)
+            )
+        ).plus(map)
 
 
         return plus
     }
-
-    enum class Relation {
-        MANDATORY,
-        OPTIONAL
-    }
-
-    private fun genField(toEntity: MetaEntity, question: String, relationType: RelationType) =
-        when (relationType) {
-            RelationType.ONE_TO_ONE_OPTIONAL -> "val ${toEntity.entityFieldName} : ${packageName.value}.${
-                entityClassName(
-                    toEntity
-                )
-            }$question"
-            RelationType.MANY_TO_ONE -> "val ${toEntity.entityFieldName} : Set<${packageName.value}.${
-                entityClassName(
-                    toEntity
-                )
-            }>"
-            RelationType.UNNOWN -> error("Не известный тип")
-        }
-
 
     override val subPackage: PackageName
         get() = entityOriginDataClassesGeneratorPackageName
