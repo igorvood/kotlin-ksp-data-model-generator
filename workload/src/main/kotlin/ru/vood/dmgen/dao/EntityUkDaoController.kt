@@ -25,6 +25,7 @@ class EntityUkDaoController(
 
     }
 
+    @Suppress("UNCHECKED_CAST")
     final fun <T : IEntityOrigin> saveEntityUkDto(
         entityName: EntityName,
         ukData: IContextOf<T>,
@@ -37,7 +38,7 @@ class EntityUkDaoController(
     }
 
 
-    final fun existUk(uk: UkName, function: String): Boolean {
+   final fun existUk(uk: UkName, function: String): Boolean {
 //        jdbcOperations.queryForObject()
         val queryForObject = jdbcOperations.queryForObject(
             """select count(1) from entity_uk_context where entity_type_uk = ? and uk = ? """,
