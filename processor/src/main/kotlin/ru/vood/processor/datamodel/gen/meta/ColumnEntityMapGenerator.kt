@@ -109,7 +109,7 @@ class ColumnEntityMapGenerator(
                                 |${SimpleColumnEntityData<*>::simpleColumnName.name} = ${SimpleColumnName::class.simpleName}("${col.name.value}"),
                                 |${SimpleColumnEntityData<*>::isOptional.name} = ${col.isNullable},
                                 |${SimpleColumnEntityData<*>::comment.name} = "${col.comment}",
-                                |${SimpleColumnEntityData<*>::iColExtractFunction.name} = ${Simple::class.simpleName}<$entityClass, ${col.type}${col.question}> {it.${col.name.value}},
+                                |${SimpleColumnEntityData<*>::iColExtractFunction.name} = ${SimpleColExtractFunction::class.simpleName}<$entityClass, ${col.type}${col.question}> {it.${col.name.value}},
                                 |//ColumnEntityData<*>::simpleColumnType.name= ${SimpleColumnType::class.simpleName}("${col.type}")
                                 |simpleColumnType= ${SympleType::class.simpleName}( ${SimpleColumnType::class.simpleName}("${col.type}"))
                                 |)""".trimMargin()
@@ -136,7 +136,7 @@ import ${EntityName::class.java.canonicalName}
 
 import ${Generated::class.java.canonicalName}
 import ${IColExtractFunction::class.java.canonicalName}
-import ${Simple::class.java.canonicalName}
+import ${SimpleColExtractFunction::class.java.canonicalName}
 import ${Synthetic::class.java.canonicalName}
 import ${SyntheticSet::class.java.canonicalName}
 //import ${rootPackage.value}.${entitySyntheticDataClassesGeneratorPackageName.value}.*

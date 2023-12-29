@@ -1,16 +1,6 @@
 package datamodel
 
 import org.junit.jupiter.api.Test
-import ru.vood.dmgen.annotation.FlowEntityType
-import ru.vood.dmgen.annotation.RelationType
-import ru.vood.dmgen.datamodel.metaEnum.entityDataMap
-import ru.vood.dmgen.intf.newIntf.Simple
-import ru.vood.dmgen.intf.newIntf.Synthetic
-import ru.vood.dmgen.intf.newIntf.SyntheticSet
-import ru.vood.dmgen.meta.DerivativeColumns.entitiesColumnsMap
-import ru.vood.dmgen.meta.DerivativeDependencyMap.entityDependencyParentMap
-import ru.vood.dmgen.meta.DerivativeFKs.foreignKeyMapFromEntity
-import java.io.File
 
 class PumlGenerator {
 

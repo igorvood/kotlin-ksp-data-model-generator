@@ -14,7 +14,6 @@ import ru.vood.dmgen.dao.dto.UKJsonVal
 import ru.vood.dmgen.datamodel.metaEnum.entityDataMap
 import ru.vood.dmgen.intf.*
 import ru.vood.dmgen.intf.newIntf.*
-import ru.vood.dmgen.meta.DerivativeColumns
 import ru.vood.dmgen.meta.DerivativeColumns.entitiesSyntheticColumnsByEntityMap2
 import ru.vood.dmgen.meta.DerivativeColumns.entitiesSyntheticColumnsMap
 import ru.vood.dmgen.meta.DerivativeFKs.foreignKeyMapFromEntity
@@ -124,15 +123,16 @@ class EntityDaoController(
     private fun <T : IEntityOrigin> childEntity(
         designEntityName: EntityName,
         aggregate: IEntitySynthetic<T>
-    ): Map<EntityName, Set<IEntitySynthetic<out IEntityOrigin>>> =
-        DerivativeColumns.entitiesColumnsMap[designEntityName]
-            ?.entries
-            ?.filter { it.value.colType is EntityType }
-            ?.map { (it.value.colType as EntityType).entityName }
-            ?.map { it to aggregate.syntheticField(it) }
-            ?.filter { it.second.isNotEmpty() }
-            ?.toMap()
-            ?: mapOf()
+    ): Map<EntityName, Set<IEntitySynthetic<out IEntityOrigin>>> {
+
+        val entitiesSyntheticColumnsMap1 = entitiesSyntheticColumnsMap[designEntityName] ?: listOf()
+
+        return entitiesSyntheticColumnsMap1
+            .map { it.outEntity }
+            .map { it to aggregate.syntheticField(it) }
+            .filter { it.second.isNotEmpty() }
+            .toMap()
+    }
 
     /**сохраняю все дочерние сущности */
     @Suppress("UNCHECKED_CAST")
@@ -321,7 +321,7 @@ class EntityDaoController(
         val map = columnMap.map { columnEntityData ->
 
 
-            val outEntity = columnEntityData.colTypeSynthetic.entityName
+            val outEntity = columnEntityData.outEntity
 
 
             val entityData = entityDataMap[outEntity] ?: error("mcvnbjkxchhgsdjkhgf")
@@ -342,7 +342,7 @@ class EntityDaoController(
             }
 
             val columnEntityData1 =
-                entitiesSyntheticColumnsByEntityMap2[entityName]!![outEntity]!! as SyntheticColumnEntityData
+                entitiesSyntheticColumnsByEntityMap2[entityName]!![outEntity]!!
             val isOptional = columnEntityData1.isOptional
             val iColKind = columnEntityData1.iColExtractFunction
 
@@ -360,7 +360,7 @@ class EntityDaoController(
                         else -> error("Asdadask9887345897304985734098573409857")
                     }
                 }
-                is Simple<*, *> -> error("poiutykfc,m.bncvm,")
+                is SimpleColExtractFunction<*, *> -> error("poiutykfc,m.bncvm,")
             }
 
 

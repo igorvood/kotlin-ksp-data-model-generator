@@ -23,17 +23,9 @@ object DerivativeColumns {
         .entries
         .map { asd ->
             asd.key to asd.value
-                .filter { c -> c.value.colType is EntityType }
+                .filter { c -> c.value is SyntheticColumnEntityData }
                 .map { c ->
-                    val iColExtractFunction = c.value.iColExtractFunction as IColExtractFunction<IEntityOrigin, *>
-                    SyntheticColumnEntityData<IEntityOrigin>(
-                        c.value.entity,
-                        c.value.simpleColumnName,
-                        c.value.isOptional,
-                        c.value.comment,
-                        iColExtractFunction,
-                        (c.value.colType as EntityType).entityName
-                    )
+                    c.value as SyntheticColumnEntityData
                 }
         }
         .filter { asd -> asd.second.isNotEmpty() }
@@ -44,7 +36,7 @@ object DerivativeColumns {
         .entries
         .map { asd ->
             asd.key to asd.value
-                .map { qwe -> qwe.colTypeSynthetic.entityName to qwe }
+                .map { qwe -> qwe.outEntity to qwe }
                 .toMap()
         }
         .toMap()

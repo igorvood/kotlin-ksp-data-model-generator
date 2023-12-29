@@ -4,76 +4,56 @@ import ru.vood.dmgen.intf.*
 
 
 /**Мета данные по реквизиту сущности*/
-open class ColumnEntityData<T>(
+sealed interface ColumnEntityData<T>{
     /**имя сущности*/
-    val entity: EntityName,
+    val entity: EntityName
     /**имя колонки*/
-    val simpleColumnName: SimpleColumnName,
+    val simpleColumnName: SimpleColumnName
     /**признак опциональности колонки*/
-    val isOptional: Boolean,
+    val isOptional: Boolean
     /**коментарий колонки*/
-    val comment: String,
+    val comment: String
     /**ф-ция экстрактор значения колонки*/
-    val iColExtractFunction: IColExtractFunction<T, *>,
-    /**имя сущности, если реквизит является иной сущностью, по сути это форен*/
-    private val outEntity: EntityName?,
-    /**простой тип колонки*/
-    private val simpleColumnType: SimpleColumnType?,
-
-    ) {
-
-    val colType: IColType by lazy {
-
-
-        if (outEntity != null) {
-            return@lazy EntityType(outEntity)
-        }
-
-        if (simpleColumnType != null) {
-            return@lazy SympleType(simpleColumnType)
-        }
-
-        error("asdasdasd")
-//        TODO()
-    }
+    val iColExtractFunction: IColExtractFunction<T, *>
 }
 
-class SimpleColumnEntityData<T>(
-    entity: EntityName,
+data class SimpleColumnEntityData<T: IEntityOrigin>(
+    override val entity: EntityName,
     /**имя колонки*/
-    simpleColumnName: SimpleColumnName,
+    override val simpleColumnName: SimpleColumnName,
     /**признак опциональности колонки*/
-    isOptional: Boolean,
+    override val isOptional: Boolean,
     /**коментарий колонки*/
-    comment: String,
+    override val comment: String,
     /**ф-ция экстрактор значения колонки*/
-    iColExtractFunction: IColExtractFunction<T, *>,
-    simpleColumnType: SympleType
-): ColumnEntityData<T>(entity, simpleColumnName, isOptional, comment, iColExtractFunction, null, simpleColumnType.simpleColumnType)
+    override val iColExtractFunction: SimpleColExtractFunction<T, *>,
+    val simpleColumnType: SympleType
+): ColumnEntityData<T>
 
 
-class SyntheticColumnEntityData<T>(
-    entity: EntityName,
+data class SyntheticColumnEntityData<T>(
+    override val entity: EntityName,
     /**имя колонки*/
-    simpleColumnName: SimpleColumnName,
+    override val simpleColumnName: SimpleColumnName,
     /**признак опциональности колонки*/
-    isOptional: Boolean,
+    override val isOptional: Boolean,
     /**коментарий колонки*/
-    comment: String,
+    override val comment: String,
     /**ф-ция экстрактор значения колонки*/
-    iColExtractFunction: IColExtractFunction<T, *>,
-    outEntity: EntityName
-) : ColumnEntityData<T>(entity, simpleColumnName, isOptional, comment, iColExtractFunction, outEntity, null){
-    val colTypeSynthetic = colType as EntityType
+    override val iColExtractFunction: IColExtractFunction<T, *>,
+    val outEntity: EntityName
+) : ColumnEntityData<T>{
+
 }
 
 sealed interface IColExtractFunction<in T, out OUT> {
     val extractFieldValue: (entity: T) -> OUT
 }
 
+sealed interface ISyntheticColExtractFunction<in T, out OUT>:  IColExtractFunction<T, OUT>
 
 @JvmInline
-value class Simple<T : IEntityOrigin, OUT>(
+value class SimpleColExtractFunction<T : IEntityOrigin, OUT>(
     override val extractFieldValue: (entity: T) -> OUT
 ) : IColExtractFunction<T, OUT>
 
@@ -83,7 +63,7 @@ value class Synthetic<
         SINTH_IN : IEntitySynthetic<out ORIG_IN>,
         OUT : IEntityOrigin>(
     override val extractFieldValue: (entity: SINTH_IN) -> Set<IEntitySynthetic<OUT>>
-) : IColExtractFunction<SINTH_IN, Set<IEntitySynthetic<OUT>>>
+) : ISyntheticColExtractFunction<SINTH_IN, Set<IEntitySynthetic<OUT>>>
 
 @JvmInline
 value class SyntheticSet<
@@ -91,4 +71,4 @@ value class SyntheticSet<
         SINTH_IN : IEntitySynthetic<out ORIG_IN>,
         OUT : IEntityOrigin>(
     override val extractFieldValue: (entity: SINTH_IN) -> Set<IEntitySynthetic<OUT>>
-) : IColExtractFunction<SINTH_IN, Set<IEntitySynthetic<OUT>>>
+) : ISyntheticColExtractFunction<SINTH_IN, Set<IEntitySynthetic<OUT>>>
