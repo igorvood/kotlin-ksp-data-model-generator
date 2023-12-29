@@ -55,7 +55,6 @@ class UniqueKeyMapGenerator(
                                     )
                                 }($constructorParams) },
                                     |${ukDto.typeUk.name}
-                                    |//${rootPackage.value}${contextDataClassesGeneratorPackageName.value}.${metaEnt.designClassShortName}Context${ukDto.name.value}::class,
                                     |)""".trimMargin()
                             }
                     }
