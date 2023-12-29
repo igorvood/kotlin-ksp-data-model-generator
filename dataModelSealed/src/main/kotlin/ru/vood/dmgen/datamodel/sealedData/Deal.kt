@@ -1,4 +1,4 @@
-package ru.vood.dmgen.datamodel.sealedData.oneOf
+package ru.vood.dmgen.datamodel.sealedData
 
 import ru.vood.dmgen.annotation.*
 import ru.vood.dmgen.datamodel.valueClasses.DealId

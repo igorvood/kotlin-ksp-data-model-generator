@@ -8,11 +8,11 @@ import ru.vood.dmgen.datamodel.valueClasses.DealId
 @ForeignKey(
 //    kClass = Deal::class.java.canonicalName,
 
-    kClass = "ru.vood.dmgen.datamodel.sealedData.oneOf.Deal",
+    kClass = "ru.vood.dmgen.datamodel.sealedData.Deal",
     name = "OneOfDto_FK",
     cols = [ForeignKeyColumns("dealId", "id")]
 )
-interface OneOfDto {
+sealed interface OneOfDto {
     @Pk
     val dealId: DealId
 }
