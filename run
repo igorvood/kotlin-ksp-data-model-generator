@@ -1,5 +1,7 @@
 #!/bin/sh
 
+./gradlew clean
+
 ./gradlew build
 
 java -jar ./workload/build/libs/workload.jar

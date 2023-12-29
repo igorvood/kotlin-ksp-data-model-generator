@@ -1,4 +1,4 @@
-package com.strukov.processor.extensions
+package ru.vood.processor.datamodel.gen
 
 import java.io.OutputStream
 

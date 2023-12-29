@@ -3,7 +3,6 @@ package ru.vood.processor.datamodel.gen
 import com.google.devtools.ksp.processing.CodeGenerator
 import com.google.devtools.ksp.processing.Dependencies
 import com.google.devtools.ksp.processing.KSPLogger
-import com.strukov.processor.extensions.appendText
 import java.io.OutputStream
 import kotlin.properties.Delegates
 
