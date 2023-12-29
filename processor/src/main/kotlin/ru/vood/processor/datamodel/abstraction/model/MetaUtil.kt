@@ -96,8 +96,11 @@ fun collectMetaForeignKey(
 
             val element =
                 MetaForeignKeyTemporary(
-                    ForeignKeyName(foreignKey.name), entities[fromMetaEntityClassName]!!, foreignMetaEntity, fkCols,
-                    ukDto
+                    name = ForeignKeyName(value = foreignKey.name),
+                    fromEntity = entities[fromMetaEntityClassName]!!,
+                    toEntity = foreignMetaEntity,
+                    fkCols = fkCols,
+                    uk = ukDto
                 )
 
 
@@ -193,17 +196,6 @@ private fun fieldsFk(
                         .filter { ukCols -> ukCols.equalsAnyOrder(fromEntityFkCols) }
 
                     val relationType = if (uksOneTOne.size == 1) {
-//                        val metaForeignKeyMayBeCircle =
-//                            metaForeignKeysTemporary[fromMetaEntity]?.map { it.toEntity }
-//                                ?.filter { it == fromMetaEntity }
-//                                ?.isNotEmpty()
-//                                ?: false
-
-
-//                        val isOneToOneOptional = !metaForeignKeyMayBeCircle
-//                        val s = if (isOneToOneOptional) {
-//                            RelationType.ONE_TO_ONE_OPTIONAL
-//                        } else RelationType.ONE_TO_ONE_MANDATORY
                         RelationType.ONE_TO_ONE_OPTIONAL
                     } else {
                         val fkCols = metaForeignKeyTemporary.fkCols.map { it.from.name }
@@ -221,7 +213,8 @@ private fun fieldsFk(
                         if (uksOneToMany.isNotEmpty()) {
                             RelationType.MANY_TO_ONE
                         } else {
-                            RelationType.UNNOWN
+//                            RelationType.UNNOWN
+                            error("can not calculate relation type")
                         }
 
                     }

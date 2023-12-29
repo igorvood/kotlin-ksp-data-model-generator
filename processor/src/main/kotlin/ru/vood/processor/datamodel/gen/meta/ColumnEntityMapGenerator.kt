@@ -52,23 +52,21 @@ class ColumnEntityMapGenerator(
                                     syntheticFieldInfo.isOptional && syntheticFieldInfo.relationType == RelationType.ONE_TO_ONE_OPTIONAL
 
                                 val columnKindType = when (syntheticFieldInfo.relationType) {
-                                    RelationType.ONE_TO_ONE_OPTIONAL -> if (isOptional)
-                                        "${Synthetic::class.simpleName}<$entityClass, $syntheticClassName, ${syntheticFieldInfo.metaEntity.designClassPackageName}.${
-                                            entityClassName(
-                                                syntheticFieldInfo.metaEntity
-                                            )
-                                        }>{it.${fromEntity.entityFieldName}?.let{q->setOf(q)}?:setOf()}"
-                                    else
-                                        "${Synthetic::class.simpleName}<$entityClass, $syntheticClassName, ${syntheticFieldInfo.metaEntity.designClassPackageName}.${
-                                            entityClassName(
-                                                syntheticFieldInfo.metaEntity
-                                            )
-                                        } >{setOf(it.${fromEntity.entityFieldName})}"
-                                    RelationType.MANY_TO_ONE -> "${SyntheticSet::class.simpleName}<$entityClass, $syntheticClassName, ${syntheticFieldInfo.metaEntity.designClassPackageName}.${
-                                        entityClassName(
-                                            syntheticFieldInfo.metaEntity
-                                        )
-                                    } >{it.${fromEntity.entityFieldName}}"
+                                    RelationType.ONE_TO_ONE_OPTIONAL ->
+                                        if (isOptional)
+                                            "${Synthetic::class.simpleName}<$entityClass, $syntheticClassName, ${syntheticFieldInfo.metaEntity.designClassPackageName}.${
+                                                entityClassName(
+                                                    syntheticFieldInfo.metaEntity
+                                                )
+                                            }>{it.${fromEntity.entityFieldName}?.let{q->setOf(q)}?:setOf()}"
+                                        else
+                                            "${Synthetic::class.simpleName}<$entityClass, $syntheticClassName, ${syntheticFieldInfo.metaEntity.designClassPackageName}.${
+                                                entityClassName(
+                                                    syntheticFieldInfo.metaEntity
+                                                )
+                                            } >{setOf(it.${fromEntity.entityFieldName})}"
+                                    RelationType.MANY_TO_ONE ->
+                                        "${SyntheticSet::class.simpleName}<$entityClass, $syntheticClassName, ${syntheticFieldInfo.metaEntity.designClassPackageName}.${entityClassName(syntheticFieldInfo.metaEntity)} >{it.${fromEntity.entityFieldName}}"
                                     RelationType.UNNOWN -> error("Не известный тип")
                                 }
 
