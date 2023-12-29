@@ -7,10 +7,15 @@ import ru.vood.dmgen.annotation.ForeignKey
 import ru.vood.dmgen.annotation.RelationType
 import ru.vood.processor.datamodel.abstraction.model.dto.ModelClassName
 
+/**Собирает мету по колонкам */
 fun metaEntityColumns(
+    /**полный список сущностей*/
     entities: Map<ModelClassName, MetaEntity>,
+    /**Сущность из которой вытаскивается мета по колонкам*/
     entity: ModelClassName,
+    /**список колонок по которым надо вытащить мету*/
     cols: Array<String>,
+    /**имя */
     currentClass: ModelClassName,
     foreignKey: ForeignKey
 ): List<MetaEntityColumn> {
@@ -44,6 +49,7 @@ fun collectMetaForeignKey(
             val fromMetaEntityClassName = head.second
             val toMetaEntityClassName = ModelClassName(foreignKey.kClass)
 
+            //вы таскиваю мету по колонкам сущности из которой форен идет
             val colsFromAnnotation = foreignKey.cols
                 .map { a -> a.currentColName }.toTypedArray()
 
@@ -54,7 +60,7 @@ fun collectMetaForeignKey(
                 currentClass = fromMetaEntityClassName,
                 foreignKey
             )
-
+            //вы таскиваю мету по колонкам сущности в которою форен идет
             val toCols = metaEntityColumns(
                 entities = entities,
                 entity = toMetaEntityClassName,
@@ -63,19 +69,9 @@ fun collectMetaForeignKey(
                 foreignKey = foreignKey
             )
 
-            if (fromCols.size != toCols.size) {
-                error("Не совпадают по кол-ву списки колонок currentTypeCols и outTypeCols во внешнем ключе $foreignKey")
-            }
+            fkAssert(fromCols, toCols, foreignKey)
 
-            fromCols.indices
-                .forEach { idx ->
-                    val fromMetaEntityColumn = fromCols[idx]
-                    val toMetaEntityColumn = toCols[idx]
-                    if (fromMetaEntityColumn.type != toMetaEntityColumn.type) {
-                        error("Для внешнего ключа $foreignKey не совпадают типы колонок  в текущей(${fromMetaEntityColumn.name}, ${fromMetaEntityColumn.type}) и внешней(${toMetaEntityColumn.name}, ${toMetaEntityColumn.type}) таблице")
-                    }
-                }
-
+            // поиск уникального ключа по которому указывает форен
             val foreignMetaEntity = entities[toMetaEntityClassName]!!
             val uks = foreignMetaEntity.uniqueKeysFields
                 .filter { uksEntry ->
@@ -95,6 +91,7 @@ fun collectMetaForeignKey(
             } else {
                 uks.entries.first().key
             }
+
             val fkCols = fromCols.withIndex()
                 .map { from -> FkCol(from.value, toCols[from.index]) }
                 .toSet()
@@ -125,6 +122,25 @@ fun collectMetaForeignKey(
 
 
     return map
+}
+
+private fun fkAssert(
+    fromCols: List<MetaEntityColumn>,
+    toCols: List<MetaEntityColumn>,
+    foreignKey: ForeignKey
+) {
+    if (fromCols.size != toCols.size) {
+        error("Не совпадают по кол-ву списки колонок currentTypeCols и outTypeCols во внешнем ключе $foreignKey")
+    }
+
+    fromCols.indices
+        .forEach { idx ->
+            val fromMetaEntityColumn = fromCols[idx]
+            val toMetaEntityColumn = toCols[idx]
+            if (fromMetaEntityColumn.type != toMetaEntityColumn.type) {
+                error("Для внешнего ключа $foreignKey не совпадают типы колонок  в текущей(${fromMetaEntityColumn.name}, ${fromMetaEntityColumn.type}) и внешней(${toMetaEntityColumn.name}, ${toMetaEntityColumn.type}) таблице")
+            }
+        }
 }
 
 fun metaInformation(annotatedDataClasses: List<KSAnnotated>, logger: KSPLogger): MetaInformation {
@@ -189,6 +205,7 @@ private fun checkDublicateUk(entities: Map<ModelClassName, MetaEntity>) {
     }
 }
 
+/**Вычисляет тип реляционной связи */
 private fun fieldsFk(
     collectMetaForeignKeyTemporary: Set<MetaForeignKeyTemporary>,
 
