@@ -23,7 +23,7 @@ data class FKMetaData<T : IEntityOrigin>(
     val fkCols: Set<FkPairNew>,
     /**Ф-ция вытаскивающая из fromEntity, экземпляр уникального ключа toEntity -> uk.
      * хорошо подходит для поиска  */
-    val extractJsonContext: (T) -> IContextOf<out IEntityOrigin>
+    val сontextExtractor: (T) -> IContextOf<out IEntityOrigin>
 )
 
 

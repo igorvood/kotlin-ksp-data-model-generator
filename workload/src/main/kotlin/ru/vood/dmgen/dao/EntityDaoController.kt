@@ -246,7 +246,7 @@ class EntityDaoController(
         val fkEntityDataSet = foreignKeyMapFromEntity[entityName] ?: setOf()
         fkEntityDataSet
             .forEach { fkEntityData ->
-                val extractContextByFKFunction = fkEntityData.extractJsonContext as (T) -> IContextOf<out IEntityOrigin>
+                val extractContextByFKFunction = fkEntityData.сontextExtractor as (T) -> IContextOf<out IEntityOrigin>
                 val parentContextValue = extractContextByFKFunction(entity)
                 val ukEntityData =
                     entitiesUkMap[parentContextValue.designEntityName]!!.ukAndPkMap[parentContextValue.ukName]!!

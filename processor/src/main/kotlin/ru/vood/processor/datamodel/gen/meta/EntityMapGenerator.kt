@@ -33,14 +33,14 @@ class EntityMapGenerator(
                     .map {metaEntity                        ->
 
                         val notSealedEntity = """${EntityData::class.simpleName}(
-                            |${metaEntity.designClassFullClassName.value}::class, 
-                            |${CollectName.entityClassName(metaEntity)}::class,
-                            |${CollectName.syntheticClassName(metaEntity)}::class,
-                            |${CollectName.entityClassName(metaEntity)}.serializer(),
-                            |${CollectName.syntheticClassName(metaEntity)}.serializer(),
-                            |${EntityName::class.simpleName}("${metaEntity.designClassShortName}"), 
-                            |"${metaEntity.comment}",
-                            |${metaEntity.flowEntityType}
+                            |${EntityData<*>::designClass.name} =  ${metaEntity.designClassFullClassName.value}::class, 
+                            |${EntityData<*>::runtimeClass.name} = ${CollectName.entityClassName(metaEntity)}::class,
+                            |${EntityData<*>::runtimeSyntheticClass.name} = ${CollectName.syntheticClassName(metaEntity)}::class,
+                            |serializer =${CollectName.entityClassName(metaEntity)}.serializer(),
+                            |serializerSynthetic =${CollectName.syntheticClassName(metaEntity)}.serializer(),
+                            |${EntityData<*>::entityName.name} =${EntityName::class.simpleName}("${metaEntity.designClassShortName}"), 
+                            |${EntityData<*>::comment.name} ="${metaEntity.comment}",
+                            |${EntityData<*>::entityType.name} =${metaEntity.flowEntityType}
                             |//${metaEntity.sealedChildren} ${metaEntity.ksAnnotated.superTypes.map { ass-> ass.element.toString() }}
                             |)"""
 

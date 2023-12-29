@@ -5,6 +5,7 @@ import com.google.devtools.ksp.processing.KSPLogger
 import ru.vood.dmgen.annotation.UkName
 import ru.vood.dmgen.intf.EntityName
 import ru.vood.dmgen.intf.SimpleColumnName
+import ru.vood.dmgen.intf.newIntf.FKMetaData
 import ru.vood.dmgen.intf.newIntf.TypeUk
 import ru.vood.dmgen.intf.newIntf.UKEntityData
 import ru.vood.processor.datamodel.abstraction.model.MetaInformation
@@ -44,17 +45,17 @@ class UniqueKeyMapGenerator(
                                 val ukClassName = CollectName.ukClassName(ukDto.name)
 
                                 """${UkName::class.simpleName}("${ukDto.name.value}") to ${UKEntityData::class.simpleName}(
-                                    |${UkName::class.simpleName}("${ukDto.name.value}"),
-                                    |listOf($ukCols),
-                                    |${ukClassName}.serializer(),
-                                    |${ukClassName}::class,
-                                    |${EntityName::class.simpleName}("${metaEnt.designClassShortName}"),
-                                    |{data: ${CollectName.entityClassName(metaEnt)} -> ${
+                                    |${UKEntityData<*>::ukName.name} = ${UkName::class.simpleName}("${ukDto.name.value}"),
+                                    |${UKEntityData<*>::columns.name} = listOf($ukCols),
+                                    |serializer = ${ukClassName}.serializer(),
+                                    |${UKEntityData<*>::ukClass.name} = ${ukClassName}::class,
+                                    |${UKEntityData<*>::entity.name} = ${EntityName::class.simpleName}("${metaEnt.designClassShortName}"),
+                                    |${UKEntityData<*>::extractContext.name} = {data: ${CollectName.entityClassName(metaEnt)} -> ${
                                     CollectName.ukClassName(
                                         ukDto.name
                                     )
                                 }($constructorParams) },
-                                    |${ukDto.typeUk.name}
+                                    |${UKEntityData<*>::typeUk.name} = ${ukDto.typeUk.name}
                                     |)""".trimMargin()
                             }
                     }

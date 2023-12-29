@@ -7,7 +7,6 @@ import ru.vood.dmgen.annotation.RelationType
 import ru.vood.dmgen.annotation.UkName
 import ru.vood.dmgen.intf.EntityName
 import ru.vood.dmgen.intf.FullColumnName
-import ru.vood.dmgen.intf.SimpleColumnName
 import ru.vood.dmgen.intf.newIntf.FKMetaData
 import ru.vood.dmgen.intf.newIntf.FkPairNew
 import ru.vood.processor.datamodel.abstraction.model.MetaInformation
@@ -34,7 +33,6 @@ class ForeignKeyMapGenerator(
             false -> {
                 val entitiesMap = generatedClassData
                     .map { metaForeign ->
-//                        "${ent.shortName}_${f.name.value}"
                         val fkCols = metaForeign.fkCols.map { fkPa ->
 
                             """${FkPairNew::class.simpleName}(${FullColumnName::class.simpleName}("${metaForeign.fromEntity.designClassShortName}_${fkPa.from.name.value}"), ${FullColumnName::class.simpleName}("${metaForeign.toEntity.designClassShortName}_${fkPa.to.name.value}"))"""
@@ -50,12 +48,12 @@ class ForeignKeyMapGenerator(
                                 metaForeign.fromEntity
                             )
                         }>(
-                        |${EntityName::class.simpleName}("${metaForeign.fromEntity.designClassShortName}"),
-                        |${EntityName::class.simpleName}("${metaForeign.toEntity.designClassShortName}"),
-                        |${UkName::class.simpleName}("${metaForeign.uk.name.value}"),
-                        |${RelationType::class.java.canonicalName}.${metaForeign.relationType.name},
-                        |setOf($fkCols),
-                        |{data: ${entityClassName(metaForeign.fromEntity)} -> ${ukClassName(metaForeign.uk.name)}(${contextCols}) }
+                        |${FKMetaData<*>::fromEntity.name} = ${EntityName::class.simpleName}("${metaForeign.fromEntity.designClassShortName}"),
+                        |${FKMetaData<*>::toEntity.name} = ${EntityName::class.simpleName}("${metaForeign.toEntity.designClassShortName}"),
+                        |${FKMetaData<*>::uk.name} = ${UkName::class.simpleName}("${metaForeign.uk.name.value}"),
+                        |${FKMetaData<*>::relationType.name} = ${RelationType::class.java.canonicalName}.${metaForeign.relationType.name},
+                        |${FKMetaData<*>::fkCols.name} = setOf($fkCols),
+                        |${FKMetaData<*>::сontextExtractor.name} = {data: ${entityClassName(metaForeign.fromEntity)} -> ${ukClassName(metaForeign.uk.name)}(${contextCols}) }
                         |)""".trimMargin()
                     }
                     .sorted()

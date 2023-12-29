@@ -17,6 +17,7 @@ import java.time.LocalDateTime
 import java.util.*
 import javax.annotation.processing.Generated
 
+@Deprecated("удалить")
 class EntityConstructorMapGenerator(
     codeGenerator: CodeGenerator,
     rootPackage: PackageName,
