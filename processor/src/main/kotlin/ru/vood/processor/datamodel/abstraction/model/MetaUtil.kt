@@ -33,18 +33,19 @@ fun collectMetaForeignKey(
     val map = when (elementsAnnotatedWith.isEmpty()) {
         true -> collector
         false -> {
+
+
             val head = elementsAnnotatedWith.first()
             val foreignKey = head.first
-
             val fromMetaEntityClassName = head.second
             val toMetaEntityClassName = ModelClassName(foreignKey.kClass)
             val colsFromAnnotation = foreignKey.cols
                 .map { a -> a.currentTypeCol }.toTypedArray()
-//            val colsFrom = foreignKey.currentTypeCols
+
             val fromCols = metaEntityColumns(
                 entities = entities,
                 entity = fromMetaEntityClassName,
-                cols = colsFromAnnotation,//foreignKey.cols.map { q -> q.currentTypeCol }.toTypedArray(),
+                cols = colsFromAnnotation,
                 currentClass = fromMetaEntityClassName,
                 foreignKey
             )
@@ -105,8 +106,16 @@ fun collectMetaForeignKey(
                     uk = ukDto
                 )
 
+            val filter = collector.filter { it.name == element.name }
+            val plus = if (filter.isNotEmpty()) {
+                val joinToString =
+                    filter.map { it.fromEntity.designClassShortName }.plus(element.fromEntity.designClassShortName)
+                        .joinToString(",")
+                error("Найден дубль имени внешнего ключа ${foreignKey.name}, повторяется у сущностей ${joinToString}")
+            } else {
+                collector.plus(element)
+            }
 
-            val plus = collector.plus(element)
             collectMetaForeignKey(elementsAnnotatedWith.drop(1), entities, plus)
         }
     }
