@@ -1,9 +1,6 @@
 package ru.vood.dmgen.meta
 
 import ru.vood.dmgen.datamodel.metaEnum.columnEntityDataMap
-import ru.vood.dmgen.intf.EntityType
-import ru.vood.dmgen.intf.IEntityOrigin
-import ru.vood.dmgen.intf.newIntf.IColExtractFunction
 import ru.vood.dmgen.intf.newIntf.SyntheticColumnEntityData
 
 object DerivativeColumns {

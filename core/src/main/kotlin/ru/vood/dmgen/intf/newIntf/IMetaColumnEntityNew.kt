@@ -27,7 +27,7 @@ data class SimpleColumnEntityData<T: IEntityOrigin>(
     override val comment: String,
     /**ф-ция экстрактор значения колонки*/
     override val iColExtractFunction: SimpleColExtractFunction<T, *>,
-    val simpleColumnType: SympleType
+    val simpleColumnType: SimpleColumnType
 ): ColumnEntityData<T>
 
 
@@ -40,7 +40,7 @@ data class SyntheticColumnEntityData<T>(
     /**коментарий колонки*/
     override val comment: String,
     /**ф-ция экстрактор значения колонки*/
-    override val iColExtractFunction: IColExtractFunction<T, *>,
+    override val iColExtractFunction: ISyntheticColExtractFunction<T, *>,
     val outEntity: EntityName
 ) : ColumnEntityData<T>{
 
