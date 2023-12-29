@@ -123,13 +123,15 @@ fun collectMetaForeignKey(
 }
 
 fun metaInformation(annotatedDataClasses: List<KSAnnotated>, logger: KSPLogger): MetaInformation {
+    //Вытаскиваю все классы аннотированые
     val elementsAnnotatedWithFlowEntity = annotatedDataClasses
         .filterIsInstance<KSClassDeclaration>()
         .map { MetaEntity(it, logger) }
+
     val entities = elementsAnnotatedWithFlowEntity.map { it.designClassFullClassName to it }.toMap()
 
     checkDublicateUk(entities)
-    checkDublicateClassName(entities)
+    checkDuplicateClassName(entities)
 
     val fks = entities.map { it.value }
         .flatMap { me ->
@@ -157,7 +159,7 @@ private fun checkDublicateFKName(collectMetaForeignKey: Set<MetaForeignKeyTempor
     }
 }
 
-private fun checkDublicateClassName(entities: Map<ModelClassName, MetaEntity>) {
+private fun checkDuplicateClassName(entities: Map<ModelClassName, MetaEntity>) {
     val groupBy =
         entities.map { it.key to it.value.designClassShortName }
             .groupBy { it.second }

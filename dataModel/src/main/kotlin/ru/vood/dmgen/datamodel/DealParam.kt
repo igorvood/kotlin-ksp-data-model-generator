@@ -25,6 +25,10 @@ interface DealParamOneToOne {
     "InnerToDealParamOneToOne_DealParamOneToOne_FK",
     cols = [ForeignKeyColumns("dealId", "dealId")]
 )
+@Uk(
+    "DealParamOneToOne_UK2",
+    ["dealId", "paramDate"]
+)
 interface InnerToDealParamOneToOne {
     @Pk
     val dealId: DealId
