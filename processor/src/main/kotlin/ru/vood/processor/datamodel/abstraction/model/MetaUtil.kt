@@ -149,7 +149,7 @@ fun metaInformation(annotatedDataClasses: List<KSAnnotated>, logger: KSPLogger):
 //    Собираю сущности
     val entities = elementsAnnotatedWithFlowEntity.map { it.designClassFullClassName to it }.toMap()
 
-    checkDublicateUk(entities)
+    checkDublicateUk(entities, logger)
     checkDuplicateClassName(entities)
 
 //    Собираю все внешние ключи
@@ -192,14 +192,19 @@ private fun checkDuplicateClassName(entities: Map<ModelClassName, MetaEntity>) {
     }
 }
 
-private fun checkDublicateUk(entities: Map<ModelClassName, MetaEntity>) {
-    val dublicatesUk = entities.flatMap { it.value.uniqueKeysFields.entries.map { w -> w.key.name to it.key } }
+private fun checkDublicateUk(entities: Map<ModelClassName, MetaEntity>, logger: KSPLogger) {
+    val dublicatesUk = entities
+        .flatMap {ent -> ent.value.uniqueKeysFields.entries
+            .map { w -> w.key.name to ent.key }
+        }
         .groupBy { it.first.value }
         .filter { it.value.size > 1 }
-        .map { "dublicate uk name ${it.key} for entities ${it.value.map { w -> w.second.value }}" }
+        .map { it -> entities[it.value[0].second]!!.ksAnnotated to  "dublicate uk name ${it.key} for entities ${it.value.map { w -> w.second.value }}" }
+
 
     if (dublicatesUk.isNotEmpty()) {
-        error(dublicatesUk)
+        logger.error(dublicatesUk.map { it.second }.joinToString(","), dublicatesUk[0].first )
+//        error(dublicatesUk)
     }
 }
 
