@@ -207,56 +207,46 @@ private fun checkDublicateUk(entities: Map<ModelClassName, MetaEntity>) {
 private fun fieldsFk(
     collectMetaForeignKeyTemporary: Set<MetaForeignKeyTemporary>,
 ): Set<MetaForeignKey> {
-    // вытаскиваю форены с группировкой по сущностям куда эти форены укаывают
-    val metaForeignKeysTemporary: Map<MetaEntity, List<MetaForeignKeyTemporary>> =
-        collectMetaForeignKeyTemporary.groupBy { it.toEntity }
-    val map1 = metaForeignKeysTemporary.entries
-            // пермапливаю вытаскиваю имена сущностей откуда идут форены
-        .map { entry ->
-            entry.key to entry.value
-                .map { metaFk -> metaFk.fromEntity to metaFk }
-        }
-        .flatMap { entry ->
-//            список форенов от
-            val fromEntities = entry.second
-            val map = fromEntities
-                .map { fromEnt ->
-                    val fromMetaEntity = fromEnt.first
-                    val metaForeignKeyTemporary = fromEnt.second
-                    val fromEntityFkCols = metaForeignKeyTemporary.fkCols.map { qq -> qq.from.name }.toSet()
-                    val fromEntityUKsCols = fromMetaEntity.uniqueKeysFields.keys.map { aas -> aas.cols }
-                    val uksOneTOne = fromEntityUKsCols
-                        .filter { ukCols -> ukCols.equalsAnyOrder(fromEntityFkCols) }
+    val map1 = collectMetaForeignKeyTemporary
+        .map { fkTemp ->
+            val fromMetaEntity = fkTemp.fromEntity
 
-                    val relationType = if (uksOneTOne.size == 1) {
-                        RelationType.ONE_TO_ONE_OPTIONAL
-                    } else {
-                        val fkCols = metaForeignKeyTemporary.fkCols.map { it.from.name }
+//            Вытаскиваю колонки из форена
+            val fromEntityFkCols = fkTemp.fkCols.map { qq -> qq.from.name }.toSet()
+//            Вытаскиваю колонки из всех уникальных ключей
+            val fromEntityUKsCols = fromMetaEntity.uniqueKeysFields.keys.map { aas -> aas.cols }
+
+            // Держите штаны, пыжусь определить тип связи между сущностями
+//            надо найти uk полностью совпадающий по колоночному составу с fk
+            val uksOneTOne = fromEntityUKsCols
+                .filter { ukCols -> ukCols.equalsAnyOrder(fromEntityFkCols) }
+
+            val relationType =
+                if (uksOneTOne.size == 1) {
+                    RelationType.ONE_TO_ONE_OPTIONAL
+                } else {
+                    val fkCols = fkTemp.fkCols.map { it.from.name }
 
 
-                        val uksOneToMany = fromEntityUKsCols
-                            .filter { ukCols ->
-                                val minus = fkCols.minus(ukCols)
-                                val minus1 = ukCols.minus(fkCols)
-                                val notEmpty = minus.isEmpty()
-                                val empty = minus1.isNotEmpty()
-                                notEmpty && empty
+                    val uksOneToMany = fromEntityUKsCols
+                        .filter { ukCols ->
+                            val minus = fkCols.minus(ukCols)
+                            val minus1 = ukCols.minus(fkCols)
+                            val notEmpty = minus.isEmpty()
+                            val empty = minus1.isNotEmpty()
+                            notEmpty && empty
 //                                !ukCols.equalsAnyOrder(fromEntityFkCols) && fromEntityUKsCols.minus(ukCols).isEmpty()
-                            }
-                        if (uksOneToMany.isNotEmpty()) {
-                            RelationType.MANY_TO_ONE
-                        } else {
-//                            RelationType.UNNOWN
-                            error("can not calculate relation type")
                         }
-
+                    if (uksOneToMany.isNotEmpty()) {
+                        RelationType.MANY_TO_ONE
+                    } else {
+//                            RelationType.UNNOWN
+                        error("can not calculate relation type")
                     }
-                    MetaForeignKey(metaForeignKeyTemporary, relationType)
-                }
 
-            map
-        }
-        .toSet()
+                }
+            MetaForeignKey(fkTemp, relationType)
+        }.toSet()
     val minus = collectMetaForeignKeyTemporary.map { it.name }.minus(map1.map { it.name }.toSet())
     assert(minus.isEmpty()) { " Почему то не все обработаны $minus" }
 
