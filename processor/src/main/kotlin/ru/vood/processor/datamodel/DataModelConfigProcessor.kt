@@ -39,7 +39,7 @@ class DataModelConfigProcessor(
         val setMetaEnt = metaInformation.entities.values.toSet()
         val rootPackage = PackageName(commonPackage(setMetaEnt))
 
-        logger.info("root package ${rootPackage.value}")
+        logger.warn("root package ${rootPackage.value}")
 
         EntityMapGenerator(codeGenerator, rootPackage, logger).createFiles(metaInformation)
         ColumnEntityMapGenerator(codeGenerator, rootPackage, logger).createFiles(metaInformation)
