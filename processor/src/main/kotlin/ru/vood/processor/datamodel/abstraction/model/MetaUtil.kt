@@ -106,10 +106,10 @@ fun collectMetaForeignKey(
 
             val filter = collector.filter { it.name == element.name }
             val plus = if (filter.isNotEmpty()) {
-                val joinToString =
+                val dublicateFKNAmeInEntities =
                     filter.map { it.fromEntity.designClassShortName }.plus(element.fromEntity.designClassShortName)
                         .joinToString(",")
-                error("Найден дубль имени внешнего ключа ${foreignKey.name}, повторяется у сущностей ${joinToString}")
+                error("Найден дубль имени внешнего ключа ${foreignKey.name}, повторяется у сущностей ${dublicateFKNAmeInEntities}")
             } else {
                 collector.plus(element)
             }
