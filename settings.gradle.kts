@@ -22,6 +22,6 @@ include(":processor")
 include(":core")
 include(":dataModelSealed")
 
-//include(":workload")
-//include(":dataModel")
+include(":workload")
+include(":dataModel")
 
