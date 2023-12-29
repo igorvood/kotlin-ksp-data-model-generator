@@ -29,7 +29,7 @@ fun metaEntityColumns(
     return fromCols
 }
 
-fun collectMetaForeignKey(
+tailrec fun collectMetaForeignKey(
     /**Список внешних ключей, рекурсивно по одному буду обрабатывать*/
     elementsAnnotatedWith: List<Pair<ForeignKey, ModelClassName>>,
     /**Все сущности */
@@ -37,8 +37,8 @@ fun collectMetaForeignKey(
     /**Коллектор, сюда складывается разобранная информация о внешних ключах*/
     collector: Set<MetaForeignKeyTemporary> = setOf()
 ): Set<MetaForeignKeyTemporary> {
-// есть еще что обрабатывать?
-    val map = when (elementsAnnotatedWith.isEmpty()) {
+    // есть еще что обрабатывать?
+    return when (elementsAnnotatedWith.isEmpty()) {
         //нет, возвращаю то что обработал, выход из рекурсии
         true -> collector
         // еще есть что обрабатывать
@@ -116,12 +116,10 @@ fun collectMetaForeignKey(
                 collector.plus(element)
             }
 
-            collectMetaForeignKey(elementsAnnotatedWith.drop(1), entities, plus)
+            val elementsAnnotatedWith1 = elementsAnnotatedWith.drop(1)
+            collectMetaForeignKey(elementsAnnotatedWith1, entities, plus)
         }
     }
-
-
-    return map
 }
 
 private fun fkAssert(
@@ -208,17 +206,18 @@ private fun checkDublicateUk(entities: Map<ModelClassName, MetaEntity>) {
 /**Вычисляет тип реляционной связи */
 private fun fieldsFk(
     collectMetaForeignKeyTemporary: Set<MetaForeignKeyTemporary>,
-
-    ): Set<MetaForeignKey> {
+): Set<MetaForeignKey> {
+    // вытаскиваю форены с группировкой по сущностям куда эти форены укаывают
     val metaForeignKeysTemporary: Map<MetaEntity, List<MetaForeignKeyTemporary>> =
         collectMetaForeignKeyTemporary.groupBy { it.toEntity }
     val map1 = metaForeignKeysTemporary.entries
+            // пермапливаю вытаскиваю имена сущностей откуда идут форены
         .map { entry ->
             entry.key to entry.value
-//                .filter { a -> a.fromEntity.flowEntity == FlowEntityType.INNER }
                 .map { metaFk -> metaFk.fromEntity to metaFk }
         }
         .flatMap { entry ->
+//            список форенов от
             val fromEntities = entry.second
             val map = fromEntities
                 .map { fromEnt ->
