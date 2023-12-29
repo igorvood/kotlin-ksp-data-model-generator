@@ -15,7 +15,6 @@ import ru.vood.dmgen.datamodel.metaEnum.entityDataMap
 import ru.vood.dmgen.intf.*
 import ru.vood.dmgen.intf.newIntf.*
 import ru.vood.dmgen.meta.DerivativeColumns
-import ru.vood.dmgen.meta.DerivativeColumns.entitiesSyntheticColumnsByEntityMap
 import ru.vood.dmgen.meta.DerivativeColumns.entitiesSyntheticColumnsByEntityMap2
 import ru.vood.dmgen.meta.DerivativeColumns.entitiesSyntheticColumnsMap
 import ru.vood.dmgen.meta.DerivativeFKs.foreignKeyMapFromEntity

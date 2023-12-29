@@ -3,8 +3,6 @@ package ru.vood.dmgen.meta
 import ru.vood.dmgen.datamodel.metaEnum.columnEntityDataMap
 import ru.vood.dmgen.intf.EntityType
 import ru.vood.dmgen.intf.IEntityOrigin
-import ru.vood.dmgen.intf.SimpleColumnName
-import ru.vood.dmgen.intf.newIntf.ColumnEntityData
 import ru.vood.dmgen.intf.newIntf.IColExtractFunction
 import ru.vood.dmgen.intf.newIntf.SyntheticColumnEntityData
 
@@ -26,7 +24,7 @@ object DerivativeColumns {
         .map { asd ->
             asd.key to asd.value
                 .filter { c -> c.value.colType is EntityType }
-                .map { c: Map.Entry<SimpleColumnName, ColumnEntityData<out IEntityOrigin>> ->
+                .map { c ->
                     val iColExtractFunction = c.value.iColExtractFunction as IColExtractFunction<IEntityOrigin, *>
                     SyntheticColumnEntityData<IEntityOrigin>(
                         c.value.entity,

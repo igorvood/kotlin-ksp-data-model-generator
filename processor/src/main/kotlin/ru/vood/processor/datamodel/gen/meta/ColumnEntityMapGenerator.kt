@@ -4,10 +4,7 @@ import com.google.devtools.ksp.processing.CodeGenerator
 import com.google.devtools.ksp.processing.KSPLogger
 import ru.vood.dmgen.annotation.FlowEntityType
 import ru.vood.dmgen.annotation.RelationType
-import ru.vood.dmgen.intf.EntityName
-import ru.vood.dmgen.intf.FullColumnName
-import ru.vood.dmgen.intf.SimpleColumnName
-import ru.vood.dmgen.intf.SimpleColumnType
+import ru.vood.dmgen.intf.*
 import ru.vood.dmgen.intf.newIntf.*
 import ru.vood.processor.datamodel.abstraction.model.MetaInformation
 import ru.vood.processor.datamodel.gen.*
@@ -86,16 +83,16 @@ class ColumnEntityMapGenerator(
                                 )
 
 
-                                """${FullColumnName::class.simpleName}("${fullColumnName.value}") to ${ColumnEntityData::class.simpleName}(
-                                |${ColumnEntityData<*>::entity.name}= ${EntityName::class.java.simpleName}( "${ent.designClassShortName}"),
+                                """${FullColumnName::class.simpleName}("${fullColumnName.value}") to ${SyntheticColumnEntityData::class.simpleName}(
+                                |${SyntheticColumnEntityData<*>::entity.name}= ${EntityName::class.java.simpleName}( "${ent.designClassShortName}"),
                                 |//ColumnEntityData<*>::entity.name = ${EntityName::class.java.simpleName}( "${fromEntity.designClassShortName}"),
                                 |outEntity = ${EntityName::class.java.simpleName}( "${fromEntity.designClassShortName}"),
-                                |${ColumnEntityData<*>::simpleColumnName.name} = ${SimpleColumnName::class.simpleName}("${fromEntity.entityFieldName}"),
-                                |${ColumnEntityData<*>::isOptional.name}= ${isOptional},
-                                |${ColumnEntityData<*>::comment.name} ="${fromEntity.comment}",
-                                |${ColumnEntityData<*>::iColExtractFunction.name} = $columnKindType,
+                                |${SyntheticColumnEntityData<*>::simpleColumnName.name} = ${SimpleColumnName::class.simpleName}("${fromEntity.entityFieldName}"),
+                                |${SyntheticColumnEntityData<*>::isOptional.name}= ${isOptional},
+                                |${SyntheticColumnEntityData<*>::comment.name} ="${fromEntity.comment}",
+                                |${SyntheticColumnEntityData<*>::iColExtractFunction.name} = $columnKindType,
                                 |//ColumnEntityData<*>::simpleColumnType.name = null
-                                |simpleColumnType = null
+                                |
                                 |)""".trimMargin()
 
                             }
@@ -104,17 +101,17 @@ class ColumnEntityMapGenerator(
                         val simpleF = ent.fields
                             .sortedBy { ec -> ec.position }
                             .map { col ->
-                                """${FullColumnName::class.simpleName}("${ent.designClassShortName}_${col.name.value}") to ${ColumnEntityData::class.simpleName}(
-                                |${ColumnEntityData<*>::entity.name} = ${EntityName::class.java.simpleName}( "${ent.designClassShortName}"),
+                                """${FullColumnName::class.simpleName}("${ent.designClassShortName}_${col.name.value}") to ${SimpleColumnEntityData::class.simpleName}(
+                                |${SimpleColumnEntityData<*>::entity.name} = ${EntityName::class.java.simpleName}( "${ent.designClassShortName}"),
                                 |//ColumnEntityData<*>::outEntity.name= null,
-                                |outEntity= null,
+                                |//outEntity= null,
                                 |//$entityClass::${col.name.value},
-                                |${ColumnEntityData<*>::simpleColumnName.name} = ${SimpleColumnName::class.simpleName}("${col.name.value}"),
-                                |${ColumnEntityData<*>::isOptional.name} = ${col.isNullable},
-                                |${ColumnEntityData<*>::comment.name} = "${col.comment}",
-                                |${ColumnEntityData<*>::iColExtractFunction.name} = ${Simple::class.simpleName}<$entityClass, ${col.type}${col.question}> {it.${col.name.value}},
+                                |${SimpleColumnEntityData<*>::simpleColumnName.name} = ${SimpleColumnName::class.simpleName}("${col.name.value}"),
+                                |${SimpleColumnEntityData<*>::isOptional.name} = ${col.isNullable},
+                                |${SimpleColumnEntityData<*>::comment.name} = "${col.comment}",
+                                |${SimpleColumnEntityData<*>::iColExtractFunction.name} = ${Simple::class.simpleName}<$entityClass, ${col.type}${col.question}> {it.${col.name.value}},
                                 |//ColumnEntityData<*>::simpleColumnType.name= ${SimpleColumnType::class.simpleName}("${col.type}")
-                                |simpleColumnType= ${SimpleColumnType::class.simpleName}("${col.type}")
+                                |simpleColumnType= ${SympleType::class.simpleName}( ${SimpleColumnType::class.simpleName}("${col.type}"))
                                 |)""".trimMargin()
                             }
                         simpleF.plus(syntheticF)
@@ -127,9 +124,13 @@ class ColumnEntityMapGenerator(
                         
 //import ${packageName.value}.${EntityEnumGenerator.nameClassEntityEnumGenerator}.*
 import ${SimpleColumnType::class.java.canonicalName}
-import ${ColumnEntityData::class.java.canonicalName}
+
 import ${SimpleColumnName::class.java.canonicalName}
 import ${FullColumnName::class.java.canonicalName}
+import ${SyntheticColumnEntityData::class.java.canonicalName}
+import ${SimpleColumnEntityData::class.java.canonicalName}
+import ${SympleType::class.java.canonicalName}
+
 
 import ${EntityName::class.java.canonicalName}
 

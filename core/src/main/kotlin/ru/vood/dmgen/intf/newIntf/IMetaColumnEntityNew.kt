@@ -38,6 +38,20 @@ open class ColumnEntityData<T>(
     }
 }
 
+class SimpleColumnEntityData<T>(
+    entity: EntityName,
+    /**имя колонки*/
+    simpleColumnName: SimpleColumnName,
+    /**признак опциональности колонки*/
+    isOptional: Boolean,
+    /**коментарий колонки*/
+    comment: String,
+    /**ф-ция экстрактор значения колонки*/
+    iColExtractFunction: IColExtractFunction<T, *>,
+    simpleColumnType: SympleType
+): ColumnEntityData<T>(entity, simpleColumnName, isOptional, comment, iColExtractFunction, null, simpleColumnType.simpleColumnType)
+
+
 class SyntheticColumnEntityData<T>(
     entity: EntityName,
     /**имя колонки*/
