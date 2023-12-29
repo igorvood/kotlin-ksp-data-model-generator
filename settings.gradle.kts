@@ -19,7 +19,9 @@ pluginManagement {
 }
 
 include(":processor")
-include(":workload")
 include(":core")
-include(":dataModel")
 include(":dataModelSealed")
+
+//include(":workload")
+//include(":dataModel")
+
