@@ -5,13 +5,9 @@ import com.google.devtools.ksp.processing.KSPLogger
 import ru.vood.dmgen.annotation.UkName
 import ru.vood.dmgen.intf.EntityName
 import ru.vood.dmgen.intf.IContextOf
-import ru.vood.dmgen.intf.IEntityOrigin
 import ru.vood.processor.datamodel.abstraction.model.MetaInformation
 import ru.vood.processor.datamodel.gen.*
 import ru.vood.processor.datamodel.gen.CollectName.ukClassName
-import ru.vood.processor.datamodel.gen.meta.EntityEnumGenerator
-import ru.vood.processor.datamodel.gen.runtime.OriginEntityDataClassesGenerator.Companion.entityOriginDataClassesGeneratorPackageName
-import ru.vood.processor.datamodel.gen.runtime.SyntheticFieldExtractorsGenerator.Companion.entitySyntheticDataClassesGeneratorPackageName
 import java.time.LocalDateTime
 import javax.annotation.processing.Generated
 
@@ -82,7 +78,11 @@ companion object{
                 """.trimIndent()
 
                 logger.info("Create $fullClassName")
-                GeneratedFile(FileName(fullClassName), GeneratedCode(code), PackageName(metaEntity.designClassPackageName))
+                GeneratedFile(
+                    FileName(fullClassName),
+                    GeneratedCode(code),
+                    PackageName(metaEntity.designClassPackageName)
+                )
 
 
             }.toSet()
