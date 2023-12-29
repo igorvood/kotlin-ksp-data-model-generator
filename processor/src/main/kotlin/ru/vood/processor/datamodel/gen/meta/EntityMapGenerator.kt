@@ -53,15 +53,11 @@ class EntityMapGenerator(
 
                 val trimIndent =
                     """package ${packageName.value}
-import kotlin.reflect.KClass
-import kotlinx.serialization.KSerializer
+
 import ${FlowEntityType::class.java.canonicalName}.*
-import ${FlowEntityType::class.java.canonicalName}
 import ${EntityData::class.java.canonicalName}
 import ${EntityName::class.java.canonicalName}
 import ${Generated::class.java.canonicalName}
-//import ${rootPackage.value}.${entityOriginDataClassesGeneratorPackageName.value}.*
-//import ${rootPackage.value}.${entitySyntheticDataClassesGeneratorPackageName.value}.*
 ${metaInfo.allEntityPackagesImport}
 
 @Generated("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")

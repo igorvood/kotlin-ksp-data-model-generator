@@ -55,14 +55,7 @@ class ForeignKeyMapGenerator(
                         |${UkName::class.simpleName}("${metaForeign.uk.name.value}"),
                         |${RelationType::class.java.canonicalName}.${metaForeign.relationType.name},
                         |setOf($fkCols),
-                        |{data: ${entityClassName(metaForeign.fromEntity)} ->
-                        |//Json.encodeToString(${
-                            ukClassName(
-                                metaForeign.uk.name
-                            )
-                        }.serializer(),${ukClassName(metaForeign.uk.name)}(${contextCols}))
-                        |${ukClassName(metaForeign.uk.name)}(${contextCols})
-                        |}
+                        |{data: ${entityClassName(metaForeign.fromEntity)} -> ${ukClassName(metaForeign.uk.name)}(${contextCols}) }
                         |)""".trimMargin()
                     }
                     .sorted()

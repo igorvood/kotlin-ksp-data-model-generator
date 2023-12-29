@@ -66,15 +66,11 @@ class UniqueKeyMapGenerator(
                 val trimIndent =
                     """package ${packageName.value}
                         
-//import ${rootPackage.value}.${entityOriginDataClassesGeneratorPackageName.value}.*
-//import ${rootPackage.value}.${contextDataClassesGeneratorPackageName.value}.*
 import ${UKEntityData::class.java.canonicalName}
 import ${TypeUk::class.java.canonicalName}.*
-import ${TypeUk::class.java.canonicalName}
 import ${UkName::class.java.canonicalName}
 import ${SimpleColumnName::class.java.canonicalName}
 import ${EntityName::class.java.canonicalName}
-import kotlin.reflect.KClass
 import ${Generated::class.java.canonicalName}
 ${metaInfo.allEntityPackagesImport}
 
