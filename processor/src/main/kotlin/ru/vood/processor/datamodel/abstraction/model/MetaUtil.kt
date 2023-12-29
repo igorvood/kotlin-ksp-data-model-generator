@@ -11,14 +11,15 @@ fun metaEntityColumns(
     entities: Map<ModelClassName, MetaEntity>,
     entity: ModelClassName,
     cols: Array<String>,
-    currentClass: ModelClassName
+    currentClass: ModelClassName,
+    foreignKey: ForeignKey
 ): List<MetaEntityColumn> {
     val fromMetaEntity =
         entities[entity]
-            ?: error("Для внешнего ключа сушности ${currentClass.value} Не найдена сущность в контексте ${entity.value}")
+            ?: error("Для внешнего ключа ${foreignKey.name} сущности ${currentClass.value} не найдена сущность ${entity.value} указанная в ссылке")
     val fromCols = cols.map { fkField ->
         fromMetaEntity.fields.filter { field -> field.name.value == fkField }.firstOrNull()
-            ?: error("Не найдено поле ${fkField}  внешнего ключа для сущности  ${entity.value}")
+            ?: error("Для внешнего ключа ${foreignKey.name} сущности ${currentClass.value} не найдено поле ${fkField}  у сущности  ${entity.value}")
     }
     return fromCols
 }
@@ -44,14 +45,16 @@ fun collectMetaForeignKey(
                 entities = entities,
                 entity = fromMetaEntityClassName,
                 cols = colsFromAnnotation,//foreignKey.cols.map { q -> q.currentTypeCol }.toTypedArray(),
-                currentClass = fromMetaEntityClassName
+                currentClass = fromMetaEntityClassName,
+                foreignKey
             )
 
             val toCols = metaEntityColumns(
                 entities = entities,
                 entity = toMetaEntityClassName,
+                cols = foreignKey.cols.map { q -> q.outTypeCol }.toTypedArray(),
                 currentClass = fromMetaEntityClassName,
-                cols = foreignKey.cols.map { q -> q.outTypeCol }.toTypedArray()
+                foreignKey = foreignKey
             )
 
             if (fromCols.size != toCols.size) {

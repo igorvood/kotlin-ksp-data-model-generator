@@ -6,8 +6,6 @@ import ru.vood.dmgen.datamodel.valueClasses.DealId
 
 @FlowEntity(FlowEntityType.INNER_MANDATORY)
 @ForeignKey(
-//    kClass = Deal::class.java.canonicalName,
-
     kClass = "ru.vood.dmgen.datamodel.sealedData.Deal",
     name = "OneOfDto_FK",
     cols = [ForeignKeyColumns("dealId", "id")]
