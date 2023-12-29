@@ -26,13 +26,13 @@ class DataModelConfigProcessor(
 
         val symbols: List<KSAnnotated> =
             resolver.getSymbolsWithAnnotation(checkNotNull(FlowEntity::class.qualifiedName)).toList()
-        logger.info("count entities ${symbols.size}")
+        logger.warn("count entities ${symbols.size}")
 
         val metaInformation = metaInformation(symbols, logger)
 
         metaInformation.entities.values
             .forEach { metaEntity ->
-                logger.info("read MetaEntity ${metaEntity}", metaEntity.ksAnnotated)
+                logger.warn("read MetaEntity ${metaEntity}", metaEntity.ksAnnotated)
             }
 
 
