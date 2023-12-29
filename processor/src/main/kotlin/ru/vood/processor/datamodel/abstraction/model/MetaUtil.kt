@@ -25,22 +25,27 @@ fun metaEntityColumns(
 }
 
 fun collectMetaForeignKey(
+    /**Список внешних ключей, рекурсивно по одному буду обрабатывать*/
     elementsAnnotatedWith: List<Pair<ForeignKey, ModelClassName>>,
+    /**Все сущности */
     entities: Map<ModelClassName, MetaEntity>,
+    /**Коллектор, сюда складывается разобранная информация о внешних ключах*/
     collector: Set<MetaForeignKeyTemporary> = setOf()
 ): Set<MetaForeignKeyTemporary> {
-
+// есть еще что обрабатывать?
     val map = when (elementsAnnotatedWith.isEmpty()) {
+        //нет, возвращаю то что обработал, выход из рекурсии
         true -> collector
+        // еще есть что обрабатывать
         false -> {
-
-
+            // вытаскиваю информацию о первом форене
             val head = elementsAnnotatedWith.first()
             val foreignKey = head.first
             val fromMetaEntityClassName = head.second
             val toMetaEntityClassName = ModelClassName(foreignKey.kClass)
+
             val colsFromAnnotation = foreignKey.cols
-                .map { a -> a.currentTypeCol }.toTypedArray()
+                .map { a -> a.currentColName }.toTypedArray()
 
             val fromCols = metaEntityColumns(
                 entities = entities,
@@ -53,7 +58,7 @@ fun collectMetaForeignKey(
             val toCols = metaEntityColumns(
                 entities = entities,
                 entity = toMetaEntityClassName,
-                cols = foreignKey.cols.map { q -> q.outTypeCol }.toTypedArray(),
+                cols = foreignKey.cols.map { q -> q.outColName }.toTypedArray(),
                 currentClass = fromMetaEntityClassName,
                 foreignKey = foreignKey
             )
@@ -127,12 +132,13 @@ fun metaInformation(annotatedDataClasses: List<KSAnnotated>, logger: KSPLogger):
     val elementsAnnotatedWithFlowEntity = annotatedDataClasses
         .filterIsInstance<KSClassDeclaration>()
         .map { MetaEntity(it, logger) }
-
+//    Собираю сущности
     val entities = elementsAnnotatedWithFlowEntity.map { it.designClassFullClassName to it }.toMap()
 
     checkDublicateUk(entities)
     checkDuplicateClassName(entities)
 
+//    Собираю все внешние ключи
     val fks = entities.map { it.value }
         .flatMap { me ->
             me.foreignKeysAnnotations.map { fk -> fk to me.designClassFullClassName }

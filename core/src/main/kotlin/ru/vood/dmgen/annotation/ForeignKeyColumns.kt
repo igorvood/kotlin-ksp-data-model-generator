@@ -5,6 +5,6 @@ package ru.vood.dmgen.annotation
 @Repeatable
 @MustBeDocumented
 annotation class ForeignKeyColumns(
-    val currentTypeCol: String,
-    val outTypeCol: String,
+    val currentColName: String,
+    val outColName: String,
 )
