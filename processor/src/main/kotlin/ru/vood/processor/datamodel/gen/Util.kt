@@ -15,10 +15,7 @@ fun syntheticFieldInfos(
     logger: KSPLogger
 ): List<SyntheticFieldInfo> {
     val joinToString = childrenEntities.map { it.entityFieldName }.joinToString(",")
-
     logger.info("fun syntheticFieldInfos  ${metaEntity.entityFieldName} childrens $joinToString")
-
-
     return childrenEntities
         .map { childredMetaEntity ->
             when (val fet = childredMetaEntity.flowEntityType) {
