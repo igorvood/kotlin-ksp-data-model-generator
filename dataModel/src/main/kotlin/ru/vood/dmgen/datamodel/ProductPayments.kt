@@ -30,7 +30,7 @@ interface ProductPayments {
     @Pk
     val dealId: DealId
 
-    @Pk
+//    @Pk
     val id: String
 
     val summa: Long

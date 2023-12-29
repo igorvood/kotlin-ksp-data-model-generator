@@ -231,9 +231,8 @@ private fun fieldsFk(
                     }
 
                 } else {
+                    // такой UK найден,
                     val fkCols = fkTemp.fkCols.map { it.from.name }
-
-
                     val uksOneToMany = fromEntityUKsCols
                         .filter { ukCols ->
                             val minus = fkCols.minus(ukCols)
@@ -241,13 +240,12 @@ private fun fieldsFk(
                             val notEmpty = minus.isEmpty()
                             val empty = minus1.isNotEmpty()
                             notEmpty && empty
-//                                !ukCols.equalsAnyOrder(fromEntityFkCols) && fromEntityUKsCols.minus(ukCols).isEmpty()
                         }
                     if (uksOneToMany.isNotEmpty()) {
                         RelationType.MANY_TO_ONE
                     } else {
 //                            RelationType.UNNOWN
-                        error("can not calculate relation type")
+                        error("can not calculate relation type for ")
                     }
 
                 }

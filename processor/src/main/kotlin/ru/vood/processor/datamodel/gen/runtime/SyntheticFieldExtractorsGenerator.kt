@@ -44,7 +44,6 @@ class SyntheticFieldExtractorsGenerator(
 
         val fk = syntheticFieldInfos
             .map { syntheticFieldInfo ->
-                val s = if (syntheticFieldInfo.isOptional) "?" else ""
                 val genField = genField(syntheticFieldInfo.metaEntity, syntheticFieldInfo.relationType)
                 Optional.of(genField)
 
@@ -53,7 +52,6 @@ class SyntheticFieldExtractorsGenerator(
 
         val fkFunCode = syntheticFieldInfos
             .map { syntheticFieldInfo ->
-                val s = if (syntheticFieldInfo.isOptional) "?" else ""
                 val genField = genWhenCondition(syntheticFieldInfo.metaEntity, syntheticFieldInfo.relationType)
                 Optional.of(genField)
             }
@@ -137,7 +135,6 @@ $fk
             RelationType.ONE_TO_ONE_OPTIONAL -> "val ${toEntity.entityFieldName} : $syntheticClassName?"
             RelationType.ONE_TO_ONE_MANDATORY -> "val ${toEntity.entityFieldName} : $syntheticClassName"
             RelationType.MANY_TO_ONE -> "val ${toEntity.entityFieldName} : Set<$syntheticClassName>"
-            RelationType.UNNOWN -> error("Не известный тип")
         }
     }
 
@@ -149,7 +146,6 @@ $fk
                 """${EntityName::class.simpleName}("${toEntity.designClassShortName}") -> setOf(${toEntity.entityFieldName})"""
 
             RelationType.MANY_TO_ONE -> """${EntityName::class.simpleName}("${toEntity.designClassShortName}") -> ${toEntity.entityFieldName}"""
-            RelationType.UNNOWN -> error("Не известный тип")
         }
 
 

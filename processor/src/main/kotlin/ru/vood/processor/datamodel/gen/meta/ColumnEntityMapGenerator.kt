@@ -70,7 +70,6 @@ class ColumnEntityMapGenerator(
                                                 syntheticFieldInfo.metaEntity
                                             )
                                         } >{it.${fromEntity.entityFieldName}}"
-                                    RelationType.UNNOWN -> error("Не известный тип")
                                 }
 
 

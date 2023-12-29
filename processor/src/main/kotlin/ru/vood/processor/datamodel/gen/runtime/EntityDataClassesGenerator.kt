@@ -38,10 +38,8 @@ class EntityDataClassesGenerator(
         val chldrenEntities = aggregateInnerDep.children.map { it.metaEntity }
         val fk = syntheticFieldInfos(chldrenEntities, metaForeignKeys, metaEntity, logger)
             .map { syntheticFieldInfo ->
-                val s = if (syntheticFieldInfo.isOptional) "?" else ""
                 val genField = genField(syntheticFieldInfo.metaEntity, syntheticFieldInfo.relationType)
                 Optional.of(genField)
-
             }
             .joinToString(",\n") { it.get() }
 
@@ -120,18 +118,12 @@ $fk
         return plus
     }
 
-    enum class Relation {
-        MANDATORY,
-        OPTIONAL
-    }
-
     private fun genField(toEntity: MetaEntity, relationType: RelationType): String {
         val entityClassName = entityClassName(toEntity)
         return when (relationType) {
             RelationType.ONE_TO_ONE_OPTIONAL -> "val ${toEntity.entityFieldName} : ${packageName.value}.$entityClassName?"
             RelationType.ONE_TO_ONE_MANDATORY  -> "val ${toEntity.entityFieldName} : ${packageName.value}.$entityClassName"
             RelationType.MANY_TO_ONE -> "val ${toEntity.entityFieldName} : Set<${packageName.value}.$entityClassName>"
-            RelationType.UNNOWN -> error("Не известный тип")
         }
     }
 
