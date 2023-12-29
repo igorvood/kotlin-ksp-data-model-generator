@@ -51,7 +51,6 @@ fun collectMetaForeignKey(
                 entities = entities,
                 entity = toMetaEntityClassName,
                 currentClass = fromMetaEntityClassName,
-//                cols = foreignKey.outTypeCols//
                 cols = foreignKey.cols.map { q -> q.outTypeCol }.toTypedArray()
             )
 

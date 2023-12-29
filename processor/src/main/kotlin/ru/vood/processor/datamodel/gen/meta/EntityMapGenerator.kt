@@ -30,18 +30,23 @@ class EntityMapGenerator(
             false -> {
                 val entities = generatedClassData
 
-                    .map {
+                    .map {metaEntity                        ->
 
-                        """${EntityName::class.simpleName}("${it.designClassShortName}") to ${EntityData::class.simpleName}(
-                            |${it.designClassFullClassName.value}::class, 
-                            |${CollectName.entityClassName(it)}::class,
-                            |${CollectName.syntheticClassName(it)}::class,
-                            |${CollectName.entityClassName(it)}.serializer(),
-                            |${CollectName.syntheticClassName(it)}.serializer(),
-                            |${EntityName::class.simpleName}("${it.designClassShortName}"), 
-                            |"${it.comment}",
-                            |${it.flowEntityType}
-                            |)""".trimMargin()
+                        val notSealedEntity = """${EntityData::class.simpleName}(
+                            |${metaEntity.designClassFullClassName.value}::class, 
+                            |${CollectName.entityClassName(metaEntity)}::class,
+                            |${CollectName.syntheticClassName(metaEntity)}::class,
+                            |${CollectName.entityClassName(metaEntity)}.serializer(),
+                            |${CollectName.syntheticClassName(metaEntity)}.serializer(),
+                            |${EntityName::class.simpleName}("${metaEntity.designClassShortName}"), 
+                            |"${metaEntity.comment}",
+                            |${metaEntity.flowEntityType}
+                            |//${metaEntity.sealedChildren}
+                            |)"""
+
+                        val entity = if (metaEntity.isSealedObject) """""" else notSealedEntity
+
+                        """${EntityName::class.simpleName}("${metaEntity.designClassShortName}") to $entity""".trimMargin()
                     }
                     .sorted()
                     .joinToString(",\n")
