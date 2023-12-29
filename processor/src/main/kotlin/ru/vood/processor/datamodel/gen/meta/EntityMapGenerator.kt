@@ -41,7 +41,7 @@ class EntityMapGenerator(
                             |${EntityData<*>::entityName.name} =${EntityName::class.simpleName}("${metaEntity.designClassShortName}"), 
                             |${EntityData<*>::comment.name} ="${metaEntity.comment}",
                             |${EntityData<*>::entityType.name} =${metaEntity.flowEntityType}
-                            |//${metaEntity.sealedChildren} ${metaEntity.ksAnnotated.superTypes.map { ass-> ass.element.toString() }}
+                            |//${metaEntity.ksAnnotated.getAllProperties().toList().size}
                             |)"""
 
                         val entity = if (metaEntity.isSealedObject) """""" else notSealedEntity

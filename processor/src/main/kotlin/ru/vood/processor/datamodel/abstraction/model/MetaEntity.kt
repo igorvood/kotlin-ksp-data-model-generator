@@ -2,6 +2,7 @@ package ru.vood.processor.datamodel.abstraction.model
 
 import com.google.devtools.ksp.KspExperimental
 import com.google.devtools.ksp.getAnnotationsByType
+import com.google.devtools.ksp.isLocal
 import com.google.devtools.ksp.processing.KSPLogger
 import com.google.devtools.ksp.symbol.KSClassDeclaration
 import ru.vood.dmgen.annotation.*
@@ -86,23 +87,10 @@ data class MetaEntity(val ksAnnotated: KSClassDeclaration, val logger: KSPLogger
     }
 
     val fields: List<MetaEntityColumn> by lazy {
-//        ksAnnotated.getAllFunctions().forEach {
-//            logger.info("getAllFunctions -> "+it.simpleName.asString())
-//        }
-//
-//        ksAnnotated.getAllProperties().forEach {
-//            logger.info("getAllProperties -> "+it.simpleName.asString())
-//        }
-
         val map = ksAnnotated.getAllProperties().withIndex().map { MetaEntityColumn(it.index, it.value) }.toList()
-
         map.forEach {
-            logger.info("field $it", it.element)
+            logger.warn("field -> ${it.name.value}", it.element)
         }
-
-//        element.enclosedElements.withIndex()
-//            .filter { e -> e.value.kind.isField }
-//            .map { element -> elementToIGeneratedField(element.index, element.value) }
         map
     }
 
