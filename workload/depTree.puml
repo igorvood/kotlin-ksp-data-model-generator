@@ -1,11 +1,11 @@
 @startuml
 digraph dfd{
 	node[shape=record]
-Deal [label="{<f0> Deal|<f1> id: id\ns: s\nsn: sn?\nb: b\nbn: bn?\ndealParamOneToOne: Deal\ndealParamOneToOneOptional: Deal?\ndealParamSet: Deal }" shape=Mrecord color=Red];
+Deal [label="{<f0> Deal|<f1> id: id\ns: s\nsn: sn?\nb: b\nbn: bn?\ndealParamOneToOne: DealParamOneToOne\ndealParamOneToOneOptional: DealParamOneToOneOptional?\ndealParamSet: DealParamSet }" shape=Mrecord color=Red];
 DealExtendData [label="{<f0> DealExtendData|<f1> dealId: dealId\nextendData: extendData }" shape=Mrecord color=Red];
 DealOneData [label="{<f0> DealOneData|<f1> dealId: dealId\none: one? }" shape=Mrecord color=Green];
-DealOneOfData [label="{<f0> DealOneOfData|<f1> dealId: dealId\ndealOneData: DealOneOfData\ndealTwoData: DealOneOfData }" shape=Mrecord color=Yellow];
-DealParamOneToOne [label="{<f0> DealParamOneToOne|<f1> dealId: dealId\nparamDate: paramDate\ninnerToDealParamOneToOne: DealParamOneToOne }" shape=Mrecord color=Green];
+DealOneOfData [label="{<f0> DealOneOfData|<f1> dealId: dealId\ndealOneData: DealOneData\ndealTwoData: DealTwoData }" shape=Mrecord color=Yellow];
+DealParamOneToOne [label="{<f0> DealParamOneToOne|<f1> dealId: dealId\nparamDate: paramDate\ninnerToDealParamOneToOne: InnerToDealParamOneToOne }" shape=Mrecord color=Green];
 DealParamOneToOneOptional [label="{<f0> DealParamOneToOneOptional|<f1> dealId: dealId\nparamDate: paramDate }" shape=Mrecord color=Green];
 DealParamSet [label="{<f0> DealParamSet|<f1> dealId: dealId\nid: id\nparamDate: paramDate }" shape=Mrecord color=Green];
 DealTwoData [label="{<f0> DealTwoData|<f1> dealId: dealId\ntwo: two? }" shape=Mrecord color=Green];
