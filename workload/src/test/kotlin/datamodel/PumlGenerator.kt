@@ -34,8 +34,8 @@ class PumlGenerator {
                             }
 
                             val typeCol = when (val c = col) {
-                                is SimpleColumnEntityData -> c.simpleColumnName.value
-                                is SyntheticColumnEntityData -> c.entity.value
+                                is SimpleColumnEntityData -> c.simpleColumnType.value
+                                is SyntheticColumnEntityData -> c.outEntity.value
                                 is SealedSyntheticColumnEntityData -> c.outEntities.map { it.value }.joinToString(",")
                             }
                             "${col.simpleColumnName.value}: $typeCol$question"
