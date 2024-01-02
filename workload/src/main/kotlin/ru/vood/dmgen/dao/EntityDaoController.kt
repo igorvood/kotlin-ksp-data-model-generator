@@ -258,9 +258,9 @@ class EntityDaoController(
     }
 
     @Suppress("UNCHECKED_CAST")
-    final inline fun <
-            reified Origin : IEntityOrigin,
-            reified T : IEntitySynthetic<out Origin>
+    final fun <
+            Origin : IEntityOrigin,
+            T : IEntitySynthetic<out Origin>
             > findSyntheticEntityCollectPartByUk(
         uk: IContextOf<Origin>
     ): T {
