@@ -57,7 +57,7 @@ class PumlGenerator {
                         RelationType.ONE_TO_ONE_OPTIONAL -> "color=Green"
                         RelationType.ONE_TO_ONE_MANDATORY -> "color=Red"
                     }
-                    """${entityName.value} -> ${fkMetaData.toEntity.value}[label="${fkMetaData.relationType}" $arrowColor];"""
+                    """${entityName.value} -> ${fkMetaData.toEntity.value}[ $arrowColor];"""
                 }
 
             }
