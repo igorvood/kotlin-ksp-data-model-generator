@@ -44,7 +44,19 @@ class EntityMapGenerator(
                             |//${metaEntity.ksAnnotated.getAllProperties().toList().size}
                             |)"""
 
-                        val entity = if (metaEntity.isSealedObject) """""" else notSealedEntity
+                        val sealedEntity = """${EntityData::class.simpleName}(
+                            |${EntityData<*>::designClass.name} =  ${metaEntity.designClassFullClassName.value}::class, 
+                            |${EntityData<*>::runtimeClass.name} = ${CollectName.entityClassName(metaEntity)}::class,
+                            |${EntityData<*>::runtimeSyntheticClass.name} = ${CollectName.syntheticClassName(metaEntity)}::class,
+                            |serializer =${CollectName.entityClassName(metaEntity)}.serializer(),
+                            |serializerSynthetic =${CollectName.syntheticClassName(metaEntity)}.serializer(),
+                            |${EntityData<*>::entityName.name} =${EntityName::class.simpleName}("${metaEntity.designClassShortName}"), 
+                            |${EntityData<*>::comment.name} ="${metaEntity.comment}",
+                            |${EntityData<*>::entityType.name} =${metaEntity.flowEntityType}
+                            |//${metaEntity.ksAnnotated.getAllProperties().toList().size}
+                            |)"""
+
+                        val entity = if (metaEntity.isSealedObject) sealedEntity else notSealedEntity
 
                         """${EntityName::class.simpleName}("${metaEntity.designClassShortName}") to $entity""".trimMargin()
                     }

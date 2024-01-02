@@ -6,5 +6,6 @@ import ru.vood.processor.datamodel.abstraction.model.MetaEntity
 data class SyntheticFieldInfo(
     val metaEntity: MetaEntity,
     val isOptional: Boolean,
+    val isSealed: Boolean,
     val relationType: RelationType
 )

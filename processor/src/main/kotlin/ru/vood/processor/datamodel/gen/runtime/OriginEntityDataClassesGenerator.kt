@@ -2,7 +2,9 @@ package ru.vood.processor.datamodel.gen.runtime
 
 import com.google.devtools.ksp.processing.CodeGenerator
 import com.google.devtools.ksp.processing.KSPLogger
+import ru.vood.dmgen.annotation.FlowEntityType
 import ru.vood.dmgen.intf.EntityName
+import ru.vood.dmgen.intf.IAggregate
 import ru.vood.dmgen.intf.IEntityOrigin
 import ru.vood.processor.datamodel.abstraction.model.Dependency
 import ru.vood.processor.datamodel.abstraction.model.MetaForeignKey
@@ -48,8 +50,15 @@ override val ${col.name.value}: $kotlinMetaClass$nullableSymbol""".trimIndent()
             .joinToString(",\n")
 
         val fullClassName = entityClassName(metaEntity)
-        val implemets =
-            """${IEntityOrigin::class.java.simpleName}, ${metaEntity.designClassFullClassName.value}"""
+//        val implemets =
+//            """${IEntityOrigin::class.java.simpleName}, ${metaEntity.designClassFullClassName.value}"""
+        val implementsIntf = when (metaEntity.flowEntityType) {
+            FlowEntityType.AGGREGATE -> """${IAggregate::class.java.canonicalName}<$fullClassName>, ${metaEntity.designClassFullClassName.value}"""
+            FlowEntityType.INNER_OPTIONAL, FlowEntityType.INNER_MANDATORY,
+            -> """${IEntityOrigin::class.java.canonicalName}<$fullClassName>, ${metaEntity.designClassFullClassName.value}"""
+            FlowEntityType.SEALED_INNER_MANDATORY, FlowEntityType.SEALED_INNER_OPTIONAL
+            -> """${metaEntity.designClassFullClassName.value}"""
+        }
 
 
         val code = """package ${metaEntity.designClassPackageName}
@@ -72,7 +81,7 @@ import ${IEntityOrigin::class.java.canonicalName}
 data class $fullClassName (
 $simpleColumns
 
-): $implemets         
+): $implementsIntf         
 {
     override val designEntityName: EntityName
         get() = designEntityNameConst

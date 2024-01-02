@@ -12,5 +12,7 @@ annotation class FlowEntity(
 enum class FlowEntityType(val isOptional: Boolean) {
     INNER_OPTIONAL(true),
     INNER_MANDATORY(false),
+    SEALED_INNER_OPTIONAL(true),
+    SEALED_INNER_MANDATORY(false),
     AGGREGATE(true)
 }

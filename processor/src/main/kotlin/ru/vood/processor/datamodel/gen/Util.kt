@@ -26,7 +26,15 @@ fun syntheticFieldInfos(
                         metaForeignKeys.filter { fk -> fk.toEntity == metaEntity && fk.fromEntity == childredMetaEntity }
                     val metaForeignKey =
                         if (currentFks.size == 1) currentFks[0] else error("Found several fk from entity ${childredMetaEntity.designClassFullClassName.value} to ${metaEntity.designClassFullClassName.value}  ")
-                    Optional.of(SyntheticFieldInfo(childredMetaEntity, fet.isOptional, metaForeignKey.relationType))
+                    Optional.of(SyntheticFieldInfo(childredMetaEntity, fet.isOptional, false,  metaForeignKey.relationType))
+                }
+                FlowEntityType.SEALED_INNER_MANDATORY, FlowEntityType.SEALED_INNER_OPTIONAL,
+                -> {
+                    val currentFks =
+                        metaForeignKeys.filter { fk -> fk.toEntity == metaEntity && fk.fromEntity == childredMetaEntity }
+                    val metaForeignKey =
+                        if (currentFks.size == 1) currentFks[0] else error("Found several fk from entity ${childredMetaEntity.designClassFullClassName.value} to ${metaEntity.designClassFullClassName.value}  ")
+                    Optional.of(SyntheticFieldInfo(childredMetaEntity, fet.isOptional, true,  metaForeignKey.relationType))
                 }
 
             }

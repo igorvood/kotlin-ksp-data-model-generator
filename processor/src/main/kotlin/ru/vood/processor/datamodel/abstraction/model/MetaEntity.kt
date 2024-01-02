@@ -16,10 +16,6 @@ import ru.vood.processor.datamodel.abstraction.model.dto.UkDto
 data class MetaEntity(val ksAnnotated: KSClassDeclaration, val logger: KSPLogger) {
 
 
-    val sealedChildren = ksAnnotated.getSealedSubclasses().map { ModelClassName(it.simpleName.asString()) }.toSet()
-
-    val isSealedObject = sealedChildren.isNotEmpty()
-
     val designClassShortName: String = ksAnnotated.simpleName.asString()
 
     val designClassPackageName: String = ksAnnotated.packageName.asString()
@@ -28,6 +24,12 @@ data class MetaEntity(val ksAnnotated: KSClassDeclaration, val logger: KSPLogger
 
 
     val flowEntityType: FlowEntityType = ksAnnotated.getAnnotationsByType(FlowEntity::class).first().entityType
+
+    val isSealedObject = when(flowEntityType){
+        FlowEntityType.SEALED_INNER_OPTIONAL, FlowEntityType.SEALED_INNER_MANDATORY ->true
+        FlowEntityType.AGGREGATE, FlowEntityType.INNER_MANDATORY, FlowEntityType.INNER_OPTIONAL ->false
+    }
+
 
     val flowEntityName = ksAnnotated.getAnnotationsByType(FlowEntity::class).first().entityName
 
