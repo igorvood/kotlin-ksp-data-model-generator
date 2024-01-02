@@ -258,7 +258,7 @@ class EntityDaoController(
     }
 
     @Suppress("UNCHECKED_CAST")
-    final fun <T : IEntityOrigin> findSyntheticEntityCollectPartByUk(uk: IContextOf<T>): IEntitySynthetic<out IEntityOrigin> {
+    final inline fun <reified T : IEntityOrigin> findSyntheticEntityCollectPartByUk(uk: IContextOf<T>): IEntitySynthetic<out IEntityOrigin> {
         val originEntityName = uk.designEntityName
         val indexesDto =
             entitiesUkMap[originEntityName] ?: error("Почему то не найдена сущность ${originEntityName.value}")
@@ -279,7 +279,7 @@ class EntityDaoController(
         return serializer.modelJsonSerializer.decodeFromJsonElement(serializerSynthetic, jsonObject)
     }
 
-    private fun collectSyntheticJsonObject(
+    final  fun collectSyntheticJsonObject(
         collectChildrenJsonElement: Map<EntityName, JsonElement>,
         originEntityName: EntityName,
         originJsonElement: JsonElement
@@ -312,7 +312,7 @@ class EntityDaoController(
     }
 
     @OptIn(InternalSerializationApi::class)
-    private fun collectChildrenJsonElement(
+    final  fun collectChildrenJsonElement(
         entityName: EntityName,
         childEntityDtos: Map<EntityName, List<ChildEntityDto>>
     ): Map<EntityName, JsonElement> {
