@@ -1,7 +1,11 @@
 package datamodel
 
+import com.charleskorn.kaml.Yaml
+import com.charleskorn.kaml.YamlMap
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.hocon.Hocon
 import org.junit.jupiter.api.Test
 import ru.vood.dmgen.annotation.FlowEntityType
 import ru.vood.dmgen.annotation.RelationType
@@ -30,9 +34,20 @@ class MetaJsonExtractor {
         val encodeToString = ModelJsonSerializer.modelJsonSerializer.encodeToString(Ent.serializer(), ent)
 
         File("entityDataMap.json").printWriter().use { out ->
-
             out.println(encodeToString)
+        }
 
+        val hocon = Hocon { }
+        File("entityDataMap.hocon").printWriter().use { out ->
+            out.println(hocon.encodeToConfig(Ent.serializer(), ent).toString())
+        }
+
+
+        val yml = Yaml
+
+        yml.default.encodeToString(Ent.serializer(), ent)
+        File("entityDataMap.yml").printWriter().use { out ->
+            out.println(yml.default.encodeToString(Ent.serializer(), ent))
         }
 
     }
