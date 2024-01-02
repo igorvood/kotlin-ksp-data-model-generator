@@ -2,6 +2,7 @@ import org.jetbrains.kotlin.ir.backend.js.compile
 
 plugins {
     kotlin("jvm")
+    kotlin("plugin.serialization")
 }
 
 dependencies {

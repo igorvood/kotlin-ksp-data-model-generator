@@ -1,0 +1,16 @@
+{
+  "entMap": [
+    "Deal",
+    "DealExtendData",
+    "DealOneData",
+    "DealOneOfData",
+    "DealParamOneToOne",
+    "DealParamOneToOneOptional",
+    "DealParamSet",
+    "DealTwoData",
+    "InnerToDealParamOneToOne",
+    "OneOfDto",
+    "Product",
+    "ProductPayments"
+  ]
+}
