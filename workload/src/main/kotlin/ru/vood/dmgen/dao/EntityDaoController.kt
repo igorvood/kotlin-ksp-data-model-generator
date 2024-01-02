@@ -258,11 +258,13 @@ class EntityDaoController(
     }
 
     @Suppress("UNCHECKED_CAST")
-    final inline fun <reified T : IEntityOrigin> findSyntheticEntityCollectPartByUk(uk: IContextOf<T>): IEntitySynthetic<out IEntityOrigin> {
+    final inline fun <reified Origin : IEntityOrigin, reified T : IEntitySynthetic<out Origin>> findSyntheticEntityCollectPartByUk(
+        uk: IContextOf<Origin>
+    ): T {
         val originEntityName = uk.designEntityName
         val indexesDto =
             entitiesUkMap[originEntityName] ?: error("Почему то не найдена сущность ${originEntityName.value}")
-        val ktSerializer = indexesDto.pkEntityData.serializer as KSerializer<IContextOf<T>>
+        val ktSerializer = indexesDto.pkEntityData.serializer as KSerializer<IContextOf<Origin>>
         val ktEntitySerializer = uk.ktEntitySerializer
         val ukJson = UKJsonVal(Json.encodeToString(ktSerializer, uk))
         val originJsonElement = entityDao.findEntityAsJsonElementByUk(ktEntitySerializer, uk.ukName, ukJson)
@@ -276,7 +278,7 @@ class EntityDaoController(
         val jsonObject = collectSyntheticJsonObject(collectChildrenJsonElement, originEntityName, originJsonElement)
         val serializerSynthetic = entityDataMap[originEntityName]!!.serializerSynthetic
 
-        return serializer.modelJsonSerializer.decodeFromJsonElement(serializerSynthetic, jsonObject)
+        return serializer.modelJsonSerializer.decodeFromJsonElement(serializerSynthetic, jsonObject) as T
     }
 
     final  fun collectSyntheticJsonObject(
