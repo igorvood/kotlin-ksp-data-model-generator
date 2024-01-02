@@ -10,7 +10,7 @@ import ru.vood.dmgen.datamodel.valueClasses.DealId
     kClass = "ru.vood.dmgen.datamodel.a.Deal",
     "DealExtendData_FK",
     cols = [ForeignKeyColumns("dealId", "id")],
-    foreignKeyType = ForeignKeyType.OPTIONAL
+    foreignKeyType = ForeignKeyType.MANDATORY
 )
 
 interface DealExtendData {

@@ -14,7 +14,7 @@ OneOfDto [label="{<f0> OneOfDto|<f1> dealId: dealId\nparamDate: paramDate }" sha
 Product [label="{<f0> Product|<f1> id: id\ndealId: dealId\notherSystemProductId: otherSystemProductId\nproductName: productName\ninn: inn?\nln: ln?\ndn: dn?\nfn: fn?\nbn: bn?\nisdsdd: isdsdd?\nl: l\nd: d\nf: f\nb: b }" shape=Mrecord color=Red];
 ProductPayments [label="{<f0> ProductPayments|<f1> productId: productId\ndealId: dealId\nid: id\nsumma: summa\nnoRelationData: noRelationData }" shape=Mrecord color=Red];
 
-DealExtendData -> Deal[ color=Green];
+DealExtendData -> Deal[ color=Red];
 DealOneData -> DealOneOfData[ color=Red];
 DealOneOfData -> OneOfDto[ color=Red];
 DealParamOneToOneOptional -> Deal[ color=Green];
