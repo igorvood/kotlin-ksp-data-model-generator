@@ -44,18 +44,18 @@ data class SyntheticColumnEntityData<T>(
     val outEntity: EntityName
 ) : ColumnEntityData<T>
 
-data class SealedSyntheticColumnEntityData<T>(
-    override val entity: EntityName,
-    /**имя колонки*/
-    override val simpleColumnName: SimpleColumnName,
-    /**признак опциональности колонки*/
-    override val isOptional: Boolean,
-    /**коментарий колонки*/
-    override val comment: String,
-    /**ф-ция экстрактор значения колонки*/
-    override val iColExtractFunction: ISyntheticColExtractFunction<T, *>,
-    val outEntity: Set<EntityName>
-) : ColumnEntityData<T>
+//data class SealedSyntheticColumnEntityData<T>(
+//    override val entity: EntityName,
+//    /**имя колонки*/
+//    override val simpleColumnName: SimpleColumnName,
+//    /**признак опциональности колонки*/
+//    override val isOptional: Boolean,
+//    /**коментарий колонки*/
+//    override val comment: String,
+//    /**ф-ция экстрактор значения колонки*/
+//    override val iColExtractFunction: ISyntheticColExtractFunction<T, *>,
+//    val outEntity: Set<EntityName>
+//) : ColumnEntityData<T>
 
 sealed interface IColExtractFunction<in T, out OUT> {
     val extractFieldValue: (entity: T) -> OUT
