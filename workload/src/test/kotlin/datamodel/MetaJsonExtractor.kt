@@ -52,13 +52,6 @@ class MetaJsonExtractor {
 
     }
 
-
-    companion object {
-        val head = """@startuml
-digraph dfd{
-	node[shape=record]"""
-    }
-
     @Serializable
     data class Ent(
         /*override */val entMap: Map<EntityName, EntityDataJson>
