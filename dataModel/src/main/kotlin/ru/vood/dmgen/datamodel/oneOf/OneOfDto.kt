@@ -10,7 +10,8 @@ import ru.vood.dmgen.datamodel.valueClasses.DealId
 
     kClass = "ru.vood.dmgen.datamodel.a.Deal",
     "OneOfDto_FK",
-    cols = [ForeignKeyColumns("dealId", "id")]
+    cols = [ForeignKeyColumns("dealId", "id")],
+    foreignKeyType = ForeignKeyType.OPTIONAL
 )
 interface OneOfDto {
     @Pk
@@ -22,7 +23,8 @@ interface OneOfDto {
 @ForeignKey(
     kClass = "ru.vood.dmgen.datamodel.oneOf.OneOfDto",
     "DealOneOfData_FK",
-    cols = [ForeignKeyColumns("dealId", "dealId")]
+    cols = [ForeignKeyColumns("dealId", "dealId")],
+    foreignKeyType = ForeignKeyType.MANDATORY
 )
 @kotlinx.serialization.Serializable
 sealed interface DealOneOfData {
@@ -36,7 +38,8 @@ sealed interface DealOneOfData {
 @ForeignKey(
     kClass = "ru.vood.dmgen.datamodel.oneOf.DealOneOfData",
     "DealOneData_FK",
-    cols = [ForeignKeyColumns("dealId", "dealId")]
+    cols = [ForeignKeyColumns("dealId", "dealId")],
+    foreignKeyType = ForeignKeyType.MANDATORY
 )
 interface DealOneData {
     @Pk
@@ -51,7 +54,8 @@ interface DealOneData {
 @ForeignKey(
     kClass = "ru.vood.dmgen.datamodel.oneOf.DealOneOfData",
     "DealTwoData_FK",
-    cols = [ForeignKeyColumns("dealId", "dealId")]
+    cols = [ForeignKeyColumns("dealId", "dealId")],
+    foreignKeyType = ForeignKeyType.MANDATORY
 )
 interface DealTwoData {
     @Pk

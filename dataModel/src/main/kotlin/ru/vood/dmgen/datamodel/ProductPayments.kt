@@ -1,9 +1,6 @@
 package ru.vood.dmgen.datamodel
 
-import ru.vood.dmgen.annotation.FlowEntity
-import ru.vood.dmgen.annotation.FlowEntityType
-import ru.vood.dmgen.annotation.ForeignKey
-import ru.vood.dmgen.annotation.Pk
+import ru.vood.dmgen.annotation.*
 import ru.vood.dmgen.datamodel.noRelation.NoRelationData
 import ru.vood.dmgen.datamodel.valueClasses.DealId
 
@@ -12,7 +9,8 @@ import ru.vood.dmgen.datamodel.valueClasses.DealId
 //    kClass = Deal::class,
     kClass = "ru.vood.dmgen.datamodel.a.Deal",
     "ProductPayments_FK_1",
-    cols = [ru.vood.dmgen.annotation.ForeignKeyColumns("dealId", "id")]
+    cols = [ru.vood.dmgen.annotation.ForeignKeyColumns("dealId", "id")],
+    foreignKeyType = ForeignKeyType.OPTIONAL
 )
 @ForeignKey(
 //    Product::class,
@@ -20,7 +18,8 @@ import ru.vood.dmgen.datamodel.valueClasses.DealId
     "ProductPayments_FK_2",
     cols = [ru.vood.dmgen.annotation.ForeignKeyColumns("dealId", "dealId"),
         ru.vood.dmgen.annotation.ForeignKeyColumns("productId", "id")
-    ]
+    ],
+    foreignKeyType = ForeignKeyType.OPTIONAL
 )
 //@Uk("Product_UK_3",["summa"])
 interface ProductPayments {
@@ -30,7 +29,7 @@ interface ProductPayments {
     @Pk
     val dealId: DealId
 
-//    @Pk
+    //    @Pk
     val id: String
 
     val summa: Long

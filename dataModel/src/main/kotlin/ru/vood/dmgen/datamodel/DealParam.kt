@@ -7,7 +7,8 @@ import ru.vood.dmgen.datamodel.valueClasses.DealId
 @ForeignKey(
     kClass = "ru.vood.dmgen.datamodel.a.Deal",
     "DealParamOneToOne_Deal_FK",
-    cols = [ForeignKeyColumns("dealId", "id")]
+    cols = [ForeignKeyColumns("dealId", "id")],
+    foreignKeyType = ForeignKeyType.MANDATORY
 )
 @Uk(
     "DealParamOneToOne_UK",
@@ -23,7 +24,8 @@ interface DealParamOneToOne {
 @ForeignKey(
     kClass = "ru.vood.dmgen.datamodel.DealParamOneToOne",
     "InnerToDealParamOneToOne_DealParamOneToOne_FK",
-    cols = [ForeignKeyColumns("dealId", "dealId")]
+    cols = [ForeignKeyColumns("dealId", "dealId")],
+    foreignKeyType = ForeignKeyType.MANDATORY
 )
 @Uk(
     "DealParamOneToOne_UK2",
@@ -40,7 +42,8 @@ interface InnerToDealParamOneToOne {
 @ForeignKey(
     kClass = "ru.vood.dmgen.datamodel.a.Deal",
     "DealParamOneToOneOptional_Deal_FK",
-    cols = [ForeignKeyColumns("dealId", "id")]
+    cols = [ForeignKeyColumns("dealId", "id")],
+            foreignKeyType = ForeignKeyType.OPTIONAL
 )
 interface DealParamOneToOneOptional {
     @Pk
@@ -52,7 +55,8 @@ interface DealParamOneToOneOptional {
 @ForeignKey(
     kClass = "ru.vood.dmgen.datamodel.a.Deal",
     "DealParamSet_Deal_FK",
-    cols = [ForeignKeyColumns("dealId", "id")]
+    cols = [ForeignKeyColumns("dealId", "id")],
+    foreignKeyType = ForeignKeyType.MANDATORY
 )
 interface DealParamSet {
     @Pk

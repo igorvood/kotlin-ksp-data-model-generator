@@ -9,7 +9,8 @@ import ru.vood.dmgen.datamodel.valueClasses.DealId
 
     kClass = "ru.vood.dmgen.datamodel.a.Deal",
     "Product_FK_1",
-    cols = [ForeignKeyColumns("dealId", "id")]
+    cols = [ForeignKeyColumns("dealId", "id")],
+    foreignKeyType = ForeignKeyType.OPTIONAL
 )
 @Uk(
     "Product_UK_1",
