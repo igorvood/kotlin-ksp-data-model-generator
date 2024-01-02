@@ -20,7 +20,7 @@ class PumlGenerator {
         val entities = entityDependencyParentMap.keys
             .map { en ->
                 val colourName = when (val entityData = entityDataMap[en]!!.entityType) {
-//                    FlowEntityType.INNER -> "Yellow"
+                    FlowEntityType.ONE_OF -> "Yellow"
                     FlowEntityType.INNER -> "Green"
                     FlowEntityType.AGGREGATE -> "Red"
                 }

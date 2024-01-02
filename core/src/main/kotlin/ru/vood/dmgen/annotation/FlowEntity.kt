@@ -11,5 +11,6 @@ annotation class FlowEntity(
 
 enum class FlowEntityType {
     INNER,
-    AGGREGATE
+    AGGREGATE,
+    ONE_OF
 }
