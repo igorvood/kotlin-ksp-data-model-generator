@@ -4,6 +4,7 @@ import com.google.devtools.ksp.processing.KSPLogger
 import com.google.devtools.ksp.symbol.KSAnnotated
 import com.google.devtools.ksp.symbol.KSClassDeclaration
 import ru.vood.dmgen.annotation.ForeignKey
+import ru.vood.dmgen.annotation.ForeignKeyType
 import ru.vood.dmgen.annotation.RelationType
 import ru.vood.processor.datamodel.abstraction.model.dto.ModelClassName
 
@@ -103,7 +104,8 @@ tailrec fun collectMetaForeignKey(
                     fromEntity = entities[fromMetaEntityClassName]!!,
                     toEntity = foreignMetaEntity,
                     fkCols = fkCols,
-                    uk = ukDto
+                    uk = ukDto,
+                    foreignKeyType = foreignKey.foreignKeyType
                 )
 
             val filter = collector.filter { it.name == element.name }
@@ -229,10 +231,11 @@ private fun fieldsFk(
             val relationType =
                 // такой UK найден, значит тип связи один к одному
                 if (uksOneTOne.size == 1) {
+
                     // определяю опциональность связи
-                    when(fromMetaEntity.flowEntityType.isOptional){
-                        true -> RelationType.ONE_TO_ONE_OPTIONAL
-                        false -> RelationType.ONE_TO_ONE_MANDATORY
+                    when(fkTemp.foreignKeyType){
+                        ForeignKeyType.OPTIONAL -> RelationType.ONE_TO_ONE_OPTIONAL
+                        ForeignKeyType.MANDATORY -> RelationType.ONE_TO_ONE_MANDATORY
                     }
 
                 } else {

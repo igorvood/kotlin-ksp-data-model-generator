@@ -1,5 +1,6 @@
 package ru.vood.processor.datamodel.abstraction.model
 
+import ru.vood.dmgen.annotation.ForeignKeyType
 import ru.vood.dmgen.annotation.RelationType
 import ru.vood.processor.datamodel.abstraction.model.dto.UkDto
 
@@ -8,7 +9,8 @@ data class MetaForeignKeyTemporary(
     val fromEntity: MetaEntity,
     val toEntity: MetaEntity,
     val fkCols: Set<FkCol>,
-    val uk: UkDto
+    val uk: UkDto,
+    val foreignKeyType: ForeignKeyType
 )
 
 data class MetaForeignKey(

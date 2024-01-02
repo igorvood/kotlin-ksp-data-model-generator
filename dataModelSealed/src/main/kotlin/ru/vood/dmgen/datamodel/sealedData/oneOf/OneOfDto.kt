@@ -4,7 +4,7 @@ import ru.vood.dmgen.annotation.*
 import ru.vood.dmgen.datamodel.valueClasses.DealId
 
 
-@FlowEntity(FlowEntityType.INNER_MANDATORY)
+@FlowEntity(FlowEntityType.INNER)
 @ForeignKey(
     kClass = "ru.vood.dmgen.datamodel.sealedData.Deal",
     name = "OneOfDto_FK",
@@ -16,7 +16,7 @@ sealed interface OneOfDto {
     val dealId: DealId
 }
 
-@FlowEntity(FlowEntityType.INNER_MANDATORY)
+@FlowEntity(FlowEntityType.INNER)
 @ForeignKey(
     kClass = "ru.vood.dmgen.datamodel.sealedData.oneOf.OneOfDto",
     name = "DealOneData_FK",
@@ -31,7 +31,7 @@ interface DealOneData {
 }
 
 
-@FlowEntity(FlowEntityType.INNER_MANDATORY)
+@FlowEntity(FlowEntityType.INNER)
 @ForeignKey(
     kClass = "ru.vood.dmgen.datamodel.sealedData.oneOf.OneOfDto",
     name = "DealTwoData_FK",

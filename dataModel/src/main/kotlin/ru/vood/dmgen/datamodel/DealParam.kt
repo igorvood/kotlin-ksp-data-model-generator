@@ -3,7 +3,7 @@ package ru.vood.dmgen.datamodel
 import ru.vood.dmgen.annotation.*
 import ru.vood.dmgen.datamodel.valueClasses.DealId
 
-@FlowEntity(FlowEntityType.INNER_MANDATORY)
+@FlowEntity(FlowEntityType.INNER)
 @ForeignKey(
     kClass = "ru.vood.dmgen.datamodel.a.Deal",
     "DealParamOneToOne_Deal_FK",
@@ -20,7 +20,7 @@ interface DealParamOneToOne {
     val paramDate: String
 }
 
-@FlowEntity(FlowEntityType.INNER_MANDATORY)
+@FlowEntity(FlowEntityType.INNER)
 @ForeignKey(
     kClass = "ru.vood.dmgen.datamodel.DealParamOneToOne",
     "InnerToDealParamOneToOne_DealParamOneToOne_FK",

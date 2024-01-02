@@ -20,13 +20,13 @@ fun syntheticFieldInfos(
         .map { childredMetaEntity ->
             when (val fet = childredMetaEntity.flowEntityType) {
                 FlowEntityType.AGGREGATE -> Optional.empty<SyntheticFieldInfo>()
-                FlowEntityType.INNER_MANDATORY, FlowEntityType.INNER_OPTIONAL,
+                FlowEntityType.INNER,
                 -> {
                     val currentFks =
                         metaForeignKeys.filter { fk -> fk.toEntity == metaEntity && fk.fromEntity == childredMetaEntity }
                     val metaForeignKey =
                         if (currentFks.size == 1) currentFks[0] else error("Found several fk from entity ${childredMetaEntity.designClassFullClassName.value} to ${metaEntity.designClassFullClassName.value}  ")
-                    Optional.of(SyntheticFieldInfo(childredMetaEntity, fet.isOptional, metaForeignKey.relationType))
+                    Optional.of(SyntheticFieldInfo(childredMetaEntity,metaForeignKey.relationType))
                 }
 
             }

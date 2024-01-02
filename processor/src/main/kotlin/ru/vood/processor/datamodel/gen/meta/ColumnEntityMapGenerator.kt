@@ -48,7 +48,7 @@ class ColumnEntityMapGenerator(
                             .map { syntheticFieldInfo ->
                                 val fromEntity = syntheticFieldInfo.metaEntity
                                 val isOptional =
-                                    syntheticFieldInfo.isOptional && syntheticFieldInfo.relationType == RelationType.ONE_TO_ONE_OPTIONAL
+                                    /*syntheticFieldInfo.isOptional &&*/ syntheticFieldInfo.relationType == RelationType.ONE_TO_ONE_OPTIONAL
 
                                 val columnKindType = when (syntheticFieldInfo.relationType) {
                                     RelationType.ONE_TO_ONE_OPTIONAL ->
