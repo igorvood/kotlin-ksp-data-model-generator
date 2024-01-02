@@ -258,7 +258,10 @@ class EntityDaoController(
     }
 
     @Suppress("UNCHECKED_CAST")
-    final inline fun <reified Origin : IEntityOrigin, reified T : IEntitySynthetic<out Origin>> findSyntheticEntityCollectPartByUk(
+    final inline fun <
+            reified Origin : IEntityOrigin,
+            reified T : IEntitySynthetic<out Origin>
+            > findSyntheticEntityCollectPartByUk(
         uk: IContextOf<Origin>
     ): T {
         val originEntityName = uk.designEntityName
@@ -281,7 +284,7 @@ class EntityDaoController(
         return serializer.modelJsonSerializer.decodeFromJsonElement(serializerSynthetic, jsonObject) as T
     }
 
-    final  fun collectSyntheticJsonObject(
+    final fun collectSyntheticJsonObject(
         collectChildrenJsonElement: Map<EntityName, JsonElement>,
         originEntityName: EntityName,
         originJsonElement: JsonElement
@@ -314,7 +317,7 @@ class EntityDaoController(
     }
 
     @OptIn(InternalSerializationApi::class)
-    final  fun collectChildrenJsonElement(
+    final fun collectChildrenJsonElement(
         entityName: EntityName,
         childEntityDtos: Map<EntityName, List<ChildEntityDto>>
     ): Map<EntityName, JsonElement> {
