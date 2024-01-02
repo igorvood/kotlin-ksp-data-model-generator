@@ -18,8 +18,8 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     implementation("org.liquibase:liquibase-core")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1")
-    testImplementation("org.jetbrains.kotlinx:kotlinx-serialization-hocon:1.4.1")
-    testImplementation("com.charleskorn.kaml:kaml:0.48.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-hocon:1.4.1")
+    implementation("com.charleskorn.kaml:kaml:0.48.0")
 
 
     runtimeOnly("org.postgresql:postgresql")

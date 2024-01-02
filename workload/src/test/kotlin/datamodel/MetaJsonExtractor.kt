@@ -1,25 +1,15 @@
 package datamodel
 
 import com.charleskorn.kaml.Yaml
-import com.charleskorn.kaml.YamlMap
-import kotlinx.serialization.KSerializer
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.encodeToString
 import kotlinx.serialization.hocon.Hocon
 import org.junit.jupiter.api.Test
 import ru.vood.dmgen.annotation.FlowEntityType
-import ru.vood.dmgen.annotation.RelationType
 import ru.vood.dmgen.datamodel.metaEnum.entityDataMap
 import ru.vood.dmgen.intf.EntityName
-import ru.vood.dmgen.intf.IEntityOrigin
-import ru.vood.dmgen.intf.IEntitySynthetic
-import ru.vood.dmgen.intf.newIntf.*
-import ru.vood.dmgen.meta.DerivativeColumns.entitiesColumnsMap
-import ru.vood.dmgen.meta.DerivativeDependencyMap.entityDependencyParentMap
-import ru.vood.dmgen.meta.DerivativeFKs.foreignKeyMapFromEntity
+import ru.vood.dmgen.intf.newIntf.EntityData
 import ru.vood.dmgen.serial.ModelJsonSerializer
 import java.io.File
-import kotlin.reflect.KClass
 
 class MetaJsonExtractor {
 
@@ -44,10 +34,9 @@ class MetaJsonExtractor {
 
 
         val yml = Yaml
-
-        yml.default.encodeToString(Ent.serializer(), ent)
+        val default = yml.default
         File("entityDataMap.yml").printWriter().use { out ->
-            out.println(yml.default.encodeToString(Ent.serializer(), ent))
+            out.println(default.encodeToString(Ent.serializer(), ent))
         }
 
     }
@@ -60,25 +49,25 @@ class MetaJsonExtractor {
     @Serializable
     data class EntityDataJson(
         /**интрефейс описывающий структуру сущности */
-         val designClass: String,
+        val designClass: String,
         /**класс описывающий сущность*/
-         val runtimeClass: String,
+        val runtimeClass: String,
         /**синтетический класс описывающий сущность, включает в себя все сущности, которорые имею форен на текущую*/
-         val runtimeSyntheticClass: String,
+        val runtimeSyntheticClass: String,
         /**сериализатор оригинальной сущности*/
-         val serializer: String,
+        val serializer: String,
         /**сериализатор синтетической сущности*/
-         val serializerSynthetic: String,
+        val serializerSynthetic: String,
         /**Имя сущности*/
-         val entityName: EntityName,
+        val entityName: EntityName,
         /**коментарий сущности*/
-         val comment: String,
+        val comment: String,
         /**тип сущности*/
-         val entityType: FlowEntityType
+        val entityType: FlowEntityType
     )//: IEntityData<T>
- {
-        companion object{
-            fun of(d: EntityData<*>): EntityDataJson{
+    {
+        companion object {
+            fun of(d: EntityData<*>): EntityDataJson {
                 return EntityDataJson(
                     d.designClass.qualifiedName!!,
                     d.runtimeClass.qualifiedName!!,

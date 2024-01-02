@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test
 import ru.vood.dmgen.annotation.FlowEntityType
 import ru.vood.dmgen.annotation.RelationType
 import ru.vood.dmgen.datamodel.metaEnum.entityDataMap
+import ru.vood.dmgen.intf.newIntf.SealedSyntheticColumnEntityData
 import ru.vood.dmgen.intf.newIntf.SimpleColumnEntityData
 import ru.vood.dmgen.intf.newIntf.SyntheticColumnEntityData
 import ru.vood.dmgen.meta.DerivativeColumns.entitiesColumnsMap
@@ -33,8 +34,9 @@ class PumlGenerator {
                             }
 
                             val typeCol = when (val c = col) {
-                                is SimpleColumnEntityData<*> -> c.simpleColumnName.value
+                                is SimpleColumnEntityData -> c.simpleColumnName.value
                                 is SyntheticColumnEntityData -> c.entity.value
+                                is SealedSyntheticColumnEntityData -> c.outEntities.map { it.value }.joinToString(",")
                             }
                             "${col.simpleColumnName.value}: $typeCol$question"
                         }
