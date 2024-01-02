@@ -2,9 +2,11 @@ package ru.vood.processor.datamodel.gen.runtime
 
 import com.google.devtools.ksp.processing.CodeGenerator
 import com.google.devtools.ksp.processing.KSPLogger
+import ru.vood.dmgen.annotation.FlowEntityType
 import ru.vood.dmgen.intf.EntityName
 import ru.vood.dmgen.intf.IEntityOrigin
 import ru.vood.processor.datamodel.abstraction.model.Dependency
+import ru.vood.processor.datamodel.abstraction.model.MetaEntity
 import ru.vood.processor.datamodel.abstraction.model.MetaForeignKey
 import ru.vood.processor.datamodel.abstraction.model.MetaInformation
 import ru.vood.processor.datamodel.gen.*
@@ -27,8 +29,8 @@ class OriginEntityDataClassesGenerator(
         aggregateInnerDep: Dependency,
         collector: Set<GeneratedFile> = setOf()
     ): Set<GeneratedFile> {
-
         val metaEntity = aggregateInnerDep.metaEntity
+
         val simpleColumns = metaEntity.fields
             .sortedBy { it.position }
             .map { col ->
@@ -48,27 +50,30 @@ override val ${col.name.value}: $kotlinMetaClass$nullableSymbol""".trimIndent()
             .joinToString(",\n")
 
         val fullClassName = entityClassName(metaEntity)
-        val implemets =
-            """${IEntityOrigin::class.java.simpleName}, ${metaEntity.designClassFullClassName.value}"""
+        logger.info("Create $fullClassName")
+        val map = aggregateInnerDep.children
+            .map { df -> collectEntityFile(metaForeignKeys, df, collector) }
+            .flatten()
+            .toSet()
+
+        val sealedForeign = metaForeignKeys.filter { fk ->
+            fk.fromEntity.designClassFullClassName == metaEntity.designClassFullClassName &&
+                    when (fk.toEntity.flowEntityType) {
+                        FlowEntityType.INNER -> false
+                        FlowEntityType.AGGREGATE -> false
+                        FlowEntityType.ONE_OF -> true
+                    }
+        }
+
+        val implemets =    when(sealedForeign.size){
+            0 -> """${IEntityOrigin::class.java.simpleName}, ${metaEntity.designClassFullClassName.value}"""
+            1 -> """${IEntityOrigin::class.java.simpleName}, ${metaEntity.designClassFullClassName.value}, ${entityClassName(sealedForeign[0].toEntity) }"""
+            else -> error("for $fullClassName found several foreign on sealed interface")
+        }
 
 
-        val code = """package ${metaEntity.designClassPackageName}
-                    
-${
-            metaEntity.comment?.let {
-                """/**
-*$it
-*/
-""".trimIndent()
-            } ?: ""
-        }          
-import ${EntityName::class.java.canonicalName}     
-import ${Generated::class.java.canonicalName}
-import ${IEntityOrigin::class.java.canonicalName}
-
-
-@Generated("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
-@kotlinx.serialization.Serializable
+        val code = when (metaEntity.flowEntityType) {
+            FlowEntityType.INNER, FlowEntityType.AGGREGATE -> """${head(metaEntity)}
 data class $fullClassName (
 $simpleColumns
 
@@ -85,12 +90,21 @@ $simpleColumns
 }
                     
                 """.trimIndent()
+            FlowEntityType.ONE_OF -> """${head(metaEntity)}
+sealed interface $fullClassName:  $implemets  
+{
+    override val designEntityName: EntityName
+        get() = designEntityNameConst
 
-        logger.info("Create $fullClassName")
-        val map = aggregateInnerDep.children
-            .map { df -> collectEntityFile(metaForeignKeys, df, collector) }
-            .flatten()
-            .toSet()
+    
+    companion object{
+        val designEntityNameConst = EntityName("${metaEntity.designClassShortName}")
+    
+    }
+}
+            """.trimIndent()
+        }
+
 
         val plus = collector.plus(
             GeneratedFile(
@@ -103,6 +117,22 @@ $simpleColumns
 
         return plus
     }
+
+    private fun head(metaEntity: MetaEntity) =
+        """package ${metaEntity.designClassPackageName}
+                        
+${metaEntity.comment?.let {"""/**
+    *$it
+    */
+    """.trimIndent()} ?: ""
+}          
+import ${EntityName::class.java.canonicalName}     
+import ${Generated::class.java.canonicalName}
+import ${IEntityOrigin::class.java.canonicalName}
+    
+    
+@Generated("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
+@kotlinx.serialization.Serializable"""
 
     override val subPackage: PackageName
         get() = entityOriginDataClassesGeneratorPackageName

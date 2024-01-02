@@ -102,7 +102,7 @@ class ColumnEntityMapGenerator(
                                 |${SimpleColumnEntityData<*>::simpleColumnType.name} = ${SimpleColumnType::class.simpleName}("${col.type}")
                                 |)""".trimMargin()
                             }
-                        simpleF.plus(syntheticF)
+                        simpleF//.plus(syntheticF)
                     }
                     .joinToString(",\n")
 
@@ -118,6 +118,8 @@ import ${SyntheticColumnEntityData::class.java.canonicalName}
 import ${SimpleColumnEntityData::class.java.canonicalName}
 
 import ${EntityName::class.java.canonicalName}
+import ${ColumnEntityData::class.java.canonicalName}
+import ${IEntityOrigin::class.java.canonicalName}
 
 import ${Generated::class.java.canonicalName}
 import ${IColExtractFunction::class.java.canonicalName}
@@ -128,7 +130,7 @@ import kotlin.reflect.KProperty1
 ${metaInfo.allEntityPackagesImport}
 
 @Generated("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
-val columnEntityDataMap = mapOf(
+val columnEntityDataMap : Map<FullColumnName, ColumnEntityData<out IEntityOrigin>> = mapOf(
 $simpleColumn,
 
 

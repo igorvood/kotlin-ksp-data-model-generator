@@ -2,6 +2,7 @@ package ru.vood.processor.datamodel.gen.runtime
 
 import com.google.devtools.ksp.processing.CodeGenerator
 import com.google.devtools.ksp.processing.KSPLogger
+import ru.vood.dmgen.annotation.FlowEntityType
 import ru.vood.dmgen.annotation.RelationType
 import ru.vood.dmgen.intf.EntityName
 import ru.vood.dmgen.intf.IEntityOrigin
@@ -10,6 +11,7 @@ import ru.vood.processor.datamodel.abstraction.model.Dependency
 import ru.vood.processor.datamodel.abstraction.model.MetaEntity
 import ru.vood.processor.datamodel.abstraction.model.MetaForeignKey
 import ru.vood.processor.datamodel.abstraction.model.MetaInformation
+import ru.vood.processor.datamodel.abstraction.model.dto.SyntheticFieldInfo
 import ru.vood.processor.datamodel.gen.*
 import ru.vood.processor.datamodel.gen.CollectName.entityClassName
 import ru.vood.processor.datamodel.gen.CollectName.syntheticClassName
@@ -42,13 +44,14 @@ class SyntheticFieldExtractorsGenerator(
             .map { "import ${it.metaEntity.designClassPackageName}.${syntheticClassName(it.metaEntity)}" }
             .joinToString(separator = "\n")
 
-        val fk = syntheticFieldInfos
-            .map { syntheticFieldInfo ->
-                val genField = genField(syntheticFieldInfo.metaEntity, syntheticFieldInfo.relationType)
-                Optional.of(genField)
-
-            }
-            .joinToString(",\n") { it.get() }
+        val fk = when (metaEntity.flowEntityType) {
+            FlowEntityType.INNER, FlowEntityType.AGGREGATE -> syntheticFieldInfos
+                .map { syntheticFieldInfo ->
+                    genField(syntheticFieldInfo)
+                }
+                .joinToString(",\n") { it }
+            FlowEntityType.ONE_OF -> "override val origin: ${entityClassName(metaEntity)}"
+        }
 
         val fkFunCode = syntheticFieldInfos
             .map { syntheticFieldInfo ->
@@ -63,26 +66,8 @@ class SyntheticFieldExtractorsGenerator(
 
         val simpleColumns = "override val origin: $originClassName"
         val s = """${IEntitySynthetic::class.java.simpleName}<$originClassName>"""
-
-
-        val code = """package ${metaEntity.designClassPackageName}
-                    
-${
-            metaEntity.comment?.let {
-                """/**
-*$it
-*/
-""".trimIndent()
-            } ?: ""
-        }          
-import ${IEntitySynthetic::class.java.canonicalName}     
-import ${EntityName::class.java.canonicalName}
-import ${Generated::class.java.canonicalName}
-import ${IEntityOrigin::class.java.canonicalName}
-${syntheticFieldImport}
-
-@Generated("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
-@kotlinx.serialization.Serializable
+        val code = when (metaEntity.flowEntityType) {
+            FlowEntityType.INNER, FlowEntityType.AGGREGATE -> """${headCreate(metaEntity, syntheticFieldImport)}
 data class $fullClassName (
 
 $simpleColumns,
@@ -109,6 +94,29 @@ $fk
 }
                     
                 """.trimIndent()
+            FlowEntityType.ONE_OF -> """${headCreate(metaEntity, syntheticFieldImport)}
+data class $fullClassName(
+override val origin: DealOneOfDataEntity
+) 
+: $s
+{
+
+ override fun syntheticField(entityName: ${EntityName::class.simpleName}): Set<${IEntitySynthetic::class.simpleName}<out ${IEntityOrigin::class.simpleName}>> {
+          return  when (entityName) {
+                else -> error("In Entity ${'$'}{designEntityName.value} Not found synthetic field for ${'$'}{entityName.value}")
+            }
+    }
+    
+override val designEntityName: EntityName
+    get() = designEntityNameConst
+ companion object{
+        val designEntityNameConst = EntityName("${metaEntity.designClassShortName}")
+    }
+}  
+""".trimIndent()
+        }
+
+
 
         logger.info("Create $fullClassName")
         val map = aggregateInnerDep.children
@@ -127,14 +135,39 @@ $fk
 
         return plus
     }
-    private fun genField(toEntity: MetaEntity, relationType: RelationType): String {
+
+    private fun headCreate(
+        metaEntity: MetaEntity,
+        syntheticFieldImport: String
+    ) = """package ${metaEntity.designClassPackageName}
+                        
+    ${
+        metaEntity.comment?.let {
+            """/**
+    *$it
+    */
+    """.trimIndent()
+        } ?: ""
+    }          
+    import ${IEntitySynthetic::class.java.canonicalName}     
+    import ${EntityName::class.java.canonicalName}
+    import ${Generated::class.java.canonicalName}
+    import ${IEntityOrigin::class.java.canonicalName}
+    ${syntheticFieldImport}
+    
+    @Generated("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
+    @kotlinx.serialization.Serializable"""
+
+    private fun genField(syntheticFieldInfo: SyntheticFieldInfo): String {
+        val toEntity = syntheticFieldInfo.metaEntity
         val syntheticClassName = syntheticClassName(
             toEntity
         )
-        return when (relationType) {
+        return when (syntheticFieldInfo.relationType) {
             RelationType.ONE_TO_ONE_OPTIONAL -> "val ${toEntity.entityFieldName} : $syntheticClassName?"
             RelationType.ONE_TO_ONE_MANDATORY -> "val ${toEntity.entityFieldName} : $syntheticClassName"
             RelationType.MANY_TO_ONE -> "val ${toEntity.entityFieldName} : Set<$syntheticClassName>"
+
         }
     }
 

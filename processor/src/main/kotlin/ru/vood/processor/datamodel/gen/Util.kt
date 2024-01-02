@@ -22,16 +22,30 @@ fun syntheticFieldInfos(
                 FlowEntityType.AGGREGATE -> Optional.empty<SyntheticFieldInfo>()
                 FlowEntityType.INNER
                 -> {
-                    val currentFks =
-                        metaForeignKeys.filter { fk -> fk.toEntity == metaEntity && fk.fromEntity == childredMetaEntity }
                     val metaForeignKey =
-                        if (currentFks.size == 1) currentFks[0] else error("Found several fk from entity ${childredMetaEntity.designClassFullClassName.value} to ${metaEntity.designClassFullClassName.value}  ")
+                        getMetaForeignKey(metaForeignKeys, metaEntity, childredMetaEntity)
                     Optional.of(SyntheticFieldInfo(childredMetaEntity,metaForeignKey.relationType, false))
                 }
-                FlowEntityType.ONE_OF -> Optional.empty<SyntheticFieldInfo>()
+                FlowEntityType.ONE_OF -> {
+                    val metaForeignKey =
+                        getMetaForeignKey(metaForeignKeys, metaEntity, childredMetaEntity)
+                    Optional.of(SyntheticFieldInfo(childredMetaEntity, metaForeignKey.relationType, true))
+                }
 
             }
         }
         .filter { !it.isEmpty }
         .map { it.get() }
+}
+
+private fun getMetaForeignKey(
+    metaForeignKeys: Set<MetaForeignKey>,
+    metaEntity: MetaEntity,
+    childredMetaEntity: MetaEntity
+): MetaForeignKey {
+    val currentFks =
+        metaForeignKeys.filter { fk -> fk.toEntity == metaEntity && fk.fromEntity == childredMetaEntity }
+    val metaForeignKey =
+        if (currentFks.size == 1) currentFks[0] else error("Found several fk from entity ${childredMetaEntity.designClassFullClassName.value} to ${metaEntity.designClassFullClassName.value}  ")
+    return metaForeignKey
 }
