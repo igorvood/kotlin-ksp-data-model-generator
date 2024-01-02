@@ -18,8 +18,6 @@ data class MetaEntity(val ksAnnotated: KSClassDeclaration, val logger: KSPLogger
 
     val sealedChildren = ksAnnotated.getSealedSubclasses().map { ModelClassName(it.simpleName.asString()) }.toSet()
 
-    val isSealedObject = sealedChildren.isNotEmpty()
-
     val designClassShortName: String = ksAnnotated.simpleName.asString()
 
     val designClassPackageName: String = ksAnnotated.packageName.asString()
@@ -28,6 +26,8 @@ data class MetaEntity(val ksAnnotated: KSClassDeclaration, val logger: KSPLogger
 
 
     val flowEntityType: FlowEntityType = ksAnnotated.getAnnotationsByType(FlowEntity::class).first().entityType
+
+//    val isSealedObject = FlowEntityType.ONE_OF == flowEntityType
 
     val flowEntityName = ksAnnotated.getAnnotationsByType(FlowEntity::class).first().entityName
 

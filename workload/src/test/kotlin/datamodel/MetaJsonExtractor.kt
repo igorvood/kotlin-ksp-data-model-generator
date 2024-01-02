@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test
 import ru.vood.dmgen.annotation.FlowEntityType
 import ru.vood.dmgen.datamodel.metaEnum.entityDataMap
 import ru.vood.dmgen.intf.EntityName
+import ru.vood.dmgen.intf.IEntityOrigin
 import ru.vood.dmgen.intf.newIntf.EntityData
 import ru.vood.dmgen.serial.ModelJsonSerializer
 import java.io.File
@@ -17,27 +18,27 @@ class MetaJsonExtractor {
     fun entityDataMap() {
 
 
-        val toMap = entityDataMap.entries.map { it.key to EntityDataJson.of(it.value) }.toMap()
-
-        val ent = Ent(toMap)
-
-        val encodeToString = ModelJsonSerializer.modelJsonSerializer.encodeToString(Ent.serializer(), ent)
-
-        File("entityDataMap.json").printWriter().use { out ->
-            out.println(encodeToString)
-        }
-
-        val hocon = Hocon { }
-        File("entityDataMap.hocon").printWriter().use { out ->
-            out.println(hocon.encodeToConfig(Ent.serializer(), ent).toString())
-        }
-
-
-        val yml = Yaml
-        val default = yml.default
-        File("entityDataMap.yml").printWriter().use { out ->
-            out.println(default.encodeToString(Ent.serializer(), ent))
-        }
+//        val toMap = entityDataMap.entries.map { it -> it.key to EntityDataJson.of(it.value) }.toMap()
+//
+//        val ent = Ent(toMap)
+//
+//        val encodeToString = ModelJsonSerializer.modelJsonSerializer.encodeToString(Ent.serializer(), ent)
+//
+//        File("entityDataMap.json").printWriter().use { out ->
+//            out.println(encodeToString)
+//        }
+//
+//        val hocon = Hocon { }
+//        File("entityDataMap.hocon").printWriter().use { out ->
+//            out.println(hocon.encodeToConfig(Ent.serializer(), ent).toString())
+//        }
+//
+//
+//        val yml = Yaml
+//        val default = yml.default
+//        File("entityDataMap.yml").printWriter().use { out ->
+//            out.println(default.encodeToString(Ent.serializer(), ent))
+//        }
 
     }
 
@@ -67,7 +68,7 @@ class MetaJsonExtractor {
     )//: IEntityData<T>
     {
         companion object {
-            fun of(d: EntityData<*>): EntityDataJson {
+            fun of(d: EntityData<IEntityOrigin>): EntityDataJson {
                 return EntityDataJson(
                     d.designClass.qualifiedName!!,
                     d.runtimeClass.qualifiedName!!,

@@ -85,7 +85,6 @@ class ColumnEntityMapGenerator(
                                 |${SyntheticColumnEntityData<*>::isOptional.name}= ${isOptional},
                                 |${SyntheticColumnEntityData<*>::comment.name} ="${fromEntity.comment}",
                                 |${SyntheticColumnEntityData<*>::iColExtractFunction.name} = $columnKindType,
-                                |//${fromEntity.isSealedObject} 
                                 |)""".trimMargin()
 
                             }

@@ -5,10 +5,9 @@ import com.google.devtools.ksp.processing.KSPLogger
 import ru.vood.dmgen.annotation.FlowEntityType
 import ru.vood.dmgen.intf.EntityName
 import ru.vood.dmgen.intf.newIntf.EntityData
+import ru.vood.dmgen.intf.newIntf.SealedEntityData
 import ru.vood.processor.datamodel.abstraction.model.MetaInformation
 import ru.vood.processor.datamodel.gen.*
-import ru.vood.processor.datamodel.gen.runtime.OriginEntityDataClassesGenerator.Companion.entityOriginDataClassesGeneratorPackageName
-import ru.vood.processor.datamodel.gen.runtime.SyntheticFieldExtractorsGenerator.Companion.entitySyntheticDataClassesGeneratorPackageName
 import java.time.LocalDateTime
 import javax.annotation.processing.Generated
 
@@ -30,9 +29,11 @@ class EntityMapGenerator(
             false -> {
                 val entities = generatedClassData
 
-                    .map {metaEntity                        ->
+                    .map { metaEntity ->
 
-                        val notSealedEntity = """${EntityData::class.simpleName}(
+
+                        val entity = when (metaEntity.flowEntityType) {
+                            FlowEntityType.INNER, FlowEntityType.AGGREGATE -> """${EntityData::class.simpleName}(
                             |${EntityData<*>::designClass.name} =  ${metaEntity.designClassFullClassName.value}::class, 
                             |${EntityData<*>::runtimeClass.name} = ${CollectName.entityClassName(metaEntity)}::class,
                             |${EntityData<*>::runtimeSyntheticClass.name} = ${CollectName.syntheticClassName(metaEntity)}::class,
@@ -43,8 +44,20 @@ class EntityMapGenerator(
                             |${EntityData<*>::entityType.name} =${metaEntity.flowEntityType}
                             |//${metaEntity.ksAnnotated.getAllProperties().toList().size}
                             |)"""
-
-                        val entity = if (metaEntity.isSealedObject) """""" else notSealedEntity
+                            FlowEntityType.ONE_OF -> {
+                                """${SealedEntityData::class.simpleName}(
+                            |${SealedEntityData<*>::designClass.name} =  ${metaEntity.designClassFullClassName.value}::class, 
+                            |${SealedEntityData<*>::runtimeClass.name} = ${CollectName.entityClassName(metaEntity)}::class,
+                            |${SealedEntityData<*>::runtimeSyntheticClass.name} = ${CollectName.syntheticClassName(metaEntity)}::class,
+                            |serializer =${CollectName.entityClassName(metaEntity)}.serializer(),
+                            |serializerSynthetic =${CollectName.syntheticClassName(metaEntity)}.serializer(),
+                            |${SealedEntityData<*>::entityName.name} =${EntityName::class.simpleName}("${metaEntity.designClassShortName}"), 
+                            |${SealedEntityData<*>::comment.name} ="${metaEntity.comment}",
+                            |${SealedEntityData<*>::entityType.name} =${metaEntity.flowEntityType},
+                            |${SealedEntityData<*>::children.name} = setOf()
+                            |)"""
+                            }
+                        }
 
                         """${EntityName::class.simpleName}("${metaEntity.designClassShortName}") to $entity""".trimMargin()
                     }
@@ -56,6 +69,7 @@ class EntityMapGenerator(
 
 import ${FlowEntityType::class.java.canonicalName}.*
 import ${EntityData::class.java.canonicalName}
+import ${SealedEntityData::class.java.canonicalName}
 import ${EntityName::class.java.canonicalName}
 import ${Generated::class.java.canonicalName}
 ${metaInfo.allEntityPackagesImport}
