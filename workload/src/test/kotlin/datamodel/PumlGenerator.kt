@@ -50,12 +50,12 @@ class PumlGenerator {
                 val entityName = e.key
                 val toEntities = e.value
                 toEntities.map { fkMetaData ->
-                    val arrowStr = when (fkMetaData.relationType) {
+                    val arrowColor = when (fkMetaData.relationType) {
                         RelationType.MANY_TO_ONE -> "color=Indigo"//"color=Yellow"
                         RelationType.ONE_TO_ONE_OPTIONAL -> "color=Green"
                         RelationType.ONE_TO_ONE_MANDATORY -> "color=Red"
                     }
-                    """${entityName.value} -> ${fkMetaData.toEntity.value}[label="${fkMetaData.relationType}" $arrowStr];"""
+                    """${entityName.value} -> ${fkMetaData.toEntity.value}[label="${fkMetaData.relationType}" $arrowColor];"""
                 }
 
             }
