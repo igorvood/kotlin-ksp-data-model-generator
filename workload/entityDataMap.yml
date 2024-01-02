@@ -34,7 +34,7 @@ entMap:
     serializerSynthetic: "ru.vood.dmgen.datamodel.oneOf.DealOneOfDataSynthetic"
     entityName: "DealOneOfData"
     comment: "null"
-    entityType: "INNER"
+    entityType: "ONE_OF"
   "DealParamOneToOne":
     designClass: "ru.vood.dmgen.datamodel.DealParamOneToOne"
     runtimeClass: "ru.vood.dmgen.datamodel.DealParamOneToOneEntity"

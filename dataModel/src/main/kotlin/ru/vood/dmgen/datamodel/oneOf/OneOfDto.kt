@@ -17,7 +17,7 @@ interface OneOfDto {
     val paramDate: String
 }
 
-@FlowEntity(FlowEntityType.INNER)
+@FlowEntity(FlowEntityType.ONE_OF)
 @ForeignKey(
     kClass = "ru.vood.dmgen.datamodel.oneOf.OneOfDto",
     "DealOneOfData_FK",
