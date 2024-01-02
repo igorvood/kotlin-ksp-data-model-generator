@@ -14,18 +14,18 @@ OneOfDto [label="{<f0> OneOfDto|<f1> dealId: dealId\nparamDate: paramDate\ndealO
 Product [label="{<f0> Product|<f1> id: id\ndealId: dealId\notherSystemProductId: otherSystemProductId\nproductName: productName\ninn: inn?\nln: ln?\ndn: dn?\nfn: fn?\nbn: bn?\nisdsdd: isdsdd?\nl: l\nd: d\nf: f\nb: b }" shape=Mrecord color=Red];
 ProductPayments [label="{<f0> ProductPayments|<f1> productId: productId\ndealId: dealId\nid: id\nsumma: summa\nnoRelationData: noRelationData }" shape=Mrecord color=Red];
 
-DealExtendData -> Deal[label="ONE_TO_ONE_MANDATORY"];
-DealOneData -> DealOneOfData[label="ONE_TO_ONE_MANDATORY"];
-DealOneOfData -> OneOfDto[label="ONE_TO_ONE_MANDATORY"];
-DealParamOneToOneOptional -> Deal[label="ONE_TO_ONE_OPTIONAL"];
-DealParamOneToOne -> Deal[label="ONE_TO_ONE_MANDATORY"];
-DealParamSet -> Deal[label="MANY_TO_ONE"];
-DealTwoData -> DealOneOfData[label="ONE_TO_ONE_MANDATORY"];
-InnerToDealParamOneToOne -> DealParamOneToOne[label="ONE_TO_ONE_MANDATORY"];
-OneOfDto -> Deal[label="ONE_TO_ONE_OPTIONAL"];
-ProductPayments -> Deal[label="MANY_TO_ONE"];
-ProductPayments -> Product[label="ONE_TO_ONE_OPTIONAL"];
-Product -> Deal[label="MANY_TO_ONE"];
+DealExtendData -> Deal[label="ONE_TO_ONE_MANDATORY" color=Red];
+DealOneData -> DealOneOfData[label="ONE_TO_ONE_MANDATORY" color=Red];
+DealOneOfData -> OneOfDto[label="ONE_TO_ONE_MANDATORY" color=Red];
+DealParamOneToOneOptional -> Deal[label="ONE_TO_ONE_OPTIONAL" color=Green];
+DealParamOneToOne -> Deal[label="ONE_TO_ONE_MANDATORY" color=Red];
+DealParamSet -> Deal[label="MANY_TO_ONE" color=Indigo];
+DealTwoData -> DealOneOfData[label="ONE_TO_ONE_MANDATORY" color=Red];
+InnerToDealParamOneToOne -> DealParamOneToOne[label="ONE_TO_ONE_MANDATORY" color=Red];
+OneOfDto -> Deal[label="ONE_TO_ONE_OPTIONAL" color=Green];
+ProductPayments -> Deal[label="MANY_TO_ONE" color=Indigo];
+ProductPayments -> Product[label="ONE_TO_ONE_OPTIONAL" color=Green];
+Product -> Deal[label="MANY_TO_ONE" color=Indigo];
 
 }
 @enduml

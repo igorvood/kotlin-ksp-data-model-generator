@@ -36,14 +36,6 @@ class PumlGenerator {
                                 is SimpleColumnEntityData<*> -> c.simpleColumnName.value
                                 is SyntheticColumnEntityData -> c.entity.value
                             }
-
-//                            val typeCol = col.outEntity?.let {
-//                                when(col.iColExtractFunction){
-//                                    is Simple -> error("такого быть не должно, никогда")
-//                                    is Synthetic<*,*,*> -> it.value
-//                                    is SyntheticSet<*,*,*> -> "SetOf(${it.value})"
-//                                }
-//                            }?:col.simpleColumnType!!.value
                             "${col.simpleColumnName.value}: $typeCol$question"
                         }
                         .joinToString("\\n")
@@ -59,12 +51,11 @@ class PumlGenerator {
                 val toEntities = e.value
                 toEntities.map { fkMetaData ->
                     val arrowStr = when (fkMetaData.relationType) {
-                        RelationType.MANY_TO_ONE -> "->"
-//                        RelationType.UNNOWN -> error("ASdasdasdasfasdf")
-                        RelationType.ONE_TO_ONE_OPTIONAL -> "->"
-                        RelationType.ONE_TO_ONE_MANDATORY -> "->"
+                        RelationType.MANY_TO_ONE -> "color=Indigo"//"color=Yellow"
+                        RelationType.ONE_TO_ONE_OPTIONAL -> "color=Green"
+                        RelationType.ONE_TO_ONE_MANDATORY -> "color=Red"
                     }
-                    """${entityName.value} ${arrowStr} ${fkMetaData.toEntity.value}[label="${fkMetaData.relationType}"];"""
+                    """${entityName.value} -> ${fkMetaData.toEntity.value}[label="${fkMetaData.relationType}" $arrowStr];"""
                 }
 
             }
