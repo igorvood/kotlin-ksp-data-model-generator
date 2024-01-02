@@ -17,7 +17,6 @@ class ColumnEntityMapGenerator(
     codeGenerator: CodeGenerator,
     rootPackage: PackageName,
     logger: KSPLogger
-
 ) : AbstractDataDictionaryGenerator<MetaInformation>(codeGenerator, rootPackage, logger) {
 
     override val nameClass: String
