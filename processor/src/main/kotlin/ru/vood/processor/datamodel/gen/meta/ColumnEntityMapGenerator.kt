@@ -45,24 +45,31 @@ class ColumnEntityMapGenerator(
 
                         val syntheticF = syntheticFieldInfos
                             .sortedBy { it.metaEntity.entityFieldName }
+                            .filter {syntheticFieldInfo ->  syntheticFieldInfo.metaEntity.designClassShortName !in listOf<String>("DealTwoData", "DealOneData") }
                             .map { syntheticFieldInfo ->
                                 val fromEntity = syntheticFieldInfo.metaEntity
                                 val isOptional =
                                     /*syntheticFieldInfo.isOptional &&*/ syntheticFieldInfo.relationType == RelationType.ONE_TO_ONE_OPTIONAL
-
+                                val sealedText ="""TODO("пока не понятно как работать с sealed")"""
                                 val columnKindType = when (syntheticFieldInfo.relationType) {
-                                    RelationType.ONE_TO_ONE_OPTIONAL ->
+                                    RelationType.ONE_TO_ONE_OPTIONAL ->{
+                                        val funBody =
+                                            if (syntheticFieldInfo.isOneOf) sealedText else """it.${fromEntity.entityFieldName}?.let{q->setOf(q)}?:setOf()"""
                                         "${Synthetic::class.simpleName}<$entityClass, $syntheticClassName, ${syntheticFieldInfo.metaEntity.designClassPackageName}.${
                                             entityClassName(
                                                 syntheticFieldInfo.metaEntity
                                             )
-                                        }>{it.${fromEntity.entityFieldName}?.let{q->setOf(q)}?:setOf()}"
-                                    RelationType.ONE_TO_ONE_MANDATORY ->
+                                        }>{$funBody}"
+                                    }
+                                    RelationType.ONE_TO_ONE_MANDATORY -> {
+                                        val funBody =
+                                            if (syntheticFieldInfo.isOneOf) sealedText else """setOf(it.${fromEntity.entityFieldName})"""
                                         "${Synthetic::class.simpleName}<$entityClass, $syntheticClassName, ${syntheticFieldInfo.metaEntity.designClassPackageName}.${
                                             entityClassName(
                                                 syntheticFieldInfo.metaEntity
                                             )
-                                        } >{setOf(it.${fromEntity.entityFieldName})}"
+                                        }>{$funBody}"
+                                    }
                                     RelationType.MANY_TO_ONE ->
                                         "${SyntheticSet::class.simpleName}<$entityClass, $syntheticClassName, ${syntheticFieldInfo.metaEntity.designClassPackageName}.${
                                             entityClassName(
@@ -102,7 +109,7 @@ class ColumnEntityMapGenerator(
                                 |${SimpleColumnEntityData<*>::simpleColumnType.name} = ${SimpleColumnType::class.simpleName}("${col.type}")
                                 |)""".trimMargin()
                             }
-                        simpleF//.plus(syntheticF)
+                        simpleF.plus(syntheticF)
                     }
                     .joinToString(",\n")
 
