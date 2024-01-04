@@ -236,12 +236,12 @@ data class ${GeneratedClasses.FKMetaData}<T : ${GeneratedClasses.IEntityOrigin}>
     val uk: ${UkName::class.java.simpleName},
     /**Тип связи
      * TODO по идеи величина вычисляемая, сейчас задается разработчиком*/
-    val relationType: RelationType,
+    val relationType: ${RelationType::class.java.simpleName},
     /**Коллекция колонок входящих во внешний ключ */
     val fkCols: Set<${FkPair::class.java.simpleName}>,
     /**Ф-ция вытаскивающая из fromEntity, экземпляр уникального ключа toEntity -> uk.
      * хорошо подходит для поиска  */
-    val сontextExtractor: (T) -> IContextOf<out IEntityOrigin>
+    val сontextExtractor: (T) -> ${GeneratedClasses.IContextOf}<out ${GeneratedClasses.IEntityOrigin}>
 )
 
 
