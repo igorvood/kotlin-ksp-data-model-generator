@@ -53,7 +53,11 @@ class ForeignKeyMapGenerator(
                         |${FKMetaData<*>::uk.name} = ${UkName::class.simpleName}("${metaForeign.uk.name.value}"),
                         |${FKMetaData<*>::relationType.name} = ${RelationType::class.java.canonicalName}.${metaForeign.relationType.name},
                         |${FKMetaData<*>::fkCols.name} = setOf($fkCols),
-                        |${FKMetaData<*>::сontextExtractor.name} = {data: ${entityClassName(metaForeign.fromEntity)} -> ${ukClassName(metaForeign.uk.name)}(${contextCols}) }
+                        |${FKMetaData<*>::сontextExtractor.name} = {data: ${entityClassName(metaForeign.fromEntity)} -> ${
+                            ukClassName(
+                                metaForeign.uk.name
+                            )
+                        }(${contextCols}) }
                         |)""".trimMargin()
                     }
                     .sorted()

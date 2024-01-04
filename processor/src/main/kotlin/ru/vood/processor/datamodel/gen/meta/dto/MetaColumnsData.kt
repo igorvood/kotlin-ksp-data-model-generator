@@ -7,4 +7,4 @@ import ru.vood.dmgen.intf.newIntf.IMetaColumnData
 
 data class MetaColumnsData(
     override val colMap: Map<FullColumnName, ColumnEntityData<out IEntityOrigin>>
-    ) : IMetaColumnData
+) : IMetaColumnData

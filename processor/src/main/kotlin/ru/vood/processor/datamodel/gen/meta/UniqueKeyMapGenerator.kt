@@ -5,13 +5,10 @@ import com.google.devtools.ksp.processing.KSPLogger
 import ru.vood.dmgen.annotation.UkName
 import ru.vood.dmgen.intf.EntityName
 import ru.vood.dmgen.intf.SimpleColumnName
-import ru.vood.dmgen.intf.newIntf.FKMetaData
 import ru.vood.dmgen.intf.newIntf.TypeUk
 import ru.vood.dmgen.intf.newIntf.UKEntityData
 import ru.vood.processor.datamodel.abstraction.model.MetaInformation
 import ru.vood.processor.datamodel.gen.*
-import ru.vood.processor.datamodel.gen.runtime.ContextDataClassesGenerator.Companion.contextDataClassesGeneratorPackageName
-import ru.vood.processor.datamodel.gen.runtime.OriginEntityDataClassesGenerator.Companion.entityOriginDataClassesGeneratorPackageName
 import java.time.LocalDateTime
 import javax.annotation.processing.Generated
 
@@ -50,7 +47,11 @@ class UniqueKeyMapGenerator(
                                     |serializer = ${ukClassName}.serializer(),
                                     |${UKEntityData<*>::ukClass.name} = ${ukClassName}::class,
                                     |${UKEntityData<*>::entity.name} = ${EntityName::class.simpleName}("${metaEnt.designClassShortName}"),
-                                    |${UKEntityData<*>::extractContext.name} = {data: ${CollectName.entityClassName(metaEnt)} -> ${
+                                    |${UKEntityData<*>::extractContext.name} = {data: ${
+                                    CollectName.entityClassName(
+                                        metaEnt
+                                    )
+                                } -> ${
                                     CollectName.ukClassName(
                                         ukDto.name
                                     )

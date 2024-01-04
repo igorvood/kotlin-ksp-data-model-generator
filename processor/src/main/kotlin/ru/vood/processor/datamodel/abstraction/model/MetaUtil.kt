@@ -196,16 +196,17 @@ private fun checkDuplicateClassName(entities: Map<ModelClassName, MetaEntity>) {
 
 private fun checkDublicateUk(entities: Map<ModelClassName, MetaEntity>, logger: KSPLogger) {
     val dublicatesUk = entities
-        .flatMap {ent -> ent.value.uniqueKeysFields.entries
-            .map { w -> w.key.name to ent.key }
+        .flatMap { ent ->
+            ent.value.uniqueKeysFields.entries
+                .map { w -> w.key.name to ent.key }
         }
         .groupBy { it.first.value }
         .filter { it.value.size > 1 }
-        .map { it -> entities[it.value[0].second]!!.ksAnnotated to  "dublicate uk name ${it.key} for entities ${it.value.map { w -> w.second.value }}" }
+        .map { it -> entities[it.value[0].second]!!.ksAnnotated to "dublicate uk name ${it.key} for entities ${it.value.map { w -> w.second.value }}" }
 
 
     if (dublicatesUk.isNotEmpty()) {
-        logger.error(dublicatesUk.map { it.second }.joinToString(","), dublicatesUk[0].first )
+        logger.error(dublicatesUk.map { it.second }.joinToString(","), dublicatesUk[0].first)
 //        error(dublicatesUk)
     }
 }
@@ -233,7 +234,7 @@ private fun fieldsFk(
                 if (uksOneTOne.size == 1) {
 
                     // определяю опциональность связи
-                    when(fkTemp.foreignKeyType){
+                    when (fkTemp.foreignKeyType) {
                         ForeignKeyType.OPTIONAL -> RelationType.ONE_TO_ONE_OPTIONAL
                         ForeignKeyType.MANDATORY -> RelationType.ONE_TO_ONE_MANDATORY
                     }

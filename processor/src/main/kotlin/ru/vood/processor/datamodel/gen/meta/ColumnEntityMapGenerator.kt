@@ -48,7 +48,7 @@ class ColumnEntityMapGenerator(
 //                            .sortedBy { it.metaEntity.entityFieldName }
 //                            .filter {syntheticFieldInfo ->  syntheticFieldInfo.metaEntity.designClassShortName !in listOf<String>("DealTwoData", "DealOneData") }
                             .map { syntheticFieldInfo ->
-                                when ( val synth = syntheticFieldInfo) {
+                                when (val synth = syntheticFieldInfo) {
                                     is SyntheticFieldInfo -> {
                                         val fromEntity = synth.metaEntity
                                         val isOptional =
@@ -118,7 +118,6 @@ class ColumnEntityMapGenerator(
                                           |${SealedSyntheticColumnEntityData<*>::comment.name}= "${ent.comment}",
                                           |${SealedSyntheticColumnEntityData<*>::outEntities.name}= setOf(${joinToString}),
                                           |)""".trimMargin()
-
 
 
                                     }

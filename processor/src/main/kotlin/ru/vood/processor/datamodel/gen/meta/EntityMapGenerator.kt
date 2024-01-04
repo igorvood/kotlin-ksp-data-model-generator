@@ -6,7 +6,6 @@ import ru.vood.dmgen.annotation.FlowEntityType
 import ru.vood.dmgen.intf.EntityName
 import ru.vood.dmgen.intf.newIntf.EntityData
 import ru.vood.dmgen.intf.newIntf.SealedEntityData
-import ru.vood.processor.datamodel.abstraction.model.MetaEntity
 import ru.vood.processor.datamodel.abstraction.model.MetaInformation
 import ru.vood.processor.datamodel.gen.*
 import java.time.LocalDateTime
@@ -47,16 +46,20 @@ class EntityMapGenerator(
                             FlowEntityType.ONE_OF -> {
                                 val sealedChildrenEntities = metaInfo.metaForeignKeys
                                     .filter { fk -> fk.toEntity.designClassFullClassName == metaEntity.designClassFullClassName }
-                                    .map { fk-> EntityName(fk.fromEntity.designClassShortName) }
+                                    .map { fk -> EntityName(fk.fromEntity.designClassShortName) }
                                     .distinct()
-                                    .map { sealedChildrenEntity-> """${EntityName::class.simpleName}("${sealedChildrenEntity.value}")""" }
+                                    .map { sealedChildrenEntity -> """${EntityName::class.simpleName}("${sealedChildrenEntity.value}")""" }
                                     .joinToString(", ")
 
 
                                 """${SealedEntityData::class.simpleName}(
                             |${SealedEntityData<*>::designClass.name} =  ${metaEntity.designClassFullClassName.value}::class, 
                             |${SealedEntityData<*>::runtimeClass.name} = ${CollectName.entityClassName(metaEntity)}::class,
-                            |${SealedEntityData<*>::runtimeSyntheticClass.name} = ${CollectName.syntheticClassName(metaEntity)}::class,
+                            |${SealedEntityData<*>::runtimeSyntheticClass.name} = ${
+                                    CollectName.syntheticClassName(
+                                        metaEntity
+                                    )
+                                }::class,
                             |serializer =${CollectName.entityClassName(metaEntity)}.serializer(),
                             |serializerSynthetic =${CollectName.syntheticClassName(metaEntity)}.serializer(),
                             |${SealedEntityData<*>::entityName.name} =${EntityName::class.simpleName}("${metaEntity.designClassShortName}"), 

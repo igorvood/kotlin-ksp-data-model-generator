@@ -4,7 +4,7 @@ import ru.vood.dmgen.annotation.UkName
 import ru.vood.processor.datamodel.abstraction.model.MetaEntity
 
 object CollectName {
-    fun ukClassName( ukName: UkName): String =
+    fun ukClassName(ukName: UkName): String =
 //        """${metaEntity.designClassShortName}_Context_${ukName.value}"""
         """${ukName.value}Context"""
 

@@ -65,9 +65,13 @@ override val ${col.name.value}: $kotlinMetaClass$nullableSymbol""".trimIndent()
                     }
         }
 
-        val implemets =    when(sealedForeign.size){
+        val implemets = when (sealedForeign.size) {
             0 -> """${IEntityOrigin::class.java.simpleName}, ${metaEntity.designClassFullClassName.value}"""
-            1 -> """${IEntityOrigin::class.java.simpleName}, ${metaEntity.designClassFullClassName.value}, ${entityClassName(sealedForeign[0].toEntity) }"""
+            1 -> """${IEntityOrigin::class.java.simpleName}, ${metaEntity.designClassFullClassName.value}, ${
+                entityClassName(
+                    sealedForeign[0].toEntity
+                )
+            }"""
             else -> error("for $fullClassName found several foreign on sealed interface")
         }
 
@@ -121,11 +125,14 @@ sealed interface $fullClassName:  $implemets
     private fun head(metaEntity: MetaEntity) =
         """package ${metaEntity.designClassPackageName}
                         
-${metaEntity.comment?.let {"""/**
+${
+            metaEntity.comment?.let {
+                """/**
     *$it
     */
-    """.trimIndent()} ?: ""
-}          
+    """.trimIndent()
+            } ?: ""
+        }          
 import ${EntityName::class.java.canonicalName}     
 import ${Generated::class.java.canonicalName}
 import ${IEntityOrigin::class.java.canonicalName}
