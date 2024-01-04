@@ -3,10 +3,10 @@ package datamodel
 import org.junit.jupiter.api.Test
 import ru.vood.dmgen.annotation.FlowEntityType
 import ru.vood.dmgen.annotation.RelationType
+import ru.vood.dmgen.datamodel.intf.SealedSyntheticColumnEntityData
+import ru.vood.dmgen.datamodel.intf.SimpleColumnEntityData
+import ru.vood.dmgen.datamodel.intf.SyntheticColumnEntityData
 import ru.vood.dmgen.datamodel.metaEnum.entityDataMap
-import ru.vood.dmgen.intf.newIntf.SealedSyntheticColumnEntityData
-import ru.vood.dmgen.intf.newIntf.SimpleColumnEntityData
-import ru.vood.dmgen.intf.newIntf.SyntheticColumnEntityData
 import ru.vood.dmgen.meta.DerivativeColumns.entitiesColumnsMap
 import ru.vood.dmgen.meta.DerivativeDependencyMap.entityDependencyParentMap
 import ru.vood.dmgen.meta.DerivativeFKs.foreignKeyMapFromEntity

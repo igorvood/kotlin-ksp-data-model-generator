@@ -3,16 +3,16 @@ package ru.vood.processor.datamodel.gen.meta
 import com.google.devtools.ksp.processing.CodeGenerator
 import com.google.devtools.ksp.processing.KSPLogger
 import ru.vood.dmgen.annotation.FkName
+import ru.vood.dmgen.annotation.FkPairNew
 import ru.vood.dmgen.annotation.RelationType
 import ru.vood.dmgen.annotation.UkName
 import ru.vood.dmgen.intf.EntityName
 import ru.vood.dmgen.intf.FullColumnName
-import ru.vood.dmgen.intf.newIntf.FKMetaData
-import ru.vood.dmgen.intf.newIntf.FkPairNew
 import ru.vood.processor.datamodel.abstraction.model.MetaInformation
 import ru.vood.processor.datamodel.gen.*
 import ru.vood.processor.datamodel.gen.CollectName.entityClassName
 import ru.vood.processor.datamodel.gen.CollectName.ukClassName
+import ru.vood.processor.datamodel.gen.runtime.intf.InterfaceGenerator
 import java.time.LocalDateTime
 import javax.annotation.processing.Generated
 
@@ -43,17 +43,17 @@ class ForeignKeyMapGenerator(
                             """data.${fkPa.from.name.value}"""
                         }.joinToString(",")
 
-                        """${FkName::class.simpleName}("${metaForeign.name.value}") to ${FKMetaData::class.simpleName}<${
+                        """${FkName::class.simpleName}("${metaForeign.name.value}") to ${InterfaceGenerator.GeneratedClasses.FKMetaData}<${
                             entityClassName(
                                 metaForeign.fromEntity
                             )
                         }>(
-                        |${FKMetaData<*>::fromEntity.name} = ${EntityName::class.simpleName}("${metaForeign.fromEntity.designClassShortName}"),
-                        |${FKMetaData<*>::toEntity.name} = ${EntityName::class.simpleName}("${metaForeign.toEntity.designClassShortName}"),
-                        |${FKMetaData<*>::uk.name} = ${UkName::class.simpleName}("${metaForeign.uk.name.value}"),
-                        |${FKMetaData<*>::relationType.name} = ${RelationType::class.java.canonicalName}.${metaForeign.relationType.name},
-                        |${FKMetaData<*>::fkCols.name} = setOf($fkCols),
-                        |${FKMetaData<*>::сontextExtractor.name} = {data: ${entityClassName(metaForeign.fromEntity)} -> ${
+                        |fromEntity = ${EntityName::class.simpleName}("${metaForeign.fromEntity.designClassShortName}"),
+                        |toEntity = ${EntityName::class.simpleName}("${metaForeign.toEntity.designClassShortName}"),
+                        |uk = ${UkName::class.simpleName}("${metaForeign.uk.name.value}"),
+                        |relationType = ${RelationType::class.java.canonicalName}.${metaForeign.relationType.name},
+                        |fkCols = setOf($fkCols),
+                        |сontextExtractor = {data: ${entityClassName(metaForeign.fromEntity)} -> ${
                             ukClassName(
                                 metaForeign.uk.name
                             )
@@ -68,7 +68,7 @@ class ForeignKeyMapGenerator(
                     """package ${packageName.value}
                         
 import ${FkName::class.java.canonicalName}
-import ${FKMetaData::class.java.canonicalName}
+import ${InterfaceGenerator.GeneratedClasses.FKMetaData.getPac(rootPackage)}
 import ${EntityName::class.java.canonicalName}
 import ${FkPairNew::class.java.canonicalName}
 import ${UkName::class.java.canonicalName}

@@ -4,10 +4,10 @@ import com.google.devtools.ksp.processing.CodeGenerator
 import com.google.devtools.ksp.processing.KSPLogger
 import ru.vood.dmgen.annotation.UkName
 import ru.vood.dmgen.intf.EntityName
-import ru.vood.dmgen.intf.IContextOf
 import ru.vood.processor.datamodel.abstraction.model.MetaInformation
 import ru.vood.processor.datamodel.gen.*
 import ru.vood.processor.datamodel.gen.CollectName.ukClassName
+import ru.vood.processor.datamodel.gen.runtime.intf.InterfaceGenerator
 import java.time.LocalDateTime
 import javax.annotation.processing.Generated
 
@@ -47,12 +47,14 @@ class ContextDataClassesGenerator(
 import ${UkName::class.java.canonicalName}
 import ${EntityName::class.java.canonicalName}
 import ${Generated::class.java.canonicalName}
+import ${InterfaceGenerator.GeneratedClasses.IContextOf.getPac(rootPackage)}
+
                     
 @kotlinx.serialization.Serializable
 @Generated("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
 data class $fullClassName (
 $joinToString
-): ${IContextOf::class.java.canonicalName}<$entityName>
+): ${InterfaceGenerator.GeneratedClasses.IContextOf}<$entityName>
 {
 override val designEntityName: ${EntityName::class.simpleName}
         get() = metaEntityConst

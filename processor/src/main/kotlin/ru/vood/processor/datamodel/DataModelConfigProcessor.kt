@@ -13,6 +13,7 @@ import ru.vood.processor.datamodel.gen.meta.*
 import ru.vood.processor.datamodel.gen.runtime.ContextDataClassesGenerator
 import ru.vood.processor.datamodel.gen.runtime.OriginEntityDataClassesGenerator
 import ru.vood.processor.datamodel.gen.runtime.SyntheticFieldExtractorsGenerator
+import ru.vood.processor.datamodel.gen.runtime.intf.InterfaceGenerator
 
 class DataModelConfigProcessor(
     val codeGenerator: CodeGenerator,
@@ -40,6 +41,7 @@ class DataModelConfigProcessor(
 
         EntityMapGenerator(codeGenerator, rootPackage, logger).createFiles(metaInformation)
         EntityEnumGenerator(codeGenerator, rootPackage, logger).createFiles(metaInformation)
+        InterfaceGenerator(codeGenerator, rootPackage, logger).createFiles(metaInformation)
         ColumnEntityMapGenerator(codeGenerator, rootPackage, logger).createFiles(metaInformation)
         UniqueKeyMapGenerator(codeGenerator, rootPackage, logger).createFiles(metaInformation)
         ForeignKeyMapGenerator(codeGenerator, rootPackage, logger).createFiles(metaInformation)

@@ -12,6 +12,8 @@ import ru.vood.processor.datamodel.abstraction.model.dto.SyntheticFieldInfo
 import ru.vood.processor.datamodel.gen.*
 import ru.vood.processor.datamodel.gen.CollectName.entityClassName
 import ru.vood.processor.datamodel.gen.CollectName.syntheticClassName
+import ru.vood.processor.datamodel.gen.runtime.intf.InterfaceGenerator
+import ru.vood.processor.datamodel.gen.runtime.intf.InterfaceGenerator.Companion.interfaceGeneratorPackageName
 import java.time.LocalDateTime
 import javax.annotation.processing.Generated
 
@@ -59,7 +61,7 @@ class ColumnEntityMapGenerator(
                                             RelationType.ONE_TO_ONE_OPTIONAL -> {
                                                 val funBody =
                                                     if (syntheticFieldInfo.isOneOf) sealedText else """it.${fromEntity.entityFieldName}?.let{q->setOf(q)}?:setOf()"""
-                                                "${Synthetic::class.simpleName}<$entityClass, $syntheticClassName, ${synth.metaEntity.designClassPackageName}.${
+                                                "${InterfaceGenerator.GeneratedClasses.Synthetic}<$entityClass, $syntheticClassName, ${synth.metaEntity.designClassPackageName}.${
                                                     entityClassName(
                                                         synth.metaEntity
                                                     )
@@ -68,14 +70,14 @@ class ColumnEntityMapGenerator(
                                             RelationType.ONE_TO_ONE_MANDATORY -> {
                                                 val funBody =
                                                     if (syntheticFieldInfo.isOneOf) sealedText else """setOf(it.${fromEntity.entityFieldName})"""
-                                                "${Synthetic::class.simpleName}<$entityClass, $syntheticClassName, ${synth.metaEntity.designClassPackageName}.${
+                                                "${InterfaceGenerator.GeneratedClasses.Synthetic}<$entityClass, $syntheticClassName, ${synth.metaEntity.designClassPackageName}.${
                                                     entityClassName(
                                                         synth.metaEntity
                                                     )
                                                 }>{$funBody}"
                                             }
                                             RelationType.MANY_TO_ONE ->
-                                                "${SyntheticSet::class.simpleName}<$entityClass, $syntheticClassName, ${synth.metaEntity.designClassPackageName}.${
+                                                "${InterfaceGenerator.GeneratedClasses.SyntheticSet}<$entityClass, $syntheticClassName, ${synth.metaEntity.designClassPackageName}.${
                                                     entityClassName(
                                                         synth.metaEntity
                                                     )
@@ -89,14 +91,13 @@ class ColumnEntityMapGenerator(
                                         )
 
 
-                                        """${FullColumnName::class.simpleName}("${fullColumnName.value}") to ${SyntheticColumnEntityData::class.simpleName}(
-                                |${SyntheticColumnEntityData<*>::entity.name}= ${EntityName::class.java.simpleName}( "${ent.designClassShortName}"),
-                                |${SyntheticColumnEntityData<*>::outEntity.name} = ${EntityName::class.java.simpleName}( "${fromEntity.designClassShortName}"),
-                                |${SyntheticColumnEntityData<*>::simpleColumnName.name} = ${SimpleColumnName::class.simpleName}("${fromEntity.entityFieldName}"),
-                                |${SyntheticColumnEntityData<*>::isOptional.name}= ${isOptional},
-                                |${SyntheticColumnEntityData<*>::comment.name} ="${fromEntity.comment}",
-                                |${SyntheticColumnEntityData<*>::iColExtractFunction.name} = $columnKindType,
-                                |//${syntheticFieldInfo.isOneOf}
+                                        """${FullColumnName::class.simpleName}("${fullColumnName.value}") to ${InterfaceGenerator.GeneratedClasses.SyntheticColumnEntityData}(
+                                |entity= ${EntityName::class.java.simpleName}( "${ent.designClassShortName}"),
+                                |outEntity = ${EntityName::class.java.simpleName}( "${fromEntity.designClassShortName}"),
+                                |simpleColumnName = ${SimpleColumnName::class.simpleName}("${fromEntity.entityFieldName}"),
+                                |isOptional= ${isOptional},
+                                |comment ="${fromEntity.comment}",
+                                |iColExtractFunction = $columnKindType,
                                 |)""".trimMargin()
                                     }
                                     is SealedSyntheticFieldInfo -> {
@@ -111,12 +112,12 @@ class ColumnEntityMapGenerator(
                                             synth.metaEntities.map { it -> """${EntityName::class.java.simpleName}("${it.designClassShortName}")""" }
                                                 .joinToString(",")
 
-                                        """${FullColumnName::class.simpleName}("${fullColumnName.value}") to ${SealedSyntheticColumnEntityData::class.simpleName}(
-                                          |${SealedSyntheticColumnEntityData<*>::entity.name}= ${EntityName::class.java.simpleName}( "${ent.designClassShortName}"),
-                                          |${SealedSyntheticColumnEntityData<*>::simpleColumnName.name}= ${SimpleColumnName::class.java.simpleName}( "${ent.entityFieldName}"),
-                                          |${SealedSyntheticColumnEntityData<*>::isOptional.name}= false,
-                                          |${SealedSyntheticColumnEntityData<*>::comment.name}= "${ent.comment}",
-                                          |${SealedSyntheticColumnEntityData<*>::outEntities.name}= setOf(${joinToString}),
+                                        """${FullColumnName::class.simpleName}("${fullColumnName.value}") to ${InterfaceGenerator.GeneratedClasses.SealedSyntheticColumnEntityData}(
+                                          |entity= ${EntityName::class.java.simpleName}( "${ent.designClassShortName}"),
+                                          |simpleColumnName= ${SimpleColumnName::class.java.simpleName}( "${ent.entityFieldName}"),
+                                          |isOptional= false,
+                                          |comment= "${ent.comment}",
+                                          |outEntities= setOf(${joinToString}),
                                           |)""".trimMargin()
 
 
@@ -130,13 +131,13 @@ class ColumnEntityMapGenerator(
                         val simpleF = ent.fields
                             .sortedBy { ec -> ec.position }
                             .map { col ->
-                                """${FullColumnName::class.simpleName}("${ent.designClassShortName}_${col.name.value}") to ${SimpleColumnEntityData::class.simpleName}(
-                                |${SimpleColumnEntityData<*>::entity.name} = ${EntityName::class.java.simpleName}( "${ent.designClassShortName}"),
-                                |${SimpleColumnEntityData<*>::simpleColumnName.name} = ${SimpleColumnName::class.simpleName}("${col.name.value}"),
-                                |${SimpleColumnEntityData<*>::isOptional.name} = ${col.isNullable},
-                                |${SimpleColumnEntityData<*>::comment.name} = "${col.comment}",
-                                |${SimpleColumnEntityData<*>::iColExtractFunction.name} = ${SimpleColExtractFunction::class.simpleName}<$entityClass, ${col.type}${col.question}> {it.${col.name.value}},
-                                |${SimpleColumnEntityData<*>::simpleColumnType.name} = ${SimpleColumnType::class.simpleName}("${col.type}")
+                                """${FullColumnName::class.simpleName}("${ent.designClassShortName}_${col.name.value}") to ${InterfaceGenerator.GeneratedClasses.SimpleColumnEntityData}(
+                                |entity = ${EntityName::class.java.simpleName}( "${ent.designClassShortName}"),
+                                |simpleColumnName = ${SimpleColumnName::class.simpleName}("${col.name.value}"),
+                                |isOptional = ${col.isNullable},
+                                |comment = "${col.comment}",
+                                |iColExtractFunction = ${InterfaceGenerator.GeneratedClasses.SimpleColExtractFunction}<$entityClass, ${col.type}${col.question}> {it.${col.name.value}},
+                                |simpleColumnType = ${SimpleColumnType::class.simpleName}("${col.type}")
                                 |)""".trimMargin()
                             }
                         simpleF.plus(syntheticF)
@@ -151,19 +152,19 @@ import ${SimpleColumnType::class.java.canonicalName}
 
 import ${SimpleColumnName::class.java.canonicalName}
 import ${FullColumnName::class.java.canonicalName}
-import ${SyntheticColumnEntityData::class.java.canonicalName}
-import ${SimpleColumnEntityData::class.java.canonicalName}
-import ${SealedSyntheticColumnEntityData::class.java.canonicalName}
+import ${InterfaceGenerator.GeneratedClasses.SyntheticColumnEntityData.getPac(rootPackage)}
+import ${InterfaceGenerator.GeneratedClasses.SimpleColumnEntityData.getPac(rootPackage)}
+import ${InterfaceGenerator.GeneratedClasses.SealedSyntheticColumnEntityData.getPac(rootPackage)}
 
 import ${EntityName::class.java.canonicalName}
-import ${ColumnEntityData::class.java.canonicalName}
-import ${IEntityOrigin::class.java.canonicalName}
+import ${InterfaceGenerator.GeneratedClasses.ColumnEntityData.getPac(rootPackage)}
+import ${InterfaceGenerator.GeneratedClasses.IEntityOrigin.getPac(rootPackage)}
 
 import ${Generated::class.java.canonicalName}
-import ${IColExtractFunction::class.java.canonicalName}
-import ${SimpleColExtractFunction::class.java.canonicalName}
-import ${Synthetic::class.java.canonicalName}
-import ${SyntheticSet::class.java.canonicalName}
+import ${InterfaceGenerator.GeneratedClasses.IColExtractFunction.getPac(rootPackage)}
+import ${InterfaceGenerator.GeneratedClasses.SimpleColExtractFunction.getPac(rootPackage)}
+import ${InterfaceGenerator.GeneratedClasses.Synthetic.getPac(rootPackage)}
+import ${InterfaceGenerator.GeneratedClasses.SyntheticSet.getPac(rootPackage)}
 import kotlin.reflect.KProperty1
 ${metaInfo.allEntityPackagesImport}
 

@@ -4,13 +4,13 @@ import com.google.devtools.ksp.processing.CodeGenerator
 import com.google.devtools.ksp.processing.KSPLogger
 import ru.vood.dmgen.annotation.FlowEntityType
 import ru.vood.dmgen.intf.EntityName
-import ru.vood.dmgen.intf.IEntityOrigin
 import ru.vood.processor.datamodel.abstraction.model.Dependency
 import ru.vood.processor.datamodel.abstraction.model.MetaEntity
 import ru.vood.processor.datamodel.abstraction.model.MetaForeignKey
 import ru.vood.processor.datamodel.abstraction.model.MetaInformation
 import ru.vood.processor.datamodel.gen.*
 import ru.vood.processor.datamodel.gen.CollectName.entityClassName
+import ru.vood.processor.datamodel.gen.runtime.intf.InterfaceGenerator
 import java.time.LocalDateTime
 import javax.annotation.processing.Generated
 
@@ -66,15 +66,14 @@ override val ${col.name.value}: $kotlinMetaClass$nullableSymbol""".trimIndent()
         }
 
         val implemets = when (sealedForeign.size) {
-            0 -> """${IEntityOrigin::class.java.simpleName}, ${metaEntity.designClassFullClassName.value}"""
-            1 -> """${IEntityOrigin::class.java.simpleName}, ${metaEntity.designClassFullClassName.value}, ${
+            0 -> """${InterfaceGenerator.GeneratedClasses.IEntityOrigin}, ${metaEntity.designClassFullClassName.value}"""
+            1 -> """${InterfaceGenerator.GeneratedClasses.IEntityOrigin}, ${metaEntity.designClassFullClassName.value}, ${
                 entityClassName(
                     sealedForeign[0].toEntity
                 )
             }"""
             else -> error("for $fullClassName found several foreign on sealed interface")
         }
-
 
         val code = when (metaEntity.flowEntityType) {
             FlowEntityType.INNER, FlowEntityType.AGGREGATE -> """${head(metaEntity)}
@@ -135,7 +134,7 @@ ${
         }          
 import ${EntityName::class.java.canonicalName}     
 import ${Generated::class.java.canonicalName}
-import ${IEntityOrigin::class.java.canonicalName}
+import ${InterfaceGenerator.GeneratedClasses.IEntityOrigin.getPac(rootPackage)}
     
     
 @Generated("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")

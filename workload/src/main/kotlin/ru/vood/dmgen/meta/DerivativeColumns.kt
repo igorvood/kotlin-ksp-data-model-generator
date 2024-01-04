@@ -1,7 +1,7 @@
 package ru.vood.dmgen.meta
 
+import ru.vood.dmgen.datamodel.intf.SyntheticColumnEntityData
 import ru.vood.dmgen.datamodel.metaEnum.columnEntityDataMap
-import ru.vood.dmgen.intf.newIntf.SyntheticColumnEntityData
 
 object DerivativeColumns {
 

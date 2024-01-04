@@ -2,12 +2,12 @@ package ru.vood.dmgen.meta
 
 import ru.vood.dmgen.annotation.FkName
 import ru.vood.dmgen.annotation.FlowEntityType
+import ru.vood.dmgen.datamodel.intf.FKMetaData
+import ru.vood.dmgen.datamodel.intf.IEntityData
+import ru.vood.dmgen.datamodel.intf.IEntityOrigin
 import ru.vood.dmgen.datamodel.metaEnum.entityDataMap
 import ru.vood.dmgen.datamodel.metaEnum.foreignKeyMap
 import ru.vood.dmgen.intf.EntityName
-import ru.vood.dmgen.intf.IEntityOrigin
-import ru.vood.dmgen.intf.newIntf.FKMetaData
-import ru.vood.dmgen.intf.newIntf.IEntityData
 
 
 object DerivativeDependencyMap {

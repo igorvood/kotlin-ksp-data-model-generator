@@ -5,10 +5,10 @@ import kotlinx.serialization.json.Json
 import org.springframework.jdbc.core.JdbcOperations
 import org.springframework.stereotype.Repository
 import ru.vood.dmgen.annotation.UkName
+import ru.vood.dmgen.datamodel.intf.IContextOf
+import ru.vood.dmgen.datamodel.intf.IEntityOrigin
+import ru.vood.dmgen.datamodel.intf.UKEntityData
 import ru.vood.dmgen.intf.EntityName
-import ru.vood.dmgen.intf.IContextOf
-import ru.vood.dmgen.intf.IEntityOrigin
-import ru.vood.dmgen.intf.newIntf.UKEntityData
 
 @Repository
 class EntityUkDaoController(

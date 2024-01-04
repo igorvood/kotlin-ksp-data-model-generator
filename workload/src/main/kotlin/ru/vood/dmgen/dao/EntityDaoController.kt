@@ -11,6 +11,7 @@ import ru.vood.dmgen.dao.dto.ChildEntityDto
 import ru.vood.dmgen.dao.dto.PKJsonVal
 import ru.vood.dmgen.dao.dto.PayLoadJsonVal
 import ru.vood.dmgen.dao.dto.UKJsonVal
+import ru.vood.dmgen.datamodel.intf.*
 import ru.vood.dmgen.datamodel.metaEnum.entityDataMap
 import ru.vood.dmgen.intf.*
 import ru.vood.dmgen.intf.newIntf.*

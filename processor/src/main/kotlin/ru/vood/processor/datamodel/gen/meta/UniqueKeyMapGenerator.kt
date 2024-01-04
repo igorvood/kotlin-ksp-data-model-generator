@@ -5,10 +5,11 @@ import com.google.devtools.ksp.processing.KSPLogger
 import ru.vood.dmgen.annotation.UkName
 import ru.vood.dmgen.intf.EntityName
 import ru.vood.dmgen.intf.SimpleColumnName
-import ru.vood.dmgen.intf.newIntf.TypeUk
-import ru.vood.dmgen.intf.newIntf.UKEntityData
+
 import ru.vood.processor.datamodel.abstraction.model.MetaInformation
+import ru.vood.dmgen.annotation.TypeUk
 import ru.vood.processor.datamodel.gen.*
+import ru.vood.processor.datamodel.gen.runtime.intf.InterfaceGenerator
 import java.time.LocalDateTime
 import javax.annotation.processing.Generated
 
@@ -41,13 +42,13 @@ class UniqueKeyMapGenerator(
 
                                 val ukClassName = CollectName.ukClassName(ukDto.name)
 
-                                """${UkName::class.simpleName}("${ukDto.name.value}") to ${UKEntityData::class.simpleName}(
-                                    |${UKEntityData<*>::ukName.name} = ${UkName::class.simpleName}("${ukDto.name.value}"),
-                                    |${UKEntityData<*>::columns.name} = listOf($ukCols),
+                                """${UkName::class.simpleName}("${ukDto.name.value}") to ${InterfaceGenerator.GeneratedClasses.UKEntityData}(
+                                    |ukName = ${UkName::class.simpleName}("${ukDto.name.value}"),
+                                    |columns = listOf($ukCols),
                                     |serializer = ${ukClassName}.serializer(),
-                                    |${UKEntityData<*>::ukClass.name} = ${ukClassName}::class,
-                                    |${UKEntityData<*>::entity.name} = ${EntityName::class.simpleName}("${metaEnt.designClassShortName}"),
-                                    |${UKEntityData<*>::extractContext.name} = {data: ${
+                                    |ukClass = ${ukClassName}::class,
+                                    |entity = ${EntityName::class.simpleName}("${metaEnt.designClassShortName}"),
+                                    |extractContext = {data: ${
                                     CollectName.entityClassName(
                                         metaEnt
                                     )
@@ -56,7 +57,7 @@ class UniqueKeyMapGenerator(
                                         ukDto.name
                                     )
                                 }($constructorParams) },
-                                    |${UKEntityData<*>::typeUk.name} = ${ukDto.typeUk.name}
+                                    |typeUk = ${ukDto.typeUk.name}
                                     |)""".trimMargin()
                             }
                     }
@@ -67,7 +68,7 @@ class UniqueKeyMapGenerator(
                 val trimIndent =
                     """package ${packageName.value}
                         
-import ${UKEntityData::class.java.canonicalName}
+import ${InterfaceGenerator.GeneratedClasses.UKEntityData.getPac(rootPackage)}
 import ${TypeUk::class.java.canonicalName}.*
 import ${UkName::class.java.canonicalName}
 import ${SimpleColumnName::class.java.canonicalName}

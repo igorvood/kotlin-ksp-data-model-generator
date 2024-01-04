@@ -14,8 +14,9 @@ import ru.vood.dmgen.datamodel.a.DealEntity
 import ru.vood.dmgen.datamodel.a.Deal_PKContext
 import ru.vood.dmgen.datamodel.b.DealExtendDataDetail
 import ru.vood.dmgen.datamodel.b.DealExtendDataEntity
+import ru.vood.dmgen.datamodel.intf.IEntityDetail
 import ru.vood.dmgen.datamodel.valueClasses.DealId
-import ru.vood.dmgen.intf.IEntityDetail
+
 
 @Service
 @Order(200)

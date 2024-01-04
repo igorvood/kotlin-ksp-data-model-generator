@@ -1,7 +1,7 @@
 package ru.vood.dmgen.meta
 
-import ru.vood.dmgen.intf.IEntityOrigin
-import ru.vood.dmgen.intf.newIntf.UKEntityData
+import ru.vood.dmgen.datamodel.intf.IEntityOrigin
+import ru.vood.dmgen.datamodel.intf.UKEntityData
 
 /**Мета информация по уникальным индексам и первичным ключам*/
 data class IndexesMetaDto(

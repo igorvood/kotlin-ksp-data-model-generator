@@ -1,16 +1,11 @@
 package datamodel
 
-import com.charleskorn.kaml.Yaml
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.hocon.Hocon
 import org.junit.jupiter.api.Test
 import ru.vood.dmgen.annotation.FlowEntityType
-import ru.vood.dmgen.datamodel.metaEnum.entityDataMap
+import ru.vood.dmgen.datamodel.intf.EntityData
+import ru.vood.dmgen.datamodel.intf.IEntityOrigin
 import ru.vood.dmgen.intf.EntityName
-import ru.vood.dmgen.intf.IEntityOrigin
-import ru.vood.dmgen.intf.newIntf.EntityData
-import ru.vood.dmgen.serial.ModelJsonSerializer
-import java.io.File
 
 class MetaJsonExtractor {
 
