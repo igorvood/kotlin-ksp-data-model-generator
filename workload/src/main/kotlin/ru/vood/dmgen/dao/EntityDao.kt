@@ -13,7 +13,7 @@ import ru.vood.dmgen.dao.dto.PayLoadJsonVal
 import ru.vood.dmgen.dao.dto.UKJsonVal
 import ru.vood.dmgen.datamodel.intf.IContextOf
 import ru.vood.dmgen.datamodel.intf.IEntityOrigin
-import ru.vood.dmgen.intf.EntityName
+import ru.vood.dmgen.dto.EntityName
 import ru.vood.dmgen.meta.IndexesMetaDto
 import ru.vood.dmgen.serial.ModelJsonSerializer
 

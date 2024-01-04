@@ -8,7 +8,7 @@ import ru.vood.dmgen.annotation.UkName
 import ru.vood.dmgen.datamodel.intf.IContextOf
 import ru.vood.dmgen.datamodel.intf.IEntityOrigin
 import ru.vood.dmgen.datamodel.intf.UKEntityData
-import ru.vood.dmgen.intf.EntityName
+import ru.vood.dmgen.dto.EntityName
 
 @Repository
 class EntityUkDaoController(

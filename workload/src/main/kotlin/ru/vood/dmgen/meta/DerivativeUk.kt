@@ -4,7 +4,7 @@ import ru.vood.dmgen.annotation.TypeUk
 import ru.vood.dmgen.datamodel.intf.IEntityOrigin
 import ru.vood.dmgen.datamodel.intf.UKEntityData
 import ru.vood.dmgen.datamodel.metaEnum.uniqueKeyMap
-import ru.vood.dmgen.intf.EntityName
+import ru.vood.dmgen.dto.EntityName
 
 
 object DerivativeUk {

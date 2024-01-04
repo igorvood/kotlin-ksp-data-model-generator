@@ -1,5 +1,7 @@
 package ru.vood.dmgen.intf
 
+import ru.vood.dmgen.dto.EntityName
+
 @JvmInline
 value class SimpleColumnName(val value: String)
 

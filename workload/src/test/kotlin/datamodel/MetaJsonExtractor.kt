@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test
 import ru.vood.dmgen.annotation.FlowEntityType
 import ru.vood.dmgen.datamodel.intf.EntityData
 import ru.vood.dmgen.datamodel.intf.IEntityOrigin
-import ru.vood.dmgen.intf.EntityName
+import ru.vood.dmgen.dto.EntityName
 
 class MetaJsonExtractor {
 

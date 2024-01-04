@@ -7,7 +7,7 @@ import ru.vood.dmgen.datamodel.intf.IEntityData
 import ru.vood.dmgen.datamodel.intf.IEntityOrigin
 import ru.vood.dmgen.datamodel.metaEnum.entityDataMap
 import ru.vood.dmgen.datamodel.metaEnum.foreignKeyMap
-import ru.vood.dmgen.intf.EntityName
+import ru.vood.dmgen.dto.EntityName
 
 
 object DerivativeDependencyMap {
