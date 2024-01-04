@@ -20,19 +20,19 @@ fun syntheticFieldInfos(
 
     return when (metaEntity.flowEntityType) {
         FlowEntityType.AGGREGATE, FlowEntityType.INNER -> childrenEntities
-            .map { childredMetaEntity ->
-                when (val fet = childredMetaEntity.flowEntityType) {
+            .map { childrenMetaEntity ->
+                when (val fet = childrenMetaEntity.flowEntityType) {
                     FlowEntityType.AGGREGATE -> Optional.empty<SyntheticFieldInfo>()
                     FlowEntityType.INNER
                     -> {
                         val metaForeignKey =
-                            getMetaForeignKey(metaForeignKeys, metaEntity, childredMetaEntity)
-                        Optional.of(SyntheticFieldInfo(childredMetaEntity, metaForeignKey.relationType, false))
+                            getMetaForeignKey(metaForeignKeys, metaEntity, childrenMetaEntity)
+                        Optional.of(SyntheticFieldInfo(childrenMetaEntity, metaForeignKey.relationType, false))
                     }
                     FlowEntityType.ONE_OF -> {
                         val metaForeignKey =
-                            getMetaForeignKey(metaForeignKeys, metaEntity, childredMetaEntity)
-                        Optional.of(SyntheticFieldInfo(childredMetaEntity, metaForeignKey.relationType, true))
+                            getMetaForeignKey(metaForeignKeys, metaEntity, childrenMetaEntity)
+                        Optional.of(SyntheticFieldInfo(childrenMetaEntity, metaForeignKey.relationType, true))
                     }
                 }
             }
