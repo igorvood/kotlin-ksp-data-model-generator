@@ -6,7 +6,7 @@ import com.google.devtools.ksp.symbol.KSPropertyDeclaration
 import com.google.devtools.ksp.symbol.Nullability
 import ru.vood.dmgen.annotation.Comment
 import ru.vood.dmgen.annotation.Pk
-import ru.vood.dmgen.intf.SimpleColumnName
+import ru.vood.dmgen.dto.SimpleColumnName
 
 class MetaEntityColumn(
     val position: Int,

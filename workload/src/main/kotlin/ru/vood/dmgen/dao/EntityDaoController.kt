@@ -14,7 +14,6 @@ import ru.vood.dmgen.dao.dto.UKJsonVal
 import ru.vood.dmgen.datamodel.intf.*
 import ru.vood.dmgen.datamodel.metaEnum.entityDataMap
 import ru.vood.dmgen.dto.EntityName
-import ru.vood.dmgen.intf.*
 
 import ru.vood.dmgen.meta.DerivativeColumns.entitiesSyntheticColumnsByEntityMap2
 import ru.vood.dmgen.meta.DerivativeColumns.entitiesSyntheticColumnsMap

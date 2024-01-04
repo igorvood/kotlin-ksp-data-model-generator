@@ -4,7 +4,7 @@ import com.google.devtools.ksp.processing.CodeGenerator
 import com.google.devtools.ksp.processing.KSPLogger
 import ru.vood.dmgen.annotation.UkName
 import ru.vood.dmgen.dto.EntityName
-import ru.vood.dmgen.intf.SimpleColumnName
+import ru.vood.dmgen.dto.SimpleColumnName
 
 import ru.vood.processor.datamodel.abstraction.model.MetaInformation
 import ru.vood.dmgen.annotation.TypeUk
