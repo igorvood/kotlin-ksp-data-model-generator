@@ -38,7 +38,9 @@ class SyntheticFieldExtractorsGenerator(
         val metaEntity = aggregateInnerDep.metaEntity
 
         val chldrenEntities = aggregateInnerDep.children.map { it.metaEntity }
-        val syntheticFieldInfos = syntheticFieldInfos(chldrenEntities, metaForeignKeys, metaEntity, logger)
+        val syntheticFieldInfos1 = syntheticFieldInfos(chldrenEntities, metaForeignKeys, metaEntity, logger)
+
+        val syntheticFieldInfos = syntheticFieldInfos1.filterIsInstance<SyntheticFieldInfo>()
 
         val syntheticFieldImport = syntheticFieldInfos
             .map { "import ${it.metaEntity.designClassPackageName}.${syntheticClassName(it.metaEntity)}" }

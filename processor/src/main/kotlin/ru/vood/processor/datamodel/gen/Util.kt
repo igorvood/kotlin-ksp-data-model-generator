@@ -4,6 +4,7 @@ import com.google.devtools.ksp.processing.KSPLogger
 import ru.vood.dmgen.annotation.FlowEntityType
 import ru.vood.processor.datamodel.abstraction.model.MetaEntity
 import ru.vood.processor.datamodel.abstraction.model.MetaForeignKey
+import ru.vood.processor.datamodel.abstraction.model.dto.ISyntheticFieldInfo
 import ru.vood.processor.datamodel.abstraction.model.dto.SyntheticFieldInfo
 import java.util.*
 
@@ -13,29 +14,35 @@ fun syntheticFieldInfos(
     metaForeignKeys: Set<MetaForeignKey>,
     metaEntity: MetaEntity,
     logger: KSPLogger
-): List<SyntheticFieldInfo> {
+): List<ISyntheticFieldInfo> {
     val joinToString = childrenEntities.map { it.entityFieldName }.joinToString(",")
     logger.info("fun syntheticFieldInfos  ${metaEntity.entityFieldName} childrens $joinToString")
-    return childrenEntities
-        .map { childredMetaEntity ->
-            when (val fet = childredMetaEntity.flowEntityType) {
-                FlowEntityType.AGGREGATE -> Optional.empty<SyntheticFieldInfo>()
-                FlowEntityType.INNER
-                -> {
-                    val metaForeignKey =
-                        getMetaForeignKey(metaForeignKeys, metaEntity, childredMetaEntity)
-                    Optional.of(SyntheticFieldInfo(childredMetaEntity,metaForeignKey.relationType, false))
-                }
-                FlowEntityType.ONE_OF -> {
-                    val metaForeignKey =
-                        getMetaForeignKey(metaForeignKeys, metaEntity, childredMetaEntity)
-                    Optional.of(SyntheticFieldInfo(childredMetaEntity, metaForeignKey.relationType, true))
-                }
 
+    return when (metaEntity.flowEntityType) {
+        FlowEntityType.AGGREGATE, FlowEntityType.INNER -> childrenEntities
+            .map { childredMetaEntity ->
+                when (val fet = childredMetaEntity.flowEntityType) {
+                    FlowEntityType.AGGREGATE -> Optional.empty<SyntheticFieldInfo>()
+                    FlowEntityType.INNER
+                    -> {
+                        val metaForeignKey =
+                            getMetaForeignKey(metaForeignKeys, metaEntity, childredMetaEntity)
+                        Optional.of(SyntheticFieldInfo(childredMetaEntity, metaForeignKey.relationType, false))
+                    }
+                    FlowEntityType.ONE_OF -> {
+                        val metaForeignKey =
+                            getMetaForeignKey(metaForeignKeys, metaEntity, childredMetaEntity)
+                        Optional.of(SyntheticFieldInfo(childredMetaEntity, metaForeignKey.relationType, true))
+                    }
+                }
             }
-        }
-        .filter { !it.isEmpty }
-        .map { it.get() }
+            .filter { !it.isEmpty }
+            .map { it.get() }
+
+        FlowEntityType.ONE_OF -> listOf()
+    }
+
+
 }
 
 private fun getMetaForeignKey(

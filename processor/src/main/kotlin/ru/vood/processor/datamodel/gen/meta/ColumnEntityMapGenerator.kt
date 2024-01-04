@@ -7,6 +7,8 @@ import ru.vood.dmgen.annotation.RelationType
 import ru.vood.dmgen.intf.*
 import ru.vood.dmgen.intf.newIntf.*
 import ru.vood.processor.datamodel.abstraction.model.MetaInformation
+import ru.vood.processor.datamodel.abstraction.model.dto.SealedSyntheticFieldInfo
+import ru.vood.processor.datamodel.abstraction.model.dto.SyntheticFieldInfo
 import ru.vood.processor.datamodel.gen.*
 import ru.vood.processor.datamodel.gen.CollectName.entityClassName
 import ru.vood.processor.datamodel.gen.CollectName.syntheticClassName
@@ -43,48 +45,50 @@ class ColumnEntityMapGenerator(
                         val syntheticClassName = syntheticClassName(ent)
 
                         val syntheticF = syntheticFieldInfos
-                            .sortedBy { it.metaEntity.entityFieldName }
-                            .filter {syntheticFieldInfo ->  syntheticFieldInfo.metaEntity.designClassShortName !in listOf<String>("DealTwoData", "DealOneData") }
+//                            .sortedBy { it.metaEntity.entityFieldName }
+//                            .filter {syntheticFieldInfo ->  syntheticFieldInfo.metaEntity.designClassShortName !in listOf<String>("DealTwoData", "DealOneData") }
                             .map { syntheticFieldInfo ->
-                                val fromEntity = syntheticFieldInfo.metaEntity
-                                val isOptional =
-                                    /*syntheticFieldInfo.isOptional &&*/ syntheticFieldInfo.relationType == RelationType.ONE_TO_ONE_OPTIONAL
-                                val sealedText ="""TODO("пока не понятно как работать с sealed")"""
-                                val columnKindType = when (syntheticFieldInfo.relationType) {
-                                    RelationType.ONE_TO_ONE_OPTIONAL ->{
-                                        val funBody =
-                                            if (syntheticFieldInfo.isOneOf) sealedText else """it.${fromEntity.entityFieldName}?.let{q->setOf(q)}?:setOf()"""
-                                        "${Synthetic::class.simpleName}<$entityClass, $syntheticClassName, ${syntheticFieldInfo.metaEntity.designClassPackageName}.${
-                                            entityClassName(
-                                                syntheticFieldInfo.metaEntity
-                                            )
-                                        }>{$funBody}"
-                                    }
-                                    RelationType.ONE_TO_ONE_MANDATORY -> {
-                                        val funBody =
-                                            if (syntheticFieldInfo.isOneOf) sealedText else """setOf(it.${fromEntity.entityFieldName})"""
-                                        "${Synthetic::class.simpleName}<$entityClass, $syntheticClassName, ${syntheticFieldInfo.metaEntity.designClassPackageName}.${
-                                            entityClassName(
-                                                syntheticFieldInfo.metaEntity
-                                            )
-                                        }>{$funBody}"
-                                    }
-                                    RelationType.MANY_TO_ONE ->
-                                        "${SyntheticSet::class.simpleName}<$entityClass, $syntheticClassName, ${syntheticFieldInfo.metaEntity.designClassPackageName}.${
-                                            entityClassName(
-                                                syntheticFieldInfo.metaEntity
-                                            )
-                                        } >{it.${fromEntity.entityFieldName}}"
-                                }
+                                when(syntheticFieldInfo){
+                                    is SyntheticFieldInfo ->{
+                                        val fromEntity = syntheticFieldInfo.metaEntity
+                                        val isOptional =
+                                            /*syntheticFieldInfo.isOptional &&*/ syntheticFieldInfo.relationType == RelationType.ONE_TO_ONE_OPTIONAL
+                                        val sealedText ="""TODO("пока не понятно как работать с sealed")"""
+                                        val columnKindType = when (syntheticFieldInfo.relationType) {
+                                            RelationType.ONE_TO_ONE_OPTIONAL ->{
+                                                val funBody =
+                                                    if (syntheticFieldInfo.isOneOf) sealedText else """it.${fromEntity.entityFieldName}?.let{q->setOf(q)}?:setOf()"""
+                                                "${Synthetic::class.simpleName}<$entityClass, $syntheticClassName, ${syntheticFieldInfo.metaEntity.designClassPackageName}.${
+                                                    entityClassName(
+                                                        syntheticFieldInfo.metaEntity
+                                                    )
+                                                }>{$funBody}"
+                                            }
+                                            RelationType.ONE_TO_ONE_MANDATORY -> {
+                                                val funBody =
+                                                    if (syntheticFieldInfo.isOneOf) sealedText else """setOf(it.${fromEntity.entityFieldName})"""
+                                                "${Synthetic::class.simpleName}<$entityClass, $syntheticClassName, ${syntheticFieldInfo.metaEntity.designClassPackageName}.${
+                                                    entityClassName(
+                                                        syntheticFieldInfo.metaEntity
+                                                    )
+                                                }>{$funBody}"
+                                            }
+                                            RelationType.MANY_TO_ONE ->
+                                                "${SyntheticSet::class.simpleName}<$entityClass, $syntheticClassName, ${syntheticFieldInfo.metaEntity.designClassPackageName}.${
+                                                    entityClassName(
+                                                        syntheticFieldInfo.metaEntity
+                                                    )
+                                                } >{it.${fromEntity.entityFieldName}}"
+                                        }
 
 
-                                val fullColumnName = FullColumnName(
-                                    EntityName(fromEntity.designClassShortName),
-                                    SimpleColumnName(fromEntity.entityFieldName)
-                                )
+                                        val fullColumnName = FullColumnName(
+                                            EntityName(fromEntity.designClassShortName),
+                                            SimpleColumnName(fromEntity.entityFieldName)
+                                        )
 
 
-                                """${FullColumnName::class.simpleName}("${fullColumnName.value}") to ${SyntheticColumnEntityData::class.simpleName}(
+                                        """${FullColumnName::class.simpleName}("${fullColumnName.value}") to ${SyntheticColumnEntityData::class.simpleName}(
                                 |${SyntheticColumnEntityData<*>::entity.name}= ${EntityName::class.java.simpleName}( "${ent.designClassShortName}"),
                                 |${SyntheticColumnEntityData<*>::outEntity.name} = ${EntityName::class.java.simpleName}( "${fromEntity.designClassShortName}"),
                                 |${SyntheticColumnEntityData<*>::simpleColumnName.name} = ${SimpleColumnName::class.simpleName}("${fromEntity.entityFieldName}"),
@@ -93,6 +97,11 @@ class ColumnEntityMapGenerator(
                                 |${SyntheticColumnEntityData<*>::iColExtractFunction.name} = $columnKindType,
                                 |//${syntheticFieldInfo.isOneOf}
                                 |)""".trimMargin()
+                                    }
+                                    is SealedSyntheticFieldInfo -> ""
+                                }
+
+
 
                             }
 
