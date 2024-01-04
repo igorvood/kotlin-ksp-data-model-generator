@@ -150,13 +150,14 @@ value class ${GeneratedClasses.Synthetic}<
 @JvmInline
 @Generated("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
 value class ${GeneratedClasses.SyntheticSet}<
-        ORIG_IN : IEntityOrigin,
-        SINTH_IN : IEntityDetail<out ORIG_IN>,
-        OUT : IEntityOrigin>(
-    override val extractFieldValue: (entity: SINTH_IN) -> Set<IEntityDetail<OUT>>
-) : ${GeneratedClasses.ISyntheticColExtractFunction}<SINTH_IN, Set<IEntityDetail<OUT>>>
+        ORIG_IN : ${GeneratedClasses.IEntityOrigin},
+        SINTH_IN : ${GeneratedClasses.IEntityDetail}<out ORIG_IN>,
+        OUT : ${GeneratedClasses.IEntityOrigin}>(
+    override val extractFieldValue: (entity: SINTH_IN) -> Set<${GeneratedClasses.IEntityDetail}<OUT>>
+) : ${GeneratedClasses.ISyntheticColExtractFunction}<SINTH_IN, Set<${GeneratedClasses.IEntityDetail}<OUT>>>
 
 
+@Generated("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
 /**Мета данные по сущности*/
 sealed interface ${GeneratedClasses.IEntityData}<T : IEntityOrigin> {
     /**интрефейс описывающий структуру сущности */
@@ -169,23 +170,23 @@ sealed interface ${GeneratedClasses.IEntityData}<T : IEntityOrigin> {
     val runtimeSyntheticClass: KClass<out T>
 
     /**сериализатор оригинальной сущности*/
-    val serializer: KSerializer<out IEntityOrigin>
+    val serializer: KSerializer<out ${GeneratedClasses.IEntityOrigin}>
 
     /**сериализатор синтетической сущности*/
-    val serializerSynthetic: KSerializer<out IEntityDetail<out T>>
+    val serializerSynthetic: KSerializer<out ${GeneratedClasses.IEntityDetail}<out T>>
 
     /**Имя сущности*/
-    val entityName: EntityName
+    val entityName: ${EntityName::class.java.simpleName}
 
     /**коментарий сущности*/
     val comment: String
 
     /**тип сущности*/
-    val entityType: FlowEntityType
+    val entityType: ${FlowEntityType::class.java.simpleName}
 }
 
 /**Мета данные по сущности*/
-data class ${GeneratedClasses.EntityData}<T : IEntityOrigin>(
+data class ${GeneratedClasses.EntityData}<T : ${GeneratedClasses.IEntityOrigin}>(
     /**интрефейс описывающий структуру сущности */
     override val designClass: KClass<out Any>,
     /**класс описывающий сущность*/
@@ -193,18 +194,18 @@ data class ${GeneratedClasses.EntityData}<T : IEntityOrigin>(
     /**синтетический класс описывающий сущность, включает в себя все сущности, которорые имею форен на текущую*/
     override val runtimeSyntheticClass: KClass<out T>,
     /**сериализатор оригинальной сущности*/
-    override val serializer: KSerializer<out IEntityOrigin>,
+    override val serializer: KSerializer<out ${GeneratedClasses.IEntityOrigin}>,
     /**сериализатор синтетической сущности*/
-    override val serializerSynthetic: KSerializer<out IEntityDetail<out T>>,
+    override val serializerSynthetic: KSerializer<out ${GeneratedClasses.IEntityDetail}<out T>>,
     /**Имя сущности*/
-    override val entityName: EntityName,
+    override val entityName: ${EntityName::class.java.simpleName},
     /**коментарий сущности*/
     override val comment: String,
     /**тип сущности*/
-    override val entityType: FlowEntityType
+    override val entityType: ${FlowEntityType::class.java.simpleName} 
 ) : ${GeneratedClasses.IEntityData}<T>
 
-data class ${GeneratedClasses.SealedEntityData}<T : IEntityOrigin>(
+data class ${GeneratedClasses.SealedEntityData}<T : ${GeneratedClasses.IEntityOrigin}>(
     /**интрефейс описывающий структуру сущности */
     override val designClass: KClass<out Any>,
     /**класс описывающий сущность*/
@@ -212,27 +213,27 @@ data class ${GeneratedClasses.SealedEntityData}<T : IEntityOrigin>(
     /**синтетический класс описывающий сущность, включает в себя все сущности, которорые имею форен на текущую*/
     override val runtimeSyntheticClass: KClass<out T>,
     /**сериализатор оригинальной сущности*/
-    override val serializer: KSerializer<out IEntityOrigin>,
+    override val serializer: KSerializer<out ${GeneratedClasses.IEntityOrigin}>,
     /**сериализатор синтетической сущности*/
-    override val serializerSynthetic: KSerializer<out IEntityDetail<out T>>,
+    override val serializerSynthetic: KSerializer<out ${GeneratedClasses.IEntityDetail}<out T>>,
     /**Имя сущности*/
-    override val entityName: EntityName,
+    override val entityName: ${EntityName::class.java.simpleName},
     /**коментарий сущности*/
     override val comment: String,
     /**тип сущности*/
-    override val entityType: FlowEntityType,
+    override val entityType: ${FlowEntityType::class.java.simpleName},
     /**перечень наследников*/
-    val children: Set<EntityName>
+    val children: Set<${EntityName::class.java.simpleName}>
 ) : ${GeneratedClasses.IEntityData}<T>
 
 /**Мета данные по внегнему ключу*/
-data class ${GeneratedClasses.FKMetaData}<T : IEntityOrigin>(
+data class ${GeneratedClasses.FKMetaData}<T : ${GeneratedClasses.IEntityOrigin}>(
     /**Сущность из которой идет внешний ключ*/
-    val fromEntity: EntityName,
+    val fromEntity: ${EntityName::class.java.simpleName},
     /**Сущность к которой идет внешний ключ*/
-    val toEntity: EntityName,
+    val toEntity: ${EntityName::class.java.simpleName},
     /**Имя уикалоного индекса из toEntity на которой нацелен внешний ключ*/
-    val uk: UkName,
+    val uk: ${UkName::class.java.simpleName},
     /**Тип связи
      * TODO по идеи величина вычисляемая, сейчас задается разработчиком*/
     val relationType: RelationType,
