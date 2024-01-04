@@ -96,6 +96,7 @@ data class ${GeneratedClasses.SimpleColumnEntityData}<T : ${GeneratedClasses.IEn
 ) : ${GeneratedClasses.ColumnEntityData}<T>
 
 
+@Generated("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
 data class ${GeneratedClasses.SyntheticColumnEntityData}<T>(
     override val entity: ${EntityName::class.java.simpleName},
     /**имя колонки*/
@@ -109,39 +110,45 @@ data class ${GeneratedClasses.SyntheticColumnEntityData}<T>(
     val outEntity: ${EntityName::class.java.simpleName}
 ) : ${GeneratedClasses.ColumnEntityData}<T>
 
+@Generated("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
 data class ${GeneratedClasses.SealedSyntheticColumnEntityData}<T>(
-    override val entity: EntityName,
+    override val entity: ${EntityName::class.java.simpleName},
     /**имя колонки*/
-    override val simpleColumnName: SimpleColumnName,
+    override val simpleColumnName: ${SimpleColumnName::class.java.simpleName},
     /**признак опциональности колонки*/
     override val isOptional: Boolean,
     /**коментарий колонки*/
     override val comment: String,
     /**ф-ция экстрактор значения колонки*/
-//    override val iColExtractFunction: ISyntheticColExtractFunction<T, *>,
-    val outEntities: Set<EntityName>
+//    override val iColExtractFunction: ${GeneratedClasses.ISyntheticColExtractFunction}<T, *>,
+    val outEntities: Set<${EntityName::class.java.simpleName}>
 ) : ${GeneratedClasses.ColumnEntityData}<T>
 
+@Generated("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
 sealed interface ${GeneratedClasses.IColExtractFunction}<in T, out OUT> {
     val extractFieldValue: (entity: T) -> OUT
 }
 
+@Generated("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
 sealed interface ${GeneratedClasses.ISyntheticColExtractFunction}<in T, out OUT> : ${GeneratedClasses.IColExtractFunction}<T, OUT>
 
 @JvmInline
+@Generated("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
 value class ${GeneratedClasses.SimpleColExtractFunction}<T : IEntityOrigin, OUT>(
     override val extractFieldValue: (entity: T) -> OUT
 ) : ${GeneratedClasses.IColExtractFunction}<T, OUT>
 
 @JvmInline
+@Generated("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
 value class ${GeneratedClasses.Synthetic}<
-        ORIG_IN : IEntityOrigin,
-        SINTH_IN : IEntityDetail<out ORIG_IN>,
-        OUT : IEntityOrigin>(
-    override val extractFieldValue: (entity: SINTH_IN) -> Set<IEntityDetail<OUT>>
-) : ${GeneratedClasses.ISyntheticColExtractFunction}<SINTH_IN, Set<IEntityDetail<OUT>>>
+        ORIG_IN : ${GeneratedClasses.IEntityOrigin},
+        SINTH_IN : ${GeneratedClasses.IEntityDetail}<out ORIG_IN>,
+        OUT : ${GeneratedClasses.IEntityOrigin}>(
+    override val extractFieldValue: (entity: SINTH_IN) -> Set<${GeneratedClasses.IEntityDetail}<OUT>>
+) : ${GeneratedClasses.ISyntheticColExtractFunction}<SINTH_IN, Set<${GeneratedClasses.IEntityDetail}<OUT>>>
 
 @JvmInline
+@Generated("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
 value class ${GeneratedClasses.SyntheticSet}<
         ORIG_IN : IEntityOrigin,
         SINTH_IN : IEntityDetail<out ORIG_IN>,
