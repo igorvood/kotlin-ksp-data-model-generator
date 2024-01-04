@@ -30,7 +30,6 @@ class ColumnEntityMapGenerator(
             false -> {
                 val simpleColumn = generatedClassData
                     .flatMap { ent ->
-
                         val filter = metaForeignKeys
                             .filter { fk -> fk.fromEntity.flowEntityType != FlowEntityType.AGGREGATE }
                             .filter { fk -> fk.toEntity == ent }
@@ -92,6 +91,7 @@ class ColumnEntityMapGenerator(
                                 |${SyntheticColumnEntityData<*>::isOptional.name}= ${isOptional},
                                 |${SyntheticColumnEntityData<*>::comment.name} ="${fromEntity.comment}",
                                 |${SyntheticColumnEntityData<*>::iColExtractFunction.name} = $columnKindType,
+                                |//${syntheticFieldInfo.isOneOf}
                                 |)""".trimMargin()
 
                             }

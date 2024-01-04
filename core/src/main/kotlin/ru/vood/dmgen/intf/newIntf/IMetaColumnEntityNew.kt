@@ -14,7 +14,7 @@ sealed interface ColumnEntityData<T>{
     /**коментарий колонки*/
     val comment: String
     /**ф-ция экстрактор значения колонки*/
-    val iColExtractFunction: IColExtractFunction<T, *>
+//    val iColExtractFunction: IColExtractFunction<T, *>
 }
 
 data class SimpleColumnEntityData<T: IEntityOrigin>(
@@ -26,7 +26,7 @@ data class SimpleColumnEntityData<T: IEntityOrigin>(
     /**коментарий колонки*/
     override val comment: String,
     /**ф-ция экстрактор значения колонки*/
-    override val iColExtractFunction: SimpleColExtractFunction<T, *>,
+    val iColExtractFunction: SimpleColExtractFunction<T, *>,
     val simpleColumnType: SimpleColumnType
 ): ColumnEntityData<T>
 
@@ -40,7 +40,7 @@ data class SyntheticColumnEntityData<T>(
     /**коментарий колонки*/
     override val comment: String,
     /**ф-ция экстрактор значения колонки*/
-    override val iColExtractFunction: ISyntheticColExtractFunction<T, *>,
+    val iColExtractFunction: ISyntheticColExtractFunction<T, *>,
     val outEntity: EntityName
 ) : ColumnEntityData<T>
 
@@ -53,7 +53,7 @@ data class SealedSyntheticColumnEntityData<T>(
     /**коментарий колонки*/
     override val comment: String,
     /**ф-ция экстрактор значения колонки*/
-    override val iColExtractFunction: ISyntheticColExtractFunction<T, *>,
+//    override val iColExtractFunction: ISyntheticColExtractFunction<T, *>,
     val outEntities: Set<EntityName>
 ) : ColumnEntityData<T>
 
