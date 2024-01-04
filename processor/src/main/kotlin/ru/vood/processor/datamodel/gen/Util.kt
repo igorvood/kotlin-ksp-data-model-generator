@@ -2,9 +2,11 @@ package ru.vood.processor.datamodel.gen
 
 import com.google.devtools.ksp.processing.KSPLogger
 import ru.vood.dmgen.annotation.FlowEntityType
+import ru.vood.dmgen.annotation.RelationType
 import ru.vood.processor.datamodel.abstraction.model.MetaEntity
 import ru.vood.processor.datamodel.abstraction.model.MetaForeignKey
 import ru.vood.processor.datamodel.abstraction.model.dto.ISyntheticFieldInfo
+import ru.vood.processor.datamodel.abstraction.model.dto.SealedSyntheticFieldInfo
 import ru.vood.processor.datamodel.abstraction.model.dto.SyntheticFieldInfo
 import java.util.*
 
@@ -39,7 +41,10 @@ fun syntheticFieldInfos(
             .filter { !it.isEmpty }
             .map { it.get() }
 
-        FlowEntityType.ONE_OF -> listOf()
+        FlowEntityType.ONE_OF -> {
+            //TODO тут надо проверить а действительно ли RelationType.ONE_TO_ONE_OPTIONAL если не так то бросать исключение
+            listOf(SealedSyntheticFieldInfo(childrenEntities.toSet(), RelationType.ONE_TO_ONE_OPTIONAL, false))
+        }
     }
 
 

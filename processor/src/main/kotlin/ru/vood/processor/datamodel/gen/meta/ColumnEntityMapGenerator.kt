@@ -48,35 +48,36 @@ class ColumnEntityMapGenerator(
 //                            .sortedBy { it.metaEntity.entityFieldName }
 //                            .filter {syntheticFieldInfo ->  syntheticFieldInfo.metaEntity.designClassShortName !in listOf<String>("DealTwoData", "DealOneData") }
                             .map { syntheticFieldInfo ->
-                                when(syntheticFieldInfo){
-                                    is SyntheticFieldInfo ->{
-                                        val fromEntity = syntheticFieldInfo.metaEntity
+                                when ( val synth = syntheticFieldInfo) {
+                                    is SyntheticFieldInfo -> {
+                                        val fromEntity = synth.metaEntity
                                         val isOptional =
-                                            /*syntheticFieldInfo.isOptional &&*/ syntheticFieldInfo.relationType == RelationType.ONE_TO_ONE_OPTIONAL
-                                        val sealedText ="""TODO("пока не понятно как работать с sealed")"""
+                                            /*syntheticFieldInfo.isOptional &&*/
+                                            syntheticFieldInfo.relationType == RelationType.ONE_TO_ONE_OPTIONAL
+                                        val sealedText = """TODO("пока не понятно как работать с sealed")"""
                                         val columnKindType = when (syntheticFieldInfo.relationType) {
-                                            RelationType.ONE_TO_ONE_OPTIONAL ->{
+                                            RelationType.ONE_TO_ONE_OPTIONAL -> {
                                                 val funBody =
                                                     if (syntheticFieldInfo.isOneOf) sealedText else """it.${fromEntity.entityFieldName}?.let{q->setOf(q)}?:setOf()"""
-                                                "${Synthetic::class.simpleName}<$entityClass, $syntheticClassName, ${syntheticFieldInfo.metaEntity.designClassPackageName}.${
+                                                "${Synthetic::class.simpleName}<$entityClass, $syntheticClassName, ${synth.metaEntity.designClassPackageName}.${
                                                     entityClassName(
-                                                        syntheticFieldInfo.metaEntity
+                                                        synth.metaEntity
                                                     )
                                                 }>{$funBody}"
                                             }
                                             RelationType.ONE_TO_ONE_MANDATORY -> {
                                                 val funBody =
                                                     if (syntheticFieldInfo.isOneOf) sealedText else """setOf(it.${fromEntity.entityFieldName})"""
-                                                "${Synthetic::class.simpleName}<$entityClass, $syntheticClassName, ${syntheticFieldInfo.metaEntity.designClassPackageName}.${
+                                                "${Synthetic::class.simpleName}<$entityClass, $syntheticClassName, ${synth.metaEntity.designClassPackageName}.${
                                                     entityClassName(
-                                                        syntheticFieldInfo.metaEntity
+                                                        synth.metaEntity
                                                     )
                                                 }>{$funBody}"
                                             }
                                             RelationType.MANY_TO_ONE ->
-                                                "${SyntheticSet::class.simpleName}<$entityClass, $syntheticClassName, ${syntheticFieldInfo.metaEntity.designClassPackageName}.${
+                                                "${SyntheticSet::class.simpleName}<$entityClass, $syntheticClassName, ${synth.metaEntity.designClassPackageName}.${
                                                     entityClassName(
-                                                        syntheticFieldInfo.metaEntity
+                                                        synth.metaEntity
                                                     )
                                                 } >{it.${fromEntity.entityFieldName}}"
                                         }
@@ -98,9 +99,30 @@ class ColumnEntityMapGenerator(
                                 |//${syntheticFieldInfo.isOneOf}
                                 |)""".trimMargin()
                                     }
-                                    is SealedSyntheticFieldInfo -> ""
-                                }
+                                    is SealedSyntheticFieldInfo -> {
 
+                                        syntheticFieldInfo
+                                        val fullColumnName = FullColumnName(
+                                            EntityName(ent.designClassShortName),
+                                            SimpleColumnName(ent.entityFieldName)
+                                        )
+
+                                        val joinToString =
+                                            synth.metaEntities.map { it -> """${EntityName::class.java.simpleName}("${it.designClassShortName}")""" }
+                                                .joinToString(",")
+
+                                        """${FullColumnName::class.simpleName}("${fullColumnName.value}") to ${SealedSyntheticColumnEntityData::class.simpleName}(
+                                          |${SealedSyntheticColumnEntityData<*>::entity.name}= ${EntityName::class.java.simpleName}( "${ent.designClassShortName}"),
+                                          |${SealedSyntheticColumnEntityData<*>::simpleColumnName.name}= ${SimpleColumnName::class.java.simpleName}( "${ent.entityFieldName}"),
+                                          |${SealedSyntheticColumnEntityData<*>::isOptional.name}= false,
+                                          |${SealedSyntheticColumnEntityData<*>::comment.name}= "${ent.comment}",
+                                          |${SealedSyntheticColumnEntityData<*>::outEntities.name}= setOf(${joinToString}),
+                                          |)""".trimMargin()
+
+
+
+                                    }
+                                }
 
 
                             }
@@ -132,6 +154,7 @@ import ${SimpleColumnName::class.java.canonicalName}
 import ${FullColumnName::class.java.canonicalName}
 import ${SyntheticColumnEntityData::class.java.canonicalName}
 import ${SimpleColumnEntityData::class.java.canonicalName}
+import ${SealedSyntheticColumnEntityData::class.java.canonicalName}
 
 import ${EntityName::class.java.canonicalName}
 import ${ColumnEntityData::class.java.canonicalName}
