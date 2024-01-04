@@ -248,20 +248,20 @@ data class ${GeneratedClasses.FKMetaData}<T : ${GeneratedClasses.IEntityOrigin}>
 /**Мета данные по уникальному ключу*/
 data class ${GeneratedClasses.UKEntityData}<T : IEntityOrigin>(
     /**Имя уникального ключа*/
-    val ukName: UkName,
+    val ukName: ${UkName::class.java.simpleName},
     /**Колонки входящие в ключ*/
-    val columns: List<SimpleColumnName>,
+    val columns: List<${SimpleColumnName::class.java.simpleName}>,
     /**Сериализатор уникального ключа*/
-    val serializer: KSerializer<out IContextOf<out T>>,
+    val serializer: KSerializer<out ${GeneratedClasses.IContextOf}<out T>>,
     /**Класс уникального ключа*/
-    val ukClass: KClass<out IContextOf<out T>>,
+    val ukClass: KClass<out ${GeneratedClasses.IContextOf}<out T>>,
     /**Имя сушности, к которой относится уникальный ключ*/
-    val entity: EntityName,
+    val entity: ${EntityName::class.java.simpleName},
     /**Экстрактор уникального ключа из ДТО*/
-    val extractContext: (T) -> IContextOf<T>,
+    val extractContext: (T) -> ${GeneratedClasses.IContextOf}<T>,
     /**Тип уникального ключа PK, UK*/
-    val typeUk: TypeUk
-//    override val contextOfClass: KClass<IContextOf<T>>
+    val typeUk: ${TypeUk::class.java.simpleName}
+//    override val contextOfClass: KClass<${GeneratedClasses.IContextOf}<T>>
 )
 
 
