@@ -4,20 +4,23 @@ import ru.vood.dmgen.intf.*
 
 
 /**Мета данные по реквизиту сущности*/
-sealed interface ColumnEntityData<T>{
+sealed interface ColumnEntityData<T> {
     /**имя сущности*/
     val entity: EntityName
+
     /**имя колонки*/
     val simpleColumnName: SimpleColumnName
+
     /**признак опциональности колонки*/
     val isOptional: Boolean
+
     /**коментарий колонки*/
     val comment: String
     /**ф-ция экстрактор значения колонки*/
 //    val iColExtractFunction: IColExtractFunction<T, *>
 }
 
-data class SimpleColumnEntityData<T: IEntityOrigin>(
+data class SimpleColumnEntityData<T : IEntityOrigin>(
     override val entity: EntityName,
     /**имя колонки*/
     override val simpleColumnName: SimpleColumnName,
@@ -28,7 +31,7 @@ data class SimpleColumnEntityData<T: IEntityOrigin>(
     /**ф-ция экстрактор значения колонки*/
     val iColExtractFunction: SimpleColExtractFunction<T, *>,
     val simpleColumnType: SimpleColumnType
-): ColumnEntityData<T>
+) : ColumnEntityData<T>
 
 
 data class SyntheticColumnEntityData<T>(
@@ -61,7 +64,7 @@ sealed interface IColExtractFunction<in T, out OUT> {
     val extractFieldValue: (entity: T) -> OUT
 }
 
-sealed interface ISyntheticColExtractFunction<in T, out OUT>:  IColExtractFunction<T, OUT>
+sealed interface ISyntheticColExtractFunction<in T, out OUT> : IColExtractFunction<T, OUT>
 
 @JvmInline
 value class SimpleColExtractFunction<T : IEntityOrigin, OUT>(
