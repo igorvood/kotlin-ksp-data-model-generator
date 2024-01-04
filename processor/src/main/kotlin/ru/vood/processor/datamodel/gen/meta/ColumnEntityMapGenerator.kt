@@ -5,7 +5,7 @@ import com.google.devtools.ksp.processing.KSPLogger
 import ru.vood.dmgen.annotation.FlowEntityType
 import ru.vood.dmgen.annotation.RelationType
 import ru.vood.dmgen.dto.EntityName
-import ru.vood.dmgen.intf.FullColumnName
+import ru.vood.dmgen.dto.FullColumnName
 import ru.vood.dmgen.intf.SimpleColumnName
 import ru.vood.dmgen.dto.SimpleColumnType
 import ru.vood.processor.datamodel.abstraction.model.MetaInformation

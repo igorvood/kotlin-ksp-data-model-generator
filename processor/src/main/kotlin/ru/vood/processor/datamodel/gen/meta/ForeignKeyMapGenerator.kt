@@ -7,7 +7,7 @@ import ru.vood.dmgen.annotation.FkPairNew
 import ru.vood.dmgen.annotation.RelationType
 import ru.vood.dmgen.annotation.UkName
 import ru.vood.dmgen.dto.EntityName
-import ru.vood.dmgen.intf.FullColumnName
+import ru.vood.dmgen.dto.FullColumnName
 import ru.vood.processor.datamodel.abstraction.model.MetaInformation
 import ru.vood.processor.datamodel.gen.*
 import ru.vood.processor.datamodel.gen.CollectName.entityClassName

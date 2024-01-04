@@ -1,6 +1,6 @@
-package ru.vood.dmgen.intf
+package ru.vood.dmgen.dto
 
-import ru.vood.dmgen.dto.EntityName
+import ru.vood.dmgen.intf.SimpleColumnName
 
 
 @JvmInline
