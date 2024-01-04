@@ -6,7 +6,7 @@ import ru.vood.dmgen.annotation.FlowEntityType
 import ru.vood.dmgen.annotation.RelationType
 import ru.vood.dmgen.intf.EntityName
 import ru.vood.dmgen.intf.IEntityOrigin
-import ru.vood.dmgen.intf.IEntitySynthetic
+import ru.vood.dmgen.intf.IEntityDetail
 import ru.vood.processor.datamodel.abstraction.model.Dependency
 import ru.vood.processor.datamodel.abstraction.model.MetaEntity
 import ru.vood.processor.datamodel.abstraction.model.MetaForeignKey
@@ -67,7 +67,7 @@ class SyntheticFieldExtractorsGenerator(
         val fullClassName = syntheticClassName(metaEntity)
 
         val simpleColumns = "override val origin: $originClassName"
-        val s = """${IEntitySynthetic::class.java.simpleName}<$originClassName>"""
+        val s = """${IEntityDetail::class.java.simpleName}<$originClassName>"""
         val code = when (metaEntity.flowEntityType) {
             FlowEntityType.INNER, FlowEntityType.AGGREGATE -> """${headCreate(metaEntity, syntheticFieldImport)}
 data class $fullClassName (
@@ -78,7 +78,7 @@ $fk
 
 ): $s         
 {
-    override fun syntheticField(entityName: ${EntityName::class.simpleName}): Set<${IEntitySynthetic::class.simpleName}<out ${IEntityOrigin::class.simpleName}>> {
+    override fun syntheticField(entityName: ${EntityName::class.simpleName}): Set<${IEntityDetail::class.simpleName}<out ${IEntityOrigin::class.simpleName}>> {
        return when (entityName) {
                 $fkFunCode
                 else -> error("In Entity ${'$'}{designEntityName.value} Not found synthetic field for ${'$'}{entityName.value}")
@@ -101,7 +101,7 @@ override val origin: DealOneOfDataEntity
 : $s
 {
 
- override fun syntheticField(entityName: ${EntityName::class.simpleName}): Set<${IEntitySynthetic::class.simpleName}<out ${IEntityOrigin::class.simpleName}>> {
+ override fun syntheticField(entityName: ${EntityName::class.simpleName}): Set<${IEntityDetail::class.simpleName}<out ${IEntityOrigin::class.simpleName}>> {
           return  when (entityName) {
                 else -> error("In Entity ${'$'}{designEntityName.value} Not found synthetic field for ${'$'}{entityName.value}")
             }
@@ -149,7 +149,7 @@ override val designEntityName: EntityName
     """.trimIndent()
         } ?: ""
     }          
-    import ${IEntitySynthetic::class.java.canonicalName}     
+    import ${IEntityDetail::class.java.canonicalName}     
     import ${EntityName::class.java.canonicalName}
     import ${Generated::class.java.canonicalName}
     import ${IEntityOrigin::class.java.canonicalName}

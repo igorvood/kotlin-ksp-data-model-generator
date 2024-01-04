@@ -1,8 +1,6 @@
 package ru.vood.dmgen.intf
 
 import kotlinx.serialization.KSerializer
-import kotlinx.serialization.json.Json
-import ru.vood.dmgen.annotation.JsonInString
 import ru.vood.dmgen.annotation.UkName
 
 
@@ -12,10 +10,10 @@ interface SerializableEntity {
 
 interface IEntityOrigin : SerializableEntity
 
-interface IEntitySynthetic<T : IEntityOrigin> : IEntityOrigin {
+interface IEntityDetail<T : IEntityOrigin> : IEntityOrigin {
 
     val origin: T
-    fun syntheticField(entityName: EntityName): Set<IEntitySynthetic<out IEntityOrigin>>
+    fun syntheticField(entityName: EntityName): Set<IEntityDetail<out IEntityOrigin>>
 
 }
 
@@ -25,7 +23,7 @@ interface IContextOf<T : IEntityOrigin> : SerializableEntity {
 
     val ktEntitySerializer: KSerializer<T>
 
-    val ktSyntheticEntitySerializer: KSerializer<out IEntitySynthetic<out T>>
+    val ktSyntheticEntitySerializer: KSerializer<out IEntityDetail<out T>>
 
 }
 

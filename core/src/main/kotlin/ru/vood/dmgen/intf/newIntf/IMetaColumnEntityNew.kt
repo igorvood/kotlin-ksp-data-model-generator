@@ -71,15 +71,15 @@ value class SimpleColExtractFunction<T : IEntityOrigin, OUT>(
 @JvmInline
 value class Synthetic<
         ORIG_IN : IEntityOrigin,
-        SINTH_IN : IEntitySynthetic<out ORIG_IN>,
+        SINTH_IN : IEntityDetail<out ORIG_IN>,
         OUT : IEntityOrigin>(
-    override val extractFieldValue: (entity: SINTH_IN) -> Set<IEntitySynthetic<OUT>>
-) : ISyntheticColExtractFunction<SINTH_IN, Set<IEntitySynthetic<OUT>>>
+    override val extractFieldValue: (entity: SINTH_IN) -> Set<IEntityDetail<OUT>>
+) : ISyntheticColExtractFunction<SINTH_IN, Set<IEntityDetail<OUT>>>
 
 @JvmInline
 value class SyntheticSet<
         ORIG_IN : IEntityOrigin,
-        SINTH_IN : IEntitySynthetic<out ORIG_IN>,
+        SINTH_IN : IEntityDetail<out ORIG_IN>,
         OUT : IEntityOrigin>(
-    override val extractFieldValue: (entity: SINTH_IN) -> Set<IEntitySynthetic<OUT>>
-) : ISyntheticColExtractFunction<SINTH_IN, Set<IEntitySynthetic<OUT>>>
+    override val extractFieldValue: (entity: SINTH_IN) -> Set<IEntityDetail<OUT>>
+) : ISyntheticColExtractFunction<SINTH_IN, Set<IEntityDetail<OUT>>>

@@ -9,13 +9,13 @@ import org.springframework.jdbc.core.JdbcOperations
 import org.springframework.stereotype.Service
 import ru.vood.dmgen.dao.EntityDaoController
 import ru.vood.dmgen.datamodel.*
+import ru.vood.dmgen.datamodel.a.DealDetail
 import ru.vood.dmgen.datamodel.a.DealEntity
-import ru.vood.dmgen.datamodel.a.DealSynthetic
 import ru.vood.dmgen.datamodel.a.Deal_PKContext
+import ru.vood.dmgen.datamodel.b.DealExtendDataDetail
 import ru.vood.dmgen.datamodel.b.DealExtendDataEntity
-import ru.vood.dmgen.datamodel.b.DealExtendDataSynthetic
 import ru.vood.dmgen.datamodel.valueClasses.DealId
-import ru.vood.dmgen.intf.IEntitySynthetic
+import ru.vood.dmgen.intf.IEntityDetail
 
 @Service
 @Order(200)
@@ -35,28 +35,28 @@ class RunByPartAggregateSave(
 
         val dealId = DealId("12")
         val paramDate = "asd"
-        val dealParamOneToOneEntity = DealParamOneToOneSynthetic(
-            DealParamOneToOneEntity(dealId, paramDate), InnerToDealParamOneToOneSynthetic(
+        val dealParamOneToOneEntity = DealParamOneToOneDetail(
+            DealParamOneToOneEntity(dealId, paramDate), InnerToDealParamOneToOneDetail(
                 InnerToDealParamOneToOneEntity(dealId, paramDate)
             )
         )
 
-        val aggregate: IEntitySynthetic<DealEntity> =
-            DealSynthetic(
+        val aggregate: IEntityDetail<DealEntity> =
+            DealDetail(
                 DealEntity(dealId, "asd", null, true, null), dealParamOneToOneEntity, null, setOf(
-                    DealParamSetSynthetic(DealParamSetEntity(dealId, 1, "1")),
-                    DealParamSetSynthetic(DealParamSetEntity(dealId, 2, "2")),
+                    DealParamSetDetail(DealParamSetEntity(dealId, 1, "1")),
+                    DealParamSetDetail(DealParamSetEntity(dealId, 2, "2")),
                 )
             )
-        val dealExtendDataEntity = DealExtendDataSynthetic(DealExtendDataEntity(dealId, "extendData"))
+        val dealExtendDataEntity = DealExtendDataDetail(DealExtendDataEntity(dealId, "extendData"))
         entity.saveAggregateByPart(aggregate)
         entity.saveAggregateByPart(dealExtendDataEntity)
 
 
-        val findByUk1 = entity.findSyntheticEntityCollectPartByUk<DealEntity, DealSynthetic>(Deal_PKContext(dealId))
+        val findByUk1 = entity.findSyntheticEntityCollectPartByUk<DealEntity, DealDetail>(Deal_PKContext(dealId))
         val findByUk2 = entity.findSyntheticEntityCollectPartByUk(Deal_PKContext(dealId))
 
-        val findByUk3 = entity.findSyntheticEntityCollectPartByUk<DealParamOneToOneEntity, DealParamOneToOneSynthetic>(DealParamOneToOne_PKContext(dealId))
+        val findByUk3 = entity.findSyntheticEntityCollectPartByUk<DealParamOneToOneEntity, DealParamOneToOneDetail>(DealParamOneToOne_PKContext(dealId))
 
         log.info(aggregate.toString())
         log.info(findByUk1.toString())

@@ -35,7 +35,7 @@ class EntityDaoController(
      *
      * */
     @Suppress("UNCHECKED_CAST")
-    final fun <T : IEntityOrigin> saveAggregate(aggregate: IEntitySynthetic<T>) {
+    final fun <T : IEntityOrigin> saveAggregate(aggregate: IEntityDetail<T>) {
 //        Вытаскиваю мету
         val entityNameOrigin = aggregate.designEntityName
         val indexesDtoOrigin =
@@ -73,7 +73,7 @@ class EntityDaoController(
     /**Сохранение агрегата по частям, каждая саб сущность помещается в отдельную строчку таблицы,
      * с сохранением всех ее уникальных ключей*/
     @Suppress("UNCHECKED_CAST")
-    final fun <T : IEntityOrigin> saveAggregateByPart(aggregate: IEntitySynthetic<T>) {
+    final fun <T : IEntityOrigin> saveAggregateByPart(aggregate: IEntityDetail<T>) {
         // Вытаскиваю мету
         val entityNameOrigin = aggregate.designEntityName
         val indexesDto =
@@ -122,8 +122,8 @@ class EntityDaoController(
      * */
     private fun <T : IEntityOrigin> childEntity(
         designEntityName: EntityName,
-        aggregate: IEntitySynthetic<T>
-    ): Map<EntityName, Set<IEntitySynthetic<out IEntityOrigin>>> {
+        aggregate: IEntityDetail<T>
+    ): Map<EntityName, Set<IEntityDetail<out IEntityOrigin>>> {
 
         val entitiesSyntheticColumnsMap1 = entitiesSyntheticColumnsMap[designEntityName] ?: listOf()
 
@@ -138,7 +138,7 @@ class EntityDaoController(
     @Suppress("UNCHECKED_CAST")
     private fun saveChildEntities(
         /**Дочерние сущности */
-        childEntityNames: Map<EntityName, Set<IEntitySynthetic<out IEntityOrigin>>>,
+        childEntityNames: Map<EntityName, Set<IEntityDetail<out IEntityOrigin>>>,
         /**первичный ключ основной сущности*/
         pkDtoParent: IContextOf<IEntityOrigin>
     ) {
@@ -169,7 +169,7 @@ class EntityDaoController(
             val pkJsonParent = PKJsonVal(serializer.modelJsonSerializer.encodeToString(pkSerializerParent, pkDtoParent))
 
 //            багаю по каждой конкретной дочерней сущности из коллекции и пыжусь сохранить
-            childrenSynthetics.forEach { synth: IEntitySynthetic<out IEntityOrigin> ->
+            childrenSynthetics.forEach { synth: IEntityDetail<out IEntityOrigin> ->
 //                Вытаскиваю нужные ДТО
                 val childrenOrigin = synth.origin
                 val pkChildrenDto = pkMeta.extractContext(childrenOrigin)
@@ -260,7 +260,7 @@ class EntityDaoController(
     @Suppress("UNCHECKED_CAST")
     final fun <
             Origin : IEntityOrigin,
-            T : IEntitySynthetic<out Origin>
+            T : IEntityDetail<out Origin>
             > findSyntheticEntityCollectPartByUk(
         uk: IContextOf<Origin>
     ): T {
@@ -381,11 +381,11 @@ class EntityDaoController(
     }
 
     @Suppress("UNCHECKED_CAST")
-    final fun <T : IEntityOrigin> findSyntheticEntityOneRowByUk(uk: IContextOf<T>): IEntitySynthetic<out IEntityOrigin> {
+    final fun <T : IEntityOrigin> findSyntheticEntityOneRowByUk(uk: IContextOf<T>): IEntityDetail<out IEntityOrigin> {
         val entityName = uk.designEntityName
         val indexesDto = entitiesUkMap[entityName] ?: error("Почему то не найдена сущность ${entityName.value}")
         val ktSerializer = indexesDto.pkEntityData.serializer as KSerializer<IContextOf<T>>
-        val ktEntitySerializer = uk.ktSyntheticEntitySerializer as KSerializer<IEntitySynthetic<T>>
+        val ktEntitySerializer = uk.ktSyntheticEntitySerializer as KSerializer<IEntityDetail<T>>
         val ukJson = UKJsonVal(Json.encodeToString(ktSerializer, uk))
         val ukName = uk.ukName
 
