@@ -7,7 +7,4 @@ package ru.vood.dmgen.annotation
 //)
 
 @JvmInline
-value class UkName(val value: String)
-
-@JvmInline
 value class FkName(val value: String)
