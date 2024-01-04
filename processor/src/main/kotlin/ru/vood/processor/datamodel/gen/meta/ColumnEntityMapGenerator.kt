@@ -7,7 +7,7 @@ import ru.vood.dmgen.annotation.RelationType
 import ru.vood.dmgen.dto.EntityName
 import ru.vood.dmgen.intf.FullColumnName
 import ru.vood.dmgen.intf.SimpleColumnName
-import ru.vood.dmgen.intf.SimpleColumnType
+import ru.vood.dmgen.dto.SimpleColumnType
 import ru.vood.processor.datamodel.abstraction.model.MetaInformation
 import ru.vood.processor.datamodel.abstraction.model.dto.SealedSyntheticFieldInfo
 import ru.vood.processor.datamodel.abstraction.model.dto.SyntheticFieldInfo
