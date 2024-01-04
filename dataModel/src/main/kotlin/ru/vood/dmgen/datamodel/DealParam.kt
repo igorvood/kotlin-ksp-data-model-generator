@@ -43,7 +43,7 @@ interface InnerToDealParamOneToOne {
     kClass = "ru.vood.dmgen.datamodel.a.Deal",
     "DealParamOneToOneOptional_Deal_FK",
     cols = [ForeignKeyColumns("dealId", "id")],
-            foreignKeyType = ForeignKeyType.OPTIONAL
+    foreignKeyType = ForeignKeyType.OPTIONAL
 )
 interface DealParamOneToOneOptional {
     @Pk
