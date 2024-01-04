@@ -1,4 +1,4 @@
-package ru.vood.dmgen.annotation
+package ru.vood.dmgen.dto
 
 
 enum class TypeUk {

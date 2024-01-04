@@ -2,7 +2,7 @@ package ru.vood.processor.datamodel.abstraction.model.dto
 
 import ru.vood.dmgen.dto.UkName
 import ru.vood.dmgen.dto.SimpleColumnName
-import ru.vood.dmgen.annotation.TypeUk
+import ru.vood.dmgen.dto.TypeUk
 
 
 data class UkDto(

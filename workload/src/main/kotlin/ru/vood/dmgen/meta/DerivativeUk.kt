@@ -1,6 +1,6 @@
 package ru.vood.dmgen.meta
 
-import ru.vood.dmgen.annotation.TypeUk
+import ru.vood.dmgen.dto.TypeUk
 import ru.vood.dmgen.datamodel.intf.IEntityOrigin
 import ru.vood.dmgen.datamodel.intf.UKEntityData
 import ru.vood.dmgen.datamodel.metaEnum.uniqueKeyMap
