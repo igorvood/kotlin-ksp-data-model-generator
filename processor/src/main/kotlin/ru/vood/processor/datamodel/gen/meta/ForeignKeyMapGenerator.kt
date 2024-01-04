@@ -2,7 +2,7 @@ package ru.vood.processor.datamodel.gen.meta
 
 import com.google.devtools.ksp.processing.CodeGenerator
 import com.google.devtools.ksp.processing.KSPLogger
-import ru.vood.dmgen.dto.FkPairNew
+import ru.vood.dmgen.dto.FkPair
 import ru.vood.dmgen.dto.RelationType
 import ru.vood.dmgen.dto.EntityName
 import ru.vood.dmgen.dto.FkName
@@ -35,7 +35,7 @@ class ForeignKeyMapGenerator(
                     .map { metaForeign ->
                         val fkCols = metaForeign.fkCols.map { fkPa ->
 
-                            """${FkPairNew::class.simpleName}(${FullColumnName::class.simpleName}("${metaForeign.fromEntity.designClassShortName}_${fkPa.from.name.value}"), ${FullColumnName::class.simpleName}("${metaForeign.toEntity.designClassShortName}_${fkPa.to.name.value}"))"""
+                            """${FkPair::class.simpleName}(${FullColumnName::class.simpleName}("${metaForeign.fromEntity.designClassShortName}_${fkPa.from.name.value}"), ${FullColumnName::class.simpleName}("${metaForeign.toEntity.designClassShortName}_${fkPa.to.name.value}"))"""
                         }.joinToString(",\n")
 
                         val contextCols = metaForeign.fkCols.map { fkPa ->
@@ -70,7 +70,7 @@ class ForeignKeyMapGenerator(
 import ${FkName::class.java.canonicalName}
 import ${InterfaceGenerator.GeneratedClasses.FKMetaData.getPac(rootPackage)}
 import ${EntityName::class.java.canonicalName}
-import ${FkPairNew::class.java.canonicalName}
+import ${FkPair::class.java.canonicalName}
 import ${UkName::class.java.canonicalName}
 import ${Generated::class.java.canonicalName}
 import ${FullColumnName::class.java.canonicalName}

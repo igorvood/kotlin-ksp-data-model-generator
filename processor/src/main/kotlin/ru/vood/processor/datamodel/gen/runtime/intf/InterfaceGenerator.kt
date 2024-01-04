@@ -2,7 +2,7 @@ package ru.vood.processor.datamodel.gen.runtime.intf
 
 import com.google.devtools.ksp.processing.CodeGenerator
 import com.google.devtools.ksp.processing.KSPLogger
-import ru.vood.dmgen.dto.FkPairNew
+import ru.vood.dmgen.dto.FkPair
 import ru.vood.dmgen.annotation.FlowEntityType
 import ru.vood.dmgen.dto.RelationType
 import ru.vood.dmgen.dto.*
@@ -32,7 +32,7 @@ import ${SimpleColumnType::class.java.canonicalName}
 import ${FlowEntityType::class.java.canonicalName}
 import kotlin.reflect.KClass
 import ${RelationType::class.java.canonicalName}
-import ${FkPairNew::class.java.canonicalName}
+import ${FkPair::class.java.canonicalName}
 import ${TypeUk::class.java.canonicalName}
 
 
@@ -43,68 +43,70 @@ interface ${GeneratedClasses.SerializableEntity} {
 }
 
 @Generated("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
-interface ${GeneratedClasses.IEntityOrigin} : SerializableEntity
+interface ${GeneratedClasses.IEntityOrigin} : ${GeneratedClasses.SerializableEntity}
 
 @Generated("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
-interface ${GeneratedClasses.IEntityDetail}<T : IEntityOrigin> : IEntityOrigin {
+interface ${GeneratedClasses.IEntityDetail}<T : ${GeneratedClasses.IEntityOrigin}> : ${GeneratedClasses.IEntityOrigin} {
 
     val origin: T
-    fun syntheticField(entityName: EntityName): Set<IEntityDetail<out IEntityOrigin>>
+    fun syntheticField(entityName: ${EntityName::class.java.simpleName}): Set<${GeneratedClasses.IEntityDetail}<out ${GeneratedClasses.IEntityOrigin}>>
 
 }
 
 @Generated("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
-interface ${GeneratedClasses.IContextOf}<T : IEntityOrigin> : SerializableEntity {
+interface ${GeneratedClasses.IContextOf}<T : ${GeneratedClasses.IEntityOrigin}> : ${GeneratedClasses.SerializableEntity} {
 
-    val ukName: UkName
+    val ukName: ${UkName::class.java.simpleName}
 
     val ktEntitySerializer: KSerializer<T>
 
-    val ktSyntheticEntitySerializer: KSerializer<out IEntityDetail<out T>>
+    val ktSyntheticEntitySerializer: KSerializer<out ${GeneratedClasses.IEntityDetail}<out T>>
 
 }
 
+@Generated("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
 /**Мета данные по реквизиту сущности*/
 sealed interface ${GeneratedClasses.ColumnEntityData}<T> {
     /**имя сущности*/
-    val entity: EntityName
+    val entity: ${EntityName::class.java.simpleName}
 
     /**имя колонки*/
-    val simpleColumnName: SimpleColumnName
+    val simpleColumnName: ${SimpleColumnName::class.java.simpleName}
 
     /**признак опциональности колонки*/
     val isOptional: Boolean
 
     /**коментарий колонки*/
-    val comment: String
+    val comment: ${String::class.java.simpleName}
     /**ф-ция экстрактор значения колонки*/
 }
 
-data class ${GeneratedClasses.SimpleColumnEntityData}<T : IEntityOrigin>(
-    override val entity: EntityName,
+@Generated("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
+data class ${GeneratedClasses.SimpleColumnEntityData}<T : ${GeneratedClasses.IEntityOrigin}>(
+    override val entity: ${EntityName::class.java.simpleName},
     /**имя колонки*/
-    override val simpleColumnName: SimpleColumnName,
+    override val simpleColumnName: ${SimpleColumnName::class.java.simpleName},
     /**признак опциональности колонки*/
     override val isOptional: Boolean,
     /**коментарий колонки*/
     override val comment: String,
     /**ф-ция экстрактор значения колонки*/
-    val iColExtractFunction: SimpleColExtractFunction<T, *>,
-    val simpleColumnType: SimpleColumnType
+    val iColExtractFunction: ${GeneratedClasses.SimpleColExtractFunction}<T, *>,
+    val simpleColumnType: ${SimpleColumnType::class.java.simpleName}
 ) : ${GeneratedClasses.ColumnEntityData}<T>
 
 
 data class ${GeneratedClasses.SyntheticColumnEntityData}<T>(
-    override val entity: EntityName,
+    override val entity: ${EntityName::class.java.simpleName},
     /**имя колонки*/
-    override val simpleColumnName: SimpleColumnName,
+    override val simpleColumnName: ${SimpleColumnName::class.java.simpleName},
     /**признак опциональности колонки*/
     override val isOptional: Boolean,
     /**коментарий колонки*/
     override val comment: String,
     /**ф-ция экстрактор значения колонки*/
-    val iColExtractFunction: ISyntheticColExtractFunction<T, *>,
-    val outEntity: EntityName
+    val iColExtractFunction: ${GeneratedClasses.ISyntheticColExtractFunction}<T, *>,
+    val outEntity: ${EntityName::class.java.simpleName}
 ) : ${GeneratedClasses.ColumnEntityData}<T>
 
 data class ${GeneratedClasses.SealedSyntheticColumnEntityData}<T>(
@@ -228,7 +230,7 @@ data class ${GeneratedClasses.FKMetaData}<T : IEntityOrigin>(
      * TODO по идеи величина вычисляемая, сейчас задается разработчиком*/
     val relationType: RelationType,
     /**Коллекция колонок входящих во внешний ключ */
-    val fkCols: Set<FkPairNew>,
+    val fkCols: Set<${FkPair::class.java.simpleName}>,
     /**Ф-ция вытаскивающая из fromEntity, экземпляр уникального ключа toEntity -> uk.
      * хорошо подходит для поиска  */
     val сontextExtractor: (T) -> IContextOf<out IEntityOrigin>
