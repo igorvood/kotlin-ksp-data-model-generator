@@ -54,7 +54,7 @@ class ColumnEntityMapGenerator(
                                         val isOptional =
                                             /*syntheticFieldInfo.isOptional &&*/
                                             syntheticFieldInfo.relationType == RelationType.ONE_TO_ONE_OPTIONAL
-                                        val sealedText = """TODO("пока не понятно как работать с sealed")"""
+                                        val sealedText = """setOf(it.${fromEntity.entityFieldName})"""
                                         val columnKindType = when (syntheticFieldInfo.relationType) {
                                             RelationType.ONE_TO_ONE_OPTIONAL -> {
                                                 val funBody =
