@@ -2,7 +2,7 @@ package ru.vood.processor.datamodel.gen.meta
 
 import com.google.devtools.ksp.processing.CodeGenerator
 import com.google.devtools.ksp.processing.KSPLogger
-import ru.vood.dmgen.annotation.UkName
+import ru.vood.dmgen.dto.UkName
 import ru.vood.dmgen.dto.EntityName
 import ru.vood.dmgen.dto.SimpleColumnName
 

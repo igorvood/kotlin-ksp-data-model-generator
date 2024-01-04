@@ -1,6 +1,6 @@
 package ru.vood.processor.datamodel.gen
 
-import ru.vood.dmgen.annotation.UkName
+import ru.vood.dmgen.dto.UkName
 import ru.vood.processor.datamodel.abstraction.model.MetaEntity
 
 object CollectName {

@@ -6,6 +6,7 @@ import com.google.devtools.ksp.processing.KSPLogger
 import com.google.devtools.ksp.symbol.KSClassDeclaration
 import ru.vood.dmgen.annotation.*
 import ru.vood.dmgen.dto.SimpleColumnName
+import ru.vood.dmgen.dto.UkName
 import ru.vood.processor.datamodel.abstraction.model.dto.ModelClassName
 import ru.vood.processor.datamodel.abstraction.model.dto.UkDto
 

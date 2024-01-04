@@ -6,7 +6,7 @@ import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.internal.decodeStringToJsonTree
 import org.springframework.jdbc.core.JdbcOperations
 import org.springframework.stereotype.Repository
-import ru.vood.dmgen.annotation.UkName
+import ru.vood.dmgen.dto.UkName
 import ru.vood.dmgen.dao.dto.ChildEntityDto
 import ru.vood.dmgen.dao.dto.PKJsonVal
 import ru.vood.dmgen.dao.dto.PayLoadJsonVal

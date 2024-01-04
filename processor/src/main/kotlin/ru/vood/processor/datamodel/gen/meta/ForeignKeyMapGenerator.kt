@@ -5,7 +5,7 @@ import com.google.devtools.ksp.processing.KSPLogger
 import ru.vood.dmgen.dto.FkName
 import ru.vood.dmgen.annotation.FkPairNew
 import ru.vood.dmgen.annotation.RelationType
-import ru.vood.dmgen.annotation.UkName
+import ru.vood.dmgen.dto.UkName
 import ru.vood.dmgen.dto.EntityName
 import ru.vood.dmgen.dto.FullColumnName
 import ru.vood.processor.datamodel.abstraction.model.MetaInformation
