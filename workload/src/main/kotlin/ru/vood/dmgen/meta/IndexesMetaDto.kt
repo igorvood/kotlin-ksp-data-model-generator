@@ -9,7 +9,7 @@ data class IndexesMetaDto(
     val pkEntityData: UKEntityData<out IEntityOrigin>,
     /**мета по уникальным индексам, исключая первичный ключ*/
     val ukOnlySet: Set<UKEntityData<out IEntityOrigin>>
-){
+) {
     /**мета по уникальным индексам включая первичный ключ*/
     val ukAndPkMap = ukOnlySet.plus(pkEntityData).associateBy { it.ukName }
 

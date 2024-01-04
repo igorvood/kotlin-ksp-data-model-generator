@@ -56,7 +56,9 @@ class RunByPartAggregateSave(
         val findByUk1 = entity.findSyntheticEntityCollectPartByUk<DealEntity, DealDetail>(Deal_PKContext(dealId))
         val findByUk2 = entity.findSyntheticEntityCollectPartByUk(Deal_PKContext(dealId))
 
-        val findByUk3 = entity.findSyntheticEntityCollectPartByUk<DealParamOneToOneEntity, DealParamOneToOneDetail>(DealParamOneToOne_PKContext(dealId))
+        val findByUk3 = entity.findSyntheticEntityCollectPartByUk<DealParamOneToOneEntity, DealParamOneToOneDetail>(
+            DealParamOneToOne_PKContext(dealId)
+        )
 
         log.info(aggregate.toString())
         log.info(findByUk1.toString())
