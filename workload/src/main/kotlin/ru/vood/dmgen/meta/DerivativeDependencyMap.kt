@@ -1,6 +1,6 @@
 package ru.vood.dmgen.meta
 
-import ru.vood.dmgen.annotation.FkName
+import ru.vood.dmgen.dto.FkName
 import ru.vood.dmgen.annotation.FlowEntityType
 import ru.vood.dmgen.datamodel.intf.FKMetaData
 import ru.vood.dmgen.datamodel.intf.IEntityData
