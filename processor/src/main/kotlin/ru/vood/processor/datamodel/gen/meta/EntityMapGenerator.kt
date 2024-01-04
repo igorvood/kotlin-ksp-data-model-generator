@@ -34,14 +34,14 @@ class EntityMapGenerator(
 
                         val entity = when (metaEntity.flowEntityType) {
                             FlowEntityType.INNER, FlowEntityType.AGGREGATE -> """${EntityData::class.simpleName}(
-                            |${EntityData<*>::designClass.name} =  ${metaEntity.designClassFullClassName.value}::class, 
-                            |${EntityData<*>::runtimeClass.name} = ${CollectName.entityClassName(metaEntity)}::class,
-                            |${EntityData<*>::runtimeSyntheticClass.name} = ${CollectName.syntheticClassName(metaEntity)}::class,
+                            |${EntityData<*, *>::designClass.name} =  ${metaEntity.designClassFullClassName.value}::class, 
+                            |${EntityData<*, *>::runtimeClass.name} = ${CollectName.entityClassName(metaEntity)}::class,
+                            |${EntityData<*, *>::runtimeSyntheticClass.name} = ${CollectName.syntheticClassName(metaEntity)}::class,
                             |serializer =${CollectName.entityClassName(metaEntity)}.serializer(),
                             |serializerSynthetic =${CollectName.syntheticClassName(metaEntity)}.serializer(),
-                            |${EntityData<*>::entityName.name} =${EntityName::class.simpleName}("${metaEntity.designClassShortName}"), 
-                            |${EntityData<*>::comment.name} ="${metaEntity.comment}",
-                            |${EntityData<*>::entityType.name} =${metaEntity.flowEntityType}
+                            |${EntityData<*, *>::entityName.name} =${EntityName::class.simpleName}("${metaEntity.designClassShortName}"), 
+                            |${EntityData<*, *>::comment.name} ="${metaEntity.comment}",
+                            |${EntityData<*, *>::entityType.name} =${metaEntity.flowEntityType}
                             |//${metaEntity.ksAnnotated.getAllProperties().toList().size}
                             |)"""
                             FlowEntityType.ONE_OF -> {
@@ -54,15 +54,15 @@ class EntityMapGenerator(
 
 
                                 """${SealedEntityData::class.simpleName}(
-                            |${SealedEntityData<*>::designClass.name} =  ${metaEntity.designClassFullClassName.value}::class, 
-                            |${SealedEntityData<*>::runtimeClass.name} = ${CollectName.entityClassName(metaEntity)}::class,
-                            |${SealedEntityData<*>::runtimeSyntheticClass.name} = ${CollectName.syntheticClassName(metaEntity)}::class,
+                            |${SealedEntityData<*, *>::designClass.name} =  ${metaEntity.designClassFullClassName.value}::class, 
+                            |${SealedEntityData<*, *>::runtimeClass.name} = ${CollectName.entityClassName(metaEntity)}::class,
+                            |${SealedEntityData<*, *>::runtimeSyntheticClass.name} = ${CollectName.syntheticClassName(metaEntity)}::class,
                             |serializer =${CollectName.entityClassName(metaEntity)}.serializer(),
                             |serializerSynthetic =${CollectName.syntheticClassName(metaEntity)}.serializer(),
-                            |${SealedEntityData<*>::entityName.name} =${EntityName::class.simpleName}("${metaEntity.designClassShortName}"), 
-                            |${SealedEntityData<*>::comment.name} ="${metaEntity.comment}",
-                            |${SealedEntityData<*>::entityType.name} =${metaEntity.flowEntityType},
-                            |${SealedEntityData<*>::children.name} = setOf(${sealedChildrenEntities})
+                            |${SealedEntityData<*, *>::entityName.name} =${EntityName::class.simpleName}("${metaEntity.designClassShortName}"), 
+                            |${SealedEntityData<*, *>::comment.name} ="${metaEntity.comment}",
+                            |${SealedEntityData<*, *>::entityType.name} =${metaEntity.flowEntityType},
+                            |${SealedEntityData<*, *>::children.name} = setOf(${sealedChildrenEntities})
                             |)"""
                             }
                         }

@@ -8,15 +8,16 @@ import ru.vood.dmgen.intf.IContextOf
 import ru.vood.processor.datamodel.abstraction.model.MetaInformation
 import ru.vood.processor.datamodel.gen.*
 import ru.vood.processor.datamodel.gen.CollectName.ukClassName
+import ru.vood.processor.datamodel.gen.meta.EntityEnumGenerator
 import java.time.LocalDateTime
 import javax.annotation.processing.Generated
 
 class ContextDataClassesGenerator(
     codeGenerator: CodeGenerator,
-    rootPackage: PackageName,
+    val rootRootPackage: PackageName,
     logger: KSPLogger
 
-) : AbstractGenerator<MetaInformation>(codeGenerator, rootPackage, logger) {
+) : AbstractGenerator<MetaInformation>(codeGenerator, rootRootPackage, logger) {
 
     override fun textGenerator(metaInfo: MetaInformation): Set<GeneratedFile> {
         val generatedClassData = metaInfo.entities.values.toSet()
@@ -47,14 +48,15 @@ class ContextDataClassesGenerator(
 import ${UkName::class.java.canonicalName}
 import ${EntityName::class.java.canonicalName}
 import ${Generated::class.java.canonicalName}
+import ${rootRootPackage.value}.${AbstractDataDictionaryGenerator.subPackageAbstractDataDictionaryGenerator.value}.${EntityEnumGenerator.nameClassEntityEnumGenerator}
                     
 @kotlinx.serialization.Serializable
 @Generated("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
 data class $fullClassName (
 $joinToString
-): ${IContextOf::class.java.canonicalName}<$entityName>
+): ${IContextOf::class.java.canonicalName}<$entityName,  ${EntityEnumGenerator.nameClassEntityEnumGenerator}>
 {
-override val designEntityName: ${EntityName::class.simpleName}
+override val designEntityName: MetaEntityEnum
         get() = metaEntityConst
         
 override val ukName: UkName
@@ -69,7 +71,7 @@ override val ktSyntheticEntitySerializer
 
 companion object{
     val ukNameConst = UkName("${ukName.value}")
-    val metaEntityConst = EntityName("$dataClass")
+    val metaEntityConst = MetaEntityEnum.$dataClass
 }
                 
         

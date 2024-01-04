@@ -11,14 +11,15 @@ import ru.vood.processor.datamodel.abstraction.model.MetaForeignKey
 import ru.vood.processor.datamodel.abstraction.model.MetaInformation
 import ru.vood.processor.datamodel.gen.*
 import ru.vood.processor.datamodel.gen.CollectName.entityClassName
+import ru.vood.processor.datamodel.gen.meta.EntityEnumGenerator
 import java.time.LocalDateTime
 import javax.annotation.processing.Generated
 
 class OriginEntityDataClassesGenerator(
     codeGenerator: CodeGenerator,
-    rootPackage: PackageName,
+    val rootRootPackage: PackageName,
     logger: KSPLogger
-) : AbstractGenerator<MetaInformation>(codeGenerator, rootPackage, logger) {
+) : AbstractGenerator<MetaInformation>(codeGenerator, rootRootPackage, logger) {
 
     override fun textGenerator(metaInfo: MetaInformation): Set<GeneratedFile> {
         return collectEntityFile(metaInfo.metaForeignKeys, metaInfo.aggregateInnerDep())
@@ -66,8 +67,8 @@ override val ${col.name.value}: $kotlinMetaClass$nullableSymbol""".trimIndent()
         }
 
         val implemets =    when(sealedForeign.size){
-            0 -> """${IEntityOrigin::class.java.simpleName}, ${metaEntity.designClassFullClassName.value}"""
-            1 -> """${IEntityOrigin::class.java.simpleName}, ${metaEntity.designClassFullClassName.value}, ${entityClassName(sealedForeign[0].toEntity) }"""
+            0 -> """${IEntityOrigin::class.java.simpleName}<${rootRootPackage.value}.${AbstractDataDictionaryGenerator.subPackageAbstractDataDictionaryGenerator.value}.${EntityEnumGenerator.nameClassEntityEnumGenerator}>, ${metaEntity.designClassFullClassName.value}"""
+            1 -> """${IEntityOrigin::class.java.simpleName}<${rootRootPackage.value}.${AbstractDataDictionaryGenerator.subPackageAbstractDataDictionaryGenerator.value}.${EntityEnumGenerator.nameClassEntityEnumGenerator}>, ${metaEntity.designClassFullClassName.value}, ${entityClassName(sealedForeign[0].toEntity) }"""
             else -> error("for $fullClassName found several foreign on sealed interface")
         }
 
@@ -79,12 +80,12 @@ $simpleColumns
 
 ): $implemets         
 {
-    override val designEntityName: EntityName
+    override val designEntityName: MetaEntityEnum
         get() = designEntityNameConst
 
     
     companion object{
-        val designEntityNameConst = EntityName("${metaEntity.designClassShortName}")
+        val designEntityNameConst = MetaEntityEnum.${metaEntity.designClassShortName}
     
     }
 }
@@ -93,12 +94,12 @@ $simpleColumns
             FlowEntityType.ONE_OF -> """${head(metaEntity)}
 sealed interface $fullClassName:  $implemets  
 {
-    override val designEntityName: EntityName
+    override val designEntityName: MetaEntityEnum
         get() = designEntityNameConst
 
     
     companion object{
-        val designEntityNameConst = EntityName("${metaEntity.designClassShortName}")
+        val designEntityNameConst = MetaEntityEnum.${metaEntity.designClassShortName}
     
     }
 }
@@ -129,6 +130,7 @@ ${metaEntity.comment?.let {"""/**
 import ${EntityName::class.java.canonicalName}     
 import ${Generated::class.java.canonicalName}
 import ${IEntityOrigin::class.java.canonicalName}
+import ${rootRootPackage.value}.${AbstractDataDictionaryGenerator.subPackageAbstractDataDictionaryGenerator.value}.${EntityEnumGenerator.nameClassEntityEnumGenerator}
     
     
 @Generated("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")

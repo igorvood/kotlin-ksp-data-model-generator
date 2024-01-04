@@ -5,6 +5,6 @@ import ru.vood.dmgen.intf.IEntityOrigin
 import ru.vood.dmgen.intf.newIntf.IMetaUniqueData
 import ru.vood.dmgen.intf.newIntf.UKEntityData
 
-data class MetaUniqueKeysData(
-    override val ukMap: Map<UkName, UKEntityData<out IEntityOrigin>>
-) : IMetaUniqueData
+//data class MetaUniqueKeysData(
+//    override val ukMap: Map<UkName, UKEntityData<out IEntityOrigin>>
+//) : IMetaUniqueData

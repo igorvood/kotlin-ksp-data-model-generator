@@ -15,15 +15,16 @@ import ru.vood.processor.datamodel.abstraction.model.dto.SyntheticFieldInfo
 import ru.vood.processor.datamodel.gen.*
 import ru.vood.processor.datamodel.gen.CollectName.entityClassName
 import ru.vood.processor.datamodel.gen.CollectName.syntheticClassName
+import ru.vood.processor.datamodel.gen.meta.EntityEnumGenerator
 import java.time.LocalDateTime
 import java.util.*
 import javax.annotation.processing.Generated
 
 class SyntheticFieldExtractorsGenerator(
     codeGenerator: CodeGenerator,
-    rootPackage: PackageName,
+    val rootRootPackage: PackageName,
     logger: KSPLogger
-) : AbstractGenerator<MetaInformation>(codeGenerator, rootPackage, logger) {
+) : AbstractGenerator<MetaInformation>(codeGenerator, rootRootPackage, logger) {
 
     override fun textGenerator(metaInfo: MetaInformation): Set<GeneratedFile> {
         return collectEntityFile(metaInfo.metaForeignKeys, metaInfo.aggregateInnerDep())
@@ -67,7 +68,7 @@ class SyntheticFieldExtractorsGenerator(
         val fullClassName = syntheticClassName(metaEntity)
 
         val simpleColumns = "override val origin: $originClassName"
-        val s = """${IEntityDetail::class.java.simpleName}<$originClassName>"""
+        val s = """${IEntityDetail::class.java.simpleName}<$originClassName, ${EntityEnumGenerator.nameClassEntityEnumGenerator}>"""
         val code = when (metaEntity.flowEntityType) {
             FlowEntityType.INNER, FlowEntityType.AGGREGATE -> """${headCreate(metaEntity, syntheticFieldImport)}
 data class $fullClassName (
@@ -78,18 +79,18 @@ $fk
 
 ): $s         
 {
-    override fun syntheticField(entityName: ${EntityName::class.simpleName}): Set<${IEntityDetail::class.simpleName}<out ${IEntityOrigin::class.simpleName}>> {
+    override fun syntheticField(entityName: ${EntityName::class.simpleName}): Set<${IEntityDetail::class.simpleName}<out ${IEntityOrigin::class.simpleName}<${EntityEnumGenerator.nameClassEntityEnumGenerator}>, ${EntityEnumGenerator.nameClassEntityEnumGenerator}>> {
        return when (entityName) {
                 $fkFunCode
-                else -> error("In Entity ${'$'}{designEntityName.value} Not found synthetic field for ${'$'}{entityName.value}")
+                else -> error("In Entity ${'$'}{designEntityName.name} Not found synthetic field for ${'$'}{entityName.value}")
             }
     }
 
-    override val designEntityName: EntityName
+    override val designEntityName: MetaEntityEnum
         get() = designEntityNameConst
 
     companion object{
-        val designEntityNameConst = EntityName("${metaEntity.designClassShortName}")
+        val designEntityNameConst = MetaEntityEnum.${metaEntity.designClassShortName}
     }
 }
                     
@@ -101,16 +102,16 @@ override val origin: DealOneOfDataEntity
 : $s
 {
 
- override fun syntheticField(entityName: ${EntityName::class.simpleName}): Set<${IEntityDetail::class.simpleName}<out ${IEntityOrigin::class.simpleName}>> {
+ override fun syntheticField(entityName: ${EntityName::class.simpleName}): Set<${IEntityDetail::class.simpleName}<out ${IEntityOrigin::class.simpleName}<out ${EntityEnumGenerator.nameClassEntityEnumGenerator}>, out ${EntityEnumGenerator.nameClassEntityEnumGenerator}>> {
           return  when (entityName) {
-                else -> error("In Entity ${'$'}{designEntityName.value} Not found synthetic field for ${'$'}{entityName.value}")
+                else -> error("In Entity ${'$'}{designEntityName.name} Not found synthetic field for ${'$'}{entityName.value}")
             }
     }
     
-override val designEntityName: EntityName
+override val designEntityName: MetaEntityEnum
     get() = designEntityNameConst
  companion object{
-        val designEntityNameConst = EntityName("${metaEntity.designClassShortName}")
+        val designEntityNameConst = MetaEntityEnum.${metaEntity.designClassShortName}
     }
 }  
 """.trimIndent()
@@ -153,6 +154,7 @@ override val designEntityName: EntityName
     import ${EntityName::class.java.canonicalName}
     import ${Generated::class.java.canonicalName}
     import ${IEntityOrigin::class.java.canonicalName}
+    import ${rootRootPackage.value}.${AbstractDataDictionaryGenerator.subPackageAbstractDataDictionaryGenerator.value}.${EntityEnumGenerator.nameClassEntityEnumGenerator}
     ${syntheticFieldImport}
     
     @Generated("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")

@@ -17,7 +17,7 @@ sealed interface ColumnEntityData<T>{
 //    val iColExtractFunction: IColExtractFunction<T, *>
 }
 
-data class SimpleColumnEntityData<T: IEntityOrigin>(
+data class SimpleColumnEntityData<T: IEntityOrigin<E>, E: Enum<E>>(
     override val entity: EntityName,
     /**имя колонки*/
     override val simpleColumnName: SimpleColumnName,
@@ -26,7 +26,7 @@ data class SimpleColumnEntityData<T: IEntityOrigin>(
     /**коментарий колонки*/
     override val comment: String,
     /**ф-ция экстрактор значения колонки*/
-    val iColExtractFunction: SimpleColExtractFunction<T, *>,
+    val iColExtractFunction: SimpleColExtractFunction<T, E, *>,
     val simpleColumnType: SimpleColumnType
 ): ColumnEntityData<T>
 
@@ -64,22 +64,26 @@ sealed interface IColExtractFunction<in T, out OUT> {
 sealed interface ISyntheticColExtractFunction<in T, out OUT>:  IColExtractFunction<T, OUT>
 
 @JvmInline
-value class SimpleColExtractFunction<T : IEntityOrigin, OUT>(
+value class SimpleColExtractFunction<T : IEntityOrigin<E>, E: Enum<E>, OUT>(
     override val extractFieldValue: (entity: T) -> OUT
 ) : IColExtractFunction<T, OUT>
 
 @JvmInline
 value class Synthetic<
-        ORIG_IN : IEntityOrigin,
-        SINTH_IN : IEntityDetail<out ORIG_IN>,
-        OUT : IEntityOrigin>(
-    override val extractFieldValue: (entity: SINTH_IN) -> Set<IEntityDetail<OUT>>
-) : ISyntheticColExtractFunction<SINTH_IN, Set<IEntityDetail<OUT>>>
+        ORIG_IN : IEntityOrigin<E>,
+        SINTH_IN : IEntityDetail<out ORIG_IN, E>,
+        OUT : IEntityOrigin<E>,
+        E: Enum<E>
+        >(
+    override val extractFieldValue: (entity: SINTH_IN) -> Set<IEntityDetail<OUT, E>>
+) : ISyntheticColExtractFunction<SINTH_IN, Set<IEntityDetail<OUT, E>>>
 
 @JvmInline
 value class SyntheticSet<
-        ORIG_IN : IEntityOrigin,
-        SINTH_IN : IEntityDetail<out ORIG_IN>,
-        OUT : IEntityOrigin>(
-    override val extractFieldValue: (entity: SINTH_IN) -> Set<IEntityDetail<OUT>>
-) : ISyntheticColExtractFunction<SINTH_IN, Set<IEntityDetail<OUT>>>
+        ORIG_IN : IEntityOrigin<E>,
+        SINTH_IN : IEntityDetail<out ORIG_IN, E>,
+        OUT : IEntityOrigin<E>,
+        E: Enum<E>
+        >(
+    override val extractFieldValue: (entity: SINTH_IN) -> Set<IEntityDetail<OUT, E>>
+) : ISyntheticColExtractFunction<SINTH_IN, Set<IEntityDetail<OUT, E>>>

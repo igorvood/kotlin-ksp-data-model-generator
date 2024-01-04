@@ -8,7 +8,7 @@ import ru.vood.dmgen.intf.IEntityDetail
 import kotlin.reflect.KClass
 
 /**Мета данные по сущности*/
-sealed interface IEntityData<T : IEntityOrigin> {
+sealed interface IEntityData<T : IEntityOrigin<E>, E: Enum<E>> {
      /**интрефейс описывающий структуру сущности */
      val designClass: KClass<out Any>
 
@@ -19,10 +19,10 @@ sealed interface IEntityData<T : IEntityOrigin> {
      val runtimeSyntheticClass: KClass<out T>
 
      /**сериализатор оригинальной сущности*/
-     val serializer: KSerializer<out IEntityOrigin>
+     val serializer: KSerializer<out IEntityOrigin<E>>
 
      /**сериализатор синтетической сущности*/
-     val serializerSynthetic: KSerializer<out IEntityDetail<out T>>
+     val serializerSynthetic: KSerializer<out IEntityDetail<out T, E>>
 
      /**Имя сущности*/
      val entityName: EntityName
@@ -35,7 +35,7 @@ sealed interface IEntityData<T : IEntityOrigin> {
 }
 
 /**Мета данные по сущности*/
-data class EntityData<T : IEntityOrigin>(
+data class EntityData<T : IEntityOrigin<E>, E: Enum<E>>(
     /**интрефейс описывающий структуру сущности */
      override val designClass: KClass<out Any>,
     /**класс описывающий сущность*/
@@ -43,18 +43,18 @@ data class EntityData<T : IEntityOrigin>(
     /**синтетический класс описывающий сущность, включает в себя все сущности, которорые имею форен на текущую*/
      override val runtimeSyntheticClass: KClass<out T>,
     /**сериализатор оригинальной сущности*/
-     override val serializer: KSerializer<out IEntityOrigin>,
+     override val serializer: KSerializer<out IEntityOrigin< E>>,
     /**сериализатор синтетической сущности*/
-     override val serializerSynthetic: KSerializer<out IEntityDetail<out T>>,
+     override val serializerSynthetic: KSerializer<out IEntityDetail<out T, E>>,
     /**Имя сущности*/
      override val entityName: EntityName,
     /**коментарий сущности*/
      override val comment: String,
     /**тип сущности*/
      override val entityType: FlowEntityType
-): IEntityData<T>
+): IEntityData<T, E>
 
-data class SealedEntityData<T : IEntityOrigin>(
+data class SealedEntityData<T : IEntityOrigin<E>, E: Enum<E>>(
     /**интрефейс описывающий структуру сущности */
      override val designClass: KClass<out Any>,
     /**класс описывающий сущность*/
@@ -62,9 +62,9 @@ data class SealedEntityData<T : IEntityOrigin>(
     /**синтетический класс описывающий сущность, включает в себя все сущности, которорые имею форен на текущую*/
      override val runtimeSyntheticClass: KClass<out T>,
     /**сериализатор оригинальной сущности*/
-     override val serializer: KSerializer<out IEntityOrigin>,
+     override val serializer: KSerializer<out IEntityOrigin<E>>,
     /**сериализатор синтетической сущности*/
-     override val serializerSynthetic: KSerializer<out IEntityDetail<out T>>,
+     override val serializerSynthetic: KSerializer<out IEntityDetail<out T, E>>,
     /**Имя сущности*/
      override val entityName: EntityName,
     /**коментарий сущности*/
@@ -73,4 +73,4 @@ data class SealedEntityData<T : IEntityOrigin>(
      override val entityType: FlowEntityType,
     /**перечень наследников*/
      val children: Set<EntityName>
-): IEntityData<T>
+): IEntityData<T, E>

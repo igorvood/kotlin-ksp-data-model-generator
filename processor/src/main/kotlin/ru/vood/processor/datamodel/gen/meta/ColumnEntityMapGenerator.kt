@@ -63,7 +63,7 @@ class ColumnEntityMapGenerator(
                                                     entityClassName(
                                                         synth.metaEntity
                                                     )
-                                                }>{$funBody}"
+                                                },  ${EntityEnumGenerator.nameClassEntityEnumGenerator}>{$funBody}"
                                             }
                                             RelationType.ONE_TO_ONE_MANDATORY -> {
                                                 val funBody =
@@ -72,14 +72,14 @@ class ColumnEntityMapGenerator(
                                                     entityClassName(
                                                         synth.metaEntity
                                                     )
-                                                }>{$funBody}"
+                                                },  ${EntityEnumGenerator.nameClassEntityEnumGenerator}>{$funBody}"
                                             }
                                             RelationType.MANY_TO_ONE ->
                                                 "${SyntheticSet::class.simpleName}<$entityClass, $syntheticClassName, ${synth.metaEntity.designClassPackageName}.${
                                                     entityClassName(
                                                         synth.metaEntity
                                                     )
-                                                } >{it.${fromEntity.entityFieldName}}"
+                                                },  ${EntityEnumGenerator.nameClassEntityEnumGenerator} >{it.${fromEntity.entityFieldName}}"
                                         }
 
 
@@ -132,12 +132,12 @@ class ColumnEntityMapGenerator(
                             .sortedBy { ec -> ec.position }
                             .map { col ->
                                 """${FullColumnName::class.simpleName}("${ent.designClassShortName}_${col.name.value}") to ${SimpleColumnEntityData::class.simpleName}(
-                                |${SimpleColumnEntityData<*>::entity.name} = ${EntityName::class.java.simpleName}( "${ent.designClassShortName}"),
-                                |${SimpleColumnEntityData<*>::simpleColumnName.name} = ${SimpleColumnName::class.simpleName}("${col.name.value}"),
-                                |${SimpleColumnEntityData<*>::isOptional.name} = ${col.isNullable},
-                                |${SimpleColumnEntityData<*>::comment.name} = "${col.comment}",
-                                |${SimpleColumnEntityData<*>::iColExtractFunction.name} = ${SimpleColExtractFunction::class.simpleName}<$entityClass, ${col.type}${col.question}> {it.${col.name.value}},
-                                |${SimpleColumnEntityData<*>::simpleColumnType.name} = ${SimpleColumnType::class.simpleName}("${col.type}")
+                                |${SimpleColumnEntityData<*, *>::entity.name} = ${EntityName::class.java.simpleName}( "${ent.designClassShortName}"),
+                                |${SimpleColumnEntityData<*, *>::simpleColumnName.name} = ${SimpleColumnName::class.simpleName}("${col.name.value}"),
+                                |${SimpleColumnEntityData<*, *>::isOptional.name} = ${col.isNullable},
+                                |${SimpleColumnEntityData<*, *>::comment.name} = "${col.comment}",
+                                |${SimpleColumnEntityData<*, *>::iColExtractFunction.name} = ${SimpleColExtractFunction::class.simpleName}<$entityClass,  ${EntityEnumGenerator.nameClassEntityEnumGenerator}, ${col.type}${col.question}> {it.${col.name.value}},
+                                |${SimpleColumnEntityData<*, *>::simpleColumnType.name} = ${SimpleColumnType::class.simpleName}("${col.type}")
                                 |)""".trimMargin()
                             }
                         simpleF.plus(syntheticF)
@@ -169,7 +169,7 @@ import kotlin.reflect.KProperty1
 ${metaInfo.allEntityPackagesImport}
 
 @Generated("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
-val columnEntityDataMap : Map<FullColumnName, ColumnEntityData<out IEntityOrigin>> = mapOf(
+val columnEntityDataMap  = mapOf(
 $simpleColumn,
 
 

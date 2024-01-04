@@ -45,17 +45,17 @@ class UniqueKeyMapGenerator(
                                 val ukClassName = CollectName.ukClassName(ukDto.name)
 
                                 """${UkName::class.simpleName}("${ukDto.name.value}") to ${UKEntityData::class.simpleName}(
-                                    |${UKEntityData<*>::ukName.name} = ${UkName::class.simpleName}("${ukDto.name.value}"),
-                                    |${UKEntityData<*>::columns.name} = listOf($ukCols),
+                                    |${UKEntityData<*, *>::ukName.name} = ${UkName::class.simpleName}("${ukDto.name.value}"),
+                                    |${UKEntityData<*, *>::columns.name} = listOf($ukCols),
                                     |serializer = ${ukClassName}.serializer(),
-                                    |${UKEntityData<*>::ukClass.name} = ${ukClassName}::class,
-                                    |${UKEntityData<*>::entity.name} = ${EntityName::class.simpleName}("${metaEnt.designClassShortName}"),
-                                    |${UKEntityData<*>::extractContext.name} = {data: ${CollectName.entityClassName(metaEnt)} -> ${
+                                    |${UKEntityData<*, *>::ukClass.name} = ${ukClassName}::class,
+                                    |${UKEntityData<*, *>::entity.name} = ${EntityEnumGenerator.nameClassEntityEnumGenerator}.${metaEnt.designClassShortName},
+                                    |${UKEntityData<*, *>::extractContext.name} = {data: ${CollectName.entityClassName(metaEnt)} -> ${
                                     CollectName.ukClassName(
                                         ukDto.name
                                     )
                                 }($constructorParams) },
-                                    |${UKEntityData<*>::typeUk.name} = ${ukDto.typeUk.name}
+                                    |${UKEntityData<*, *>::typeUk.name} = ${ukDto.typeUk.name}
                                     |)""".trimMargin()
                             }
                     }

@@ -9,7 +9,7 @@ import ru.vood.dmgen.intf.IEntityOrigin
 
 
 /**Мета данные по внегнему ключу*/
-data class FKMetaData<T : IEntityOrigin>(
+data class FKMetaData<T : IEntityOrigin<E>, E: Enum<E>>(
     /**Сущность из которой идет внешний ключ*/
     val fromEntity: EntityName,
     /**Сущность к которой идет внешний ключ*/
@@ -23,7 +23,7 @@ data class FKMetaData<T : IEntityOrigin>(
     val fkCols: Set<FkPairNew>,
     /**Ф-ция вытаскивающая из fromEntity, экземпляр уникального ключа toEntity -> uk.
      * хорошо подходит для поиска  */
-    val сontextExtractor: (T) -> IContextOf<out IEntityOrigin>
+    val сontextExtractor: (T) -> IContextOf<out IEntityOrigin<E>, E>// IContextOf<out T, out E>
 )
 
 

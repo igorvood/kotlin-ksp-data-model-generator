@@ -5,6 +5,6 @@ import ru.vood.dmgen.intf.IEntityOrigin
 import ru.vood.dmgen.intf.newIntf.EntityData
 import ru.vood.dmgen.intf.newIntf.IMetaEntityData
 
-data class MetaEntitiesData(
-    override val entMap: Map<EntityName, EntityData<IEntityOrigin>>
-) : IMetaEntityData
+//data class MetaEntitiesData(
+//    override val entMap: Map<EntityName, EntityData<IEntityOrigin>>
+//) : IMetaEntityData

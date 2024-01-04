@@ -11,6 +11,7 @@ import ru.vood.dmgen.dao.dto.ChildEntityDto
 import ru.vood.dmgen.dao.dto.PKJsonVal
 import ru.vood.dmgen.dao.dto.PayLoadJsonVal
 import ru.vood.dmgen.dao.dto.UKJsonVal
+import ru.vood.dmgen.datamodel.metaEnum.MetaEntityEnum
 import ru.vood.dmgen.intf.EntityName
 import ru.vood.dmgen.intf.IContextOf
 import ru.vood.dmgen.intf.IEntityOrigin
@@ -25,12 +26,12 @@ class EntityDao(
 
     fun saveFullAggregateNoParent(
         pkJson: PKJsonVal,
-        entityName: EntityName,
+        entityName: MetaEntityEnum,
         entityJson: PayLoadJsonVal
     ) {
         jdbcOperations.update(
             """insert into entity_context(pk, entity_type, payload) VALUES (?, ?, ?) """,
-            pkJson.value, entityName.value, entityJson.value
+            pkJson.value, entityName, entityJson.value
         )
     }
 
@@ -79,8 +80,8 @@ class EntityDao(
         else error("Not found uk ${ukName.value} with value ${ukJson.value}")
     }
 
-    fun <T : IEntityOrigin> findPKJsonVal(
-        uk: IContextOf<T>,
+    fun <T : IEntityOrigin<MetaEntityEnum>> findPKJsonVal(
+        uk: IContextOf<T, MetaEntityEnum>,
         ukJson: UKJsonVal
     ): PKJsonVal {
         val queryJsons = jdbcOperations.query(
@@ -131,7 +132,7 @@ class EntityDao(
         { rs, _ ->
             ChildEntityDto(entityType = EntityName(rs.getString(1)), payload = PayLoadJsonVal(rs.getString(5)))
         },
-        pkVal.value, indexesMetaDto.pkEntityData.entity.value
+        pkVal.value, indexesMetaDto.pkEntityData.entity
     ).groupBy { it.entityType }
 
 

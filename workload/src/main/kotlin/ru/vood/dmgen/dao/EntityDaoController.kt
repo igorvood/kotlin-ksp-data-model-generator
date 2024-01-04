@@ -11,6 +11,8 @@ import ru.vood.dmgen.dao.dto.ChildEntityDto
 import ru.vood.dmgen.dao.dto.PKJsonVal
 import ru.vood.dmgen.dao.dto.PayLoadJsonVal
 import ru.vood.dmgen.dao.dto.UKJsonVal
+import ru.vood.dmgen.datamodel.metaEnum.MetaEntityEnum
+import ru.vood.dmgen.datamodel.metaEnum.MetaEntityEnum.Companion.entityMap
 import ru.vood.dmgen.datamodel.metaEnum.entityDataMap
 import ru.vood.dmgen.intf.*
 import ru.vood.dmgen.intf.newIntf.*
@@ -35,14 +37,14 @@ class EntityDaoController(
      *
      * */
     @Suppress("UNCHECKED_CAST")
-    final fun <T : IEntityOrigin> saveAggregate(aggregate: IEntityDetail<T>) {
+    final fun <T : IEntityOrigin<MetaEntityEnum>> saveAggregate(aggregate: IEntityDetail<T, MetaEntityEnum>) {
 //        Вытаскиваю мету
         val entityNameOrigin = aggregate.designEntityName
         val indexesDtoOrigin =
-            entitiesUkMap[entityNameOrigin] ?: error("Почему то не найдена сущность ${entityNameOrigin.value}")
+            entitiesUkMap[entityNameOrigin] ?: error("Почему то не найдена сущность ${entityNameOrigin}")
         val entityDataOrigin =
-            entityDataMap[entityNameOrigin] ?: error("Почему то не найдена сущность ${entityNameOrigin.value}")
-        val pkMetaOrigin = indexesDtoOrigin.pkEntityData as UKEntityData<T>
+            entityMap[entityNameOrigin] ?: error("Почему то не найдена сущность ${entityNameOrigin}")
+        val pkMetaOrigin = indexesDtoOrigin.pkEntityData as UKEntityData<T ,MetaEntityEnum>
 
         // сериалайзеры
         val pkSerializerOrigin = indexesDtoOrigin.pkEntityData.serializer as KSerializer<Any>
@@ -64,7 +66,7 @@ class EntityDaoController(
         // Сохранение всех уникальных ключей
         indexesDtoOrigin.ukAndPkMap.values
             .forEach { ukMeta ->
-                val ukMetaData = ukMeta as UKEntityData<T>
+                val ukMetaData = ukMeta as UKEntityData<T, MetaEntityEnum>
                 val ukData = ukMetaData.extractContext(aggregate.origin)
                 entityUkDao.saveEntityUkDto(entityNameOrigin, ukData, pkJson.value, ukMetaData)
             }
@@ -73,7 +75,7 @@ class EntityDaoController(
     /**Сохранение агрегата по частям, каждая саб сущность помещается в отдельную строчку таблицы,
      * с сохранением всех ее уникальных ключей*/
     @Suppress("UNCHECKED_CAST")
-    final fun <T : IEntityOrigin> saveAggregateByPart(aggregate: IEntityDetail<T>) {
+    final fun <T : IEntityOrigin<MetaEntityEnum>> saveAggregateByPart(aggregate: IEntityDetail<T>) {
         // Вытаскиваю мету
         val entityNameOrigin = aggregate.designEntityName
         val indexesDto =
@@ -242,7 +244,7 @@ class EntityDaoController(
     }
 
     @Suppress("UNCHECKED_CAST")
-    fun <T : IEntityOrigin> checkFk(entityName: EntityName, entity: T) {
+    fun <T : IEntityOrigin<MetaEntityEnum>> checkFk(entityName: MetaEntityEnum, entity: T) {
         val fkEntityDataSet = foreignKeyMapFromEntity[entityName] ?: setOf()
         fkEntityDataSet
             .forEach { fkEntityData ->

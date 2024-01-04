@@ -4,27 +4,27 @@ import kotlinx.serialization.KSerializer
 import ru.vood.dmgen.annotation.UkName
 
 
-interface SerializableEntity {
-    val designEntityName: EntityName
+interface SerializableEntity<E: Enum<E>> {
+    //    val designEntityName: EntityName
+    val designEntityName: E
 }
 
-interface IEntityOrigin : SerializableEntity
+interface IEntityOrigin<E: Enum<E>> : SerializableEntity<E>
 
-interface IEntityDetail<T : IEntityOrigin> : IEntityOrigin {
+interface IEntityDetail<T : IEntityOrigin<E>, E: Enum<E>> : IEntityOrigin<E> {
 
     val origin: T
-    fun syntheticField(entityName: EntityName): Set<IEntityDetail<out IEntityOrigin>>
+    fun syntheticField(entityName: EntityName): Set<IEntityDetail<out IEntityOrigin<out E>, out E>>
 
 }
 
-interface IContextOf<T : IEntityOrigin> : SerializableEntity {
+interface IContextOf<T : IEntityOrigin<E>, E: Enum<E>> : SerializableEntity<E> {
 
     val ukName: UkName
 
     val ktEntitySerializer: KSerializer<T>
 
-    val ktSyntheticEntitySerializer: KSerializer<out IEntityDetail<out T>>
+    val ktSyntheticEntitySerializer: KSerializer<out IEntityDetail<out T, out E>>
 
 }
 
-interface IAggregate : IEntityOrigin

@@ -47,13 +47,13 @@ class ForeignKeyMapGenerator(
                             entityClassName(
                                 metaForeign.fromEntity
                             )
-                        }>(
-                        |${FKMetaData<*>::fromEntity.name} = ${EntityName::class.simpleName}("${metaForeign.fromEntity.designClassShortName}"),
-                        |${FKMetaData<*>::toEntity.name} = ${EntityName::class.simpleName}("${metaForeign.toEntity.designClassShortName}"),
-                        |${FKMetaData<*>::uk.name} = ${UkName::class.simpleName}("${metaForeign.uk.name.value}"),
-                        |${FKMetaData<*>::relationType.name} = ${RelationType::class.java.canonicalName}.${metaForeign.relationType.name},
-                        |${FKMetaData<*>::fkCols.name} = setOf($fkCols),
-                        |${FKMetaData<*>::сontextExtractor.name} = {data: ${entityClassName(metaForeign.fromEntity)} -> ${ukClassName(metaForeign.uk.name)}(${contextCols}) }
+                        }, ${EntityEnumGenerator.nameClassEntityEnumGenerator}>(
+                        |${FKMetaData<*, *>::fromEntity.name} = ${EntityName::class.simpleName}("${metaForeign.fromEntity.designClassShortName}"),
+                        |${FKMetaData<*, *>::toEntity.name} = ${EntityName::class.simpleName}("${metaForeign.toEntity.designClassShortName}"),
+                        |${FKMetaData<*, *>::uk.name} = ${UkName::class.simpleName}("${metaForeign.uk.name.value}"),
+                        |${FKMetaData<*, *>::relationType.name} = ${RelationType::class.java.canonicalName}.${metaForeign.relationType.name},
+                        |${FKMetaData<*, *>::fkCols.name} = setOf($fkCols),
+                        |${FKMetaData<*, *>::сontextExtractor.name} = {data: ${entityClassName(metaForeign.fromEntity)} -> ${ukClassName(metaForeign.uk.name)}(${contextCols}) }
                         |)""".trimMargin()
                     }
                     .sorted()

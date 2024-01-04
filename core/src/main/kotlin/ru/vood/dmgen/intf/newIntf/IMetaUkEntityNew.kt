@@ -10,19 +10,19 @@ import kotlin.reflect.KClass
 
 
 /**Мета данные по уникальному ключу*/
-data class UKEntityData<T : IEntityOrigin>(
+data class UKEntityData<T : IEntityOrigin<E>, E: Enum<E>>(
     /**Имя уникального ключа*/
     val ukName: UkName,
     /**Колонки входящие в ключ*/
     val columns: List<SimpleColumnName>,
     /**Сериализатор уникального ключа*/
-    val serializer: KSerializer<out IContextOf<out T>>,
+    val serializer: KSerializer<out IContextOf<out T, out E>>,
     /**Класс уникального ключа*/
-    val ukClass: KClass<out IContextOf<out T>>,
+    val ukClass: KClass<out IContextOf<out T, out E>>,
     /**Имя сушности, к которой относится уникальный ключ*/
-    val entity: EntityName,
+    val entity: E,
     /**Экстрактор уникального ключа из ДТО*/
-    val extractContext: (T) -> IContextOf<T>,
+    val extractContext: (T) -> IContextOf<T, out E>,
     /**Тип уникального ключа PK, UK*/
     val typeUk: TypeUk
 //    override val contextOfClass: KClass<IContextOf<T>>

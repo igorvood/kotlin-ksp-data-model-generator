@@ -1,14 +1,15 @@
 package ru.vood.dmgen.meta
 
+import ru.vood.dmgen.datamodel.metaEnum.MetaEntityEnum
 import ru.vood.dmgen.intf.IEntityOrigin
 import ru.vood.dmgen.intf.newIntf.UKEntityData
 
 /**Мета информация по уникальным индексам и первичным ключам*/
 data class IndexesMetaDto(
     /**Мета по первичному ключу*/
-    val pkEntityData: UKEntityData<out IEntityOrigin>,
+    val pkEntityData: UKEntityData<out IEntityOrigin<MetaEntityEnum>, MetaEntityEnum>,
     /**мета по уникальным индексам, исключая первичный ключ*/
-    val ukOnlySet: Set<UKEntityData<out IEntityOrigin>>
+    val ukOnlySet: Set<UKEntityData<out IEntityOrigin<MetaEntityEnum>, MetaEntityEnum>>
 ){
     /**мета по уникальным индексам включая первичный ключ*/
     val ukAndPkMap = ukOnlySet.plus(pkEntityData).associateBy { it.ukName }
