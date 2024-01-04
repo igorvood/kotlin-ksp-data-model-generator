@@ -1,4 +1,4 @@
-package ru.vood.dmgen.annotation
+package ru.vood.dmgen.dto
 
 import ru.vood.dmgen.dto.FullColumnName
 
