@@ -2,12 +2,11 @@ package ru.vood.processor.datamodel.gen.meta
 
 import com.google.devtools.ksp.processing.CodeGenerator
 import com.google.devtools.ksp.processing.KSPLogger
-import ru.vood.dmgen.dto.UkName
 import ru.vood.dmgen.dto.EntityName
 import ru.vood.dmgen.dto.SimpleColumnName
-
-import ru.vood.processor.datamodel.abstraction.model.MetaInformation
 import ru.vood.dmgen.dto.TypeUk
+import ru.vood.dmgen.dto.UkName
+import ru.vood.processor.datamodel.abstraction.model.MetaInformation
 import ru.vood.processor.datamodel.gen.*
 import ru.vood.processor.datamodel.gen.runtime.intf.InterfaceGenerator
 import java.time.LocalDateTime

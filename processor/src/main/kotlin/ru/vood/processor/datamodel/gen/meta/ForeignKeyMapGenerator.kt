@@ -2,12 +2,12 @@ package ru.vood.processor.datamodel.gen.meta
 
 import com.google.devtools.ksp.processing.CodeGenerator
 import com.google.devtools.ksp.processing.KSPLogger
-import ru.vood.dmgen.dto.FkName
 import ru.vood.dmgen.annotation.FkPairNew
 import ru.vood.dmgen.annotation.RelationType
-import ru.vood.dmgen.dto.UkName
 import ru.vood.dmgen.dto.EntityName
+import ru.vood.dmgen.dto.FkName
 import ru.vood.dmgen.dto.FullColumnName
+import ru.vood.dmgen.dto.UkName
 import ru.vood.processor.datamodel.abstraction.model.MetaInformation
 import ru.vood.processor.datamodel.gen.*
 import ru.vood.processor.datamodel.gen.CollectName.entityClassName

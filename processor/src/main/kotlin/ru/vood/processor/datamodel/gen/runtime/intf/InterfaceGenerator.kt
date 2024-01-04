@@ -5,12 +5,8 @@ import com.google.devtools.ksp.processing.KSPLogger
 import ru.vood.dmgen.annotation.FkPairNew
 import ru.vood.dmgen.annotation.FlowEntityType
 import ru.vood.dmgen.annotation.RelationType
-import ru.vood.dmgen.dto.UkName
-import ru.vood.dmgen.dto.EntityName
-import ru.vood.dmgen.dto.SimpleColumnName
-import ru.vood.dmgen.dto.SimpleColumnType
+import ru.vood.dmgen.dto.*
 import ru.vood.processor.datamodel.abstraction.model.MetaInformation
-import ru.vood.dmgen.dto.TypeUk
 import ru.vood.processor.datamodel.gen.*
 import java.time.LocalDateTime
 import javax.annotation.processing.Generated
@@ -276,7 +272,7 @@ data class ${GeneratedClasses.UKEntityData}<T : IEntityOrigin>(
         val interfaceGeneratorPackageName = PackageName("intf")
     }
 
-    enum class GeneratedClasses{
+    enum class GeneratedClasses {
         SerializableEntity,
         IEntityOrigin,
         IEntityDetail,
@@ -296,6 +292,6 @@ data class ${GeneratedClasses.UKEntityData}<T : IEntityOrigin>(
         SealedEntityData,
         UKEntityData;
 
-        fun getPac(root: PackageName) = root.value+"."+interfaceGeneratorPackageName.value+"."+this
+        fun getPac(root: PackageName) = root.value + "." + interfaceGeneratorPackageName.value + "." + this
     }
 }
