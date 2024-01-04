@@ -1,6 +1,6 @@
 package ru.vood.processor.datamodel.abstraction.model.dto
 
-import ru.vood.dmgen.annotation.RelationType
+import ru.vood.dmgen.dto.RelationType
 import ru.vood.processor.datamodel.abstraction.model.MetaEntity
 
 

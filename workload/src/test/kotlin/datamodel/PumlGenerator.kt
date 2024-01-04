@@ -2,7 +2,7 @@ package datamodel
 
 import org.junit.jupiter.api.Test
 import ru.vood.dmgen.annotation.FlowEntityType
-import ru.vood.dmgen.annotation.RelationType
+import ru.vood.dmgen.dto.RelationType
 import ru.vood.dmgen.datamodel.intf.SealedSyntheticColumnEntityData
 import ru.vood.dmgen.datamodel.intf.SimpleColumnEntityData
 import ru.vood.dmgen.datamodel.intf.SyntheticColumnEntityData
