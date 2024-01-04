@@ -9,8 +9,3 @@ annotation class FlowEntity(
     val entityName: String = "",
 )
 
-enum class FlowEntityType {
-    INNER,
-    AGGREGATE,
-    ONE_OF
-}

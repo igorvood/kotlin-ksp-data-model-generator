@@ -12,7 +12,3 @@ annotation class ForeignKey(
     val foreignKeyType: ForeignKeyType// = ru.vood.dmgen.annotation.ForeignKeyType.OPTIONAL
 )
 
-enum class ForeignKeyType {
-    OPTIONAL,
-    MANDATORY
-}
