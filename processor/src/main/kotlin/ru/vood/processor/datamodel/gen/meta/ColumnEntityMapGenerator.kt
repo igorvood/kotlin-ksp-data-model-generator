@@ -12,6 +12,7 @@ import ru.vood.processor.datamodel.gen.CollectName.entityClassName
 import ru.vood.processor.datamodel.gen.CollectName.syntheticClassName
 import ru.vood.processor.datamodel.gen.runtime.intf.InterfaceGenerator
 import java.time.LocalDateTime
+import java.util.EnumMap
 import javax.annotation.processing.Generated
 
 class ColumnEntityMapGenerator(
@@ -30,6 +31,7 @@ class ColumnEntityMapGenerator(
             true -> setOf()
             false -> {
                 val simpleColumn = generatedClassData
+                    .sortedBy { it.designClassShortName }
                     .flatMap { ent ->
                         val filter = metaForeignKeys
                             .filter { fk -> fk.fromEntity.flowEntityType != FlowEntityType.AGGREGATE }
@@ -82,13 +84,13 @@ class ColumnEntityMapGenerator(
                                         }
 
 
-                                        val fullColumnName = FullColumnName(
+                                        val fullColumnName = FullColumnName1(
                                             EntityName(fromEntity.designClassShortName),
                                             SimpleColumnName(fromEntity.entityFieldName)
                                         )
 
 
-                                        """${FullColumnName::class.simpleName}("${fullColumnName.value}") to ${InterfaceGenerator.GeneratedClasses.SyntheticColumnEntityData}(
+                                        "${fullColumnName.value}" to """${fullColumnEnumName}.${fullColumnName.value} to ${InterfaceGenerator.GeneratedClasses.SyntheticColumnEntityData}(
                                 |entity= ${InterfaceGenerator.GeneratedClasses.EntityEnum}.${ent.designClassShortName},
                                 |outEntity = ${InterfaceGenerator.GeneratedClasses.EntityEnum}.${fromEntity.designClassShortName},
                                 |simpleColumnName = ${SimpleColumnName::class.simpleName}("${fromEntity.entityFieldName}"),
@@ -100,7 +102,7 @@ class ColumnEntityMapGenerator(
                                     is SealedSyntheticFieldInfo -> {
 
                                         syntheticFieldInfo
-                                        val fullColumnName = FullColumnName(
+                                        val fullColumnName = FullColumnName1(
                                             EntityName(ent.designClassShortName),
                                             SimpleColumnName(ent.entityFieldName)
                                         )
@@ -109,7 +111,7 @@ class ColumnEntityMapGenerator(
                                             synth.metaEntities.map { it -> """${InterfaceGenerator.GeneratedClasses.EntityEnum}.${it.designClassShortName}""" }
                                                 .joinToString(",")
 
-                                        """${FullColumnName::class.simpleName}("${fullColumnName.value}") to ${InterfaceGenerator.GeneratedClasses.SealedSyntheticColumnEntityData}(
+                                        "${fullColumnName.value}" to """${fullColumnEnumName}.${fullColumnName.value} to ${InterfaceGenerator.GeneratedClasses.SealedSyntheticColumnEntityData}(
                                           |entity= ${InterfaceGenerator.GeneratedClasses.EntityEnum}.${ent.designClassShortName},
                                           |simpleColumnName= ${SimpleColumnName::class.java.simpleName}( "${ent.entityFieldName}"),
                                           |isOptional= false,
@@ -128,7 +130,7 @@ class ColumnEntityMapGenerator(
                         val simpleF = ent.fields
                             .sortedBy { ec -> ec.position }
                             .map { col ->
-                                """${FullColumnName::class.simpleName}("${ent.designClassShortName}_${col.name.value}") to ${InterfaceGenerator.GeneratedClasses.SimpleColumnEntityData}(
+                                "${ent.designClassShortName}_${col.name.value}" to """${fullColumnEnumName}.${ent.designClassShortName}_${col.name.value} to ${InterfaceGenerator.GeneratedClasses.SimpleColumnEntityData}(
                                 |entity = ${InterfaceGenerator.GeneratedClasses.EntityEnum}.${ent.designClassShortName},
                                 |simpleColumnName = ${SimpleColumnName::class.simpleName}("${col.name.value}"),
                                 |isOptional = ${col.isNullable},
@@ -137,9 +139,11 @@ class ColumnEntityMapGenerator(
                                 |simpleColumnType = ${SimpleColumnType::class.simpleName}("${col.type}")
                                 |)""".trimMargin()
                             }
-                        simpleF.plus(syntheticF)
+                        val plus = simpleF.plus(syntheticF)
+                        plus
                     }
-                    .joinToString(",\n")
+                    .distinctBy { it.first }
+
 
 
                 val trimIndent =
@@ -148,7 +152,6 @@ class ColumnEntityMapGenerator(
 import ${SimpleColumnType::class.java.canonicalName}
 
 import ${SimpleColumnName::class.java.canonicalName}
-import ${FullColumnName::class.java.canonicalName}
 import ${InterfaceGenerator.GeneratedClasses.SyntheticColumnEntityData.getPac(rootPackage)}
 import ${InterfaceGenerator.GeneratedClasses.SimpleColumnEntityData.getPac(rootPackage)}
 import ${InterfaceGenerator.GeneratedClasses.SealedSyntheticColumnEntityData.getPac(rootPackage)}
@@ -158,6 +161,7 @@ import ${InterfaceGenerator.GeneratedClasses.ColumnEntityData.getPac(rootPackage
 import ${InterfaceGenerator.GeneratedClasses.IEntityOrigin.getPac(rootPackage)}
 
 import ${Generated::class.java.canonicalName}
+import ${EnumMap::class.java.canonicalName}
 import ${InterfaceGenerator.GeneratedClasses.IColExtractFunction.getPac(rootPackage)}
 import ${InterfaceGenerator.GeneratedClasses.SimpleColExtractFunction.getPac(rootPackage)}
 import ${InterfaceGenerator.GeneratedClasses.Synthetic.getPac(rootPackage)}
@@ -166,11 +170,18 @@ import kotlin.reflect.KProperty1
 ${metaInfo.allEntityPackagesImport}
 
 @Generated("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
-val columnEntityDataMap : Map<FullColumnName, ColumnEntityData<out IEntityOrigin>> = mapOf(
-$simpleColumn,
 
+enum class ${fullColumnEnumName}{
+${simpleColumn.joinToString(",\n") { it.first }};
 
+companion object{
+val columnEntityDataMap = EnumMap(mapOf(
+${simpleColumn.joinToString(",\n") { it.second }}
 )
+)
+}
+
+}
 
 """
                 logger.info("Create $nameClass")
@@ -183,6 +194,7 @@ $simpleColumn,
 
     companion object {
         val columnEntityEnumGeneratorNameClass = "DataDictionaryColumnEntityMap"
+        val fullColumnEnumName = "FullColumnNameEnum"
     }
 }
 

@@ -5,8 +5,6 @@ import org.springframework.boot.CommandLineRunner
 import org.springframework.core.annotation.Order
 import org.springframework.stereotype.Service
 import ru.vood.dmgen.datamodel.a.DealEntity
-import ru.vood.dmgen.datamodel.metaEnum.columnEntityDataMap
-
 import ru.vood.dmgen.meta.DerivativeColumns.entitiesColumnsMap
 import ru.vood.dmgen.meta.DerivativeDependencyMap.aggregateChildDependencyMap
 import ru.vood.dmgen.meta.DerivativeDependencyMap.aggregateParentDependencyMap
@@ -37,14 +35,6 @@ class RunDependency : CommandLineRunner {
 
         val message4 = entitiesColumnsMap
         println(message4)
-
-        val groupBy = columnEntityDataMap.values
-            .map { column ->
-                column.entity to column
-            }
-            .groupBy { it.first }
-            .map { it.key to it.value.map { ass -> ass.second }.toSet() }
-            .toMap()
 
     }
 }

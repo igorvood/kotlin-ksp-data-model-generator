@@ -40,7 +40,6 @@ class DataModelConfigProcessor(
         logger.warn("root package ${rootPackage.value}")
 
         EntityMapGenerator(codeGenerator, rootPackage, logger).createFiles(metaInformation)
-        EntityEnumGenerator(codeGenerator, rootPackage, logger).createFiles(metaInformation)
         InterfaceGenerator(codeGenerator, rootPackage, logger).createFiles(metaInformation)
         ColumnEntityMapGenerator(codeGenerator, rootPackage, logger).createFiles(metaInformation)
         UniqueKeyMapGenerator(codeGenerator, rootPackage, logger).createFiles(metaInformation)

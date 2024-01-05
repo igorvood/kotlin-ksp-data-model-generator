@@ -2,14 +2,13 @@ package ru.vood.processor.datamodel.gen.runtime.intf
 
 import com.google.devtools.ksp.processing.CodeGenerator
 import com.google.devtools.ksp.processing.KSPLogger
-import ru.vood.dmgen.dto.FkPair
 import ru.vood.dmgen.annotation.FlowEntityType
 import ru.vood.dmgen.dto.RelationType
 import ru.vood.dmgen.dto.*
 import ru.vood.processor.datamodel.abstraction.model.MetaInformation
 import ru.vood.processor.datamodel.gen.*
 import ru.vood.processor.datamodel.gen.AbstractDataDictionaryGenerator.Companion.subPackageAbstractDataDictionaryGenerator
-import ru.vood.processor.datamodel.gen.meta.EntityEnumGenerator.Companion.nameClassEntityEnumGenerator
+import ru.vood.processor.datamodel.gen.meta.ColumnEntityMapGenerator.Companion.fullColumnEnumName
 import java.time.LocalDateTime
 import javax.annotation.processing.Generated
 
@@ -33,9 +32,9 @@ import ${SimpleColumnType::class.java.canonicalName}
 import ${FlowEntityType::class.java.canonicalName}
 import kotlin.reflect.KClass
 import ${RelationType::class.java.canonicalName}
-import ${FkPair::class.java.canonicalName}
 import ${TypeUk::class.java.canonicalName}
 import ${GeneratedClasses.EntityEnum.getPac(rootPackage)}
+import ${GeneratedClasses.FullColumnNameEnum.getPac(rootPackage)}
 
 
 
@@ -240,7 +239,7 @@ data class ${GeneratedClasses.FKMetaData}<T : ${GeneratedClasses.IEntityOrigin}>
      * TODO по идеи величина вычисляемая, сейчас задается разработчиком*/
     val relationType: ${RelationType::class.java.simpleName},
     /**Коллекция колонок входящих во внешний ключ */
-    val fkCols: Set<${FkPair::class.java.simpleName}>,
+    val fkCols: Set<${GeneratedClasses.FkPair}>,
     /**Ф-ция вытаскивающая из fromEntity, экземпляр уникального ключа toEntity -> uk.
      * хорошо подходит для поиска  */
     val сontextExtractor: (T) -> ${GeneratedClasses.IContextOf}<out ${GeneratedClasses.IEntityOrigin}>
@@ -265,6 +264,12 @@ data class ${GeneratedClasses.UKEntityData}<T : IEntityOrigin>(
     val typeUk: ${TypeUk::class.java.simpleName}
 //    override val contextOfClass: KClass<${GeneratedClasses.IContextOf}<T>>
 )
+
+data class ${GeneratedClasses.FkPair}(
+    val from: $fullColumnEnumName,
+    val to: $fullColumnEnumName
+)
+
 
 
 """.trimIndent()
@@ -303,7 +308,9 @@ data class ${GeneratedClasses.UKEntityData}<T : IEntityOrigin>(
         FKMetaData(interfaceGeneratorPackageName),
         SealedEntityData(interfaceGeneratorPackageName),
         UKEntityData(interfaceGeneratorPackageName),
-        EntityEnum(subPackageAbstractDataDictionaryGenerator)
+        FkPair(interfaceGeneratorPackageName),
+        EntityEnum(subPackageAbstractDataDictionaryGenerator),
+        FullColumnNameEnum(subPackageAbstractDataDictionaryGenerator)
         ;
 
         fun getPac(root: PackageName) = root.value + "." + subPackageName.value + "." + this

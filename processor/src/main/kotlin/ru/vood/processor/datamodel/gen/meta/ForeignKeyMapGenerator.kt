@@ -2,15 +2,15 @@ package ru.vood.processor.datamodel.gen.meta
 
 import com.google.devtools.ksp.processing.CodeGenerator
 import com.google.devtools.ksp.processing.KSPLogger
-import ru.vood.dmgen.dto.FkPair
 import ru.vood.dmgen.dto.RelationType
 import ru.vood.dmgen.dto.FkName
-import ru.vood.dmgen.dto.FullColumnName
+import ru.vood.dmgen.dto.FullColumnName1
 import ru.vood.dmgen.dto.UkName
 import ru.vood.processor.datamodel.abstraction.model.MetaInformation
 import ru.vood.processor.datamodel.gen.*
 import ru.vood.processor.datamodel.gen.CollectName.entityClassName
 import ru.vood.processor.datamodel.gen.CollectName.ukClassName
+import ru.vood.processor.datamodel.gen.meta.ColumnEntityMapGenerator.Companion.fullColumnEnumName
 import ru.vood.processor.datamodel.gen.runtime.intf.InterfaceGenerator
 import java.time.LocalDateTime
 import javax.annotation.processing.Generated
@@ -34,7 +34,7 @@ class ForeignKeyMapGenerator(
                     .map { metaForeign ->
                         val fkCols = metaForeign.fkCols.map { fkPa ->
 
-                            """${FkPair::class.simpleName}(${FullColumnName::class.simpleName}("${metaForeign.fromEntity.designClassShortName}_${fkPa.from.name.value}"), ${FullColumnName::class.simpleName}("${metaForeign.toEntity.designClassShortName}_${fkPa.to.name.value}"))"""
+                            """${InterfaceGenerator.GeneratedClasses.FkPair}(${fullColumnEnumName}.${metaForeign.fromEntity.designClassShortName}_${fkPa.from.name.value}, ${fullColumnEnumName}.${metaForeign.toEntity.designClassShortName}_${fkPa.to.name.value})"""
                         }.joinToString(",\n")
 
                         val contextCols = metaForeign.fkCols.map { fkPa ->
@@ -68,10 +68,9 @@ class ForeignKeyMapGenerator(
                         
 import ${FkName::class.java.canonicalName}
 import ${InterfaceGenerator.GeneratedClasses.FKMetaData.getPac(rootPackage)}
-import ${FkPair::class.java.canonicalName}
+import ${InterfaceGenerator.GeneratedClasses.FkPair.getPac(rootPackage)}
 import ${UkName::class.java.canonicalName}
 import ${Generated::class.java.canonicalName}
-import ${FullColumnName::class.java.canonicalName}
 ${metaInfo.allEntityPackagesImport}
 
 
