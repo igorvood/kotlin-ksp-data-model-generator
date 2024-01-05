@@ -93,6 +93,13 @@ ${entities.joinToString(",\n") { it.first }};
 fun entityData() = $entityDataMapName[this]!!
 
 companion object{
+
+  fun entityMetaByStr(value: String):EntityEnum = when(value){
+            ${entities.map { """ "${it.first}" -> ${it.first} """ }.joinToString("\n")}
+            else -> error("in ${entityEnumName}::class.java.simpleName not found enum with name ${'$'}value")
+        }
+
+
 private val $entityDataMapName = EnumMap(mapOf(
 ${entities.joinToString(",\n") { it.second }}
 )

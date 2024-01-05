@@ -2,28 +2,28 @@ package ru.vood.dmgen.meta
 
 import ru.vood.dmgen.annotation.FlowEntityType
 import ru.vood.dmgen.datamodel.intf.FKMetaData
-import ru.vood.dmgen.datamodel.intf.IEntityData
 import ru.vood.dmgen.datamodel.metaEnum.EntityEnum
 import ru.vood.dmgen.datamodel.metaEnum.FkNameEnum
 import ru.vood.dmgen.datamodel.metaEnum.FkNameEnum.Companion.foreignKeyMap
+import java.util.*
 
 
 object DerivativeDependencyMap {
 
-    private val entityDataMap = EntityEnum.values().associateWith { it.entityData() }
+    private val entityDataMap = EnumMap(EntityEnum.values().associateWith { it.entityData() })
     val entityDependencyParentMap =
-        collectDependencyNew(entityDataMap, foreignKeyMap)
+        collectDependencyNew( foreignKeyMap)
 
-    val aggregateParentDependencyMap = entityDependencyParentMap
+    val aggregateParentDependencyMap = EnumMap(entityDependencyParentMap
         .filter { qw -> entityDataMap[qw.key]!!.entityType == FlowEntityType.AGGREGATE }
         .map {
             it.key to it.value.filter { q -> entityDataMap[q.toEntity]!!.entityType == FlowEntityType.AGGREGATE }
                 .toSet()
         }
-        .toMap()
+        .toMap())
 
 
-    val entityDependencyChildMap = entityDependencyParentMap.keys
+    val entityDependencyChildMap = EnumMap(entityDependencyParentMap.keys
         .associateWith { parentEnt ->
             val filter = entityDependencyParentMap.entries
                 .filter { ch ->
@@ -33,21 +33,18 @@ object DerivativeDependencyMap {
                 .map { MetaDependencyNew(it.key, entityDataMap[it.key]!!) }
                 .toSet()
             filter
-        }
+        })
 
-    val aggregateChildDependencyMap = entityDependencyChildMap
+    val aggregateChildDependencyMap = EnumMap(entityDependencyChildMap
         .filter { qw -> entityDataMap[qw.key]!!.entityType == FlowEntityType.AGGREGATE }
         .map {
             it.key to it.value.filter { q -> entityDataMap[q.toEntity]!!.entityType == FlowEntityType.AGGREGATE }
                 .toSet()
         }
-        .toMap()
-
-    //    Map<EntityName, IEntityData<IEntityOrigin>>
+        .toMap())
     private fun collectDependencyNew(
-        entities: Map<EntityEnum, IEntityData>,
         foreignKey: Map<FkNameEnum, FKMetaData<*>>
-    ): Map<EntityEnum, Set<MetaDependencyNew>> {
+    ): EnumMap<EntityEnum, Set<MetaDependencyNew>> {
         tailrec fun recursiveCollectDependency(
             listFk: List<FKMetaData<*>>,
             collector: Map<EntityEnum, Set<MetaDependencyNew>>
@@ -56,7 +53,7 @@ object DerivativeDependencyMap {
                 true -> collector
                 false -> {
                     val dataDictionaryForeignKeyEnum = listFk[0]
-                    val entityData = entities[dataDictionaryForeignKeyEnum.toEntity]!!
+                    val entityData = entityDataMap[dataDictionaryForeignKeyEnum.toEntity]!!
                     val metaDependencies = collector[dataDictionaryForeignKeyEnum.fromEntity]
                     val let = metaDependencies?.plus(
                         MetaDependencyNew(dataDictionaryForeignKeyEnum.toEntity, entityData)
@@ -71,10 +68,10 @@ object DerivativeDependencyMap {
             }
         }
 
-        val toMap = entities.values.map {
+        val toMap = entityDataMap.values.map {
             it.entityName to setOf<MetaDependencyNew>()
         }.toMap()
-        return recursiveCollectDependency(foreignKey.values.toList(), toMap)
+        return EnumMap(recursiveCollectDependency(foreignKey.values.toList(), toMap))
 
     }
 
