@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.dsl.KotlinCompile
+
 plugins {
     id("com.google.devtools.ksp")
     kotlin("jvm")

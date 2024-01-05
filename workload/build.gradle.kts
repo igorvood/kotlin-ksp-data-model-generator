@@ -16,6 +16,7 @@ dependencies {
     implementation(project(":dataModel"))
     implementation("org.springframework.boot:spring-boot-starter-data-jdbc")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
+    testImplementation(project(":dataModelSealed"))
     implementation("org.liquibase:liquibase-core")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-hocon:1.4.1")
