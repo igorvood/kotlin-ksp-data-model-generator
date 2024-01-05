@@ -4,11 +4,11 @@ import com.google.devtools.ksp.processing.CodeGenerator
 import com.google.devtools.ksp.processing.KSPLogger
 import ru.vood.dmgen.dto.SimpleColumnName
 import ru.vood.dmgen.dto.TypeUk
-import ru.vood.dmgen.dto.UkName
 import ru.vood.processor.datamodel.abstraction.model.MetaInformation
 import ru.vood.processor.datamodel.gen.*
 import ru.vood.processor.datamodel.gen.runtime.intf.InterfaceGenerator
 import java.time.LocalDateTime
+import java.util.*
 import javax.annotation.processing.Generated
 
 class UniqueKeyMapGenerator(
@@ -40,8 +40,8 @@ class UniqueKeyMapGenerator(
 
                                 val ukClassName = CollectName.ukClassName(ukDto.name)
 
-                                """${UkName::class.simpleName}("${ukDto.name.value}") to ${InterfaceGenerator.GeneratedClasses.UKEntityData}(
-                                    |ukName = ${UkName::class.simpleName}("${ukDto.name.value}"),
+                                "${ukDto.name.value}" to """${InterfaceGenerator.GeneratedClasses.UniqueKeyEnum}.${ukDto.name.value} to ${InterfaceGenerator.GeneratedClasses.UKEntityData}(
+                                    |ukName = ${InterfaceGenerator.GeneratedClasses.UniqueKeyEnum}.${ukDto.name.value},
                                     |columns = listOf($ukCols),
                                     |serializer = ${ukClassName}.serializer(),
                                     |ukClass = ${ukClassName}::class,
@@ -60,26 +60,33 @@ class UniqueKeyMapGenerator(
                             }
                     }
 
-                    .sorted()
-                    .joinToString(",\n")
+                    .sortedBy { it.first }
+//                    .joinToString(",\n")
 
                 val trimIndent =
                     """package ${packageName.value}
                         
 import ${InterfaceGenerator.GeneratedClasses.UKEntityData.getPac(rootPackage)}
 import ${TypeUk::class.java.canonicalName}.*
-import ${UkName::class.java.canonicalName}
+import ${InterfaceGenerator.GeneratedClasses.UniqueKeyEnum.getPac(rootPackage)}
 import ${SimpleColumnName::class.java.canonicalName}
+import ${EnumMap::class.java.canonicalName}
 import ${Generated::class.java.canonicalName}
 ${metaInfo.allEntityPackagesImport}
 
 
 @Generated("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
-val uniqueKeyMap = mapOf(
-$entities
+enum class ${uniqueKeyEnumName}{
+${entities.joinToString(",\n") { it.first }};
 
+companion object{
+val uniqueKeyMap = EnumMap(mapOf(
+${entities.joinToString(",\n") { it.second }}
 )
+)
+}
 
+}
 
 """
                 logger.info("Create $nameClass")
@@ -92,6 +99,7 @@ $entities
 
     companion object {
         val uniqueKeyEnumGeneratorNameClass = "DataDictionaryUniqueKeyMap"
+        val uniqueKeyEnumName = "UniqueKeyEnum"
     }
 
 }

@@ -170,7 +170,6 @@ import kotlin.reflect.KProperty1
 ${metaInfo.allEntityPackagesImport}
 
 @Generated("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
-
 enum class ${fullColumnEnumName}{
 ${simpleColumn.joinToString(",\n") { it.first }};
 

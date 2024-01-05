@@ -8,7 +8,8 @@ import ru.vood.dmgen.datamodel.intf.IContextOf
 import ru.vood.dmgen.datamodel.intf.IEntityOrigin
 import ru.vood.dmgen.datamodel.intf.UKEntityData
 import ru.vood.dmgen.datamodel.metaEnum.EntityEnum
-import ru.vood.dmgen.dto.UkName
+import ru.vood.dmgen.datamodel.metaEnum.UniqueKeyEnum
+
 
 @Repository
 class EntityUkDaoController(
@@ -17,10 +18,10 @@ class EntityUkDaoController(
 
     val json = Json
 
-    final fun saveEntityUk(contextOf: EntityEnum, ukName: UkName, pkJson: String, ukJson: String) {
+    final fun saveEntityUk(contextOf: EntityEnum, ukName: UniqueKeyEnum, pkJson: String, ukJson: String) {
         jdbcOperations.update(
             """insert into entity_uk_context(entity_type, entity_type_uk, pk, uk) VALUES (?, ?, ?, ?) """,
-            contextOf.name, ukName.value, pkJson, ukJson
+            contextOf.name, ukName.name, pkJson, ukJson
         )
 
     }
@@ -38,16 +39,16 @@ class EntityUkDaoController(
     }
 
 
-    final fun existUk(uk: UkName, function: String): Boolean {
+    final fun existUk(uk: UniqueKeyEnum, function: String): Boolean {
 //        jdbcOperations.queryForObject()
         val queryForObject = jdbcOperations.queryForObject(
             """select count(1) from entity_uk_context where entity_type_uk = ? and uk = ? """,
             Int::class.java,
-            uk.value, function
+            uk.name, function
         )
         val let = queryForObject ?: 0
         val b = if (let != 1) {
-            error("вай - вай - вай - нет форена ${function} для uk ${uk.value}")
+            error("вай - вай - вай - нет форена ${function} для uk ${uk.name}")
         } else true
         return b
     }

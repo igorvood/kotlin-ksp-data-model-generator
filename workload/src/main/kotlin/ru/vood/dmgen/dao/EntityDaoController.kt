@@ -412,12 +412,12 @@ class EntityDaoController(
             { rs, _ ->
                 serializer.modelJsonSerializer.decodeFromString(ktEntitySerializer, rs.getString(1))
             },
-            uk.ukName.value, ukJson
+            uk.ukName.name, ukJson
         )
 
         if (query.size == 1)
             query[0]
-        else error("Not found uk ${uk.ukName.value} with value ${ukJson}")
+        else error("Not found uk ${uk.ukName.name} with value ${ukJson}")
 
         return query[0]
     }

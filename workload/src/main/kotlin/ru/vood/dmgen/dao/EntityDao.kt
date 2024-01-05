@@ -13,7 +13,7 @@ import ru.vood.dmgen.dao.dto.UKJsonVal
 import ru.vood.dmgen.datamodel.intf.IContextOf
 import ru.vood.dmgen.datamodel.intf.IEntityOrigin
 import ru.vood.dmgen.datamodel.metaEnum.EntityEnum
-import ru.vood.dmgen.dto.UkName
+import ru.vood.dmgen.datamodel.metaEnum.UniqueKeyEnum
 import ru.vood.dmgen.meta.IndexesMetaDto
 import ru.vood.dmgen.serial.ModelJsonSerializer
 
@@ -36,7 +36,7 @@ class EntityDao(
 
     fun <TT> findEntityByUk(
         ktEntitySerializer: KSerializer<TT>,
-        ukName: UkName,
+        ukName: UniqueKeyEnum,
         ukJson: UKJsonVal
     ): TT {
         val query = jdbcOperations.query(
@@ -49,17 +49,17 @@ class EntityDao(
             { rs, _ ->
                 serializer.modelJsonSerializer.decodeFromString(ktEntitySerializer, rs.getString(1))
             },
-            ukName.value, ukJson.value
+            ukName.name, ukJson.value
         )
         return if (query.size == 1)
             query[0]
-        else error("Not found uk ${ukName.value} with value ${ukJson.value}")
+        else error("Not found uk ${ukName.name} with value ${ukJson.value}")
     }
 
     @OptIn(InternalSerializationApi::class)
     fun <TT> findEntityAsJsonElementByUk(
         ktEntitySerializer: KSerializer<TT>,
-        ukName: UkName,
+        ukName: UniqueKeyEnum,
         ukJson: UKJsonVal
     ): JsonElement {
         val query = jdbcOperations.query(
@@ -72,11 +72,11 @@ class EntityDao(
             { rs, _ ->
                 serializer.modelJsonSerializer.decodeStringToJsonTree(ktEntitySerializer, rs.getString(1))
             },
-            ukName.value, ukJson.value
+            ukName.name, ukJson.value
         )
         return if (query.size == 1)
             query[0]
-        else error("Not found uk ${ukName.value} with value ${ukJson.value}")
+        else error("Not found uk ${ukName.name} with value ${ukJson.value}")
     }
 
     fun <T : IEntityOrigin> findPKJsonVal(
@@ -93,7 +93,7 @@ class EntityDao(
             { rs, _ ->
                 PKJsonVal(rs.getString(1))
             },
-            uk.ukName.value, ukJson.value
+            uk.ukName.name, ukJson.value
         )
 
         return queryJsons[0]

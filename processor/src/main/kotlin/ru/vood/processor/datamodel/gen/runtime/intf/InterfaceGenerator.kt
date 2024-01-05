@@ -26,7 +26,7 @@ package ${packageName.value}
 
 import kotlinx.serialization.KSerializer
 import ${Generated::class.java.canonicalName}
-import ${UkName::class.java.canonicalName}
+import ${GeneratedClasses.UniqueKeyEnum.getPac(rootPackage)}
 import ${SimpleColumnName::class.java.canonicalName}
 import ${SimpleColumnType::class.java.canonicalName}
 import ${FlowEntityType::class.java.canonicalName}
@@ -57,7 +57,7 @@ interface ${GeneratedClasses.IEntityDetail}<T : ${GeneratedClasses.IEntityOrigin
 @Generated("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
 interface ${GeneratedClasses.IContextOf}<T : ${GeneratedClasses.IEntityOrigin}> : ${GeneratedClasses.SerializableEntity} {
 
-    val ukName: ${UkName::class.java.simpleName}
+    val ukName: ${GeneratedClasses.UniqueKeyEnum}
 
     val ktEntitySerializer: KSerializer<T>
 
@@ -234,7 +234,7 @@ data class ${GeneratedClasses.FKMetaData}<T : ${GeneratedClasses.IEntityOrigin}>
     /**Сущность к которой идет внешний ключ*/
     val toEntity:  ${GeneratedClasses.EntityEnum},
     /**Имя уикалоного индекса из toEntity на которой нацелен внешний ключ*/
-    val uk: ${UkName::class.java.simpleName},
+    val uk: ${GeneratedClasses.UniqueKeyEnum},
     /**Тип связи
      * TODO по идеи величина вычисляемая, сейчас задается разработчиком*/
     val relationType: ${RelationType::class.java.simpleName},
@@ -249,7 +249,7 @@ data class ${GeneratedClasses.FKMetaData}<T : ${GeneratedClasses.IEntityOrigin}>
 /**Мета данные по уникальному ключу*/
 data class ${GeneratedClasses.UKEntityData}<T : IEntityOrigin>(
     /**Имя уникального ключа*/
-    val ukName: ${UkName::class.java.simpleName},
+    val ukName: ${GeneratedClasses.UniqueKeyEnum},
     /**Колонки входящие в ключ*/
     val columns: List<${SimpleColumnName::class.java.simpleName}>,
     /**Сериализатор уникального ключа*/
@@ -310,7 +310,8 @@ data class ${GeneratedClasses.FkPair}(
         UKEntityData(interfaceGeneratorPackageName),
         FkPair(interfaceGeneratorPackageName),
         EntityEnum(subPackageAbstractDataDictionaryGenerator),
-        FullColumnNameEnum(subPackageAbstractDataDictionaryGenerator)
+        FullColumnNameEnum(subPackageAbstractDataDictionaryGenerator),
+        UniqueKeyEnum(subPackageAbstractDataDictionaryGenerator)
         ;
 
         fun getPac(root: PackageName) = root.value + "." + subPackageName.value + "." + this

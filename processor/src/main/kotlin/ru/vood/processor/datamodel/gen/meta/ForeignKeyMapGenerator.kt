@@ -4,12 +4,12 @@ import com.google.devtools.ksp.processing.CodeGenerator
 import com.google.devtools.ksp.processing.KSPLogger
 import ru.vood.dmgen.dto.RelationType
 import ru.vood.dmgen.dto.FkName
-import ru.vood.dmgen.dto.UkName
 import ru.vood.processor.datamodel.abstraction.model.MetaInformation
 import ru.vood.processor.datamodel.gen.*
 import ru.vood.processor.datamodel.gen.CollectName.entityClassName
 import ru.vood.processor.datamodel.gen.CollectName.ukClassName
 import ru.vood.processor.datamodel.gen.meta.ColumnEntityMapGenerator.Companion.fullColumnEnumName
+import ru.vood.processor.datamodel.gen.meta.UniqueKeyMapGenerator.Companion.uniqueKeyEnumName
 import ru.vood.processor.datamodel.gen.runtime.intf.InterfaceGenerator
 import java.time.LocalDateTime
 import javax.annotation.processing.Generated
@@ -48,7 +48,7 @@ class ForeignKeyMapGenerator(
                         }>(
                         |fromEntity = ${InterfaceGenerator.GeneratedClasses.EntityEnum}.${metaForeign.fromEntity.designClassShortName},
                         |toEntity = ${InterfaceGenerator.GeneratedClasses.EntityEnum}.${metaForeign.toEntity.designClassShortName},
-                        |uk = ${UkName::class.simpleName}("${metaForeign.uk.name.value}"),
+                        |uk = ${uniqueKeyEnumName}.${metaForeign.uk.name.value},
                         |relationType = ${RelationType::class.java.canonicalName}.${metaForeign.relationType.name},
                         |fkCols = setOf($fkCols),
                         |сontextExtractor = {data: ${entityClassName(metaForeign.fromEntity)} -> ${
@@ -68,7 +68,7 @@ class ForeignKeyMapGenerator(
 import ${FkName::class.java.canonicalName}
 import ${InterfaceGenerator.GeneratedClasses.FKMetaData.getPac(rootPackage)}
 import ${InterfaceGenerator.GeneratedClasses.FkPair.getPac(rootPackage)}
-import ${UkName::class.java.canonicalName}
+import ${InterfaceGenerator.GeneratedClasses.UniqueKeyEnum.getPac(rootPackage)}
 import ${Generated::class.java.canonicalName}
 ${metaInfo.allEntityPackagesImport}
 

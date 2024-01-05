@@ -2,7 +2,6 @@ package ru.vood.processor.datamodel.gen.runtime
 
 import com.google.devtools.ksp.processing.CodeGenerator
 import com.google.devtools.ksp.processing.KSPLogger
-import ru.vood.dmgen.dto.UkName
 import ru.vood.processor.datamodel.abstraction.model.MetaInformation
 import ru.vood.processor.datamodel.gen.*
 import ru.vood.processor.datamodel.gen.CollectName.ukClassName
@@ -43,7 +42,7 @@ class ContextDataClassesGenerator(
                 val fullClassName = ukClassName(ukName)
                 val code = """package ${metaEntity.designClassPackageName}
                     
-import ${UkName::class.java.canonicalName}
+import ${InterfaceGenerator.GeneratedClasses.UniqueKeyEnum.getPac(rootPackage)}
 import ${Generated::class.java.canonicalName}
 import ${InterfaceGenerator.GeneratedClasses.IContextOf.getPac(rootPackage)}
 import ${InterfaceGenerator.GeneratedClasses.EntityEnum.getPac(rootPackage)}
@@ -57,8 +56,8 @@ $joinToString
 override val designEntityName: ${InterfaceGenerator.GeneratedClasses.EntityEnum}
         get() = ${InterfaceGenerator.GeneratedClasses.EntityEnum}.$dataClass
         
-override val ukName: ${UkName::class.java.simpleName}
-    get() = ukNameConst
+override val ukName: ${InterfaceGenerator.GeneratedClasses.UniqueKeyEnum}
+    get() = ${InterfaceGenerator.GeneratedClasses.UniqueKeyEnum}.${ukName.value}
     
 override val ktEntitySerializer
     get() = ${entityName}.serializer()
@@ -67,9 +66,6 @@ override val ktEntitySerializer
 override val ktSyntheticEntitySerializer
     get() = ${syntheticEntityName}.serializer()
 
-companion object{
-    val ukNameConst = ${UkName::class.java.simpleName}("${ukName.value}")
-}
                 
         
 }          

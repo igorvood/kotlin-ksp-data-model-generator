@@ -1,5 +1,4 @@
 package ru.vood.dmgen.dto
 
 @JvmInline
-@Deprecated("в будующем будет enum")
-value class UkName(val value: String)
+value class UkName1(val value: String)

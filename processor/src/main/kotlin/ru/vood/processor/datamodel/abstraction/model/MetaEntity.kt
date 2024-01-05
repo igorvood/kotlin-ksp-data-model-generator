@@ -7,7 +7,7 @@ import com.google.devtools.ksp.symbol.KSClassDeclaration
 import ru.vood.dmgen.annotation.*
 import ru.vood.dmgen.dto.SimpleColumnName
 import ru.vood.dmgen.dto.TypeUk
-import ru.vood.dmgen.dto.UkName
+import ru.vood.dmgen.dto.UkName1
 import ru.vood.processor.datamodel.abstraction.model.dto.ModelClassName
 import ru.vood.processor.datamodel.abstraction.model.dto.UkDto
 
@@ -48,13 +48,13 @@ data class MetaEntity(val ksAnnotated: KSClassDeclaration, val logger: KSPLogger
             error("Entity ${designClassFullClassName.value} contains nullable columns in PK ${minus}")
         }
 
-        UkDto(UkName(designClassShortName + "_PK"), pkCols, TypeUk.PK) to fields.filter { it.inPk }
+        UkDto(UkName1(designClassShortName + "_PK"), pkCols, TypeUk.PK) to fields.filter { it.inPk }
     }
 
     val uniqueKeysFields: Map<UkDto, List<MetaEntityColumn>> by lazy {
         val allUk = uniqueKeysAnnotations
             .map { anno ->
-                UkDto(UkName(anno.name), anno.cols.map { SimpleColumnName(it) }.toSet(), TypeUk.UK) to anno.cols
+                UkDto(UkName1(anno.name), anno.cols.map { SimpleColumnName(it) }.toSet(), TypeUk.UK) to anno.cols
                     .map { annoColName ->
                         annoColName to fields.filter { f -> f.name.value == annoColName }
                             .map { metaCol -> metaCol }
