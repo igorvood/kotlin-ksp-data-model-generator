@@ -40,15 +40,15 @@ import ${GeneratedClasses.FullColumnNameEnum.getPac(rootPackage)}
 
 
 
-@Generated("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
+@${Generated::class.java.simpleName}("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
 interface ${GeneratedClasses.SerializableEntity} {
     val designEntityName: ${GeneratedClasses.EntityEnum}
 }
 
-@Generated("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
+@${Generated::class.java.simpleName}("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
 interface ${GeneratedClasses.IEntityOrigin} : ${GeneratedClasses.SerializableEntity}
 
-@Generated("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
+@${Generated::class.java.simpleName}("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
 interface ${GeneratedClasses.IEntityDetail}<T : ${GeneratedClasses.IEntityOrigin}> : ${GeneratedClasses.IEntityOrigin} {
 
     val origin: T
@@ -56,7 +56,7 @@ interface ${GeneratedClasses.IEntityDetail}<T : ${GeneratedClasses.IEntityOrigin
 
 }
 
-@Generated("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
+@${Generated::class.java.simpleName}("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
 interface ${GeneratedClasses.IContextOf}<T : ${GeneratedClasses.IEntityOrigin}> : ${GeneratedClasses.SerializableEntity} {
 
     val ukName: ${GeneratedClasses.UniqueKeyEnum}
@@ -67,7 +67,7 @@ interface ${GeneratedClasses.IContextOf}<T : ${GeneratedClasses.IEntityOrigin}> 
 
 }
 
-@Generated("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
+@${Generated::class.java.simpleName}("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
 /**Мета данные по реквизиту сущности*/
 sealed interface ${GeneratedClasses.ColumnEntityData}<T> {
     /**имя сущности*/
@@ -84,7 +84,7 @@ sealed interface ${GeneratedClasses.ColumnEntityData}<T> {
     /**ф-ция экстрактор значения колонки*/
 }
 
-@Generated("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
+@${Generated::class.java.simpleName}("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
 data class ${GeneratedClasses.SimpleColumnEntityData}<T : ${GeneratedClasses.IEntityOrigin}>(
     override val entity:  ${GeneratedClasses.EntityEnum},
     /**имя колонки*/
@@ -99,7 +99,7 @@ data class ${GeneratedClasses.SimpleColumnEntityData}<T : ${GeneratedClasses.IEn
 ) : ${GeneratedClasses.ColumnEntityData}<T>
 
 
-@Generated("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
+@${Generated::class.java.simpleName}("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
 data class ${GeneratedClasses.SyntheticColumnEntityData}<T>(
     override val entity:  ${GeneratedClasses.EntityEnum},
     /**имя колонки*/
@@ -113,7 +113,7 @@ data class ${GeneratedClasses.SyntheticColumnEntityData}<T>(
     val outEntity:  ${GeneratedClasses.EntityEnum}
 ) : ${GeneratedClasses.ColumnEntityData}<T>
 
-@Generated("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
+@${Generated::class.java.simpleName}("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
 data class ${GeneratedClasses.SealedSyntheticColumnEntityData}<T>(
     override val entity:  ${GeneratedClasses.EntityEnum},
     /**имя колонки*/
@@ -127,22 +127,22 @@ data class ${GeneratedClasses.SealedSyntheticColumnEntityData}<T>(
     val outEntities: Set< ${GeneratedClasses.EntityEnum}>
 ) : ${GeneratedClasses.ColumnEntityData}<T>
 
-@Generated("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
+@${Generated::class.java.simpleName}("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
 sealed interface ${GeneratedClasses.IColExtractFunction}<in T, out OUT> {
     val extractFieldValue: (entity: T) -> OUT
 }
 
-@Generated("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
+@${Generated::class.java.simpleName}("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
 sealed interface ${GeneratedClasses.ISyntheticColExtractFunction}<in T, out OUT> : ${GeneratedClasses.IColExtractFunction}<T, OUT>
 
 @JvmInline
-@Generated("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
+@${Generated::class.java.simpleName}("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
 value class ${GeneratedClasses.SimpleColExtractFunction}<T : IEntityOrigin, OUT>(
     override val extractFieldValue: (entity: T) -> OUT
 ) : ${GeneratedClasses.IColExtractFunction}<T, OUT>
 
 @JvmInline
-@Generated("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
+@${Generated::class.java.simpleName}("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
 value class ${GeneratedClasses.Synthetic}<
         ORIG_IN : ${GeneratedClasses.IEntityOrigin},
         SINTH_IN : ${GeneratedClasses.IEntityDetail}<out ORIG_IN>,
@@ -151,7 +151,7 @@ value class ${GeneratedClasses.Synthetic}<
 ) : ${GeneratedClasses.ISyntheticColExtractFunction}<SINTH_IN, Set<${GeneratedClasses.IEntityDetail}<OUT>>>
 
 @JvmInline
-@Generated("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
+@${Generated::class.java.simpleName}("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
 value class ${GeneratedClasses.SyntheticSet}<
         ORIG_IN : ${GeneratedClasses.IEntityOrigin},
         SINTH_IN : ${GeneratedClasses.IEntityDetail}<out ORIG_IN>,
@@ -160,7 +160,7 @@ value class ${GeneratedClasses.SyntheticSet}<
 ) : ${GeneratedClasses.ISyntheticColExtractFunction}<SINTH_IN, Set<${GeneratedClasses.IEntityDetail}<OUT>>>
 
 
-@Generated("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
+@${Generated::class.java.simpleName}("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
 /**Мета данные по сущности*/
 sealed interface ${GeneratedClasses.IEntityData}<T : IEntityOrigin> {
     /**интрефейс описывающий структуру сущности */
@@ -188,6 +188,7 @@ sealed interface ${GeneratedClasses.IEntityData}<T : IEntityOrigin> {
     val entityType: ${FlowEntityType::class.java.simpleName}
 }
 
+@${Generated::class.java.simpleName}("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
 /**Мета данные по сущности*/
 data class ${GeneratedClasses.EntityData}<T : ${GeneratedClasses.IEntityOrigin}>(
     /**интрефейс описывающий структуру сущности */
@@ -208,6 +209,7 @@ data class ${GeneratedClasses.EntityData}<T : ${GeneratedClasses.IEntityOrigin}>
     override val entityType: ${FlowEntityType::class.java.simpleName} 
 ) : ${GeneratedClasses.IEntityData}<T>
 
+@${Generated::class.java.simpleName}("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
 data class ${GeneratedClasses.SealedEntityData}<T : ${GeneratedClasses.IEntityOrigin}>(
     /**интрефейс описывающий структуру сущности */
     override val designClass: KClass<out Any>,
@@ -229,6 +231,7 @@ data class ${GeneratedClasses.SealedEntityData}<T : ${GeneratedClasses.IEntityOr
     val children: Set< ${GeneratedClasses.EntityEnum}>
 ) : ${GeneratedClasses.IEntityData}<T>
 
+@${Generated::class.java.simpleName}("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
 /**Мета данные по внегнему ключу*/
 data class ${GeneratedClasses.FKMetaData}<T : ${GeneratedClasses.IEntityOrigin}>(
     /**Сущность из которой идет внешний ключ*/
@@ -247,7 +250,7 @@ data class ${GeneratedClasses.FKMetaData}<T : ${GeneratedClasses.IEntityOrigin}>
     val сontextExtractor: (T) -> ${GeneratedClasses.IContextOf}<out ${GeneratedClasses.IEntityOrigin}>
 )
 
-
+@${Generated::class.java.simpleName}("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
 /**Мета данные по уникальному ключу*/
 data class ${GeneratedClasses.UKEntityData}<T : IEntityOrigin>(
     /**Имя уникального ключа*/
@@ -267,6 +270,7 @@ data class ${GeneratedClasses.UKEntityData}<T : IEntityOrigin>(
 //    override val contextOfClass: KClass<${GeneratedClasses.IContextOf}<T>>
 )
 
+@${Generated::class.java.simpleName}("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
 data class ${GeneratedClasses.FkPair}(
     val from: $fullColumnEnumName,
     val to: $fullColumnEnumName
