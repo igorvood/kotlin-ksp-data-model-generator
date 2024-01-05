@@ -25,12 +25,12 @@ class ColumnEntityMapGenerator(
         get() = columnEntityEnumGeneratorNameClass
 
     override fun textGenerator(metaInfo: MetaInformation): Set<GeneratedFile> {
-        val generatedClassData = metaInfo.entities.values.toSet()
+        val metaEntitySet = metaInfo.entities.values.toSet()
         val metaForeignKeys = metaInfo.metaForeignKeys
-        return when (generatedClassData.isEmpty()) {
+        return when (metaEntitySet.isEmpty()) {
             true -> setOf()
             false -> {
-                val simpleColumn = generatedClassData
+                val simpleColumn = metaEntitySet
                     .sortedBy { it.designClassShortName }
                     .flatMap { ent ->
                         val filter = metaForeignKeys
@@ -48,18 +48,19 @@ class ColumnEntityMapGenerator(
                         val syntheticF = syntheticFieldInfos
 //                            .sortedBy { it.metaEntity.entityFieldName }
 //                            .filter {syntheticFieldInfo ->  syntheticFieldInfo.metaEntity.designClassShortName !in listOf<String>("DealTwoData", "DealOneData") }
-                            .map { syntheticFieldInfo ->
-                                when (val synth = syntheticFieldInfo) {
-                                    is SyntheticFieldInfo -> {
+                            .filterIsInstance<SyntheticFieldInfo>()
+                            .map { synth ->
+//                                when (val synth = syntheticFieldInfo) {
+//                                    is SyntheticFieldInfo -> {
                                         val fromEntity = synth.metaEntity
                                         val isOptional =
                                             /*syntheticFieldInfo.isOptional &&*/
-                                            syntheticFieldInfo.relationType == RelationType.ONE_TO_ONE_OPTIONAL
+                                            synth.relationType == RelationType.ONE_TO_ONE_OPTIONAL
                                         val sealedText = """setOf(it.${fromEntity.entityFieldName})"""
-                                        val columnKindType = when (syntheticFieldInfo.relationType) {
+                                        val columnKindType = when (synth.relationType) {
                                             RelationType.ONE_TO_ONE_OPTIONAL -> {
                                                 val funBody =
-                                                    if (syntheticFieldInfo.isOneOf) sealedText else """it.${fromEntity.entityFieldName}?.let{q->setOf(q)}?:setOf()"""
+                                                    if (synth.isOneOf) sealedText else """it.${fromEntity.entityFieldName}?.let{q->setOf(q)}?:setOf()"""
                                                 "${InterfaceGenerator.GeneratedClasses.Synthetic}<$entityClass, $syntheticClassName, ${synth.metaEntity.designClassPackageName}.${
                                                     entityClassName(
                                                         synth.metaEntity
@@ -68,7 +69,7 @@ class ColumnEntityMapGenerator(
                                             }
                                             RelationType.ONE_TO_ONE_MANDATORY -> {
                                                 val funBody =
-                                                    if (syntheticFieldInfo.isOneOf) sealedText else """setOf(it.${fromEntity.entityFieldName})"""
+                                                    if (synth.isOneOf) sealedText else """setOf(it.${fromEntity.entityFieldName})"""
                                                 "${InterfaceGenerator.GeneratedClasses.Synthetic}<$entityClass, $syntheticClassName, ${synth.metaEntity.designClassPackageName}.${
                                                     entityClassName(
                                                         synth.metaEntity
@@ -98,33 +99,33 @@ class ColumnEntityMapGenerator(
                                 |comment ="${fromEntity.comment}",
                                 |iColExtractFunction = $columnKindType,
                                 |)""".trimMargin()
-                                    }
-                                    is SealedSyntheticFieldInfo -> {
+//                                    }
+//                                    is SealedSyntheticFieldInfo -> {
+//
+//
+//                                        val fullColumnName = FullColumnName(
+//                                            EntityName(ent.designClassShortName),
+//                                            SimpleColumnName(ent.entityFieldName)
+//                                        )
+//
+//                                        val joinToString =
+//                                            synth.metaEntities.map { it -> """${InterfaceGenerator.GeneratedClasses.EntityEnum}.${it.designClassShortName}""" }
+//                                                .joinToString(",")
+//
+//                                        "11 ${fullColumnName.value}" to """${fullColumnEnumName}.${fullColumnName.value} to ${InterfaceGenerator.GeneratedClasses.SealedSyntheticColumnEntityData}(
+//                                          |entity= ${InterfaceGenerator.GeneratedClasses.EntityEnum}.${ent.designClassShortName},
+//                                          |simpleColumnName= ${SimpleColumnName::class.java.simpleName}( "${ent.entityFieldName}"),
+//                                          |isOptional= false,
+//                                          |comment= "${ent.comment}",
+//                                          |outEntities= setOf(${joinToString}),
+//                                          |)""".trimMargin()
+//
+//
+//                                    }
+//                                }
 
-                                        syntheticFieldInfo
-                                        val fullColumnName = FullColumnName(
-                                            EntityName(ent.designClassShortName),
-                                            SimpleColumnName(ent.entityFieldName)
-                                        )
 
-                                        val joinToString =
-                                            synth.metaEntities.map { it -> """${InterfaceGenerator.GeneratedClasses.EntityEnum}.${it.designClassShortName}""" }
-                                                .joinToString(",")
-
-                                        "${fullColumnName.value}" to """${fullColumnEnumName}.${fullColumnName.value} to ${InterfaceGenerator.GeneratedClasses.SealedSyntheticColumnEntityData}(
-                                          |entity= ${InterfaceGenerator.GeneratedClasses.EntityEnum}.${ent.designClassShortName},
-                                          |simpleColumnName= ${SimpleColumnName::class.java.simpleName}( "${ent.entityFieldName}"),
-                                          |isOptional= false,
-                                          |comment= "${ent.comment}",
-                                          |outEntities= setOf(${joinToString}),
-                                          |)""".trimMargin()
-
-
-                                    }
-                                }
-
-
-                            }
+                            } //map
 
 
                         val simpleF = ent.fields
@@ -142,7 +143,6 @@ class ColumnEntityMapGenerator(
                         val plus = simpleF.plus(syntheticF)
                         plus
                     }
-                    .distinctBy { it.first }
 
 
                 val trimIndent =

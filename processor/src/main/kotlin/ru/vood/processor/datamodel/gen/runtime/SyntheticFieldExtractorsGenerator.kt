@@ -94,7 +94,7 @@ $fk
                 """.trimIndent()
             FlowEntityType.ONE_OF -> """${headCreate(metaEntity, syntheticFieldImport)}
 data class $fullClassName(
-override val origin: DealOneOfDataEntity
+override val origin: $originClassName
 ) 
 : $s
 {
