@@ -74,6 +74,7 @@ class EntityMapGenerator(
                     .sortedBy { it.first }
 
 
+
                 val trimIndent =
                     """package ${packageName.value}
 
@@ -89,8 +90,10 @@ ${metaInfo.allEntityPackagesImport}
 enum class $entityEnumName{
 ${entities.joinToString(",\n") { it.first }};
 
+fun entityData() = $entityDataMapName[this]!!
+
 companion object{
-val entityDataMap = EnumMap(mapOf(
+private val $entityDataMapName = EnumMap(mapOf(
 ${entities.joinToString(",\n") { it.second }}
 )
 )
@@ -107,6 +110,7 @@ ${entities.joinToString(",\n") { it.second }}
     }
 
     companion object {
+        val entityDataMapName = """entityDataMap"""
         val nameClassEntityEnumGenerator = "DataDictionaryEntityMap"
         val entityEnumName = "EntityEnum"
     }

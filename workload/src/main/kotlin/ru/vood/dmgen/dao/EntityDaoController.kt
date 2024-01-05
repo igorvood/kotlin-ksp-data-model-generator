@@ -13,7 +13,6 @@ import ru.vood.dmgen.dao.dto.PayLoadJsonVal
 import ru.vood.dmgen.dao.dto.UKJsonVal
 import ru.vood.dmgen.datamodel.intf.*
 import ru.vood.dmgen.datamodel.metaEnum.EntityEnum
-import ru.vood.dmgen.datamodel.metaEnum.EntityEnum.Companion.entityDataMap
 
 
 import ru.vood.dmgen.meta.DerivativeColumns.entitiesSyntheticColumnsByEntityMap2
@@ -42,8 +41,7 @@ class EntityDaoController(
         val entityNameOrigin = aggregate.designEntityName
         val indexesDtoOrigin =
             entitiesUkMap[entityNameOrigin] ?: error("Почему то не найдена сущность ${entityNameOrigin}")
-        val entityDataOrigin =
-            entityDataMap[entityNameOrigin] ?: error("Почему то не найдена сущность ${entityNameOrigin}")
+        val entityDataOrigin = entityNameOrigin.entityData()
         val pkMetaOrigin = indexesDtoOrigin.pkEntityData as UKEntityData<T>
 
         // сериалайзеры
@@ -80,8 +78,7 @@ class EntityDaoController(
         val entityNameOrigin = aggregate.designEntityName
         val indexesDto =
             entitiesUkMap[entityNameOrigin] ?: error("Почему то не найдена сущность ${entityNameOrigin}")
-        val entityData =
-            entityDataMap[entityNameOrigin] ?: error("Почему то не найдена сущность ${entityNameOrigin}")
+        val entityData = entityNameOrigin.entityData()
         val pkMeta = indexesDto.pkEntityData as UKEntityData<T>
 
 
@@ -155,8 +152,7 @@ class EntityDaoController(
             val childrenSynthetics = entry.value
 
 //            вытаскиваю мету по дочерней сущности
-            val childrenEntityData =
-                entityDataMap[childrenEntityName] ?: error("Почему то не найдена сущность ${childrenEntityName}")
+            val childrenEntityData = childrenEntityName.entityData()
             val indexesDto =
                 entitiesUkMap[childrenEntityName] ?: error("Почему то не найдена сущность ${childrenEntityName}")
             val pkMeta: UKEntityData<IEntityOrigin> = indexesDto.pkEntityData as UKEntityData<IEntityOrigin>
@@ -219,7 +215,7 @@ class EntityDaoController(
         val entityName = entity.designEntityName
         val indexesDto = entitiesUkMap[entityName] ?: error("Почему то не найдена сущность ${entityName}")
         val pkSerializer = indexesDto.pkEntityData.serializer as KSerializer<Any>
-        val entityData = entityDataMap[entityName] ?: error("Почему то не найдена сущность ${entityName}")
+        val entityData = entityName.entityData()
         val entitySerializer = entityData.serializer as KSerializer<Any>
 
         checkFk(entityName, entity)
@@ -281,7 +277,7 @@ class EntityDaoController(
 
         val collectChildrenJsonElement = collectChildrenJsonElement(originEntityName, childEntityDtos)
         val jsonObject = collectSyntheticJsonObject(collectChildrenJsonElement, originEntityName, originJsonElement)
-        val serializerSynthetic = entityDataMap[originEntityName]!!.serializerSynthetic
+        val serializerSynthetic = originEntityName.entityData().serializerSynthetic
 
         return serializer.modelJsonSerializer.decodeFromJsonElement(serializerSynthetic, jsonObject) as T
     }
@@ -327,12 +323,8 @@ class EntityDaoController(
         val columnMap = syntheticColumnEntityData ?: listOf()
         val map = columnMap.map { columnEntityData ->
 
-
             val outEntity = columnEntityData.outEntity
-
-
-            val entityData = entityDataMap[outEntity] ?: error("mcvnbjkxchhgsdjkhgf")
-
+            val entityData = outEntity.entityData()
 
             val childEntityDto1 = childEntityDtos[outEntity]
             val childEntityDto = if (columnEntityData.isOptional) {

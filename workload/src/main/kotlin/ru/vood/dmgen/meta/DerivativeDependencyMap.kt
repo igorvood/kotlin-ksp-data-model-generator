@@ -3,15 +3,14 @@ package ru.vood.dmgen.meta
 import ru.vood.dmgen.annotation.FlowEntityType
 import ru.vood.dmgen.datamodel.intf.FKMetaData
 import ru.vood.dmgen.datamodel.intf.IEntityData
-import ru.vood.dmgen.datamodel.intf.IEntityOrigin
 import ru.vood.dmgen.datamodel.metaEnum.EntityEnum
-import ru.vood.dmgen.datamodel.metaEnum.EntityEnum.Companion.entityDataMap
 import ru.vood.dmgen.datamodel.metaEnum.FkNameEnum
 import ru.vood.dmgen.datamodel.metaEnum.FkNameEnum.Companion.foreignKeyMap
 
 
 object DerivativeDependencyMap {
 
+    private val entityDataMap = EntityEnum.values().associateWith { it.entityData() }
     val entityDependencyParentMap =
         collectDependencyNew(entityDataMap, foreignKeyMap)
 
