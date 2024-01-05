@@ -172,8 +172,10 @@ ${metaInfo.allEntityPackagesImport}
 enum class ${fullColumnEnumName}{
 ${simpleColumn.joinToString(",\n") { it.first }};
 
+fun columnData() = columnEntityDataMap[this]!!
+
 companion object{
-val columnEntityDataMap = EnumMap(mapOf(
+private val columnEntityDataMap = EnumMap(mapOf(
 ${simpleColumn.joinToString(",\n") { it.second }}
 )
 )

@@ -1,12 +1,16 @@
 package ru.vood.dmgen.meta
 
 import ru.vood.dmgen.datamodel.intf.SyntheticColumnEntityData
-import ru.vood.dmgen.datamodel.metaEnum.FullColumnNameEnum.Companion.columnEntityDataMap
+import ru.vood.dmgen.datamodel.metaEnum.FullColumnNameEnum
+import java.util.*
 
 
 object DerivativeColumns {
 
-    val entitiesColumnsMap = columnEntityDataMap.values
+
+    private val columnEntityDataMap = EnumMap(FullColumnNameEnum.values().map { it to it.columnData() }.toMap())
+
+    val entitiesColumnsMap = EnumMap(columnEntityDataMap.values
         .map { column ->
             column.entity to column
         }
@@ -16,8 +20,9 @@ object DerivativeColumns {
                 .map { asdsa -> asdsa.simpleColumnName to asdsa }.toMap()
         }
         .toMap()
+    )
 
-    val entitiesSyntheticColumnsMap = entitiesColumnsMap
+    val entitiesSyntheticColumnsMap = EnumMap(entitiesColumnsMap
         .entries
         .map { asd ->
             asd.key to asd.value
@@ -28,9 +33,9 @@ object DerivativeColumns {
         }
         .filter { asd -> asd.second.isNotEmpty() }
         .toMap()
+    )
 
-
-    val entitiesSyntheticColumnsByEntityMap2 = entitiesSyntheticColumnsMap
+    val entitiesSyntheticColumnsByEntityMap2 = EnumMap(entitiesSyntheticColumnsMap
         .entries
         .map { asd ->
             asd.key to asd.value
@@ -38,6 +43,6 @@ object DerivativeColumns {
                 .toMap()
         }
         .toMap()
-
+    )
 
 }
