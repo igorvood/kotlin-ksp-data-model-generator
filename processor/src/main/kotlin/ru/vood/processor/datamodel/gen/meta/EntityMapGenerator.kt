@@ -8,6 +8,7 @@ import ru.vood.processor.datamodel.abstraction.model.MetaInformation
 import ru.vood.processor.datamodel.gen.*
 import ru.vood.processor.datamodel.gen.runtime.intf.InterfaceGenerator
 import java.time.LocalDateTime
+import java.util.*
 import javax.annotation.processing.Generated
 
 class EntityMapGenerator(
@@ -81,6 +82,7 @@ import ${InterfaceGenerator.GeneratedClasses.EntityData.getPac(rootPackage)}
 import ${InterfaceGenerator.GeneratedClasses.SealedEntityData.getPac(rootPackage)}
 import ${InterfaceGenerator.GeneratedClasses.EntityEnum.getPac(rootPackage)}
 import ${Generated::class.java.canonicalName}
+import ${EnumMap::class.java.canonicalName}
 ${metaInfo.allEntityPackagesImport}
 
 @Generated("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
@@ -88,9 +90,9 @@ enum class EntityEnum{
 ${entities.joinToString(",\n") { it.first }};
 
 companion object{
-val entityDataMap = mapOf(
+val entityDataMap = EnumMap(mapOf(
 ${entities.joinToString(",\n") { it.second }}
-
+)
 )
 }
 
