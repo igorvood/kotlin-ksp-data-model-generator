@@ -5,12 +5,12 @@ import ru.vood.dmgen.datamodel.valueClasses.DealId
 
 
 
-//@ForeignKey(
-//    kClass = "ru.vood.dmgen.datamodel.sealedData.Deal",
-//    name = "OneOfDto_FK1",
-//    cols = [ForeignKeyColumns("id", "id")],
-//    foreignKeyType = ForeignKeyType.MANDATORY
-//)
+@ForeignKey(
+    kClass = "ru.vood.dmgen.datamodel.sealedData.Deal",
+    name = "OneOfDto_FK0",
+    cols = [ForeignKeyColumns("id", "id")],
+    foreignKeyType = ForeignKeyType.MANDATORY
+)
 @Comment("Это сущность Сделка0")
 @FlowEntity(FlowEntityType.AGGREGATE)
 interface Deal0 {
