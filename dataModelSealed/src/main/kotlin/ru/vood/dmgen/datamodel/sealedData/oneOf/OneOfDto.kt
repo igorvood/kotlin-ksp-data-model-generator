@@ -4,7 +4,7 @@ import ru.vood.dmgen.annotation.*
 import ru.vood.dmgen.datamodel.valueClasses.DealId
 
 
-//@FlowEntity(FlowEntityType.ONE_OF)
+@FlowEntity(FlowEntityType.ONE_OF)
 @ForeignKey(
     kClass = "ru.vood.dmgen.datamodel.sealedData.Deal",
     name = "OneOfDto_FK",
