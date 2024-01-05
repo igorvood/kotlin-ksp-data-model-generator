@@ -84,18 +84,18 @@ import ${EnumMap::class.java.canonicalName}
 
 ${metaInfo.allEntityPackagesImport}
 
-@Generated("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
-enum class EntityEnum{
-$entities;
+//@Generated("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
+//enum class EntityEnum{
+/*$entities;
+*/
+//companion object{
+ //   val entityMap = EnumMap(values().associateWith { ee ->
+//        entityDataMap.getValue(ee)
+//    })
 
-companion object{
-    val entityMap = EnumMap(values().associateWith { ee ->
-        entityDataMap.getValue(ee)
-    })
+//}
 
-}
-
-}
+//}
 """
                 logger.info("Create $nameClass")
                 setOf(GeneratedFile(FileName("$nameClass"), GeneratedCode(trimIndent), packageName))

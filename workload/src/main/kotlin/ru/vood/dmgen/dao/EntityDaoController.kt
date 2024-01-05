@@ -13,7 +13,8 @@ import ru.vood.dmgen.dao.dto.PayLoadJsonVal
 import ru.vood.dmgen.dao.dto.UKJsonVal
 import ru.vood.dmgen.datamodel.intf.*
 import ru.vood.dmgen.datamodel.metaEnum.EntityEnum
-import ru.vood.dmgen.datamodel.metaEnum.entityDataMap
+import ru.vood.dmgen.datamodel.metaEnum.EntityEnum.Companion.entityDataMap
+
 
 import ru.vood.dmgen.meta.DerivativeColumns.entitiesSyntheticColumnsByEntityMap2
 import ru.vood.dmgen.meta.DerivativeColumns.entitiesSyntheticColumnsMap

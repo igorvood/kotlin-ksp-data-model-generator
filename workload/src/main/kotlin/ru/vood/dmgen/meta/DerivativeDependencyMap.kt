@@ -5,7 +5,8 @@ import ru.vood.dmgen.datamodel.intf.FKMetaData
 import ru.vood.dmgen.datamodel.intf.IEntityData
 import ru.vood.dmgen.datamodel.intf.IEntityOrigin
 import ru.vood.dmgen.datamodel.metaEnum.EntityEnum
-import ru.vood.dmgen.datamodel.metaEnum.entityDataMap
+import ru.vood.dmgen.datamodel.metaEnum.EntityEnum.Companion.entityDataMap
+
 import ru.vood.dmgen.datamodel.metaEnum.foreignKeyMap
 
 import ru.vood.dmgen.dto.FkName

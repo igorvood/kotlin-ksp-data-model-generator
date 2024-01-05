@@ -6,17 +6,22 @@ import ru.vood.dmgen.dto.RelationType
 import ru.vood.dmgen.datamodel.intf.SealedSyntheticColumnEntityData
 import ru.vood.dmgen.datamodel.intf.SimpleColumnEntityData
 import ru.vood.dmgen.datamodel.intf.SyntheticColumnEntityData
-import ru.vood.dmgen.datamodel.metaEnum.entityDataMap
+import ru.vood.dmgen.datamodel.metaEnum.EntityEnum
+import ru.vood.dmgen.datamodel.metaEnum.EntityEnum.Companion.entityDataMap
+
 import ru.vood.dmgen.meta.DerivativeColumns.entitiesColumnsMap
 import ru.vood.dmgen.meta.DerivativeDependencyMap.entityDependencyParentMap
 import ru.vood.dmgen.meta.DerivativeFKs.foreignKeyMapFromEntity
 import java.io.File
+import java.util.*
 
 class PumlGenerator {
 
     @Test
     fun asdasdsa() {
-
+        val entityMap = EnumMap(EntityEnum.values().associateWith { ee ->
+        entityDataMap.getValue(ee)
+    })
         val keys = entityDependencyParentMap.keys
 
         val entities = entityDependencyParentMap.keys

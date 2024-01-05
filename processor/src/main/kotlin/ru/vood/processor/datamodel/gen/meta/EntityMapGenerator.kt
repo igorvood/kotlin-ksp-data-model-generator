@@ -68,10 +68,10 @@ class EntityMapGenerator(
                             }
                         }
 
-                        """${InterfaceGenerator.GeneratedClasses.EntityEnum}.${metaEntity.designClassShortName} to $entity""".trimMargin()
+                        """${metaEntity.designClassShortName}""" to   """${InterfaceGenerator.GeneratedClasses.EntityEnum}.${metaEntity.designClassShortName} to $entity""".trimMargin()
                     }
-                    .sorted()
-                    .joinToString(",\n")
+                    .sortedBy { it.first }
+
 
                 val trimIndent =
                     """package ${packageName.value}
@@ -84,12 +84,17 @@ import ${Generated::class.java.canonicalName}
 ${metaInfo.allEntityPackagesImport}
 
 @Generated("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
+enum class EntityEnum{
+${entities.joinToString(",\n") { it.first }};
+
+companion object{
 val entityDataMap = mapOf(
-$entities
+${entities.joinToString(",\n") { it.second }}
 
 )
+}
 
-
+}
 """
                 logger.info("Create $nameClass")
                 setOf(GeneratedFile(FileName("$nameClass"), GeneratedCode(trimIndent), packageName))
