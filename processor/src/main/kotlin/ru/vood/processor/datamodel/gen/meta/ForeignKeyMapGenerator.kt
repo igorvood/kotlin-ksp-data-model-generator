@@ -3,7 +3,7 @@ package ru.vood.processor.datamodel.gen.meta
 import com.google.devtools.ksp.processing.CodeGenerator
 import com.google.devtools.ksp.processing.KSPLogger
 import ru.vood.dmgen.dto.RelationType
-import ru.vood.dmgen.dto.FkName
+import ru.vood.dmgen.dto.FkName1
 import ru.vood.processor.datamodel.abstraction.model.MetaInformation
 import ru.vood.processor.datamodel.gen.*
 import ru.vood.processor.datamodel.gen.CollectName.entityClassName
@@ -12,6 +12,7 @@ import ru.vood.processor.datamodel.gen.meta.ColumnEntityMapGenerator.Companion.f
 import ru.vood.processor.datamodel.gen.meta.UniqueKeyMapGenerator.Companion.uniqueKeyEnumName
 import ru.vood.processor.datamodel.gen.runtime.intf.InterfaceGenerator
 import java.time.LocalDateTime
+import java.util.*
 import javax.annotation.processing.Generated
 
 class ForeignKeyMapGenerator(
@@ -41,7 +42,7 @@ class ForeignKeyMapGenerator(
                             """data.${fkPa.from.name.value}"""
                         }.joinToString(",")
 
-                        """${FkName::class.simpleName}("${metaForeign.name.value}") to ${InterfaceGenerator.GeneratedClasses.FKMetaData}<${
+                        metaForeign.name.value to """${fkEnumName}.${metaForeign.name.value} to ${InterfaceGenerator.GeneratedClasses.FKMetaData}<${
                             entityClassName(
                                 metaForeign.fromEntity
                             )
@@ -58,26 +59,35 @@ class ForeignKeyMapGenerator(
                         }(${contextCols}) }
                         |)""".trimMargin()
                     }
-                    .sorted()
-                    .joinToString(",\n")
+                    .sortedBy { it.first }
+//                    .joinToString(",\n")
 
 
                 val trimIndent =
                     """package ${packageName.value}
                         
-import ${FkName::class.java.canonicalName}
 import ${InterfaceGenerator.GeneratedClasses.FKMetaData.getPac(rootPackage)}
 import ${InterfaceGenerator.GeneratedClasses.FkPair.getPac(rootPackage)}
 import ${InterfaceGenerator.GeneratedClasses.UniqueKeyEnum.getPac(rootPackage)}
 import ${Generated::class.java.canonicalName}
+import ${EnumMap::class.java.canonicalName}
+
 ${metaInfo.allEntityPackagesImport}
 
 
 
 @Generated("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
-val foreignKeyMap = mapOf(
-$entitiesMap
+enum class ${fkEnumName}{
+${entitiesMap.joinToString(",\n") { it.first }};
+
+companion object{
+val foreignKeyMap = EnumMap(mapOf(
+${entitiesMap.joinToString(",\n") { it.second }}
 )
+)
+}
+
+}
 
 """
                 logger.info("Create $nameClass")
@@ -90,5 +100,6 @@ $entitiesMap
 
     companion object {
         val foreignKeyEnumGeneratorNameClass = "DataDictionaryForeignKeyMap"
+        val fkEnumName = "FkNameEnum"
     }
 }

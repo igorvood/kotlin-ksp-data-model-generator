@@ -1,6 +1,7 @@
 package ru.vood.dmgen.meta
 
-import ru.vood.dmgen.datamodel.metaEnum.foreignKeyMap
+import ru.vood.dmgen.datamodel.metaEnum.FkNameEnum.Companion.foreignKeyMap
+
 
 object DerivativeFKs {
 
