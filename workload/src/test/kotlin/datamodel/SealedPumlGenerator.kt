@@ -2,24 +2,45 @@ package datamodel
 
 import org.junit.jupiter.api.Test
 import ru.vood.dmgen.annotation.FlowEntityType
-import ru.vood.dmgen.datamodel.intf.SealedSyntheticColumnEntityData
-import ru.vood.dmgen.datamodel.intf.SimpleColumnEntityData
-import ru.vood.dmgen.datamodel.intf.SyntheticColumnEntityData
+
+import ru.vood.dmgen.datamodel.sealedData.metaEnum.EntityEnum
+import ru.vood.dmgen.datamodel.sealedData.metaEnum.FkNameEnum
+import ru.vood.dmgen.datamodel.sealedData.metaEnum.FullColumnNameEnum
 import ru.vood.dmgen.dto.RelationType
-import ru.vood.dmgen.meta.DerivativeColumns.entitiesColumnsMap
-import ru.vood.dmgen.meta.DerivativeDependencyMap.entityDependencyParentMap
-import ru.vood.dmgen.meta.DerivativeFKs.foreignKeyMapFromEntity
 import java.io.File
+import java.util.*
 
 class SealedPumlGenerator {
 
     @Test
     fun asdasdsa() {
 
+        val columnEntityDataMap = EnumMap(FullColumnNameEnum.values().map { it to it.columnData() }.toMap())
 
-//        EntityEnum
+        val entitiesColumnsMap = EnumMap(columnEntityDataMap.values
+            .map { column ->
+                column.entity to column
+            }
+            .groupBy { it.first }
+            .map {
+                it.key to it.value.map { ass -> ass.second }
+                    .map { asdsa -> asdsa.simpleColumnName to asdsa }.toMap()
+            }
+            .toMap()
+        )
 
-        val entities = entityDependencyParentMap.keys
+        val foreignKeyMapFromEntity = EnumMap(
+            FkNameEnum.foreignKeyMap.values
+            .map {
+                it.fromEntity to it
+            }
+            .groupBy { it.first }
+            .map { it.key to it.value.map { q -> q.second }.toSet() }
+            .toMap()
+        )
+
+
+        val entities = EntityEnum.values()
             .map { en ->
                 val colourName = when (val entityData = en.entityData().entityType) {
                     FlowEntityType.ONE_OF -> "Yellow"
@@ -28,7 +49,7 @@ class SealedPumlGenerator {
                 }
                 val culumns =
                     entitiesColumnsMap[en]!!.values
-                        .map { col ->
+                        .map { col: ru.vood.dmgen.datamodel.sealedData.intf.ColumnEntityData<out ru.vood.dmgen.datamodel.sealedData.intf.IEntityOrigin> ->
                             val question = if (col.isOptional) {
                                 "?"
                             } else {
@@ -36,9 +57,9 @@ class SealedPumlGenerator {
                             }
 
                             val typeCol = when (val c = col) {
-                                is SimpleColumnEntityData -> c.simpleColumnType.value
-                                is SyntheticColumnEntityData -> c.outEntity
-                                is SealedSyntheticColumnEntityData -> c.outEntities.map { it }.joinToString(",")
+                                is ru.vood.dmgen.datamodel.sealedData.intf.SimpleColumnEntityData -> c.simpleColumnType.value
+                                is ru.vood.dmgen.datamodel.sealedData.intf.SyntheticColumnEntityData -> c.outEntity
+                                is ru.vood.dmgen.datamodel.sealedData.intf.SealedSyntheticColumnEntityData -> c.outEntities.map { it }.joinToString(",")
                             }
                             "${col.simpleColumnName.value}: $typeCol$question"
                         }
@@ -65,7 +86,7 @@ class SealedPumlGenerator {
             }
             .joinToString("\n")
 
-        File("depTree.puml").printWriter().use { out ->
+        File("depBigTree.puml").printWriter().use { out ->
 
             out.println(head)
             out.println(entities)

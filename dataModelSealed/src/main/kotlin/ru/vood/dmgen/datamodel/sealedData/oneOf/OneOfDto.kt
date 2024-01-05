@@ -16,11 +16,11 @@ sealed interface OneOfDto {
     val dealId: DealId
 }
 
-//@FlowEntity(FlowEntityType.INNER)
+@FlowEntity(FlowEntityType.INNER)
 @ForeignKey(
-    kClass = "ru.vood.dmgen.datamodel.sealedData.oneOf.OneOfDto",
+    kClass = "ru.vood.dmgen.datamodel.sealedData.Deal",
     name = "DealOneData_FK",
-    cols = [ForeignKeyColumns("dealId", "dealId")],
+    cols = [ForeignKeyColumns("dealId", "id")],
     foreignKeyType = ForeignKeyType.MANDATORY
 )
 interface DealOneData {

@@ -1,0 +1,10 @@
+@startuml
+digraph dfd{
+	node[shape=record]
+Deal [label="{<f0> Deal|<f1> id: ru.vood.dmgen.datamodel.valueClasses.DealId\ndealOneData: DealOneData }" shape=Mrecord color=Red];
+DealOneData [label="{<f0> DealOneData|<f1> dealId: ru.vood.dmgen.datamodel.valueClasses.DealId\none: kotlin.String }" shape=Mrecord color=Green];
+
+DealOneData -> Deal[ color=Red];
+
+}
+@enduml
