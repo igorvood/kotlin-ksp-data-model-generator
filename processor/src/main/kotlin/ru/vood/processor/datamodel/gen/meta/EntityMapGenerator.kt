@@ -86,7 +86,7 @@ import ${EnumMap::class.java.canonicalName}
 ${metaInfo.allEntityPackagesImport}
 
 @Generated("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
-enum class EntityEnum{
+enum class $entityEnumName{
 ${entities.joinToString(",\n") { it.first }};
 
 companion object{
@@ -108,6 +108,7 @@ ${entities.joinToString(",\n") { it.second }}
 
     companion object {
         val nameClassEntityEnumGenerator = "DataDictionaryEntityMap"
+        val entityEnumName = "EntityEnum"
     }
 
 }
