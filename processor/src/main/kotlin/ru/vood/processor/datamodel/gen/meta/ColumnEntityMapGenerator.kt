@@ -83,7 +83,7 @@ class ColumnEntityMapGenerator(
 
 
                                         val fullColumnName = FullColumnName(
-                                            EntityName1(fromEntity.designClassShortName),
+                                            EntityName(fromEntity.designClassShortName),
                                             SimpleColumnName(fromEntity.entityFieldName)
                                         )
 
@@ -101,7 +101,7 @@ class ColumnEntityMapGenerator(
 
                                         syntheticFieldInfo
                                         val fullColumnName = FullColumnName(
-                                            EntityName1(ent.designClassShortName),
+                                            EntityName(ent.designClassShortName),
                                             SimpleColumnName(ent.entityFieldName)
                                         )
 

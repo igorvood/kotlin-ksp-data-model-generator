@@ -3,7 +3,7 @@ package ru.vood.processor.datamodel.gen.meta
 import com.google.devtools.ksp.processing.CodeGenerator
 import com.google.devtools.ksp.processing.KSPLogger
 import ru.vood.dmgen.annotation.FlowEntityType
-import ru.vood.dmgen.dto.EntityName1
+import ru.vood.dmgen.dto.EntityName
 import ru.vood.processor.datamodel.abstraction.model.MetaInformation
 import ru.vood.processor.datamodel.gen.*
 import ru.vood.processor.datamodel.gen.runtime.intf.InterfaceGenerator
@@ -45,7 +45,7 @@ class EntityEnumGenerator(
                             FlowEntityType.ONE_OF -> {
                                 val sealedChildrenEntities = metaInfo.metaForeignKeys
                                     .filter { fk -> fk.toEntity.designClassFullClassName == metaEntity.designClassFullClassName }
-                                    .map { fk -> EntityName1(fk.fromEntity.designClassShortName) }
+                                    .map { fk -> EntityName(fk.fromEntity.designClassShortName) }
                                     .distinct()
                                     .map { sealedChildrenEntity -> """${sealedChildrenEntity.value}""" }
                                     .joinToString(", ")

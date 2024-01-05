@@ -13,7 +13,6 @@ import ru.vood.dmgen.dao.dto.UKJsonVal
 import ru.vood.dmgen.datamodel.intf.IContextOf
 import ru.vood.dmgen.datamodel.intf.IEntityOrigin
 import ru.vood.dmgen.datamodel.metaEnum.EntityEnum
-import ru.vood.dmgen.dto.EntityName1
 import ru.vood.dmgen.dto.UkName
 import ru.vood.dmgen.meta.IndexesMetaDto
 import ru.vood.dmgen.serial.ModelJsonSerializer
