@@ -2,6 +2,7 @@ package ru.vood.dmgen.meta
 
 import ru.vood.dmgen.datamodel.intf.IEntityOrigin
 import ru.vood.dmgen.datamodel.intf.UKEntityData
+import java.util.EnumMap
 
 /**Мета информация по уникальным индексам и первичным ключам*/
 data class IndexesMetaDto(
@@ -11,6 +12,6 @@ data class IndexesMetaDto(
     val ukOnlySet: Set<UKEntityData<out IEntityOrigin>>
 ) {
     /**мета по уникальным индексам включая первичный ключ*/
-    val ukAndPkMap = ukOnlySet.plus(pkEntityData).associateBy { it.ukName }
+    val ukAndPkMap = EnumMap(ukOnlySet.plus(pkEntityData).associateBy { it.ukName })
 
 }

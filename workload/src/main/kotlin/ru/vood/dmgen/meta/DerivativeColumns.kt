@@ -30,6 +30,7 @@ object DerivativeColumns {
                 .map { c ->
                     c.value as SyntheticColumnEntityData
                 }
+                .toSet()
         }
         .filter { asd -> asd.second.isNotEmpty() }
         .toMap()

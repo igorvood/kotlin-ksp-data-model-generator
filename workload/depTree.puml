@@ -17,15 +17,15 @@ ProductPayments [label="{<f0> ProductPayments|<f1> productId: kotlin.String\ndea
 DealExtendData -> Deal[ color=Red];
 DealOneData -> DealOneOfData[ color=Red];
 DealOneOfData -> OneOfDto[ color=Red];
-DealParamOneToOneOptional -> Deal[ color=Green];
 DealParamOneToOne -> Deal[ color=Red];
+DealParamOneToOneOptional -> Deal[ color=Green];
 DealParamSet -> Deal[ color=Indigo];
 DealTwoData -> DealOneOfData[ color=Red];
 InnerToDealParamOneToOne -> DealParamOneToOne[ color=Red];
 OneOfDto -> Deal[ color=Green];
+Product -> Deal[ color=Indigo];
 ProductPayments -> Deal[ color=Indigo];
 ProductPayments -> Product[ color=Green];
-Product -> Deal[ color=Indigo];
 
 }
 @enduml

@@ -5,11 +5,12 @@ import ru.vood.dmgen.datamodel.intf.UKEntityData
 import ru.vood.dmgen.datamodel.metaEnum.EntityEnum
 import ru.vood.dmgen.datamodel.metaEnum.UniqueKeyEnum.Companion.uniqueKeyMap
 import ru.vood.dmgen.dto.TypeUk
+import java.util.*
 
 
 object DerivativeUk {
 
-    val entitiesUkMap = uniqueKeyMap.values.map { uk ->
+    val entitiesUkMap = EnumMap(uniqueKeyMap.values.map { uk ->
         uk.entity to uk
     }
         .groupBy(Pair<EntityEnum, UKEntityData<out IEntityOrigin>>::first)
@@ -24,5 +25,6 @@ object DerivativeUk {
             d.key to IndexesMetaDto(pkEntityData, ukSet)
         }
         .toMap()
+    )
 
 }
