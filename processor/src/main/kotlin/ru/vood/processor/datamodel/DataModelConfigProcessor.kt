@@ -5,6 +5,9 @@ import com.google.devtools.ksp.processing.KSPLogger
 import com.google.devtools.ksp.processing.Resolver
 import com.google.devtools.ksp.processing.SymbolProcessor
 import com.google.devtools.ksp.symbol.KSAnnotated
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.runBlocking
 import ru.vood.dmgen.annotation.FlowEntity
 import ru.vood.processor.datamodel.abstraction.model.MetaEntity
 import ru.vood.processor.datamodel.abstraction.model.metaInformation
@@ -42,14 +45,35 @@ class DataModelConfigProcessor(
 
         logger.warn("root package ${rootPackage.value}")
 
-        EntityMapGenerator(codeGenerator, rootPackage, logger).createFiles(metaInformation)
-        InterfaceGenerator(codeGenerator, rootPackage, logger).createFiles(metaInformation)
-        ColumnEntityMapGenerator(codeGenerator, rootPackage, logger).createFiles(metaInformation)
-        UniqueKeyMapGenerator(codeGenerator, rootPackage, logger).createFiles(metaInformation)
-        ForeignKeyMapGenerator(codeGenerator, rootPackage, logger).createFiles(metaInformation)
-        ContextDataClassesGenerator(codeGenerator, rootPackage, logger).createFiles(metaInformation)
-        SyntheticFieldExtractorsGenerator(codeGenerator, rootPackage, logger).createFiles(metaInformation)
-        OriginEntityDataClassesGenerator(codeGenerator, rootPackage, logger).createFiles(metaInformation)
+
+
+        runBlocking {
+
+            val listOf = listOf(
+                async { EntityMapGenerator(codeGenerator, rootPackage, logger).createFiles(metaInformation) },
+                async { InterfaceGenerator(codeGenerator, rootPackage, logger).createFiles(metaInformation) },
+                async { ColumnEntityMapGenerator(codeGenerator, rootPackage, logger).createFiles(metaInformation) },
+                async { UniqueKeyMapGenerator(codeGenerator, rootPackage, logger).createFiles(metaInformation) },
+                async { ForeignKeyMapGenerator(codeGenerator, rootPackage, logger).createFiles(metaInformation) },
+                async { ContextDataClassesGenerator(codeGenerator, rootPackage, logger).createFiles(metaInformation) },
+                async {
+                    SyntheticFieldExtractorsGenerator(codeGenerator, rootPackage, logger).createFiles(
+                        metaInformation
+                    )
+                },
+                async {
+                    OriginEntityDataClassesGenerator(
+                        codeGenerator,
+                        rootPackage,
+                        logger
+                    ).createFiles(metaInformation)
+                },
+            )
+            listOf
+
+            val awaitAll = listOf.awaitAll()
+            awaitAll
+        }
         return symbols.toList()
 
     }
