@@ -69,7 +69,7 @@ class EntityMapGenerator(
                             }
                         }
 
-                        """${metaEntity.designClassShortName}""" to   """${InterfaceGenerator.GeneratedClasses.EntityEnum}.${metaEntity.designClassShortName} to $entity""".trimMargin()
+                        """${metaEntity.designClassShortName}""" to """${InterfaceGenerator.GeneratedClasses.EntityEnum}.${metaEntity.designClassShortName} to $entity""".trimMargin()
                     }
                     .sortedBy { it.first }
 

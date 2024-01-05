@@ -12,7 +12,7 @@ import ru.vood.processor.datamodel.gen.CollectName.entityClassName
 import ru.vood.processor.datamodel.gen.CollectName.syntheticClassName
 import ru.vood.processor.datamodel.gen.runtime.intf.InterfaceGenerator
 import java.time.LocalDateTime
-import java.util.EnumMap
+import java.util.*
 import javax.annotation.processing.Generated
 
 class ColumnEntityMapGenerator(
@@ -143,7 +143,6 @@ class ColumnEntityMapGenerator(
                         plus
                     }
                     .distinctBy { it.first }
-
 
 
                 val trimIndent =

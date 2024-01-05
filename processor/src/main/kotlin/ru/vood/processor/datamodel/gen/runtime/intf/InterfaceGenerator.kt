@@ -4,7 +4,9 @@ import com.google.devtools.ksp.processing.CodeGenerator
 import com.google.devtools.ksp.processing.KSPLogger
 import ru.vood.dmgen.annotation.FlowEntityType
 import ru.vood.dmgen.dto.RelationType
-import ru.vood.dmgen.dto.*
+import ru.vood.dmgen.dto.SimpleColumnName
+import ru.vood.dmgen.dto.SimpleColumnType
+import ru.vood.dmgen.dto.TypeUk
 import ru.vood.processor.datamodel.abstraction.model.MetaInformation
 import ru.vood.processor.datamodel.gen.*
 import ru.vood.processor.datamodel.gen.AbstractDataDictionaryGenerator.Companion.subPackageAbstractDataDictionaryGenerator
