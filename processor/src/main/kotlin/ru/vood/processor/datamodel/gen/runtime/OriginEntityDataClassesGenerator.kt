@@ -3,7 +3,8 @@ package ru.vood.processor.datamodel.gen.runtime
 import com.google.devtools.ksp.processing.CodeGenerator
 import com.google.devtools.ksp.processing.KSPLogger
 import ru.vood.dmgen.annotation.FlowEntityType
-import ru.vood.dmgen.dto.EntityName
+import ru.vood.dmgen.dto.EntityName1
+import ru.vood.dmgen.dto.UkName
 import ru.vood.processor.datamodel.abstraction.model.Dependency
 import ru.vood.processor.datamodel.abstraction.model.MetaEntity
 import ru.vood.processor.datamodel.abstraction.model.MetaForeignKey
@@ -82,12 +83,12 @@ $simpleColumns
 
 ): $implemets         
 {
-    override val designEntityName: EntityName
+    override val designEntityName: ${InterfaceGenerator.GeneratedClasses.EntityEnum}
         get() = designEntityNameConst
 
     
     companion object{
-        val designEntityNameConst = EntityName("${metaEntity.designClassShortName}")
+        val designEntityNameConst = ${InterfaceGenerator.GeneratedClasses.EntityEnum}.${metaEntity.designClassShortName}
     
     }
 }
@@ -96,12 +97,12 @@ $simpleColumns
             FlowEntityType.ONE_OF -> """${head(metaEntity)}
 sealed interface $fullClassName:  $implemets  
 {
-    override val designEntityName: EntityName
+    override val designEntityName: ${InterfaceGenerator.GeneratedClasses.EntityEnum}
         get() = designEntityNameConst
 
     
     companion object{
-        val designEntityNameConst = EntityName("${metaEntity.designClassShortName}")
+        val designEntityNameConst = ${InterfaceGenerator.GeneratedClasses.EntityEnum}.${metaEntity.designClassShortName}
     
     }
 }
@@ -132,9 +133,10 @@ ${
     """.trimIndent()
             } ?: ""
         }          
-import ${EntityName::class.java.canonicalName}     
+    
 import ${Generated::class.java.canonicalName}
 import ${InterfaceGenerator.GeneratedClasses.IEntityOrigin.getPac(rootPackage)}
+import ${InterfaceGenerator.GeneratedClasses.EntityEnum.getPac(rootPackage)}
     
     
 @Generated("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")

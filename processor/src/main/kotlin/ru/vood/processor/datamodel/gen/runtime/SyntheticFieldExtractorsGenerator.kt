@@ -4,7 +4,7 @@ import com.google.devtools.ksp.processing.CodeGenerator
 import com.google.devtools.ksp.processing.KSPLogger
 import ru.vood.dmgen.annotation.FlowEntityType
 import ru.vood.dmgen.dto.RelationType
-import ru.vood.dmgen.dto.EntityName
+import ru.vood.dmgen.dto.EntityName1
 import ru.vood.processor.datamodel.abstraction.model.Dependency
 import ru.vood.processor.datamodel.abstraction.model.MetaEntity
 import ru.vood.processor.datamodel.abstraction.model.MetaForeignKey
@@ -77,18 +77,18 @@ $fk
 
 ): $s         
 {
-    override fun syntheticField(entityName: ${EntityName::class.simpleName}): Set<${InterfaceGenerator.GeneratedClasses.IEntityDetail}<out ${InterfaceGenerator.GeneratedClasses.IEntityOrigin}>> {
+    override fun syntheticField(entityName: ${InterfaceGenerator.GeneratedClasses.EntityEnum}): Set<${InterfaceGenerator.GeneratedClasses.IEntityDetail}<out ${InterfaceGenerator.GeneratedClasses.IEntityOrigin}>> {
        return when (entityName) {
                 $fkFunCode
-                else -> error("In Entity ${'$'}{designEntityName.value} Not found synthetic field for ${'$'}{entityName.value}")
+                else -> error("In Entity ${'$'}{designEntityName} Not found synthetic field for entity ${'$'}{entityName}")
             }
     }
 
-    override val designEntityName: EntityName
+    override val designEntityName: ${InterfaceGenerator.GeneratedClasses.EntityEnum}
         get() = designEntityNameConst
 
     companion object{
-        val designEntityNameConst = EntityName("${metaEntity.designClassShortName}")
+        val designEntityNameConst = ${InterfaceGenerator.GeneratedClasses.EntityEnum}.${metaEntity.designClassShortName}
     }
 }
                     
@@ -100,16 +100,16 @@ override val origin: DealOneOfDataEntity
 : $s
 {
 
- override fun syntheticField(entityName: ${EntityName::class.simpleName}): Set<${InterfaceGenerator.GeneratedClasses.IEntityDetail}<out ${InterfaceGenerator.GeneratedClasses.IEntityOrigin}>> {
+ override fun syntheticField(entityName: ${InterfaceGenerator.GeneratedClasses.EntityEnum}): Set<${InterfaceGenerator.GeneratedClasses.IEntityDetail}<out ${InterfaceGenerator.GeneratedClasses.IEntityOrigin}>> {
           return  when (entityName) {
-                else -> error("In Entity ${'$'}{designEntityName.value} Not found synthetic field for ${'$'}{entityName.value}")
+                else -> error("In Entity ${'$'}{designEntityName} Not found synthetic field for entity ${'$'}{entityName}")
             }
     }
     
-override val designEntityName: EntityName
+override val designEntityName: ${InterfaceGenerator.GeneratedClasses.EntityEnum}
     get() = designEntityNameConst
  companion object{
-        val designEntityNameConst = EntityName("${metaEntity.designClassShortName}")
+        val designEntityNameConst = ${InterfaceGenerator.GeneratedClasses.EntityEnum}.${metaEntity.designClassShortName}
     }
 }  
 """.trimIndent()
@@ -149,9 +149,10 @@ override val designEntityName: EntityName
         } ?: ""
     }          
     import ${InterfaceGenerator.GeneratedClasses.IEntityDetail.getPac(rootPackage)}     
-    import ${EntityName::class.java.canonicalName}
     import ${Generated::class.java.canonicalName}
     import ${InterfaceGenerator.GeneratedClasses.IEntityOrigin.getPac(rootPackage)}
+    import ${InterfaceGenerator.GeneratedClasses.EntityEnum.getPac(rootPackage)}
+    
     ${syntheticFieldImport}
     
     @Generated("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
@@ -173,11 +174,11 @@ override val designEntityName: EntityName
     private fun genWhenCondition(toEntity: MetaEntity, relationType: RelationType) =
         when (relationType) {
             RelationType.ONE_TO_ONE_OPTIONAL ->
-                """${EntityName::class.simpleName}("${toEntity.designClassShortName}") -> ${toEntity.entityFieldName}?.let { setOf(it) } ?: setOf()"""
+                """${InterfaceGenerator.GeneratedClasses.EntityEnum}.${toEntity.designClassShortName} -> ${toEntity.entityFieldName}?.let { setOf(it) } ?: setOf()"""
             RelationType.ONE_TO_ONE_MANDATORY ->
-                """${EntityName::class.simpleName}("${toEntity.designClassShortName}") -> setOf(${toEntity.entityFieldName})"""
+                """${InterfaceGenerator.GeneratedClasses.EntityEnum}.${toEntity.designClassShortName} -> setOf(${toEntity.entityFieldName})"""
 
-            RelationType.MANY_TO_ONE -> """${EntityName::class.simpleName}("${toEntity.designClassShortName}") -> ${toEntity.entityFieldName}"""
+            RelationType.MANY_TO_ONE -> """${InterfaceGenerator.GeneratedClasses.EntityEnum}.${toEntity.designClassShortName} -> ${toEntity.entityFieldName}"""
         }
 
 

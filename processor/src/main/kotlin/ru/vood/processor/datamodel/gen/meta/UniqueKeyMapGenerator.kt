@@ -2,7 +2,6 @@ package ru.vood.processor.datamodel.gen.meta
 
 import com.google.devtools.ksp.processing.CodeGenerator
 import com.google.devtools.ksp.processing.KSPLogger
-import ru.vood.dmgen.dto.EntityName
 import ru.vood.dmgen.dto.SimpleColumnName
 import ru.vood.dmgen.dto.TypeUk
 import ru.vood.dmgen.dto.UkName
@@ -46,7 +45,7 @@ class UniqueKeyMapGenerator(
                                     |columns = listOf($ukCols),
                                     |serializer = ${ukClassName}.serializer(),
                                     |ukClass = ${ukClassName}::class,
-                                    |entity = ${EntityName::class.simpleName}("${metaEnt.designClassShortName}"),
+                                    |entity = ${InterfaceGenerator.GeneratedClasses.EntityEnum}.${metaEnt.designClassShortName},
                                     |extractContext = {data: ${
                                     CollectName.entityClassName(
                                         metaEnt
@@ -71,7 +70,6 @@ import ${InterfaceGenerator.GeneratedClasses.UKEntityData.getPac(rootPackage)}
 import ${TypeUk::class.java.canonicalName}.*
 import ${UkName::class.java.canonicalName}
 import ${SimpleColumnName::class.java.canonicalName}
-import ${EntityName::class.java.canonicalName}
 import ${Generated::class.java.canonicalName}
 ${metaInfo.allEntityPackagesImport}
 

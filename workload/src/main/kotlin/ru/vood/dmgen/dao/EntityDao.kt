@@ -12,7 +12,8 @@ import ru.vood.dmgen.dao.dto.PayLoadJsonVal
 import ru.vood.dmgen.dao.dto.UKJsonVal
 import ru.vood.dmgen.datamodel.intf.IContextOf
 import ru.vood.dmgen.datamodel.intf.IEntityOrigin
-import ru.vood.dmgen.dto.EntityName
+import ru.vood.dmgen.datamodel.metaEnum.EntityEnum
+import ru.vood.dmgen.dto.EntityName1
 import ru.vood.dmgen.dto.UkName
 import ru.vood.dmgen.meta.IndexesMetaDto
 import ru.vood.dmgen.serial.ModelJsonSerializer
@@ -25,12 +26,12 @@ class EntityDao(
 
     fun saveFullAggregateNoParent(
         pkJson: PKJsonVal,
-        entityName: EntityName,
+        entityName: EntityEnum,
         entityJson: PayLoadJsonVal
     ) {
         jdbcOperations.update(
             """insert into entity_context(pk, entity_type, payload) VALUES (?, ?, ?) """,
-            pkJson.value, entityName.value, entityJson.value
+            pkJson.value, entityName.name, entityJson.value
         )
     }
 
@@ -129,25 +130,25 @@ class EntityDao(
     order by levell
                                         """,
         { rs, _ ->
-            ChildEntityDto(entityType = EntityName(rs.getString(1)), payload = PayLoadJsonVal(rs.getString(5)))
+            ChildEntityDto(entityType = EntityEnum.valueOf(rs.getString(1)), payload = PayLoadJsonVal(rs.getString(5)))
         },
-        pkVal.value, indexesMetaDto.pkEntityData.entity.value
+        pkVal.value, indexesMetaDto.pkEntityData.entity.name
     ).groupBy { it.entityType }
 
 
     fun saveChldrenEntity(
         pkChildrenJson: PKJsonVal,
-        childrenEntityName: EntityName,
+        childrenEntityName: EntityEnum,
         childrenEntityJson: PayLoadJsonVal,
-        pkDtoParentEntityName: EntityName,
+        pkDtoParentEntityName: EntityEnum,
         pkJsonParent: PKJsonVal
     ) {
         jdbcOperations.update(
             """insert into entity_context(pk, entity_type, payload, parent_entity_type, parent_pk) VALUES (?, ?, ?, ?, ?) """,
             pkChildrenJson.value,
-            childrenEntityName.value,
+            childrenEntityName.name,
             childrenEntityJson.value,
-            pkDtoParentEntityName.value,
+            pkDtoParentEntityName.name,
             pkJsonParent.value
         )
     }

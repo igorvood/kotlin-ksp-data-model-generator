@@ -4,7 +4,6 @@ import com.google.devtools.ksp.processing.CodeGenerator
 import com.google.devtools.ksp.processing.KSPLogger
 import ru.vood.dmgen.dto.FkPair
 import ru.vood.dmgen.dto.RelationType
-import ru.vood.dmgen.dto.EntityName
 import ru.vood.dmgen.dto.FkName
 import ru.vood.dmgen.dto.FullColumnName
 import ru.vood.dmgen.dto.UkName
@@ -48,8 +47,8 @@ class ForeignKeyMapGenerator(
                                 metaForeign.fromEntity
                             )
                         }>(
-                        |fromEntity = ${EntityName::class.simpleName}("${metaForeign.fromEntity.designClassShortName}"),
-                        |toEntity = ${EntityName::class.simpleName}("${metaForeign.toEntity.designClassShortName}"),
+                        |fromEntity = ${InterfaceGenerator.GeneratedClasses.EntityEnum}.${metaForeign.fromEntity.designClassShortName},
+                        |toEntity = ${InterfaceGenerator.GeneratedClasses.EntityEnum}.${metaForeign.toEntity.designClassShortName},
                         |uk = ${UkName::class.simpleName}("${metaForeign.uk.name.value}"),
                         |relationType = ${RelationType::class.java.canonicalName}.${metaForeign.relationType.name},
                         |fkCols = setOf($fkCols),
@@ -69,7 +68,6 @@ class ForeignKeyMapGenerator(
                         
 import ${FkName::class.java.canonicalName}
 import ${InterfaceGenerator.GeneratedClasses.FKMetaData.getPac(rootPackage)}
-import ${EntityName::class.java.canonicalName}
 import ${FkPair::class.java.canonicalName}
 import ${UkName::class.java.canonicalName}
 import ${Generated::class.java.canonicalName}

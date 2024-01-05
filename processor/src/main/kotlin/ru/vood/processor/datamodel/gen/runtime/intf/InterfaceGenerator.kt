@@ -8,6 +8,8 @@ import ru.vood.dmgen.dto.RelationType
 import ru.vood.dmgen.dto.*
 import ru.vood.processor.datamodel.abstraction.model.MetaInformation
 import ru.vood.processor.datamodel.gen.*
+import ru.vood.processor.datamodel.gen.AbstractDataDictionaryGenerator.Companion.subPackageAbstractDataDictionaryGenerator
+import ru.vood.processor.datamodel.gen.meta.EntityEnumGenerator.Companion.nameClassEntityEnumGenerator
 import java.time.LocalDateTime
 import javax.annotation.processing.Generated
 
@@ -26,7 +28,6 @@ package ${packageName.value}
 import kotlinx.serialization.KSerializer
 import ${Generated::class.java.canonicalName}
 import ${UkName::class.java.canonicalName}
-import ${EntityName::class.java.canonicalName}
 import ${SimpleColumnName::class.java.canonicalName}
 import ${SimpleColumnType::class.java.canonicalName}
 import ${FlowEntityType::class.java.canonicalName}
@@ -34,12 +35,13 @@ import kotlin.reflect.KClass
 import ${RelationType::class.java.canonicalName}
 import ${FkPair::class.java.canonicalName}
 import ${TypeUk::class.java.canonicalName}
+import ${GeneratedClasses.EntityEnum.getPac(rootPackage)}
 
 
 
 @Generated("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
 interface ${GeneratedClasses.SerializableEntity} {
-    val designEntityName: EntityName
+    val designEntityName: ${GeneratedClasses.EntityEnum}
 }
 
 @Generated("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
@@ -49,7 +51,7 @@ interface ${GeneratedClasses.IEntityOrigin} : ${GeneratedClasses.SerializableEnt
 interface ${GeneratedClasses.IEntityDetail}<T : ${GeneratedClasses.IEntityOrigin}> : ${GeneratedClasses.IEntityOrigin} {
 
     val origin: T
-    fun syntheticField(entityName: ${EntityName::class.java.simpleName}): Set<${GeneratedClasses.IEntityDetail}<out ${GeneratedClasses.IEntityOrigin}>>
+    fun syntheticField(entityName:  ${GeneratedClasses.EntityEnum}): Set<${GeneratedClasses.IEntityDetail}<out ${GeneratedClasses.IEntityOrigin}>>
 
 }
 
@@ -68,7 +70,7 @@ interface ${GeneratedClasses.IContextOf}<T : ${GeneratedClasses.IEntityOrigin}> 
 /**Мета данные по реквизиту сущности*/
 sealed interface ${GeneratedClasses.ColumnEntityData}<T> {
     /**имя сущности*/
-    val entity: ${EntityName::class.java.simpleName}
+    val entity:  ${GeneratedClasses.EntityEnum}
 
     /**имя колонки*/
     val simpleColumnName: ${SimpleColumnName::class.java.simpleName}
@@ -83,7 +85,7 @@ sealed interface ${GeneratedClasses.ColumnEntityData}<T> {
 
 @Generated("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
 data class ${GeneratedClasses.SimpleColumnEntityData}<T : ${GeneratedClasses.IEntityOrigin}>(
-    override val entity: ${EntityName::class.java.simpleName},
+    override val entity:  ${GeneratedClasses.EntityEnum},
     /**имя колонки*/
     override val simpleColumnName: ${SimpleColumnName::class.java.simpleName},
     /**признак опциональности колонки*/
@@ -98,7 +100,7 @@ data class ${GeneratedClasses.SimpleColumnEntityData}<T : ${GeneratedClasses.IEn
 
 @Generated("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
 data class ${GeneratedClasses.SyntheticColumnEntityData}<T>(
-    override val entity: ${EntityName::class.java.simpleName},
+    override val entity:  ${GeneratedClasses.EntityEnum},
     /**имя колонки*/
     override val simpleColumnName: ${SimpleColumnName::class.java.simpleName},
     /**признак опциональности колонки*/
@@ -107,12 +109,12 @@ data class ${GeneratedClasses.SyntheticColumnEntityData}<T>(
     override val comment: String,
     /**ф-ция экстрактор значения колонки*/
     val iColExtractFunction: ${GeneratedClasses.ISyntheticColExtractFunction}<T, *>,
-    val outEntity: ${EntityName::class.java.simpleName}
+    val outEntity:  ${GeneratedClasses.EntityEnum}
 ) : ${GeneratedClasses.ColumnEntityData}<T>
 
 @Generated("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
 data class ${GeneratedClasses.SealedSyntheticColumnEntityData}<T>(
-    override val entity: ${EntityName::class.java.simpleName},
+    override val entity:  ${GeneratedClasses.EntityEnum},
     /**имя колонки*/
     override val simpleColumnName: ${SimpleColumnName::class.java.simpleName},
     /**признак опциональности колонки*/
@@ -121,7 +123,7 @@ data class ${GeneratedClasses.SealedSyntheticColumnEntityData}<T>(
     override val comment: String,
     /**ф-ция экстрактор значения колонки*/
 //    override val iColExtractFunction: ${GeneratedClasses.ISyntheticColExtractFunction}<T, *>,
-    val outEntities: Set<${EntityName::class.java.simpleName}>
+    val outEntities: Set< ${GeneratedClasses.EntityEnum}>
 ) : ${GeneratedClasses.ColumnEntityData}<T>
 
 @Generated("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
@@ -176,7 +178,7 @@ sealed interface ${GeneratedClasses.IEntityData}<T : IEntityOrigin> {
     val serializerSynthetic: KSerializer<out ${GeneratedClasses.IEntityDetail}<out T>>
 
     /**Имя сущности*/
-    val entityName: ${EntityName::class.java.simpleName}
+    val entityName:  ${GeneratedClasses.EntityEnum}
 
     /**коментарий сущности*/
     val comment: String
@@ -198,7 +200,7 @@ data class ${GeneratedClasses.EntityData}<T : ${GeneratedClasses.IEntityOrigin}>
     /**сериализатор синтетической сущности*/
     override val serializerSynthetic: KSerializer<out ${GeneratedClasses.IEntityDetail}<out T>>,
     /**Имя сущности*/
-    override val entityName: ${EntityName::class.java.simpleName},
+    override val entityName:  ${GeneratedClasses.EntityEnum},
     /**коментарий сущности*/
     override val comment: String,
     /**тип сущности*/
@@ -217,21 +219,21 @@ data class ${GeneratedClasses.SealedEntityData}<T : ${GeneratedClasses.IEntityOr
     /**сериализатор синтетической сущности*/
     override val serializerSynthetic: KSerializer<out ${GeneratedClasses.IEntityDetail}<out T>>,
     /**Имя сущности*/
-    override val entityName: ${EntityName::class.java.simpleName},
+    override val entityName:  ${GeneratedClasses.EntityEnum},
     /**коментарий сущности*/
     override val comment: String,
     /**тип сущности*/
     override val entityType: ${FlowEntityType::class.java.simpleName},
     /**перечень наследников*/
-    val children: Set<${EntityName::class.java.simpleName}>
+    val children: Set< ${GeneratedClasses.EntityEnum}>
 ) : ${GeneratedClasses.IEntityData}<T>
 
 /**Мета данные по внегнему ключу*/
 data class ${GeneratedClasses.FKMetaData}<T : ${GeneratedClasses.IEntityOrigin}>(
     /**Сущность из которой идет внешний ключ*/
-    val fromEntity: ${EntityName::class.java.simpleName},
+    val fromEntity:  ${GeneratedClasses.EntityEnum},
     /**Сущность к которой идет внешний ключ*/
-    val toEntity: ${EntityName::class.java.simpleName},
+    val toEntity:  ${GeneratedClasses.EntityEnum},
     /**Имя уикалоного индекса из toEntity на которой нацелен внешний ключ*/
     val uk: ${UkName::class.java.simpleName},
     /**Тип связи
@@ -256,7 +258,7 @@ data class ${GeneratedClasses.UKEntityData}<T : IEntityOrigin>(
     /**Класс уникального ключа*/
     val ukClass: KClass<out ${GeneratedClasses.IContextOf}<out T>>,
     /**Имя сушности, к которой относится уникальный ключ*/
-    val entity: ${EntityName::class.java.simpleName},
+    val entity:  ${GeneratedClasses.EntityEnum},
     /**Экстрактор уникального ключа из ДТО*/
     val extractContext: (T) -> ${GeneratedClasses.IContextOf}<T>,
     /**Тип уникального ключа PK, UK*/
@@ -282,26 +284,28 @@ data class ${GeneratedClasses.UKEntityData}<T : IEntityOrigin>(
         val interfaceGeneratorPackageName = PackageName("intf")
     }
 
-    enum class GeneratedClasses {
-        SerializableEntity,
-        IEntityOrigin,
-        IEntityDetail,
-        IContextOf,
-        ColumnEntityData,
-        SimpleColumnEntityData,
-        SyntheticColumnEntityData,
-        SealedSyntheticColumnEntityData,
-        IColExtractFunction,
-        ISyntheticColExtractFunction,
-        SimpleColExtractFunction,
-        Synthetic,
-        SyntheticSet,
-        IEntityData,
-        EntityData,
-        FKMetaData,
-        SealedEntityData,
-        UKEntityData;
+    enum class GeneratedClasses(val subPackageName: PackageName) {
+        SerializableEntity(interfaceGeneratorPackageName),
+        IEntityOrigin(interfaceGeneratorPackageName),
+        IEntityDetail(interfaceGeneratorPackageName),
+        IContextOf(interfaceGeneratorPackageName),
+        ColumnEntityData(interfaceGeneratorPackageName),
+        SimpleColumnEntityData(interfaceGeneratorPackageName),
+        SyntheticColumnEntityData(interfaceGeneratorPackageName),
+        SealedSyntheticColumnEntityData(interfaceGeneratorPackageName),
+        IColExtractFunction(interfaceGeneratorPackageName),
+        ISyntheticColExtractFunction(interfaceGeneratorPackageName),
+        SimpleColExtractFunction(interfaceGeneratorPackageName),
+        Synthetic(interfaceGeneratorPackageName),
+        SyntheticSet(interfaceGeneratorPackageName),
+        IEntityData(interfaceGeneratorPackageName),
+        EntityData(interfaceGeneratorPackageName),
+        FKMetaData(interfaceGeneratorPackageName),
+        SealedEntityData(interfaceGeneratorPackageName),
+        UKEntityData(interfaceGeneratorPackageName),
+        EntityEnum(subPackageAbstractDataDictionaryGenerator)
+        ;
 
-        fun getPac(root: PackageName) = root.value + "." + interfaceGeneratorPackageName.value + "." + this
+        fun getPac(root: PackageName) = root.value + "." + subPackageName.value + "." + this
     }
 }

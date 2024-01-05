@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository
 import ru.vood.dmgen.datamodel.intf.IContextOf
 import ru.vood.dmgen.datamodel.intf.IEntityOrigin
 import ru.vood.dmgen.datamodel.intf.UKEntityData
-import ru.vood.dmgen.dto.EntityName
+import ru.vood.dmgen.datamodel.metaEnum.EntityEnum
 import ru.vood.dmgen.dto.UkName
 
 @Repository
@@ -17,17 +17,17 @@ class EntityUkDaoController(
 
     val json = Json
 
-    final fun saveEntityUk(contextOf: EntityName, ukName: UkName, pkJson: String, ukJson: String) {
+    final fun saveEntityUk(contextOf: EntityEnum, ukName: UkName, pkJson: String, ukJson: String) {
         jdbcOperations.update(
             """insert into entity_uk_context(entity_type, entity_type_uk, pk, uk) VALUES (?, ?, ?, ?) """,
-            contextOf.value, ukName.value, pkJson, ukJson
+            contextOf.name, ukName.value, pkJson, ukJson
         )
 
     }
 
     @Suppress("UNCHECKED_CAST")
     final fun <T : IEntityOrigin> saveEntityUkDto(
-        entityName: EntityName,
+        entityName: EntityEnum,
         ukData: IContextOf<T>,
         pkJson: String,
         ukMetaData: UKEntityData<T>

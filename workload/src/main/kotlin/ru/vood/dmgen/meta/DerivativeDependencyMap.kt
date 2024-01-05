@@ -4,15 +4,16 @@ import ru.vood.dmgen.annotation.FlowEntityType
 import ru.vood.dmgen.datamodel.intf.FKMetaData
 import ru.vood.dmgen.datamodel.intf.IEntityData
 import ru.vood.dmgen.datamodel.intf.IEntityOrigin
+import ru.vood.dmgen.datamodel.metaEnum.EntityEnum
 import ru.vood.dmgen.datamodel.metaEnum.entityDataMap
 import ru.vood.dmgen.datamodel.metaEnum.foreignKeyMap
-import ru.vood.dmgen.dto.EntityName
+
 import ru.vood.dmgen.dto.FkName
 
 
 object DerivativeDependencyMap {
 
-    val entityDependencyParentMap: Map<EntityName, Set<MetaDependencyNew<*>>> =
+    val entityDependencyParentMap: Map<EntityEnum, Set<MetaDependencyNew<*>>> =
         collectDependencyNew(entityDataMap, foreignKeyMap)
 
     val aggregateParentDependencyMap = entityDependencyParentMap
@@ -46,13 +47,13 @@ object DerivativeDependencyMap {
 
     //    Map<EntityName, IEntityData<IEntityOrigin>>
     private fun collectDependencyNew(
-        entities: Map<EntityName, IEntityData<out IEntityOrigin>>,
+        entities: Map<EntityEnum, IEntityData<out IEntityOrigin>>,
         foreignKey: Map<FkName, FKMetaData<*>>
-    ): Map<EntityName, Set<MetaDependencyNew<*>>> {
+    ): Map<EntityEnum, Set<MetaDependencyNew<*>>> {
         tailrec fun recursiveCollectDependency(
             listFk: List<FKMetaData<*>>,
-            collector: Map<EntityName, Set<MetaDependencyNew<*>>>
-        ): Map<EntityName, Set<MetaDependencyNew<*>>> {
+            collector: Map<EntityEnum, Set<MetaDependencyNew<*>>>
+        ): Map<EntityEnum, Set<MetaDependencyNew<*>>> {
             return when (listFk.isEmpty()) {
                 true -> collector
                 false -> {

@@ -12,8 +12,8 @@ import ru.vood.dmgen.dao.dto.PKJsonVal
 import ru.vood.dmgen.dao.dto.PayLoadJsonVal
 import ru.vood.dmgen.dao.dto.UKJsonVal
 import ru.vood.dmgen.datamodel.intf.*
+import ru.vood.dmgen.datamodel.metaEnum.EntityEnum
 import ru.vood.dmgen.datamodel.metaEnum.entityDataMap
-import ru.vood.dmgen.dto.EntityName
 
 import ru.vood.dmgen.meta.DerivativeColumns.entitiesSyntheticColumnsByEntityMap2
 import ru.vood.dmgen.meta.DerivativeColumns.entitiesSyntheticColumnsMap
@@ -40,9 +40,9 @@ class EntityDaoController(
 //        Вытаскиваю мету
         val entityNameOrigin = aggregate.designEntityName
         val indexesDtoOrigin =
-            entitiesUkMap[entityNameOrigin] ?: error("Почему то не найдена сущность ${entityNameOrigin.value}")
+            entitiesUkMap[entityNameOrigin] ?: error("Почему то не найдена сущность ${entityNameOrigin}")
         val entityDataOrigin =
-            entityDataMap[entityNameOrigin] ?: error("Почему то не найдена сущность ${entityNameOrigin.value}")
+            entityDataMap[entityNameOrigin] ?: error("Почему то не найдена сущность ${entityNameOrigin}")
         val pkMetaOrigin = indexesDtoOrigin.pkEntityData as UKEntityData<T>
 
         // сериалайзеры
@@ -78,9 +78,9 @@ class EntityDaoController(
         // Вытаскиваю мету
         val entityNameOrigin = aggregate.designEntityName
         val indexesDto =
-            entitiesUkMap[entityNameOrigin] ?: error("Почему то не найдена сущность ${entityNameOrigin.value}")
+            entitiesUkMap[entityNameOrigin] ?: error("Почему то не найдена сущность ${entityNameOrigin}")
         val entityData =
-            entityDataMap[entityNameOrigin] ?: error("Почему то не найдена сущность ${entityNameOrigin.value}")
+            entityDataMap[entityNameOrigin] ?: error("Почему то не найдена сущность ${entityNameOrigin}")
         val pkMeta = indexesDto.pkEntityData as UKEntityData<T>
 
 
@@ -122,9 +122,9 @@ class EntityDaoController(
     /**вытаскиваю все дочерние сущности из текущей
      * */
     private fun <T : IEntityOrigin> childEntity(
-        designEntityName: EntityName,
+        designEntityName: EntityEnum,
         aggregate: IEntityDetail<T>
-    ): Map<EntityName, Set<IEntityDetail<out IEntityOrigin>>> {
+    ): Map<EntityEnum, Set<IEntityDetail<out IEntityOrigin>>> {
 
         val entitiesSyntheticColumnsMap1 = entitiesSyntheticColumnsMap[designEntityName] ?: listOf()
 
@@ -139,7 +139,7 @@ class EntityDaoController(
     @Suppress("UNCHECKED_CAST")
     private fun saveChildEntities(
         /**Дочерние сущности */
-        childEntityNames: Map<EntityName, Set<IEntityDetail<out IEntityOrigin>>>,
+        childEntityNames: Map<EntityEnum, Set<IEntityDetail<out IEntityOrigin>>>,
         /**первичный ключ основной сущности*/
         pkDtoParent: IContextOf<IEntityOrigin>
     ) {
@@ -155,9 +155,9 @@ class EntityDaoController(
 
 //            вытаскиваю мету по дочерней сущности
             val childrenEntityData =
-                entityDataMap[childrenEntityName] ?: error("Почему то не найдена сущность ${childrenEntityName.value}")
+                entityDataMap[childrenEntityName] ?: error("Почему то не найдена сущность ${childrenEntityName}")
             val indexesDto =
-                entitiesUkMap[childrenEntityName] ?: error("Почему то не найдена сущность ${childrenEntityName.value}")
+                entitiesUkMap[childrenEntityName] ?: error("Почему то не найдена сущность ${childrenEntityName}")
             val pkMeta: UKEntityData<IEntityOrigin> = indexesDto.pkEntityData as UKEntityData<IEntityOrigin>
             val indexesDtoParent =
                 entitiesUkMap[pkDtoParent.designEntityName] ?: error("asdasdasdasdas 9280347jkhlkb ")
@@ -216,9 +216,9 @@ class EntityDaoController(
     @Suppress("UNCHECKED_CAST")
     final inline fun <reified T : IEntityOrigin> saveEntity(entity: T) {
         val entityName = entity.designEntityName
-        val indexesDto = entitiesUkMap[entityName] ?: error("Почему то не найдена сущность ${entityName.value}")
+        val indexesDto = entitiesUkMap[entityName] ?: error("Почему то не найдена сущность ${entityName}")
         val pkSerializer = indexesDto.pkEntityData.serializer as KSerializer<Any>
-        val entityData = entityDataMap[entityName] ?: error("Почему то не найдена сущность ${entityName.value}")
+        val entityData = entityDataMap[entityName] ?: error("Почему то не найдена сущность ${entityName}")
         val entitySerializer = entityData.serializer as KSerializer<Any>
 
         checkFk(entityName, entity)
@@ -230,7 +230,7 @@ class EntityDaoController(
 
         jdbcOperations.update(
             """insert into entity_context(pk, entity_type, payload) VALUES (?, ?, ?) """,
-            pkJson, entityName.value, entityJson
+            pkJson, entityName.name, entityJson
         )
 
 
@@ -243,7 +243,7 @@ class EntityDaoController(
     }
 
     @Suppress("UNCHECKED_CAST")
-    fun <T : IEntityOrigin> checkFk(entityName: EntityName, entity: T) {
+    fun <T : IEntityOrigin> checkFk(entityName: EntityEnum, entity: T) {
         val fkEntityDataSet = foreignKeyMapFromEntity[entityName] ?: setOf()
         fkEntityDataSet
             .forEach { fkEntityData ->
@@ -267,7 +267,7 @@ class EntityDaoController(
     ): T {
         val originEntityName = uk.designEntityName
         val indexesDto =
-            entitiesUkMap[originEntityName] ?: error("Почему то не найдена сущность ${originEntityName.value}")
+            entitiesUkMap[originEntityName] ?: error("Почему то не найдена сущность ${originEntityName}")
         val ktSerializer = indexesDto.pkEntityData.serializer as KSerializer<IContextOf<Origin>>
         val ktEntitySerializer = uk.ktEntitySerializer
         val ukJson = UKJsonVal(Json.encodeToString(ktSerializer, uk))
@@ -286,8 +286,8 @@ class EntityDaoController(
     }
 
     final fun collectSyntheticJsonObject(
-        collectChildrenJsonElement: Map<EntityName, JsonElement>,
-        originEntityName: EntityName,
+        collectChildrenJsonElement: Map<EntityEnum, JsonElement>,
+        originEntityName: EntityEnum,
         originJsonElement: JsonElement
     ): JsonObject {
 
@@ -319,9 +319,9 @@ class EntityDaoController(
 
     @OptIn(InternalSerializationApi::class)
     final fun collectChildrenJsonElement(
-        entityName: EntityName,
-        childEntityDtos: Map<EntityName, List<ChildEntityDto>>
-    ): Map<EntityName, JsonElement> {
+        entityName: EntityEnum,
+        childEntityDtos: Map<EntityEnum, List<ChildEntityDto>>
+    ): Map<EntityEnum, JsonElement> {
         val syntheticColumnEntityData = entitiesSyntheticColumnsMap[entityName]
         val columnMap = syntheticColumnEntityData ?: listOf()
         val map = columnMap.map { columnEntityData ->
@@ -337,7 +337,7 @@ class EntityDaoController(
             val childEntityDto = if (columnEntityData.isOptional) {
                 childEntityDto1 ?: listOf()
             } else {
-                childEntityDto1 ?: error("Not found children entity for ${outEntity.value}")
+                childEntityDto1 ?: error("Not found children entity for ${outEntity}")
             }
 
             val childrenJsonElementForOutEntity = collectChildrenJsonElement(outEntity, childEntityDtos)
@@ -384,7 +384,7 @@ class EntityDaoController(
     @Suppress("UNCHECKED_CAST")
     final fun <T : IEntityOrigin> findSyntheticEntityOneRowByUk(uk: IContextOf<T>): IEntityDetail<out IEntityOrigin> {
         val entityName = uk.designEntityName
-        val indexesDto = entitiesUkMap[entityName] ?: error("Почему то не найдена сущность ${entityName.value}")
+        val indexesDto = entitiesUkMap[entityName] ?: error("Почему то не найдена сущность ${entityName}")
         val ktSerializer = indexesDto.pkEntityData.serializer as KSerializer<IContextOf<T>>
         val ktEntitySerializer = uk.ktSyntheticEntitySerializer as KSerializer<IEntityDetail<T>>
         val ukJson = UKJsonVal(Json.encodeToString(ktSerializer, uk))
@@ -396,7 +396,7 @@ class EntityDaoController(
     @Suppress("UNCHECKED_CAST")
     final inline fun <reified T : IEntityOrigin> findEntityByUk(uk: IContextOf<T>): IEntityOrigin {
         val entityName = uk.designEntityName
-        val indexesDto = entitiesUkMap[entityName] ?: error("Почему то не найдена сущность ${entityName.value}")
+        val indexesDto = entitiesUkMap[entityName] ?: error("Почему то не найдена сущность ${entityName}")
 
         val ktSerializer = indexesDto.pkEntityData.serializer as KSerializer<IContextOf<T>>
         val ktEntitySerializer = uk.ktEntitySerializer

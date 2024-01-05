@@ -3,7 +3,7 @@ package ru.vood.processor.datamodel.gen.meta
 import com.google.devtools.ksp.processing.CodeGenerator
 import com.google.devtools.ksp.processing.KSPLogger
 import ru.vood.dmgen.annotation.FlowEntityType
-import ru.vood.dmgen.dto.EntityName
+import ru.vood.dmgen.dto.EntityName1
 import ru.vood.processor.datamodel.abstraction.model.MetaInformation
 import ru.vood.processor.datamodel.gen.*
 import ru.vood.processor.datamodel.gen.runtime.intf.InterfaceGenerator
@@ -38,16 +38,16 @@ class EntityEnumGenerator(
                             |runtimeSyntheticClass = ${CollectName.syntheticClassName(metaEntity)}::class,
                             |serializer =${CollectName.entityClassName(metaEntity)}.serializer(),
                             |serializerSynthetic =${CollectName.syntheticClassName(metaEntity)}.serializer(),
-                            |entityName =${EntityName::class.simpleName}("${metaEntity.designClassShortName}"), 
+                            |entityName =${metaEntity.designClassShortName}, 
                             |comment ="${metaEntity.comment}",
                             |entityType =${metaEntity.flowEntityType}
                             |)"""
                             FlowEntityType.ONE_OF -> {
                                 val sealedChildrenEntities = metaInfo.metaForeignKeys
                                     .filter { fk -> fk.toEntity.designClassFullClassName == metaEntity.designClassFullClassName }
-                                    .map { fk -> EntityName(fk.fromEntity.designClassShortName) }
+                                    .map { fk -> EntityName1(fk.fromEntity.designClassShortName) }
                                     .distinct()
-                                    .map { sealedChildrenEntity -> """${EntityName::class.simpleName}("${sealedChildrenEntity.value}")""" }
+                                    .map { sealedChildrenEntity -> """${sealedChildrenEntity.value}""" }
                                     .joinToString(", ")
 
 
@@ -61,7 +61,7 @@ class EntityEnumGenerator(
                                 }::class,
                             |serializer =${CollectName.entityClassName(metaEntity)}.serializer(),
                             |serializerSynthetic =${CollectName.syntheticClassName(metaEntity)}.serializer(),
-                            |entityName =${EntityName::class.simpleName}("${metaEntity.designClassShortName}"), 
+                            |entityName = ${metaEntity.designClassShortName}, 
                             |comment ="${metaEntity.comment}",
                             |entityType =${metaEntity.flowEntityType},
                             |children = setOf(${sealedChildrenEntities})
@@ -69,7 +69,7 @@ class EntityEnumGenerator(
                             }
                         }
 
-                        """${EntityName::class.simpleName}("${metaEntity.designClassShortName}") to $entity""".trimMargin()
+                        """${metaEntity.designClassShortName} to $entity""".trimMargin()
                         metaEntity.designClassShortName
                     }
                     .sorted()
@@ -79,9 +79,6 @@ class EntityEnumGenerator(
                     """package ${packageName.value}
 
 import ${FlowEntityType::class.java.canonicalName}.*
-//import ${InterfaceGenerator.GeneratedClasses.EntityData}
-//import ${InterfaceGenerator.GeneratedClasses.SealedEntityData}
-import ${EntityName::class.java.canonicalName}
 import ${Generated::class.java.canonicalName}
 import ${EnumMap::class.java.canonicalName}
 
@@ -93,7 +90,7 @@ $entities;
 
 companion object{
     val entityMap = EnumMap(values().associateWith { ee ->
-        entityDataMap.getValue(EntityName(ee.name))
+        entityDataMap.getValue(ee)
     })
 
 }

@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test
 import ru.vood.dmgen.annotation.FlowEntityType
 import ru.vood.dmgen.datamodel.intf.EntityData
 import ru.vood.dmgen.datamodel.intf.IEntityOrigin
-import ru.vood.dmgen.dto.EntityName
+import ru.vood.dmgen.datamodel.metaEnum.EntityEnum
 
 class MetaJsonExtractor {
 
@@ -39,7 +39,7 @@ class MetaJsonExtractor {
 
     @Serializable
     data class Ent(
-        /*override */val entMap: Map<EntityName, EntityDataJson>
+        /*override */val entMap: Map<EntityEnum, EntityDataJson>
     )//: IMetaEntityData
 
     @Serializable
@@ -55,7 +55,7 @@ class MetaJsonExtractor {
         /**сериализатор синтетической сущности*/
         val serializerSynthetic: String,
         /**Имя сущности*/
-        val entityName: EntityName,
+        val entityName: EntityEnum,
         /**коментарий сущности*/
         val comment: String,
         /**тип сущности*/

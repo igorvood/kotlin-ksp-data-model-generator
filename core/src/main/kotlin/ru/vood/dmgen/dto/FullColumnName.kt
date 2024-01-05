@@ -5,7 +5,7 @@ package ru.vood.dmgen.dto
 @Deprecated("в будующем будет enum")
 value class FullColumnName(val value: String) {
     constructor(
-        entityName: EntityName,
+        entityName: EntityName1,
         simpleColumnName: SimpleColumnName
     ) : this("${entityName.value}_${simpleColumnName.value}")
 }

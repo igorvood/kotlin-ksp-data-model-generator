@@ -3,11 +3,7 @@ package ru.vood.processor.datamodel.gen.meta
 import com.google.devtools.ksp.processing.CodeGenerator
 import com.google.devtools.ksp.processing.KSPLogger
 import ru.vood.dmgen.annotation.FlowEntityType
-import ru.vood.dmgen.dto.RelationType
-import ru.vood.dmgen.dto.EntityName
-import ru.vood.dmgen.dto.FullColumnName
-import ru.vood.dmgen.dto.SimpleColumnName
-import ru.vood.dmgen.dto.SimpleColumnType
+import ru.vood.dmgen.dto.*
 import ru.vood.processor.datamodel.abstraction.model.MetaInformation
 import ru.vood.processor.datamodel.abstraction.model.dto.SealedSyntheticFieldInfo
 import ru.vood.processor.datamodel.abstraction.model.dto.SyntheticFieldInfo
@@ -87,14 +83,14 @@ class ColumnEntityMapGenerator(
 
 
                                         val fullColumnName = FullColumnName(
-                                            EntityName(fromEntity.designClassShortName),
+                                            EntityName1(fromEntity.designClassShortName),
                                             SimpleColumnName(fromEntity.entityFieldName)
                                         )
 
 
                                         """${FullColumnName::class.simpleName}("${fullColumnName.value}") to ${InterfaceGenerator.GeneratedClasses.SyntheticColumnEntityData}(
-                                |entity= ${EntityName::class.java.simpleName}( "${ent.designClassShortName}"),
-                                |outEntity = ${EntityName::class.java.simpleName}( "${fromEntity.designClassShortName}"),
+                                |entity= ${InterfaceGenerator.GeneratedClasses.EntityEnum}.${ent.designClassShortName},
+                                |outEntity = ${InterfaceGenerator.GeneratedClasses.EntityEnum}.${fromEntity.designClassShortName},
                                 |simpleColumnName = ${SimpleColumnName::class.simpleName}("${fromEntity.entityFieldName}"),
                                 |isOptional= ${isOptional},
                                 |comment ="${fromEntity.comment}",
@@ -105,16 +101,16 @@ class ColumnEntityMapGenerator(
 
                                         syntheticFieldInfo
                                         val fullColumnName = FullColumnName(
-                                            EntityName(ent.designClassShortName),
+                                            EntityName1(ent.designClassShortName),
                                             SimpleColumnName(ent.entityFieldName)
                                         )
 
                                         val joinToString =
-                                            synth.metaEntities.map { it -> """${EntityName::class.java.simpleName}("${it.designClassShortName}")""" }
+                                            synth.metaEntities.map { it -> """${InterfaceGenerator.GeneratedClasses.EntityEnum}.${it.designClassShortName}""" }
                                                 .joinToString(",")
 
                                         """${FullColumnName::class.simpleName}("${fullColumnName.value}") to ${InterfaceGenerator.GeneratedClasses.SealedSyntheticColumnEntityData}(
-                                          |entity= ${EntityName::class.java.simpleName}( "${ent.designClassShortName}"),
+                                          |entity= ${InterfaceGenerator.GeneratedClasses.EntityEnum}.${ent.designClassShortName},
                                           |simpleColumnName= ${SimpleColumnName::class.java.simpleName}( "${ent.entityFieldName}"),
                                           |isOptional= false,
                                           |comment= "${ent.comment}",
@@ -133,7 +129,7 @@ class ColumnEntityMapGenerator(
                             .sortedBy { ec -> ec.position }
                             .map { col ->
                                 """${FullColumnName::class.simpleName}("${ent.designClassShortName}_${col.name.value}") to ${InterfaceGenerator.GeneratedClasses.SimpleColumnEntityData}(
-                                |entity = ${EntityName::class.java.simpleName}( "${ent.designClassShortName}"),
+                                |entity = ${InterfaceGenerator.GeneratedClasses.EntityEnum}.${ent.designClassShortName},
                                 |simpleColumnName = ${SimpleColumnName::class.simpleName}("${col.name.value}"),
                                 |isOptional = ${col.isNullable},
                                 |comment = "${col.comment}",
@@ -156,8 +152,8 @@ import ${FullColumnName::class.java.canonicalName}
 import ${InterfaceGenerator.GeneratedClasses.SyntheticColumnEntityData.getPac(rootPackage)}
 import ${InterfaceGenerator.GeneratedClasses.SimpleColumnEntityData.getPac(rootPackage)}
 import ${InterfaceGenerator.GeneratedClasses.SealedSyntheticColumnEntityData.getPac(rootPackage)}
+import ${InterfaceGenerator.GeneratedClasses.EntityEnum.getPac(rootPackage)}
 
-import ${EntityName::class.java.canonicalName}
 import ${InterfaceGenerator.GeneratedClasses.ColumnEntityData.getPac(rootPackage)}
 import ${InterfaceGenerator.GeneratedClasses.IEntityOrigin.getPac(rootPackage)}
 

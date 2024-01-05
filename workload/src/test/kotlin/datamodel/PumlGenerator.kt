@@ -17,6 +17,8 @@ class PumlGenerator {
     @Test
     fun asdasdsa() {
 
+        val keys = entityDependencyParentMap.keys
+
         val entities = entityDependencyParentMap.keys
             .map { en ->
                 val colourName = when (val entityData = entityDataMap[en]!!.entityType) {
@@ -35,14 +37,14 @@ class PumlGenerator {
 
                             val typeCol = when (val c = col) {
                                 is SimpleColumnEntityData -> c.simpleColumnType.value
-                                is SyntheticColumnEntityData -> c.outEntity.value
-                                is SealedSyntheticColumnEntityData -> c.outEntities.map { it.value }.joinToString(",")
+                                is SyntheticColumnEntityData -> c.outEntity
+                                is SealedSyntheticColumnEntityData -> c.outEntities.map { it }.joinToString(",")
                             }
                             "${col.simpleColumnName.value}: $typeCol$question"
                         }
                         .joinToString("\\n")
 
-                """${en.value} [label="{<f0> ${en.value}|<f1> $culumns }" shape=Mrecord color=$colourName];"""
+                """${en} [label="{<f0> ${en}|<f1> $culumns }" shape=Mrecord color=$colourName];"""
             }
             .joinToString("\n")
 
@@ -57,7 +59,7 @@ class PumlGenerator {
                         RelationType.ONE_TO_ONE_OPTIONAL -> "color=Green"
                         RelationType.ONE_TO_ONE_MANDATORY -> "color=Red"
                     }
-                    """${entityName.value} -> ${fkMetaData.toEntity.value}[ $arrowColor];"""
+                    """${entityName} -> ${fkMetaData.toEntity}[ $arrowColor];"""
                 }
 
             }
