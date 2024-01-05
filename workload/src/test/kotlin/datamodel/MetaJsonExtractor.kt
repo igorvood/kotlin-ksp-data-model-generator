@@ -63,7 +63,7 @@ class MetaJsonExtractor {
     )//: IEntityData<T>
     {
         companion object {
-            fun of(d: EntityData<IEntityOrigin>): EntityDataJson {
+            fun of(d: EntityData): EntityDataJson {
                 return EntityDataJson(
                     d.designClass.qualifiedName!!,
                     d.runtimeClass.qualifiedName!!,

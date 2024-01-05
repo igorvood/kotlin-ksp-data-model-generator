@@ -162,21 +162,21 @@ value class ${GeneratedClasses.SyntheticSet}<
 
 @${Generated::class.java.simpleName}("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
 /**Мета данные по сущности*/
-sealed interface ${GeneratedClasses.IEntityData}<T : IEntityOrigin> {
+sealed interface ${GeneratedClasses.IEntityData} {
     /**интрефейс описывающий структуру сущности */
     val designClass: KClass<out Any>
 
     /**класс описывающий сущность*/
-    val runtimeClass: KClass<out T>
+    val runtimeClass: KClass<out ${GeneratedClasses.IEntityOrigin}>
 
     /**синтетический класс описывающий сущность, включает в себя все сущности, которорые имею форен на текущую*/
-    val runtimeSyntheticClass: KClass<out T>
+    val runtimeSyntheticClass: KClass<out ${GeneratedClasses.IEntityOrigin}>
 
     /**сериализатор оригинальной сущности*/
     val serializer: KSerializer<out ${GeneratedClasses.IEntityOrigin}>
 
     /**сериализатор синтетической сущности*/
-    val serializerSynthetic: KSerializer<out ${GeneratedClasses.IEntityDetail}<out T>>
+    val serializerSynthetic: KSerializer<out ${GeneratedClasses.IEntityDetail}<out ${GeneratedClasses.IEntityOrigin}>>
 
     /**Имя сущности*/
     val entityName:  ${GeneratedClasses.EntityEnum}
@@ -190,37 +190,37 @@ sealed interface ${GeneratedClasses.IEntityData}<T : IEntityOrigin> {
 
 @${Generated::class.java.simpleName}("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
 /**Мета данные по сущности*/
-data class ${GeneratedClasses.EntityData}<T : ${GeneratedClasses.IEntityOrigin}>(
+data class ${GeneratedClasses.EntityData}(
     /**интрефейс описывающий структуру сущности */
     override val designClass: KClass<out Any>,
     /**класс описывающий сущность*/
-    override val runtimeClass: KClass<out T>,
+    override val runtimeClass: KClass<out ${GeneratedClasses.IEntityOrigin}>,
     /**синтетический класс описывающий сущность, включает в себя все сущности, которорые имею форен на текущую*/
-    override val runtimeSyntheticClass: KClass<out T>,
+    override val runtimeSyntheticClass: KClass<out ${GeneratedClasses.IEntityOrigin}>,
     /**сериализатор оригинальной сущности*/
     override val serializer: KSerializer<out ${GeneratedClasses.IEntityOrigin}>,
     /**сериализатор синтетической сущности*/
-    override val serializerSynthetic: KSerializer<out ${GeneratedClasses.IEntityDetail}<out T>>,
+    override val serializerSynthetic: KSerializer<out ${GeneratedClasses.IEntityDetail}<out ${GeneratedClasses.IEntityOrigin}>>,
     /**Имя сущности*/
     override val entityName:  ${GeneratedClasses.EntityEnum},
     /**коментарий сущности*/
     override val comment: String,
     /**тип сущности*/
     override val entityType: ${FlowEntityType::class.java.simpleName} 
-) : ${GeneratedClasses.IEntityData}<T>
+) : ${GeneratedClasses.IEntityData}
 
 @${Generated::class.java.simpleName}("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
-data class ${GeneratedClasses.SealedEntityData}<T : ${GeneratedClasses.IEntityOrigin}>(
+data class ${GeneratedClasses.SealedEntityData}(
     /**интрефейс описывающий структуру сущности */
     override val designClass: KClass<out Any>,
     /**класс описывающий сущность*/
-    override val runtimeClass: KClass<out T>,
+    override val runtimeClass: KClass<out ${GeneratedClasses.IEntityOrigin}>,
     /**синтетический класс описывающий сущность, включает в себя все сущности, которорые имею форен на текущую*/
-    override val runtimeSyntheticClass: KClass<out T>,
+    override val runtimeSyntheticClass: KClass<out ${GeneratedClasses.IEntityOrigin}>,
     /**сериализатор оригинальной сущности*/
     override val serializer: KSerializer<out ${GeneratedClasses.IEntityOrigin}>,
     /**сериализатор синтетической сущности*/
-    override val serializerSynthetic: KSerializer<out ${GeneratedClasses.IEntityDetail}<out T>>,
+    override val serializerSynthetic: KSerializer<out ${GeneratedClasses.IEntityDetail}<out ${GeneratedClasses.IEntityOrigin}>>,
     /**Имя сущности*/
     override val entityName:  ${GeneratedClasses.EntityEnum},
     /**коментарий сущности*/
@@ -229,7 +229,7 @@ data class ${GeneratedClasses.SealedEntityData}<T : ${GeneratedClasses.IEntityOr
     override val entityType: ${FlowEntityType::class.java.simpleName},
     /**перечень наследников*/
     val children: Set< ${GeneratedClasses.EntityEnum}>
-) : ${GeneratedClasses.IEntityData}<T>
+) : ${GeneratedClasses.IEntityData}
 
 @${Generated::class.java.simpleName}("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
 /**Мета данные по внегнему ключу*/

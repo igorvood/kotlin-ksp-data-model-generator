@@ -12,7 +12,7 @@ import ru.vood.dmgen.datamodel.metaEnum.FkNameEnum.Companion.foreignKeyMap
 
 object DerivativeDependencyMap {
 
-    val entityDependencyParentMap: Map<EntityEnum, Set<MetaDependencyNew<*>>> =
+    val entityDependencyParentMap =
         collectDependencyNew(entityDataMap, foreignKeyMap)
 
     val aggregateParentDependencyMap = entityDependencyParentMap
@@ -46,13 +46,13 @@ object DerivativeDependencyMap {
 
     //    Map<EntityName, IEntityData<IEntityOrigin>>
     private fun collectDependencyNew(
-        entities: Map<EntityEnum, IEntityData<out IEntityOrigin>>,
+        entities: Map<EntityEnum, IEntityData>,
         foreignKey: Map<FkNameEnum, FKMetaData<*>>
-    ): Map<EntityEnum, Set<MetaDependencyNew<*>>> {
+    ): Map<EntityEnum, Set<MetaDependencyNew>> {
         tailrec fun recursiveCollectDependency(
             listFk: List<FKMetaData<*>>,
-            collector: Map<EntityEnum, Set<MetaDependencyNew<*>>>
-        ): Map<EntityEnum, Set<MetaDependencyNew<*>>> {
+            collector: Map<EntityEnum, Set<MetaDependencyNew>>
+        ): Map<EntityEnum, Set<MetaDependencyNew>> {
             return when (listFk.isEmpty()) {
                 true -> collector
                 false -> {
@@ -73,7 +73,7 @@ object DerivativeDependencyMap {
         }
 
         val toMap = entities.values.map {
-            it.entityName to setOf<MetaDependencyNew<*>>()
+            it.entityName to setOf<MetaDependencyNew>()
         }.toMap()
         return recursiveCollectDependency(foreignKey.values.toList(), toMap)
 
