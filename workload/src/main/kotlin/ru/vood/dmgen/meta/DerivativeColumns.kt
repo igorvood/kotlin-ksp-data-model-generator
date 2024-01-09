@@ -39,9 +39,9 @@ object DerivativeColumns {
     val entitiesSyntheticColumnsByEntityMap2 = EnumMap(entitiesSyntheticColumnsMap
         .entries
         .map { asd ->
-            asd.key to asd.value
+            asd.key to EnumMap(asd.value
                 .map { qwe -> qwe.outEntity to qwe }
-                .toMap()
+                .toMap())
         }
         .toMap()
     )

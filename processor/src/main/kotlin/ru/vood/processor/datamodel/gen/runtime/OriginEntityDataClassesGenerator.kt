@@ -82,13 +82,8 @@ $simpleColumns
 ): $implemets         
 {
     override val designEntityName: ${InterfaceGenerator.GeneratedClasses.EntityEnum}
-        get() = designEntityNameConst
-
+        get() = ${InterfaceGenerator.GeneratedClasses.EntityEnum}.${metaEntity.designClassShortName}
     
-    companion object{
-        val designEntityNameConst = ${InterfaceGenerator.GeneratedClasses.EntityEnum}.${metaEntity.designClassShortName}
-    
-    }
 }
                     
                 """.trimIndent()
@@ -96,13 +91,8 @@ $simpleColumns
 sealed interface $fullClassName:  $implemets  
 {
     override val designEntityName: ${InterfaceGenerator.GeneratedClasses.EntityEnum}
-        get() = designEntityNameConst
+        get() = ${InterfaceGenerator.GeneratedClasses.EntityEnum}.${metaEntity.designClassShortName}
 
-    
-    companion object{
-        val designEntityNameConst = ${InterfaceGenerator.GeneratedClasses.EntityEnum}.${metaEntity.designClassShortName}
-    
-    }
 }
             """.trimIndent()
         }
