@@ -72,8 +72,12 @@ data class MetaEntity(val ksAnnotated: KSClassDeclaration, val logger: KSPLogger
             }.map { uk ->
                 uk.first to uk.second.map { q -> q.second }
             }
-            .plus(pkColumns)
-        val dublicateUk = allUk.map { it.first.name.value }
+        val allUkAndPk = if (pkColumns.second.isNotEmpty()) {
+            allUk.plus(pkColumns)
+        } else allUk
+
+        //.plus(pkColumns)
+        val dublicateUk = allUkAndPk.map { it.first.name.value }
             .groupBy { it }
             .filter { it.value.size > 1 }
             .map { it.key }
@@ -83,7 +87,7 @@ data class MetaEntity(val ksAnnotated: KSClassDeclaration, val logger: KSPLogger
             error("for entity ${designClassShortName}  dublicate UK Name ${dublicateUk} ")
         }
 
-        allUk.toMap()
+        allUkAndPk.toMap()
     }
 
     val fields: List<MetaEntityColumn> by lazy {

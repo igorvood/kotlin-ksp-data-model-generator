@@ -164,7 +164,7 @@ fun metaInformation(annotatedDataClasses: List<KSAnnotated>, logger: KSPLogger):
 
     checkDublicateFKName(collectMetaForeignKey)
 
-    val fieldsFk = fieldsFk(collectMetaForeignKey)
+    val fieldsFk = fieldsFk(collectMetaForeignKey, logger)
     return MetaInformation(fieldsFk, entities)
 }
 
@@ -206,7 +206,7 @@ private fun checkDublicateUk(entities: Map<ModelClassName, MetaEntity>, logger: 
 
 
     if (dublicatesUk.isNotEmpty()) {
-        logger.error(dublicatesUk.map { it.second }.joinToString(","), dublicatesUk[0].first)
+        logger.kspError(dublicatesUk.map { it.second }.joinToString(","), dublicatesUk[0].first)
 //        error(dublicatesUk)
     }
 }
@@ -214,6 +214,7 @@ private fun checkDublicateUk(entities: Map<ModelClassName, MetaEntity>, logger: 
 /**Вычисляет тип реляционной связи */
 private fun fieldsFk(
     collectMetaForeignKeyTemporary: Set<MetaForeignKeyTemporary>,
+    logger: KSPLogger,
 ): Set<MetaForeignKey> {
     val map1 = collectMetaForeignKeyTemporary
         .map { fkTemp ->
@@ -250,12 +251,21 @@ private fun fieldsFk(
                             val empty = minus1.isNotEmpty()
                             notEmpty && empty
                         }
-                    if (uksOneToMany.isNotEmpty()) {
-                        RelationType.MANY_TO_ONE
-                    } else {
-//                            RelationType.UNNOWN
-                        error("can not calculate relation type for ")
+                    when{
+                        uksOneToMany.isNotEmpty() -> RelationType.MANY_TO_ONE
+                        fromMetaEntity.uniqueKeysFields.isEmpty() -> RelationType.MANY_TO_ONE
+                        else -> {
+                            val message =
+                                "can not calculate relation type for Foreign Key ${fkTemp.name.value} on entity ${fkTemp.fromEntity.designClassShortName} ${fromMetaEntity.uniqueKeysFields.keys}"
+                            logger.kspError(
+                                message,
+                                fkTemp.fromEntity.ksAnnotated
+                            )
+                            error(message)
+                        }
                     }
+
+
 
                 }
             MetaForeignKey(fkTemp, relationType)
