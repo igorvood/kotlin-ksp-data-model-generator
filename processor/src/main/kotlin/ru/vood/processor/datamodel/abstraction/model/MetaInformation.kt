@@ -20,7 +20,7 @@ data class MetaInformation(
             filter.isEmpty() -> logger.kspError("Not found root entity, without ForeignKey from it")
             filter.size > 1 -> logger.kspError(
                 "Found ${filter.size} root entity, must be only one, without ForeignKey from it: ${
-                    filter.keys.map { it.value }.joinToString(", ")
+                    filter.keys.joinToString(", ") { it.value }
                 }"
             )
         }
