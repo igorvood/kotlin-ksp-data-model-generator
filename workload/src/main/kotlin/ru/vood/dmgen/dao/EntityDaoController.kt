@@ -13,11 +13,11 @@ import ru.vood.dmgen.dao.dto.PayLoadJsonVal
 import ru.vood.dmgen.dao.dto.UKJsonVal
 import ru.vood.dmgen.datamodel.intf.*
 import ru.vood.dmgen.datamodel.metaEnum.EntityEnum
+import ru.vood.dmgen.datamodel.metaEnum.FkNameEnum.Companion.foreignKeyMapFromEntity
 
 
 import ru.vood.dmgen.meta.DerivativeColumns.entitiesSyntheticColumnsByEntityMap2
 import ru.vood.dmgen.meta.DerivativeColumns.entitiesSyntheticColumnsMap
-import ru.vood.dmgen.meta.DerivativeFKs.foreignKeyMapFromEntity
 import ru.vood.dmgen.meta.DerivativeUk.entitiesUkMap
 import ru.vood.dmgen.serial.ModelJsonSerializer
 

@@ -95,6 +95,15 @@ ${entitiesMap.joinToString(",\n") { it.second }}
         }.toMap()
     )
     
+    val foreignKeyMapFromEntity = EnumMap(foreignKeyMap.values
+        .map {fkMetaData->
+            fkMetaData.fromEntity to fkMetaData
+        }
+        .groupBy { it.first }
+        .map { it.key to it.value.map { q -> q.second }.toSet() }
+        .toMap()
+    )
+    
     fun getFk(fromEntity: EntityEnum, toEntity: EntityEnum): FKMetaData<out IEntityOrigin> {
         val enumMap = fromToFkMap[fromEntity] ?: error("Not found any foreign key from entity ${'$'}fromEntity")
         return enumMap[toEntity] ?: error("Not found any foreign key from entity ${'$'}fromEntity to entity ${'$'}toEntity")

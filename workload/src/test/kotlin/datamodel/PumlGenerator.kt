@@ -3,10 +3,10 @@ package datamodel
 import org.junit.jupiter.api.Test
 import ru.vood.dmgen.annotation.FlowEntityType
 import ru.vood.dmgen.datamodel.intf.*
+import ru.vood.dmgen.datamodel.metaEnum.FkNameEnum.Companion.foreignKeyMapFromEntity
 import ru.vood.dmgen.dto.RelationType
 import ru.vood.dmgen.meta.DerivativeColumns.entitiesColumnsMap
 import ru.vood.dmgen.meta.DerivativeDependencyMap.entityDependencyParentMap
-import ru.vood.dmgen.meta.DerivativeFKs.foreignKeyMapFromEntity
 import java.io.File
 
 class PumlGenerator {
