@@ -20,7 +20,7 @@ class OriginEntityDataClassesGenerator(
 ) : AbstractGenerator<MetaInformation>(codeGenerator, rootPackage, logger) {
 
     override fun textGenerator(metaInfo: MetaInformation): Set<GeneratedFile> {
-        return collectEntityFile(metaInfo.metaForeignKeys, metaInfo.aggregateInnerDep())
+        return collectEntityFile(metaInfo.metaForeignKeys, metaInfo.aggregateInnerDep(logger))
     }
 
     private fun collectEntityFile(

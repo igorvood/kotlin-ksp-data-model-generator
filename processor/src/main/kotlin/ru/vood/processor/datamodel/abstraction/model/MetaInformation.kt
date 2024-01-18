@@ -1,5 +1,6 @@
 package ru.vood.processor.datamodel.abstraction.model
 
+import com.google.devtools.ksp.processing.KSPLogger
 import ru.vood.processor.datamodel.abstraction.model.dto.ModelClassName
 
 
@@ -11,13 +12,19 @@ data class MetaInformation(
         entities.values.distinctBy { it.designClassPackageName }.map { "import ${it.designClassPackageName}.*" }
             .joinToString("\n")
 
-    fun aggregateInnerDep(): Dependency {
+    fun aggregateInnerDep(logger: KSPLogger): Dependency {
 
         val filter =
             entities.filter { metaForeignKeys.filter { fk -> fk.fromEntity == it.value }.isEmpty() }
-        if (filter.size != 1) {
-            error("not found root entity, without ForeignKey on it")
+        when {
+            filter.isEmpty() -> logger.kspError("Not found root entity, without ForeignKey from it")
+            filter.size > 1 -> logger.kspError(
+                "Found ${filter.size} root entity, must be only one, without ForeignKey from it: ${
+                    filter.keys.map { it.value }.joinToString(", ")
+                }"
+            )
         }
+
         val root = filter.entries.toList()[0].value
         return Dependency(
             metaEntity = root,
