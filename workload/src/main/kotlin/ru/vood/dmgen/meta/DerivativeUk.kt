@@ -11,19 +11,20 @@ import java.util.*
 
 object DerivativeUk {
 
-    val entitiesUkMap = EnumMap(uniqueKeyMap.values.map { uk ->
-        uk.entity to uk
-    }
+    val entitiesUkMap = EnumMap(uniqueKeyMap.values
+        .map { uk ->
+            uk.entity to uk
+        }
         .groupBy(Pair<EntityEnum, UKEntityData<out IEntityOrigin>>::first)
-        .map { d ->
-            val map = d.value.map { it.second }
-            val filter = map.filter { it.typeUk == TypeUk.PK }
-            val pkEntityData = if (filter.size == 1) {
-                filter[0]
-            } else error("for ${d.key} must be one PK")
+        .map { entWithUks ->
+            val pkAndUk = entWithUks.value.map { it.second }
+            val pkOnly = pkAndUk.filter { it.typeUk == TypeUk.PK }
+            val pkEntityData = if (pkOnly.size == 1) {
+                pkOnly[0]
+            } else error("for ${entWithUks.key} must be one PK")
 
-            val ukSet = map.filter { it.typeUk == TypeUk.UK }.toSet()
-            d.key to IndexesMetaDto(pkEntityData, ukSet)
+            val ukSet = pkAndUk.filter { it.typeUk == TypeUk.UK }.toSet()
+            entWithUks.key to IndexesMetaDto(pkEntityData, ukSet)
         }
         .toMap()
     )
