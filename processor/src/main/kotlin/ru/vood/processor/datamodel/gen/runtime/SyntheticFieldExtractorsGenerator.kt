@@ -53,12 +53,9 @@ class SyntheticFieldExtractorsGenerator(
             FlowEntityType.ONE_OF -> "override val origin: ${entityClassName(metaEntity)}"
         }
 
-        val fkFunCode = syntheticFieldInfos
-            .map { syntheticFieldInfo ->
-                val genField = genWhenCondition(syntheticFieldInfo.metaEntity, syntheticFieldInfo.relationType)
-                Optional.of(genField)
-            }
-            .joinToString("\n") { it.get() }
+        val fkFunCodeOptional = extractSyntheticByrelationType(syntheticFieldInfos, RelationType.ONE_TO_ONE_OPTIONAL)
+        val fkFunCodeMandatory = extractSyntheticByrelationType(syntheticFieldInfos, RelationType.ONE_TO_ONE_MANDATORY)
+        val fkFunCodeSet = extractSyntheticByrelationType(syntheticFieldInfos, RelationType.MANY_TO_ONE)
 
 
         val originClassName = entityClassName(metaEntity)
@@ -76,12 +73,24 @@ $fk
 
 ): $s         
 {
-    override fun syntheticField(entityName: ${InterfaceGenerator.GeneratedClasses.EntityEnum}): Set<${InterfaceGenerator.GeneratedClasses.IEntityDetail}<out ${InterfaceGenerator.GeneratedClasses.IEntityOrigin}>> {
-       return when (entityName) {
-                $fkFunCode
-                else -> error("In Entity ${'$'}{designEntityName} Not found synthetic field for entity ${'$'}{entityName}")
+     override fun syntheticFieldOptional(entityName:  ${InterfaceGenerator.GeneratedClasses.EntityEnum}): ${InterfaceGenerator.GeneratedClasses.IEntityDetail}<out ${InterfaceGenerator.GeneratedClasses.IEntityOrigin}>? = 
+     when (entityName) {
+                $fkFunCodeOptional
+                else -> error("In Entity ${'$'}{designEntityName} Not found optional synthetic field for entity ${'$'}{entityName}")
             }
-    }
+
+     override fun syntheticFieldMandatory(entityName:  ${InterfaceGenerator.GeneratedClasses.EntityEnum}): ${InterfaceGenerator.GeneratedClasses.IEntityDetail}<out ${InterfaceGenerator.GeneratedClasses.IEntityOrigin}> = 
+     when (entityName) {
+                $fkFunCodeMandatory
+                else -> error("In Entity ${'$'}{designEntityName} Not found mandatory synthetic field for entity ${'$'}{entityName}")
+            }
+
+     override fun syntheticFieldSet(entityName: ${InterfaceGenerator.GeneratedClasses.EntityEnum}): Set<${InterfaceGenerator.GeneratedClasses.IEntityDetail}<out ${InterfaceGenerator.GeneratedClasses.IEntityOrigin}>> = 
+     when (entityName) {
+                $fkFunCodeSet
+                else -> error("In Entity ${'$'}{designEntityName} Not found mandatory synthetic field for entity ${'$'}{entityName}")
+            }
+
 
     override val designEntityName: ${InterfaceGenerator.GeneratedClasses.EntityEnum}
         get() = ${InterfaceGenerator.GeneratedClasses.EntityEnum}.${metaEntity.designClassShortName}
@@ -96,12 +105,19 @@ override val origin: $originClassName
 : $s
 {
 
- override fun syntheticField(entityName: ${InterfaceGenerator.GeneratedClasses.EntityEnum}): Set<${InterfaceGenerator.GeneratedClasses.IEntityDetail}<out ${InterfaceGenerator.GeneratedClasses.IEntityOrigin}>> {
-          return  when (entityName) {
-                else -> error("In Entity ${'$'}{designEntityName} Not found synthetic field for entity ${'$'}{entityName}")
-            }
-    }
-    
+  override fun syntheticFieldOptional(entityName:  ${InterfaceGenerator.GeneratedClasses.EntityEnum}): ${InterfaceGenerator.GeneratedClasses.IEntityDetail}<out ${InterfaceGenerator.GeneratedClasses.IEntityOrigin}>? {
+        TODO("Not yet implemented")
+    }   
+
+      override fun syntheticFieldMandatory(entityName:  ${InterfaceGenerator.GeneratedClasses.EntityEnum}): ${InterfaceGenerator.GeneratedClasses.IEntityDetail}<out ${InterfaceGenerator.GeneratedClasses.IEntityOrigin}> {
+        TODO("Not yet implemented")
+    }   
+
+    override fun syntheticFieldSet(entityName: ${InterfaceGenerator.GeneratedClasses.EntityEnum}): Set<${InterfaceGenerator.GeneratedClasses.IEntityDetail}<out ${InterfaceGenerator.GeneratedClasses.IEntityOrigin}>> {
+        TODO("Not yet implemented")
+    }   
+
+
 override val designEntityName: ${InterfaceGenerator.GeneratedClasses.EntityEnum}
     get() = designEntityNameConst
  companion object{
@@ -130,6 +146,19 @@ override val designEntityName: ${InterfaceGenerator.GeneratedClasses.EntityEnum}
 
         return plus
     }
+
+    private fun extractSyntheticByrelationType(
+        syntheticFieldInfos: List<SyntheticFieldInfo>,
+        relationTypeFilter: RelationType
+    ) = syntheticFieldInfos
+        .filter {
+            it.relationType == relationTypeFilter
+        }
+        .map { syntheticFieldInfo ->
+            val genField = genWhenConditionNew(syntheticFieldInfo.metaEntity, syntheticFieldInfo.relationType)
+            Optional.of(genField)
+        }
+        .joinToString("\n") { it.get() }
 
     private fun headCreate(
         metaEntity: MetaEntity,
@@ -167,13 +196,12 @@ override val designEntityName: ${InterfaceGenerator.GeneratedClasses.EntityEnum}
         }
     }
 
-    private fun genWhenCondition(toEntity: MetaEntity, relationType: RelationType) =
+    private fun genWhenConditionNew(toEntity: MetaEntity, relationType: RelationType) =
         when (relationType) {
             RelationType.ONE_TO_ONE_OPTIONAL ->
-                """${InterfaceGenerator.GeneratedClasses.EntityEnum}.${toEntity.designClassShortName} -> ${toEntity.entityFieldName}?.let { setOf(it) } ?: setOf()"""
+                """${InterfaceGenerator.GeneratedClasses.EntityEnum}.${toEntity.designClassShortName} -> ${toEntity.entityFieldName}"""
             RelationType.ONE_TO_ONE_MANDATORY ->
-                """${InterfaceGenerator.GeneratedClasses.EntityEnum}.${toEntity.designClassShortName} -> setOf(${toEntity.entityFieldName})"""
-
+                """${InterfaceGenerator.GeneratedClasses.EntityEnum}.${toEntity.designClassShortName} -> ${toEntity.entityFieldName}"""
             RelationType.MANY_TO_ONE -> """${InterfaceGenerator.GeneratedClasses.EntityEnum}.${toEntity.designClassShortName} -> ${toEntity.entityFieldName}"""
         }
 

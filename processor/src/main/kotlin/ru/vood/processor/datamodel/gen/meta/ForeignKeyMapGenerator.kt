@@ -68,6 +68,7 @@ class ForeignKeyMapGenerator(
 import ${InterfaceGenerator.GeneratedClasses.FKMetaData.getPac(rootPackage)}
 import ${InterfaceGenerator.GeneratedClasses.FkPair.getPac(rootPackage)}
 import ${InterfaceGenerator.GeneratedClasses.UniqueKeyEnum.getPac(rootPackage)}
+import ${InterfaceGenerator.GeneratedClasses.IEntityOrigin.getPac(rootPackage)}
 import ${Generated::class.java.canonicalName}
 import ${EnumMap::class.java.canonicalName}
 
@@ -84,6 +85,22 @@ val foreignKeyMap = EnumMap(mapOf(
 ${entitiesMap.joinToString(",\n") { it.second }}
 )
 )
+    /**В качестве ключа первой мапки выступает идентификатор сущности от которой идет FK
+    * В качестве ключа второй, вложенной мапки, выступает идентификатор сущности в которую идет FK
+    */
+    val fromToFkMap = EnumMap(foreignKeyMap.values
+        .map { fk ->
+            fk.fromEntity to EnumMap(foreignKeyMap.values.filter { it.fromEntity == fk.fromEntity }
+                .map { fk2 -> fk2.toEntity to fk2 }.toMap())
+        }.toMap()
+    )
+    
+    fun getFk(fromEntity: EntityEnum, toEntity: EntityEnum): FKMetaData<out IEntityOrigin> {
+        val enumMap = fromToFkMap[fromEntity] ?: error("Not found any foreign key from entity ${'$'}fromEntity")
+        return enumMap[toEntity] ?: error("Not found any foreign key from entity ${'$'}fromEntity to entity ${'$'}toEntity")
+    }
+
+
 }
 
 }
@@ -99,6 +116,6 @@ ${entitiesMap.joinToString(",\n") { it.second }}
 
     companion object {
         val foreignKeyEnumGeneratorNameClass = "DataDictionaryForeignKeyMap"
-        val fkEnumName = "FkNameEnum"
+        val fkEnumName = InterfaceGenerator.GeneratedClasses.FkNameEnum.name
     }
 }

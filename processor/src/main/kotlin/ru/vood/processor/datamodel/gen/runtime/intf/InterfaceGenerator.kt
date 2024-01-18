@@ -32,37 +32,61 @@ import ${GeneratedClasses.UniqueKeyEnum.getPac(rootPackage)}
 import ${SimpleColumnName::class.java.canonicalName}
 import ${SimpleColumnType::class.java.canonicalName}
 import ${FlowEntityType::class.java.canonicalName}
+import ${RelationType::class.java.canonicalName}.*
 import kotlin.reflect.KClass
 import ${RelationType::class.java.canonicalName}
 import ${TypeUk::class.java.canonicalName}
 import ${GeneratedClasses.EntityEnum.getPac(rootPackage)}
+import ${GeneratedClasses.FkNameEnum.getPac(rootPackage)}
 import ${GeneratedClasses.FullColumnNameEnum.getPac(rootPackage)}
 
 
 
 @${Generated::class.java.simpleName}("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
+/**Сериализуемая сущность*/
 interface ${GeneratedClasses.SerializableEntity} {
+    /**Мета информаци по сущности*/
     val designEntityName: ${GeneratedClasses.EntityEnum}
 }
 
 @${Generated::class.java.simpleName}("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
+/**Оригинал сущности, только поля принадлежащие ей*/
 interface ${GeneratedClasses.IEntityOrigin} : ${GeneratedClasses.SerializableEntity}
 
 @${Generated::class.java.simpleName}("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
 interface ${GeneratedClasses.IEntityDetail}<T : ${GeneratedClasses.IEntityOrigin}> : ${GeneratedClasses.IEntityOrigin} {
 
+    /**Оригинал сущности, только поля принадлежащие ей*/
     val origin: T
-    fun syntheticField(entityName:  ${GeneratedClasses.EntityEnum}): Set<${GeneratedClasses.IEntityDetail}<out ${GeneratedClasses.IEntityOrigin}>>
+    
+    fun syntheticField(entityName: ${GeneratedClasses.EntityEnum}): Set<${GeneratedClasses.IEntityDetail}<out ${GeneratedClasses.IEntityOrigin}>> {
+       return when(FkNameEnum.getFk(entityName, origin.designEntityName).relationType){
+            RelationType.MANY_TO_ONE -> syntheticFieldSet(entityName)
+            RelationType.ONE_TO_ONE_MANDATORY -> setOf( syntheticFieldMandatory(entityName))
+            RelationType.ONE_TO_ONE_OPTIONAL -> syntheticFieldOptional(entityName)?.let { setOf(it) }?: setOf()
+        }
+    }
+    
+    /**Для опциональных сущностей. По имени сущности имеющей fk на текущую возвращает ее экземляр.*/
+    fun syntheticFieldOptional(entityName:  ${GeneratedClasses.EntityEnum}): ${GeneratedClasses.IEntityDetail}<out ${GeneratedClasses.IEntityOrigin}>?
+    /**Для обязательных сущностей. По имени сущности имеющей fk на текущую возвращает ее экземляр.*/
+    fun syntheticFieldMandatory(entityName:  ${GeneratedClasses.EntityEnum}): ${GeneratedClasses.IEntityDetail}<out ${GeneratedClasses.IEntityOrigin}>
+    /**Для сущностей имеющих связь, много к одному к текущей. По имени сущности имеющей fk на текущую возвращает ее экземляр.*/
+    fun syntheticFieldSet(entityName: ${GeneratedClasses.EntityEnum}): Set<${GeneratedClasses.IEntityDetail}<out ${GeneratedClasses.IEntityOrigin}>>
+
 
 }
 
 @${Generated::class.java.simpleName}("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
 interface ${GeneratedClasses.IContextOf}<T : ${GeneratedClasses.IEntityOrigin}> : ${GeneratedClasses.SerializableEntity} {
 
+    /**Мета информация по уникальному ключу*/
     val ukName: ${GeneratedClasses.UniqueKeyEnum}
 
+    /**Сериализатор оригинальной сущности*/
     val ktEntitySerializer: KSerializer<T>
 
+    /**Сериализатор детальной(аггрегированной) сущности*/
     val ktSyntheticEntitySerializer: KSerializer<out ${GeneratedClasses.IEntityDetail}<out T>>
 
 }
@@ -316,6 +340,7 @@ data class ${GeneratedClasses.FkPair}(
         UKEntityData(interfaceGeneratorPackageName),
         FkPair(interfaceGeneratorPackageName),
         EntityEnum(subPackageAbstractDataDictionaryGenerator),
+        FkNameEnum(subPackageAbstractDataDictionaryGenerator),
         FullColumnNameEnum(subPackageAbstractDataDictionaryGenerator),
         UniqueKeyEnum(subPackageAbstractDataDictionaryGenerator)
         ;
