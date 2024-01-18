@@ -12,9 +12,9 @@ import ru.vood.dmgen.dao.dto.PayLoadJsonVal
 import ru.vood.dmgen.dao.dto.UKJsonVal
 import ru.vood.dmgen.datamodel.intf.IContextOf
 import ru.vood.dmgen.datamodel.intf.IEntityOrigin
+import ru.vood.dmgen.datamodel.intf.IndexesMetaDto
 import ru.vood.dmgen.datamodel.metaEnum.EntityEnum
 import ru.vood.dmgen.datamodel.metaEnum.UniqueKeyEnum
-import ru.vood.dmgen.meta.IndexesMetaDto
 import ru.vood.dmgen.serial.ModelJsonSerializer
 
 @Repository

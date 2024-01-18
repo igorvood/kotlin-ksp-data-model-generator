@@ -1,6 +1,7 @@
 package ru.vood.dmgen.meta
 
 import ru.vood.dmgen.datamodel.intf.IEntityOrigin
+import ru.vood.dmgen.datamodel.intf.IndexesMetaDto
 import ru.vood.dmgen.datamodel.intf.UKEntityData
 import ru.vood.dmgen.datamodel.metaEnum.EntityEnum
 import ru.vood.dmgen.datamodel.metaEnum.UniqueKeyEnum.Companion.uniqueKeyMap

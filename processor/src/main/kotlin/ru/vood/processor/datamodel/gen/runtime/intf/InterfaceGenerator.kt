@@ -12,6 +12,7 @@ import ru.vood.processor.datamodel.gen.*
 import ru.vood.processor.datamodel.gen.AbstractDataDictionaryGenerator.Companion.subPackageAbstractDataDictionaryGenerator
 import ru.vood.processor.datamodel.gen.meta.ColumnEntityMapGenerator.Companion.fullColumnEnumName
 import java.time.LocalDateTime
+import java.util.*
 import javax.annotation.processing.Generated
 
 class InterfaceGenerator(
@@ -31,6 +32,7 @@ import ${Generated::class.java.canonicalName}
 import ${GeneratedClasses.UniqueKeyEnum.getPac(rootPackage)}
 import ${SimpleColumnName::class.java.canonicalName}
 import ${SimpleColumnType::class.java.canonicalName}
+import ${EnumMap::class.java.canonicalName}
 import ${FlowEntityType::class.java.canonicalName}
 import ${RelationType::class.java.canonicalName}.*
 import kotlin.reflect.KClass
@@ -300,6 +302,18 @@ data class ${GeneratedClasses.FkPair}(
     val to: $fullColumnEnumName
 )
 
+@${Generated::class.java.simpleName}("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
+data class ${GeneratedClasses.IndexesMetaDto}(
+    /**Мета по первичному ключу*/
+    val pkEntityData: ${GeneratedClasses.UKEntityData}<out ${GeneratedClasses.IEntityOrigin}>,
+    /**мета по уникальным индексам, исключая первичный ключ*/
+    val ukOnlySet: Set<${GeneratedClasses.UKEntityData}<out ${GeneratedClasses.IEntityOrigin}>>
+) {
+    /**мета по уникальным индексам включая первичный ключ*/
+    val ukAndPkMap = ${EnumMap::class.java.simpleName}(ukOnlySet.plus(pkEntityData).associateBy { it.ukName })
+
+}
+
 
 
 """.trimIndent()
@@ -321,6 +335,8 @@ data class ${GeneratedClasses.FkPair}(
 
     enum class GeneratedClasses(val subPackageName: PackageName) {
         SerializableEntity(interfaceGeneratorPackageName),
+        IndexesMetaDto(interfaceGeneratorPackageName),
+
         IEntityOrigin(interfaceGeneratorPackageName),
         IEntityDetail(interfaceGeneratorPackageName),
         IContextOf(interfaceGeneratorPackageName),
