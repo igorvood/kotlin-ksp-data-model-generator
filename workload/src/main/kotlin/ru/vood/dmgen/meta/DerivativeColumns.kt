@@ -8,7 +8,7 @@ import java.util.*
 object DerivativeColumns {
 
 
-    private val columnEntityDataMap = EnumMap(FullColumnNameEnum.values().map { it to it.columnData() }.toMap())
+    private val columnEntityDataMap = EnumMap(FullColumnNameEnum.values().associateWith { it.columnData() })
 
     val entitiesColumnsMap = EnumMap(columnEntityDataMap.values
         .map { column ->
@@ -16,8 +16,8 @@ object DerivativeColumns {
         }
         .groupBy { it.first }
         .map {
-            it.key to it.value.map { ass -> ass.second }
-                .map { asdsa -> asdsa.simpleColumnName to asdsa }.toMap()
+            it.key to it.value.map { entWithColEntData -> entWithColEntData.second }
+                .associateBy { colEntData -> colEntData.simpleColumnName }
         }
         .toMap()
     )
