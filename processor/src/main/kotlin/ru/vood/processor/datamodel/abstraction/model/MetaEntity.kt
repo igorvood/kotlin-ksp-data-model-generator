@@ -45,7 +45,7 @@ data class MetaEntity(val ksAnnotated: KSClassDeclaration, val logger: KSPLogger
 
         val minus = pkCols.minus(notNullPkCols.toSet())
         if (minus.isNotEmpty()) {
-            error("Entity ${designClassFullClassName.value} contains nullable columns in PK ${minus}")
+            logger.kspError("Entity ${designClassFullClassName.value} contains nullable columns in PK ${minus}", ksAnnotated)
         }
 
         UkDto(UkName(designClassShortName + "_PK"), pkCols, TypeUk.PK) to fields.filter { it.inPk }
@@ -65,7 +65,8 @@ data class MetaEntity(val ksAnnotated: KSClassDeclaration, val logger: KSPLogger
                 val map = ukCols.map { pair: Pair<String, MetaEntityColumn?> ->
                     val metaEntityColumn = pair.second
                     if (metaEntityColumn == null) {
-                        error("for entity $designClassShortName Uk annotation colum ${pair.first} not contains field class ")
+                        logger.kspError("for entity $designClassShortName Uk annotation colum ${pair.first} not contains field class ", ksAnnotated)
+
                     } else pair.first to metaEntityColumn
                 }
                 uk.first to map
@@ -84,7 +85,7 @@ data class MetaEntity(val ksAnnotated: KSClassDeclaration, val logger: KSPLogger
             .distinct()
 
         if (dublicateUk.isNotEmpty()) {
-            error("for entity ${designClassShortName}  dublicate UK Name ${dublicateUk} ")
+            logger.kspError("for entity ${designClassShortName}  dublicate UK Name ${dublicateUk} ", ksAnnotated)
         }
 
         allUkAndPk.toMap()
