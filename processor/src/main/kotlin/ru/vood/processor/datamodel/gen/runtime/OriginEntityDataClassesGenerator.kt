@@ -3,6 +3,8 @@ package ru.vood.processor.datamodel.gen.runtime
 import com.google.devtools.ksp.processing.CodeGenerator
 import com.google.devtools.ksp.processing.KSPLogger
 import ru.vood.dmgen.annotation.FlowEntityType
+import ru.vood.dmgen.annotation.ModelEntity
+import ru.vood.dmgen.annotation.ModelEntityContext
 import ru.vood.processor.datamodel.abstraction.model.Dependency
 import ru.vood.processor.datamodel.abstraction.model.MetaEntity
 import ru.vood.processor.datamodel.abstraction.model.MetaForeignKey
@@ -123,11 +125,14 @@ ${
         }          
     
 import ${Generated::class.java.canonicalName}
+import ${ModelEntity::class.java.canonicalName}
+
 import ${InterfaceGenerator.GeneratedClasses.IEntityOrigin.getPac(rootPackage)}
 import ${InterfaceGenerator.GeneratedClasses.EntityEnum.getPac(rootPackage)}
     
     
-@Generated("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
+@${Generated::class.java.simpleName}("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
+@${ModelEntity::class.java.simpleName}
 @kotlinx.serialization.Serializable"""
 
     override val subPackage: PackageName
