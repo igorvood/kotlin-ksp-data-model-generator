@@ -251,7 +251,7 @@ private fun fieldsFk(
                             val empty = minus1.isNotEmpty()
                             notEmpty && empty
                         }
-                    when{
+                    when {
                         uksOneToMany.isNotEmpty() -> RelationType.MANY_TO_ONE
                         fromMetaEntity.uniqueKeysFields.isEmpty() -> RelationType.MANY_TO_ONE
                         else -> {

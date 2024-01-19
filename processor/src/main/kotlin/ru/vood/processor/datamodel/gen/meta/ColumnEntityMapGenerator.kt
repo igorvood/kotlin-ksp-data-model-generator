@@ -5,7 +5,6 @@ import com.google.devtools.ksp.processing.KSPLogger
 import ru.vood.dmgen.annotation.FlowEntityType
 import ru.vood.dmgen.dto.*
 import ru.vood.processor.datamodel.abstraction.model.MetaInformation
-import ru.vood.processor.datamodel.abstraction.model.dto.SealedSyntheticFieldInfo
 import ru.vood.processor.datamodel.abstraction.model.dto.SyntheticFieldInfo
 import ru.vood.processor.datamodel.gen.*
 import ru.vood.processor.datamodel.gen.CollectName.entityClassName
@@ -52,46 +51,46 @@ class ColumnEntityMapGenerator(
                             .map { synth ->
 //                                when (val synth = syntheticFieldInfo) {
 //                                    is SyntheticFieldInfo -> {
-                                        val fromEntity = synth.metaEntity
-                                        val isOptional =
-                                            /*syntheticFieldInfo.isOptional &&*/
-                                            synth.relationType == RelationType.ONE_TO_ONE_OPTIONAL
-                                        val sealedText = """setOf(it.${fromEntity.entityFieldName})"""
-                                        val columnKindType = when (synth.relationType) {
-                                            RelationType.ONE_TO_ONE_OPTIONAL -> {
-                                                val funBody =
-                                                    if (synth.isOneOf) sealedText else """it.${fromEntity.entityFieldName}?.let{q->setOf(q)}?:setOf()"""
-                                                "${InterfaceGenerator.GeneratedClasses.Synthetic}<$entityClass, $syntheticClassName, ${synth.metaEntity.designClassPackageName}.${
-                                                    entityClassName(
-                                                        synth.metaEntity
-                                                    )
-                                                }>{$funBody}"
-                                            }
-                                            RelationType.ONE_TO_ONE_MANDATORY -> {
-                                                val funBody =
-                                                    if (synth.isOneOf) sealedText else """setOf(it.${fromEntity.entityFieldName})"""
-                                                "${InterfaceGenerator.GeneratedClasses.Synthetic}<$entityClass, $syntheticClassName, ${synth.metaEntity.designClassPackageName}.${
-                                                    entityClassName(
-                                                        synth.metaEntity
-                                                    )
-                                                }>{$funBody}"
-                                            }
-                                            RelationType.MANY_TO_ONE ->
-                                                "${InterfaceGenerator.GeneratedClasses.SyntheticSet}<$entityClass, $syntheticClassName, ${synth.metaEntity.designClassPackageName}.${
-                                                    entityClassName(
-                                                        synth.metaEntity
-                                                    )
-                                                } >{it.${fromEntity.entityFieldName}}"
-                                        }
+                                val fromEntity = synth.metaEntity
+                                val isOptional =
+                                    /*syntheticFieldInfo.isOptional &&*/
+                                    synth.relationType == RelationType.ONE_TO_ONE_OPTIONAL
+                                val sealedText = """setOf(it.${fromEntity.entityFieldName})"""
+                                val columnKindType = when (synth.relationType) {
+                                    RelationType.ONE_TO_ONE_OPTIONAL -> {
+                                        val funBody =
+                                            if (synth.isOneOf) sealedText else """it.${fromEntity.entityFieldName}?.let{q->setOf(q)}?:setOf()"""
+                                        "${InterfaceGenerator.GeneratedClasses.Synthetic}<$entityClass, $syntheticClassName, ${synth.metaEntity.designClassPackageName}.${
+                                            entityClassName(
+                                                synth.metaEntity
+                                            )
+                                        }>{$funBody}"
+                                    }
+                                    RelationType.ONE_TO_ONE_MANDATORY -> {
+                                        val funBody =
+                                            if (synth.isOneOf) sealedText else """setOf(it.${fromEntity.entityFieldName})"""
+                                        "${InterfaceGenerator.GeneratedClasses.Synthetic}<$entityClass, $syntheticClassName, ${synth.metaEntity.designClassPackageName}.${
+                                            entityClassName(
+                                                synth.metaEntity
+                                            )
+                                        }>{$funBody}"
+                                    }
+                                    RelationType.MANY_TO_ONE ->
+                                        "${InterfaceGenerator.GeneratedClasses.SyntheticSet}<$entityClass, $syntheticClassName, ${synth.metaEntity.designClassPackageName}.${
+                                            entityClassName(
+                                                synth.metaEntity
+                                            )
+                                        } >{it.${fromEntity.entityFieldName}}"
+                                }
 
 
-                                        val fullColumnName = FullColumnName(
-                                            EntityName(fromEntity.designClassShortName),
-                                            SimpleColumnName(fromEntity.entityFieldName)
-                                        )
+                                val fullColumnName = FullColumnName(
+                                    EntityName(fromEntity.designClassShortName),
+                                    SimpleColumnName(fromEntity.entityFieldName)
+                                )
 
 
-                                        "${fullColumnName.value}" to """${fullColumnEnumName}.${fullColumnName.value} to ${InterfaceGenerator.GeneratedClasses.SyntheticColumnEntityData}(
+                                "${fullColumnName.value}" to """${fullColumnEnumName}.${fullColumnName.value} to ${InterfaceGenerator.GeneratedClasses.SyntheticColumnEntityData}(
                                 |entity= ${InterfaceGenerator.GeneratedClasses.EntityEnum}.${ent.designClassShortName},
                                 |outEntity = ${InterfaceGenerator.GeneratedClasses.EntityEnum}.${fromEntity.designClassShortName},
                                 |simpleColumnName = ${SimpleColumnName::class.simpleName}("${fromEntity.entityFieldName}"),

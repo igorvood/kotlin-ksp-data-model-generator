@@ -74,7 +74,6 @@ class EntityMapGenerator(
                     .sortedBy { it.first }
 
 
-
                 val trimIndent =
                     """package ${packageName.value}
 
