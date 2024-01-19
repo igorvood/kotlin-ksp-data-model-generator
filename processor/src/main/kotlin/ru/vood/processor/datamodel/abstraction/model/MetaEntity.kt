@@ -45,7 +45,10 @@ data class MetaEntity(val ksAnnotated: KSClassDeclaration, val logger: KSPLogger
 
         val minus = pkCols.minus(notNullPkCols.toSet())
         if (minus.isNotEmpty()) {
-            logger.kspError("Entity ${designClassFullClassName.value} contains nullable columns in PK ${minus}", ksAnnotated)
+            logger.kspError(
+                "Entity ${designClassFullClassName.value} contains nullable columns in PK ${minus}",
+                ksAnnotated
+            )
         }
 
         UkDto(UkName(designClassShortName + "_PK"), pkCols, TypeUk.PK) to fields.filter { it.inPk }
@@ -65,7 +68,10 @@ data class MetaEntity(val ksAnnotated: KSClassDeclaration, val logger: KSPLogger
                 val map = ukCols.map { pair: Pair<String, MetaEntityColumn?> ->
                     val metaEntityColumn = pair.second
                     if (metaEntityColumn == null) {
-                        logger.kspError("for entity $designClassShortName Uk annotation colum ${pair.first} not contains field class ", ksAnnotated)
+                        logger.kspError(
+                            "for entity $designClassShortName Uk annotation colum ${pair.first} not contains field class ",
+                            ksAnnotated
+                        )
 
                     } else pair.first to metaEntityColumn
                 }
@@ -77,7 +83,6 @@ data class MetaEntity(val ksAnnotated: KSClassDeclaration, val logger: KSPLogger
             allUk.plus(pkColumns)
         } else allUk
 
-        //.plus(pkColumns)
         val dublicateUk = allUkAndPk.map { it.first.name.value }
             .groupBy { it }
             .filter { it.value.size > 1 }
@@ -109,8 +114,6 @@ data class MetaEntity(val ksAnnotated: KSClassDeclaration, val logger: KSPLogger
             |foreignKeysAnnotations=$foreignKeysAnnotations,
             |uniqueKeysAnnotations=$uniqueKeysAnnotations,
             |modelClassName=$designClassFullClassName,
-            
             |)""".trimMargin()
-//        |fields=$fields
     }
 }
