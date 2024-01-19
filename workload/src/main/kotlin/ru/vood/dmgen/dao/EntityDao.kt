@@ -129,7 +129,10 @@ class EntityDao(
     order by levell
                                         """,
         { rs, _ ->
-            ChildEntityDto(entityType = EntityEnum.entityMetaByStr(rs.getString(1)), payload = PayLoadJsonVal(rs.getString(5)))
+            ChildEntityDto(
+                entityType = EntityEnum.entityMetaByStr(rs.getString(1)),
+                payload = PayLoadJsonVal(rs.getString(5))
+            )
         },
         pkVal.value, indexesMetaDto.pkEntityData.entity.name
     ).groupBy { it.entityType }

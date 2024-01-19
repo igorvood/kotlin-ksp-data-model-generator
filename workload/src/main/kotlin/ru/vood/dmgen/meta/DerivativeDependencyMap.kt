@@ -12,7 +12,7 @@ object DerivativeDependencyMap {
 
     private val entityDataMap = EnumMap(EntityEnum.values().associateWith { it.entityData() })
     val entityDependencyParentMap =
-        collectDependencyNew( foreignKeyMap)
+        collectDependencyNew(foreignKeyMap)
 
     val aggregateParentDependencyMap = EnumMap(entityDependencyParentMap
         .filter { qw -> entityDataMap[qw.key]!!.entityType == FlowEntityType.AGGREGATE }
@@ -42,6 +42,7 @@ object DerivativeDependencyMap {
                 .toSet()
         }
         .toMap())
+
     private fun collectDependencyNew(
         foreignKey: Map<FkNameEnum, FKMetaData<*>>
     ): EnumMap<EntityEnum, Set<MetaDependencyNew>> {
