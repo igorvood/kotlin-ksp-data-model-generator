@@ -1,9 +1,6 @@
 package ru.vood.processor.datamodel
 
-import com.google.devtools.ksp.processing.CodeGenerator
-import com.google.devtools.ksp.processing.KSPLogger
-import com.google.devtools.ksp.processing.Resolver
-import com.google.devtools.ksp.processing.SymbolProcessor
+import com.google.devtools.ksp.processing.*
 import com.google.devtools.ksp.symbol.KSAnnotated
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
@@ -12,6 +9,7 @@ import ru.vood.dmgen.annotation.FlowEntity
 import ru.vood.processor.datamodel.abstraction.model.MetaEntity
 import ru.vood.processor.datamodel.abstraction.model.metaInformation
 import ru.vood.processor.datamodel.gen.PackageName
+import ru.vood.processor.datamodel.gen.appendText
 import ru.vood.processor.datamodel.gen.meta.ColumnEntityMapGenerator
 import ru.vood.processor.datamodel.gen.meta.EntityMapGenerator
 import ru.vood.processor.datamodel.gen.meta.ForeignKeyMapGenerator
@@ -74,6 +72,18 @@ class DataModelConfigProcessor(
             val awaitAll = listOf.awaitAll()
             awaitAll
         }
+        kotlin.runCatching {
+            val createNewFileByPath = codeGenerator.createNewFileByPath(
+                Dependencies(
+                    true,
+                ), "QWERTY", "json"
+            )
+
+            createNewFileByPath.appendText("genFile.generatedCode.value")
+
+            createNewFileByPath.close()
+        }
+
         return symbols.toList()
 
     }

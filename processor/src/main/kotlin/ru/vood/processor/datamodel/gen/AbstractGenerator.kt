@@ -19,10 +19,9 @@ abstract class AbstractGenerator<META>(
 
         textGenerator1.forEach { genFile ->
 
-            logger.warn("Generate File! PackageName ${genFile.packageName.value} fileName ${genFile.fileName.value}")
+            logger.info("Generate File! PackageName ${genFile.packageName.value} fileName ${genFile.fileName.value}")
 
             kotlin.runCatching {
-
                 file = codeGenerator.createNewFile(
                     Dependencies(
                         false,
