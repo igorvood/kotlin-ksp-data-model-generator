@@ -15,15 +15,23 @@ dependencies {
     implementation(project(":core"))
     implementation(project(":dataModel"))
     implementation("org.springframework.boot:spring-boot-starter-data-jdbc")
-    testImplementation("org.springframework.boot:spring-boot-starter-test")
-    testImplementation(project(":dataModelSealed"))
     implementation("org.liquibase:liquibase-core")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-hocon:1.4.1")
-    implementation("com.charleskorn.kaml:kaml:0.48.0")
+
+
 
 
     runtimeOnly("org.postgresql:postgresql")
+
+
+    testImplementation("com.charleskorn.kaml:kaml:0.48.0")
+    testImplementation("org.springframework.boot:spring-boot-starter-test")
+    testImplementation(project(":dataModelSealed"))
+    testImplementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.13.5")
+
+    testImplementation("com.fasterxml.jackson.module:jackson-module-jsonSchema:2.13.5")
+
 
 }
 
