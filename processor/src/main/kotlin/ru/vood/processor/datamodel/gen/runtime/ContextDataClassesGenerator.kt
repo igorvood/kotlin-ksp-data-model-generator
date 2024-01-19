@@ -2,6 +2,7 @@ package ru.vood.processor.datamodel.gen.runtime
 
 import com.google.devtools.ksp.processing.CodeGenerator
 import com.google.devtools.ksp.processing.KSPLogger
+import ru.vood.dmgen.annotation.ModelEntityContext
 import ru.vood.processor.datamodel.abstraction.model.MetaInformation
 import ru.vood.processor.datamodel.gen.*
 import ru.vood.processor.datamodel.gen.CollectName.ukClassName
@@ -44,11 +45,13 @@ class ContextDataClassesGenerator(
                     
 import ${InterfaceGenerator.GeneratedClasses.UniqueKeyEnum.getPac(rootPackage)}
 import ${Generated::class.java.canonicalName}
+import ${ModelEntityContext::class.java.canonicalName}
 import ${InterfaceGenerator.GeneratedClasses.IContextOf.getPac(rootPackage)}
 import ${InterfaceGenerator.GeneratedClasses.EntityEnum.getPac(rootPackage)}
                     
 @kotlinx.serialization.Serializable
-@Generated("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
+@${Generated::class.java.simpleName}("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
+@${ModelEntityContext::class.java.simpleName}
 data class $fullClassName (
 $joinToString
 ): ${InterfaceGenerator.GeneratedClasses.IContextOf}<$entityName>
