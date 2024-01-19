@@ -3,6 +3,8 @@ package ru.vood.processor.datamodel.gen.runtime
 import com.google.devtools.ksp.processing.CodeGenerator
 import com.google.devtools.ksp.processing.KSPLogger
 import ru.vood.dmgen.annotation.FlowEntityType
+import ru.vood.dmgen.annotation.ModelEntity
+import ru.vood.dmgen.annotation.ModelEntityDetail
 import ru.vood.dmgen.dto.RelationType
 import ru.vood.processor.datamodel.abstraction.model.Dependency
 import ru.vood.processor.datamodel.abstraction.model.MetaEntity
@@ -175,12 +177,14 @@ override val designEntityName: ${InterfaceGenerator.GeneratedClasses.EntityEnum}
     }          
     import ${InterfaceGenerator.GeneratedClasses.IEntityDetail.getPac(rootPackage)}     
     import ${Generated::class.java.canonicalName}
+    import ${ModelEntityDetail::class.java.canonicalName}
     import ${InterfaceGenerator.GeneratedClasses.IEntityOrigin.getPac(rootPackage)}
     import ${InterfaceGenerator.GeneratedClasses.EntityEnum.getPac(rootPackage)}
     
     ${syntheticFieldImport}
     
-    @Generated("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
+    @${Generated::class.java.simpleName}("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
+    @${ModelEntityDetail::class.java.simpleName}
     @kotlinx.serialization.Serializable"""
 
     private fun genField(syntheticFieldInfo: SyntheticFieldInfo): String {
