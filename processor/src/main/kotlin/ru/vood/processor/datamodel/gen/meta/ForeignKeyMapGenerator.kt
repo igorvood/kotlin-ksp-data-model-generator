@@ -2,6 +2,8 @@ package ru.vood.processor.datamodel.gen.meta
 
 import com.google.devtools.ksp.processing.CodeGenerator
 import com.google.devtools.ksp.processing.KSPLogger
+import ru.vood.dmgen.annotation.MetaEntities
+import ru.vood.dmgen.annotation.MetaFKs
 import ru.vood.dmgen.dto.RelationType
 import ru.vood.processor.datamodel.abstraction.model.MetaInformation
 import ru.vood.processor.datamodel.gen.*
@@ -71,12 +73,12 @@ import ${InterfaceGenerator.GeneratedClasses.UniqueKeyEnum.getPac(rootPackage)}
 import ${InterfaceGenerator.GeneratedClasses.IEntityOrigin.getPac(rootPackage)}
 import ${Generated::class.java.canonicalName}
 import ${EnumMap::class.java.canonicalName}
+import ${MetaFKs::class.java.canonicalName}
 
 ${metaInfo.allEntityPackagesImport}
 
-
-
-@Generated("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
+@${Generated::class.simpleName}("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
+@${MetaFKs::class.simpleName}
 enum class ${fkEnumName}{
 ${entitiesMap.joinToString(",\n") { it.first }};
 

@@ -3,6 +3,7 @@ package ru.vood.processor.datamodel.gen.meta
 import com.google.devtools.ksp.processing.CodeGenerator
 import com.google.devtools.ksp.processing.KSPLogger
 import ru.vood.dmgen.annotation.FlowEntityType
+import ru.vood.dmgen.annotation.MetaColumns
 import ru.vood.dmgen.dto.*
 import ru.vood.processor.datamodel.abstraction.model.MetaInformation
 import ru.vood.processor.datamodel.abstraction.model.dto.SyntheticFieldInfo
@@ -160,6 +161,7 @@ import ${InterfaceGenerator.GeneratedClasses.IEntityOrigin.getPac(rootPackage)}
 
 import ${Generated::class.java.canonicalName}
 import ${EnumMap::class.java.canonicalName}
+import ${MetaColumns::class.java.canonicalName}
 import ${InterfaceGenerator.GeneratedClasses.IColExtractFunction.getPac(rootPackage)}
 import ${InterfaceGenerator.GeneratedClasses.SimpleColExtractFunction.getPac(rootPackage)}
 import ${InterfaceGenerator.GeneratedClasses.Synthetic.getPac(rootPackage)}
@@ -167,7 +169,8 @@ import ${InterfaceGenerator.GeneratedClasses.SyntheticSet.getPac(rootPackage)}
 import kotlin.reflect.KProperty1
 ${metaInfo.allEntityPackagesImport}
 
-@Generated("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
+@${Generated::class.simpleName}("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
+@${MetaColumns::class.simpleName}
 enum class ${fullColumnEnumName}{
 ${simpleColumn.joinToString(",\n") { it.first }};
 

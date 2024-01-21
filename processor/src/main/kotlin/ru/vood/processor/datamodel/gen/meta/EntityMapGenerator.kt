@@ -3,6 +3,8 @@ package ru.vood.processor.datamodel.gen.meta
 import com.google.devtools.ksp.processing.CodeGenerator
 import com.google.devtools.ksp.processing.KSPLogger
 import ru.vood.dmgen.annotation.FlowEntityType
+import ru.vood.dmgen.annotation.MetaColumns
+import ru.vood.dmgen.annotation.MetaEntities
 import ru.vood.dmgen.dto.EntityName
 import ru.vood.processor.datamodel.abstraction.model.MetaInformation
 import ru.vood.processor.datamodel.gen.*
@@ -82,10 +84,12 @@ import ${InterfaceGenerator.GeneratedClasses.EntityData.getPac(rootPackage)}
 import ${InterfaceGenerator.GeneratedClasses.SealedEntityData.getPac(rootPackage)}
 import ${InterfaceGenerator.GeneratedClasses.EntityEnum.getPac(rootPackage)}
 import ${Generated::class.java.canonicalName}
+import ${MetaEntities::class.java.canonicalName}
 import ${EnumMap::class.java.canonicalName}
 ${metaInfo.allEntityPackagesImport}
 
-@Generated("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
+@${Generated::class.simpleName}("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
+@${MetaEntities::class.simpleName}
 enum class $entityEnumName{
 ${entities.joinToString(",\n") { it.first }};
 

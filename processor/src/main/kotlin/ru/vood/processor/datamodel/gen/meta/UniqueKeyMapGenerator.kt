@@ -2,6 +2,8 @@ package ru.vood.processor.datamodel.gen.meta
 
 import com.google.devtools.ksp.processing.CodeGenerator
 import com.google.devtools.ksp.processing.KSPLogger
+import ru.vood.dmgen.annotation.MetaFKs
+import ru.vood.dmgen.annotation.MetaUKs
 import ru.vood.dmgen.dto.SimpleColumnName
 import ru.vood.dmgen.dto.TypeUk
 import ru.vood.processor.datamodel.abstraction.model.MetaInformation
@@ -72,10 +74,12 @@ import ${InterfaceGenerator.GeneratedClasses.UniqueKeyEnum.getPac(rootPackage)}
 import ${SimpleColumnName::class.java.canonicalName}
 import ${EnumMap::class.java.canonicalName}
 import ${Generated::class.java.canonicalName}
+import ${MetaUKs::class.java.canonicalName}
 ${metaInfo.allEntityPackagesImport}
 
 
-@Generated("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
+@${Generated::class.simpleName}("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
+@${MetaUKs::class.simpleName}
 enum class ${uniqueKeyEnumName}{
 ${entities.joinToString(",\n") { it.first }};
 
