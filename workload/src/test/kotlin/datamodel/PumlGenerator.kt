@@ -62,7 +62,7 @@ class PumlGenerator {
             }
             .joinToString("\n")
 
-        File("depTree.puml").printWriter().use { out ->
+        File("PumlGenerator.puml").printWriter().use { out ->
 
             out.println(head)
             out.println(entities)

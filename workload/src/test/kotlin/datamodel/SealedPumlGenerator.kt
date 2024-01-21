@@ -86,7 +86,7 @@ class SealedPumlGenerator {
             }
             .joinToString("\n")
 
-        File("depBigTree.puml").printWriter().use { out ->
+        File("SealedPumlGenerator.puml").printWriter().use { out ->
 
             out.println(head)
             out.println(entities)
