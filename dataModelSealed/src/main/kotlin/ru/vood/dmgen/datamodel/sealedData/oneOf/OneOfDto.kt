@@ -31,11 +31,11 @@ interface DealOneData {
 }
 
 
-//@FlowEntity(FlowEntityType.INNER)
+@FlowEntity(FlowEntityType.INNER)
 @ForeignKey(
-    kClass = "ru.vood.dmgen.datamodel.sealedData.oneOf.OneOfDto",
+    kClass = "ru.vood.dmgen.datamodel.sealedData.Deal",
     name = "DealTwoData_FK",
-    cols = [ForeignKeyColumns("dealId", "dealId")],
+    cols = [ForeignKeyColumns("dealId", "id")],
     foreignKeyType = ForeignKeyType.MANDATORY
 )
 interface DealTwoData {

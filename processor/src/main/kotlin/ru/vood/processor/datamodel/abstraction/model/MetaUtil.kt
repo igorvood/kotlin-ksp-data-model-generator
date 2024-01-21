@@ -18,14 +18,16 @@ fun metaEntityColumns(
     cols: Array<String>,
     /**имя */
     currentClass: ModelClassName,
-    foreignKey: ForeignKey
+    foreignKey: ForeignKey,
+    logger: KSPLogger
 ): List<MetaEntityColumn> {
     val fromMetaEntity =
         entities[entity]
-            ?: error("Для внешнего ключа ${foreignKey.name} сущности ${currentClass.value} не найдена сущность ${entity.value} указанная в ссылке")
+            ?: logger.kspError("Для внешнего ключа ${foreignKey.name} сущности ${currentClass.value} не найдена сущность ${entity.value} указанная в ссылке", entities[currentClass]?.ksAnnotated)
     val fromCols = cols.map { fkField ->
         fromMetaEntity.fields.filter { field -> field.name.value == fkField }.firstOrNull()
-            ?: error("Для внешнего ключа ${foreignKey.name} сущности ${currentClass.value} не найдено поле ${fkField}  у сущности  ${entity.value}")
+            ?:  logger.kspError("Для внешнего ключа ${foreignKey.name} сущности ${currentClass.value} не найдено поле ${fkField}  у сущности  ${entity.value}",  entities[currentClass]?.ksAnnotated)
+
     }
     return fromCols
 }
@@ -36,7 +38,8 @@ tailrec fun collectMetaForeignKey(
     /**Все сущности */
     entities: Map<ModelClassName, MetaEntity>,
     /**Коллектор, сюда складывается разобранная информация о внешних ключах*/
-    collector: Set<MetaForeignKeyTemporary> = setOf()
+    collector: Set<MetaForeignKeyTemporary> = setOf(),
+    logger: KSPLogger
 ): Set<MetaForeignKeyTemporary> {
     // есть еще что обрабатывать?
     return when (elementsAnnotatedWith.isEmpty()) {
@@ -59,7 +62,8 @@ tailrec fun collectMetaForeignKey(
                 entity = fromMetaEntityClassName,
                 cols = colsFromAnnotation,
                 currentClass = fromMetaEntityClassName,
-                foreignKey
+                foreignKey = foreignKey,
+                logger = logger
             )
             //вы таскиваю мету по колонкам сущности в которою форен идет
             val toCols = metaEntityColumns(
@@ -67,7 +71,8 @@ tailrec fun collectMetaForeignKey(
                 entity = toMetaEntityClassName,
                 cols = foreignKey.cols.map { q -> q.outColName }.toTypedArray(),
                 currentClass = fromMetaEntityClassName,
-                foreignKey = foreignKey
+                foreignKey = foreignKey,
+                logger = logger
             )
 
             fkAssert(fromCols, toCols, foreignKey)
@@ -119,7 +124,7 @@ tailrec fun collectMetaForeignKey(
             }
 
             val elementsAnnotatedWith1 = elementsAnnotatedWith.drop(1)
-            collectMetaForeignKey(elementsAnnotatedWith1, entities, plus)
+            collectMetaForeignKey(elementsAnnotatedWith1, entities, plus, logger)
         }
     }
 }
@@ -160,7 +165,7 @@ fun metaInformation(annotatedDataClasses: List<KSAnnotated>, logger: KSPLogger):
             me.foreignKeysAnnotations.map { fk -> fk to me.designClassFullClassName }
         }
 
-    val collectMetaForeignKey = collectMetaForeignKey(fks, entities)
+    val collectMetaForeignKey = collectMetaForeignKey(elementsAnnotatedWith = fks, entities = entities, logger = logger)
 
     checkDublicateFKName(collectMetaForeignKey)
 
