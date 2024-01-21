@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Configuration
 import ru.vood.dmgen.annotation.MetaColumns
 import ru.vood.dmgen.annotation.MetaEntities
 import ru.vood.dmgen.annotation.MetaFKs
+import ru.vood.dmgen.annotation.ModelEntity
 import ru.vood.dmgen.datamodel.metaEnum.FkNameEnum
 import java.util.concurrent.atomic.AtomicBoolean
 
@@ -21,9 +22,9 @@ class DataModelBpp : BeanPostProcessor {
         if (!isScaned.get()) {
             val reflections = Reflections("ru")
             val metaEntities: Set<Class<*>> = reflections.getTypesAnnotatedWith(MetaEntities::class.java)
+            val modelEntity: Set<Class<*>> = reflections.getTypesAnnotatedWith(ModelEntity::class.java)
             val metaColumns: Set<Class<*>> = reflections.getTypesAnnotatedWith(MetaColumns::class.java)
             val metaFKs: Set<Class<*>> = reflections.getTypesAnnotatedWith(MetaFKs::class.java)
-
 
             val first = metaEntities.first() as Class<Enum<*>>
             val enumConstants = first.getEnumConstants().first()
@@ -34,6 +35,9 @@ class DataModelBpp : BeanPostProcessor {
             asdsad<MetaEntities>(metaEntities)
             asdsad<MetaColumns>(metaColumns)
             asdsad<MetaFKs>(metaFKs)
+
+
+            asdsad<ModelEntity>(modelEntity)
 
             isScaned.set(true)
         }
