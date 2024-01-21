@@ -18,9 +18,9 @@ sealed interface OneOfDto {
 
 @FlowEntity(FlowEntityType.INNER)
 @ForeignKey(
-    kClass = "ru.vood.dmgen.datamodel.sealedData.Deal",
+    kClass = "ru.vood.dmgen.datamodel.sealedData.oneOf.OneOfDto",
     name = "DealOneData_FK",
-    cols = [ForeignKeyColumns("dealId", "id")],
+    cols = [ForeignKeyColumns("dealId", "dealId")],
     foreignKeyType = ForeignKeyType.MANDATORY
 )
 interface DealOneData {
@@ -33,9 +33,9 @@ interface DealOneData {
 
 @FlowEntity(FlowEntityType.INNER)
 @ForeignKey(
-    kClass = "ru.vood.dmgen.datamodel.sealedData.Deal",
+    kClass = "ru.vood.dmgen.datamodel.sealedData.oneOf.OneOfDto",
     name = "DealTwoData_FK",
-    cols = [ForeignKeyColumns("dealId", "id")],
+    cols = [ForeignKeyColumns("dealId", "dealId")],
     foreignKeyType = ForeignKeyType.MANDATORY
 )
 interface DealTwoData {
