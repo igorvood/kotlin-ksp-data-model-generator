@@ -1,5 +1,4 @@
 import com.google.protobuf.gradle.id
-import org.jetbrains.kotlin.ir.backend.js.compile
 import com.google.protobuf.gradle.protobuf
 
 repositories {
@@ -70,4 +69,27 @@ protobuf {
             }
         }
     }
+}
+
+java {
+    val mainJavaSourceSet: SourceDirectorySet = sourceSets.getByName("main").java
+    mainJavaSourceSet.srcDirs(
+        "src/main/kotlin",
+        "build/generated/source/proto/main/grpc",
+        "build/generated/source/proto/main/java",
+        "build/generated/source/proto/main/kotlin",
+        "build/generated/source/proto/main/grpckotlin"
+    )
+    println("java srcDirs -> " + mainJavaSourceSet.srcDirs)
+}
+kotlin {
+    val mainJavaSourceSet: SourceDirectorySet = sourceSets.getByName("main").kotlin
+    mainJavaSourceSet.srcDirs(
+        "src/main/kotlin",
+        "build/generated/source/proto/main/grpc",
+        "build/generated/source/proto/main/java",
+        "build/generated/source/proto/main/kotlin",
+        "build/generated/source/proto/main/grpckotlin"
+    )
+    println("kotlin srcDirs -> " + mainJavaSourceSet.srcDirs)
 }
