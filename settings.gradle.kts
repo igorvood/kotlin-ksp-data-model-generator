@@ -25,6 +25,8 @@ include(":dataModelSealed")
 
 include(":workload")
 include(":dataModel")
+include(":grpc-common-client-server")
+
 
 //include(":functionGeneratorPlugin")
 
