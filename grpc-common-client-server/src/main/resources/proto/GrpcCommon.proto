@@ -1,0 +1,23 @@
+syntax = "proto3";
+option java_multiple_files = true;
+package ru.vood.grpc.example.v1;
+
+message ProtoDto {
+  string payloadClass = 1;
+  string payload = 2;
+}
+
+message ProtoDtoRs {
+  string payloadClass = 1;
+  oneof data {
+    string payload = 2;
+    string payloadErr = 3;
+  }
+}
+
+service GrpcService{
+  rpc executeOneRqOneRs(ProtoDto) returns (ProtoDtoRs);
+
+  rpc executeOneRqManyRs(ProtoDto) returns (stream ProtoDtoRs);
+
+}
