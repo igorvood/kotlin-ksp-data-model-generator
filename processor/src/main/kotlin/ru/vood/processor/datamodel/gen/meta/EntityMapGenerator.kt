@@ -7,6 +7,7 @@ import ru.vood.dmgen.annotation.MetaEntities
 import ru.vood.dmgen.dto.EntityName
 import ru.vood.dmgen.metaJson.EntityDataJson
 import ru.vood.dmgen.metaJson.IEntityDataJson
+import ru.vood.dmgen.metaJson.SealedEntityDataJson
 import ru.vood.dmgen.metaJson.value.InterfaceEntityClassName
 import ru.vood.dmgen.metaJson.value.RuntimeEntityClassName
 import ru.vood.dmgen.metaJson.value.RuntimeSyntheticEntityClassName
@@ -62,10 +63,23 @@ class EntityMapGenerator(
                             |)"""
                             }
                             FlowEntityType.ONE_OF -> {
-                                val sealedChildrenEntities = metaInfo.metaForeignKeys
+                                val distinct = metaInfo.metaForeignKeys
                                     .filter { fk -> fk.toEntity.designClassFullClassName == metaEntity.designClassFullClassName }
                                     .map { fk -> EntityName(fk.fromEntity.designClassShortName) }
-                                    .distinct()
+                                    .toSet()
+
+                                entityDataJsonList.add(SealedEntityDataJson(
+                                    InterfaceEntityClassName(metaEntity.designClassFullClassName.value),
+                                    RuntimeEntityClassName(CollectName.entityClassName(metaEntity)),
+                                    RuntimeSyntheticEntityClassName(CollectName.syntheticClassName(                                        metaEntity                                    )),
+                                    EntityName(metaEntity.designClassShortName),
+                                    metaEntity.comment?:"пусто",
+                                    metaEntity.flowEntityType,
+                                    distinct
+
+                                ))
+
+                                val sealedChildrenEntities = distinct
                                     .map { sealedChildrenEntity -> """${InterfaceGenerator.GeneratedClasses.EntityEnum}.${sealedChildrenEntity.value}""" }
                                     .joinToString(", ")
 
