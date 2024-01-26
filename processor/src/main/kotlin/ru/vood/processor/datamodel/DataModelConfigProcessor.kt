@@ -7,6 +7,7 @@ import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.runBlocking
 import ru.vood.dmgen.annotation.FlowEntity
 import ru.vood.processor.datamodel.abstraction.model.MetaEntity
+import ru.vood.processor.datamodel.abstraction.model.MetaInformation
 import ru.vood.processor.datamodel.abstraction.model.metaInformation
 import ru.vood.processor.datamodel.gen.PackageName
 import ru.vood.processor.datamodel.gen.appendText
@@ -26,20 +27,7 @@ class DataModelConfigProcessor(
 
     override fun process(resolver: Resolver): List<KSAnnotated> {
 
-        val symbols: List<KSAnnotated> =
-            resolver.getSymbolsWithAnnotation(checkNotNull(FlowEntity::class.qualifiedName)).toList()
-        logger.warn("count entities ${symbols.size}")
-
-        val metaInformation = metaInformation(symbols, logger)
-
-        metaInformation.entities.values
-            .forEach { metaEntity ->
-                logger.warn("read MetaEntity ${metaEntity}", metaEntity.ksAnnotated)
-            }
-
-
-        val setMetaEnt = metaInformation.entities.values.toSet()
-        val rootPackage = PackageName(commonPackage(setMetaEnt))
+        val (symbols: List<KSAnnotated>, metaInformation, rootPackage) = triple(resolver)
 
         logger.warn("root package ${rootPackage.value}")
 
@@ -86,6 +74,24 @@ class DataModelConfigProcessor(
 
         return symbols.toList()
 
+    }
+
+    private fun triple(resolver: Resolver): Triple<List<KSAnnotated>, MetaInformation, PackageName> {
+        val symbols: List<KSAnnotated> =
+            resolver.getSymbolsWithAnnotation(checkNotNull(FlowEntity::class.qualifiedName)).toList()
+        logger.warn("count entities ${symbols.size}")
+
+        val metaInformation = metaInformation(symbols, logger)
+
+        metaInformation.entities.values
+            .forEach { metaEntity ->
+                logger.warn("read MetaEntity ${metaEntity}", metaEntity.ksAnnotated)
+            }
+
+
+        val setMetaEnt = metaInformation.entities.values.toSet()
+        val rootPackage = PackageName(commonPackage(setMetaEnt))
+        return Triple(symbols, metaInformation, rootPackage)
     }
 
     fun commonPackage(setMetaEnt: Set<MetaEntity>): String {

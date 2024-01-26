@@ -3,9 +3,13 @@ package ru.vood.processor.datamodel.gen.meta
 import com.google.devtools.ksp.processing.CodeGenerator
 import com.google.devtools.ksp.processing.KSPLogger
 import ru.vood.dmgen.annotation.FlowEntityType
-import ru.vood.dmgen.annotation.MetaColumns
 import ru.vood.dmgen.annotation.MetaEntities
 import ru.vood.dmgen.dto.EntityName
+import ru.vood.dmgen.metaJson.EntityDataJson
+import ru.vood.dmgen.metaJson.IEntityDataJson
+import ru.vood.dmgen.metaJson.value.InterfaceEntityClassName
+import ru.vood.dmgen.metaJson.value.RuntimeEntityClassName
+import ru.vood.dmgen.metaJson.value.RuntimeSyntheticEntityClassName
 import ru.vood.processor.datamodel.abstraction.model.MetaInformation
 import ru.vood.processor.datamodel.gen.*
 import ru.vood.processor.datamodel.gen.runtime.intf.InterfaceGenerator
@@ -34,7 +38,19 @@ class EntityMapGenerator(
                     .map { metaEntity ->
 
                         val entity = when (metaEntity.flowEntityType) {
-                            FlowEntityType.INNER, FlowEntityType.AGGREGATE -> """${InterfaceGenerator.GeneratedClasses.EntityData}(
+                            FlowEntityType.INNER, FlowEntityType.AGGREGATE -> {
+                                entityDataJsonList.add(
+                                    EntityDataJson(
+                                        InterfaceEntityClassName(metaEntity.designClassFullClassName.value),
+                                        RuntimeEntityClassName(CollectName.entityClassName(metaEntity)),
+                                        RuntimeSyntheticEntityClassName(CollectName.syntheticClassName(metaEntity)),
+                                        EntityName(metaEntity.designClassShortName),
+                                        metaEntity.comment ?: "Пусто",
+                                        metaEntity.flowEntityType
+                                    )
+                                )
+
+                                """${InterfaceGenerator.GeneratedClasses.EntityData}(
                             |designClass =  ${metaEntity.designClassFullClassName.value}::class, 
                             |runtimeClass = ${CollectName.entityClassName(metaEntity)}::class,
                             |runtimeSyntheticClass = ${CollectName.syntheticClassName(metaEntity)}::class,
@@ -44,6 +60,7 @@ class EntityMapGenerator(
                             |comment ="${metaEntity.comment}",
                             |entityType =${metaEntity.flowEntityType}
                             |)"""
+                            }
                             FlowEntityType.ONE_OF -> {
                                 val sealedChildrenEntities = metaInfo.metaForeignKeys
                                     .filter { fk -> fk.toEntity.designClassFullClassName == metaEntity.designClassFullClassName }
@@ -123,6 +140,8 @@ ${entities.joinToString(",\n") { it.second }}
         val entityDataMapName = """entityDataMap"""
         val nameClassEntityEnumGenerator = "DataDictionaryEntityMap"
         val entityEnumName = "EntityEnum"
+        // нельзя так делать, но надо по быстрому проверить идею
+        val entityDataJsonList = mutableListOf<IEntityDataJson>()
     }
 
 }
