@@ -3,28 +3,33 @@ package ru.vood.dmgen.metaJson
 import kotlinx.serialization.Serializable
 import ru.vood.dmgen.annotation.FlowEntityType
 import ru.vood.dmgen.dto.*
+import ru.vood.dmgen.metaJson.value.InterfaceEntityClassName
+import ru.vood.dmgen.metaJson.value.RuntimeEntityClassName
+import ru.vood.dmgen.metaJson.value.RuntimeSyntheticEntityClassName
+import ru.vood.dmgen.metaJson.value.UKRuntimeEntityClassName
 
 
 /**Мета данные по реквизиту сущности*/
-interface ColumnEntityData {
+@Serializable
+data class ColumnEntityDataJson(
     /**имя сущности*/
-    val entity: EntityName
+    val entity: EntityName,
 
     /**имя колонки*/
-    val simpleColumnName: SimpleColumnName
+    val simpleColumnName: SimpleColumnName,
 
     /**признак опциональности колонки*/
-    val isOptional: Boolean
+    val isOptional: Boolean,
 
     /**коментарий колонки*/
     val comment: String
     /**ф-ция экстрактор значения колонки*/
-}
+)
 
 
 /**Мета данные по сущности*/
 @Serializable
-sealed interface IEntityData {
+sealed interface IEntityDataJson {
     /**интрефейс описывающий структуру сущности */
     val designClass: InterfaceEntityClassName
 
@@ -45,10 +50,9 @@ sealed interface IEntityData {
 }
 
 
-
 /**Мета данные по сущности*/
 @Serializable
-data class EntityData(
+data class EntityDataJson(
     /**интрефейс описывающий структуру сущности */
     override val designClass: InterfaceEntityClassName,
     /**класс описывающий сущность*/
@@ -61,10 +65,10 @@ data class EntityData(
     override val comment: String,
     /**тип сущности*/
     override val entityType: FlowEntityType
-) : IEntityData
+) : IEntityDataJson
 
 @Serializable
-data class SealedEntityData(
+data class SealedEntityDataJson(
     /**интрефейс описывающий структуру сущности */
     override val designClass: InterfaceEntityClassName,
     /**класс описывающий сущность*/
@@ -79,12 +83,12 @@ data class SealedEntityData(
     override val entityType: FlowEntityType,
     /**перечень наследников*/
     val children: Set<EntityName>
-) : IEntityData
+) : IEntityDataJson
 
 
 /**Мета данные по внегнему ключу*/
 @Serializable
-data class FKMetaData(
+data class FKMetaDataJson(
     /**Сущность из которой идет внешний ключ*/
     val fromEntity: EntityName,
     /**Сущность к которой идет внешний ключ*/
@@ -95,12 +99,12 @@ data class FKMetaData(
      * TODO по идеи величина вычисляемая, сейчас задается разработчиком*/
     val relationType: RelationType,
     /**Коллекция колонок входящих во внешний ключ */
-    val fkCols: Set<FkPair>,
+    val fkCols: Set<FkPairJson>,
 )
 
 /**Мета данные по уникальному ключу*/
 @Serializable
-data class UKEntityData(
+data class UKEntityDataJson(
     /**Имя уникального ключа*/
     val ukName: UkName,
     /**Колонки входящие в ключ*/
@@ -114,7 +118,7 @@ data class UKEntityData(
 )
 
 @Serializable
-data class FkPair(
+data class FkPairJson(
     val from: Pair<EntityName, SimpleColumnName>,
     val to: Pair<EntityName, SimpleColumnName>
 )

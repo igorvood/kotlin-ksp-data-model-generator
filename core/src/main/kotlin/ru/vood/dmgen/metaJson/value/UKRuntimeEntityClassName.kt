@@ -1,4 +1,4 @@
-package ru.vood.dmgen.metaJson
+package ru.vood.dmgen.metaJson.value
 
 @JvmInline
 @kotlinx.serialization.Serializable
