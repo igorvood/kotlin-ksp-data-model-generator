@@ -1,11 +1,16 @@
 package ru.vood.processor.json
 
-import com.google.devtools.ksp.processing.*
+import com.charleskorn.kaml.Yaml
+import com.google.devtools.ksp.processing.CodeGenerator
 import com.google.devtools.ksp.processing.Dependencies.Companion.ALL_FILES
+import com.google.devtools.ksp.processing.KSPLogger
+import com.google.devtools.ksp.processing.Resolver
+import com.google.devtools.ksp.processing.SymbolProcessor
 import com.google.devtools.ksp.symbol.KSAnnotated
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import ru.vood.dmgen.annotation.FlowEntity
+import ru.vood.dmgen.metaJson.IEntityDataJson
 import ru.vood.processor.datamodel.abstraction.model.MetaEntity
 import ru.vood.processor.datamodel.abstraction.model.MetaInformation
 import ru.vood.processor.datamodel.abstraction.model.metaInformation
@@ -15,16 +20,19 @@ import ru.vood.processor.datamodel.gen.meta.EntityMapGenerator
 import java.io.OutputStream
 import kotlin.properties.Delegates
 
-class JsonSchemeConfigProcessor(val codeGenerator: CodeGenerator, val logger: KSPLogger) : SymbolProcessor  {
+class JsonSchemeConfigProcessor(val codeGenerator: CodeGenerator, val logger: KSPLogger) : SymbolProcessor {
 
     private var file by Delegates.notNull<OutputStream>()
 
-    private val json = Json{prettyPrint = true}
+    private val json = Json { prettyPrint = true }
+
+//    private val hocon = Hocon { }
+
     override fun process(resolver: Resolver): List<KSAnnotated> {
         val (symbols: List<KSAnnotated>, metaInformation, rootPackage) = triple(resolver)
 
         EntityMapGenerator(codeGenerator, rootPackage, logger).textGenerator(metaInformation)
-        val entityDataJsonList = EntityMapGenerator.entityDataJsonList
+        val entityDataJsonList: MutableList<IEntityDataJson> = EntityMapGenerator.entityDataJsonList
 
 //        file = codeGenerator.createNewFileByPath(ALL_FILES, "qwerty", "json")
         kotlin.runCatching {
@@ -42,9 +50,26 @@ class JsonSchemeConfigProcessor(val codeGenerator: CodeGenerator, val logger: KS
             file.close()
         }
 
+
+        kotlin.runCatching {
+            file = codeGenerator.createNewFile(
+                ALL_FILES,
+                "JsonMetaModel",
+                "entityDataJsonList", "yml"
+            )
+            val yml = Yaml
+            val default = yml.default
+
+            val encodeToString = default.encodeToString(Q.serializer(), Q(entityDataJsonList))
+            file.appendText(encodeToString)
+
+            file.close()
+        }
         return emptyList()
     }
 
+    @kotlinx.serialization.Serializable
+    data class Q(val asd: MutableList<IEntityDataJson>)
 
     private fun triple(resolver: Resolver): Triple<List<KSAnnotated>, MetaInformation, PackageName> {
         val symbols: List<KSAnnotated> =
