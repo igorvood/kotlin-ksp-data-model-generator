@@ -7,15 +7,20 @@ import com.google.devtools.ksp.processing.KSPLogger
 import com.google.devtools.ksp.processing.Resolver
 import com.google.devtools.ksp.processing.SymbolProcessor
 import com.google.devtools.ksp.symbol.KSAnnotated
+import kotlinx.serialization.KSerializer
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import ru.vood.dmgen.annotation.FlowEntity
+import ru.vood.dmgen.metaJson.ColumnEntityDataJson
 import ru.vood.dmgen.metaJson.IEntityDataJson
 import ru.vood.processor.datamodel.abstraction.model.MetaEntity
 import ru.vood.processor.datamodel.abstraction.model.MetaInformation
 import ru.vood.processor.datamodel.abstraction.model.metaInformation
+import ru.vood.processor.datamodel.gen.AbstractGenerator
+import ru.vood.processor.datamodel.gen.ISideEffect
 import ru.vood.processor.datamodel.gen.PackageName
 import ru.vood.processor.datamodel.gen.appendText
+import ru.vood.processor.datamodel.gen.meta.ColumnEntityMapGenerator
 import ru.vood.processor.datamodel.gen.meta.EntityMapGenerator
 import java.io.OutputStream
 import kotlin.properties.Delegates
@@ -31,46 +36,64 @@ class JsonSchemeConfigProcessor(val codeGenerator: CodeGenerator, val logger: KS
     override fun process(resolver: Resolver): List<KSAnnotated> {
         val (symbols: List<KSAnnotated>, metaInformation, rootPackage) = triple(resolver)
 
-        val entityMapGenerator = EntityMapGenerator(codeGenerator, rootPackage, logger)
-        entityMapGenerator.textGenerator(metaInformation)
-        val entityDataJsonList = entityMapGenerator.entityDataJsonList()
+        val entityDataJsonList = metaDataJsons(EntityMapGenerator(codeGenerator, rootPackage, logger), metaInformation)
 
-//        file = codeGenerator.createNewFileByPath(ALL_FILES, "qwerty", "json")
-        kotlin.runCatching {
-            file = codeGenerator.createNewFile(
-                ALL_FILES,
-//            Dependencies(
-//                false,
-//            ),
-                "JsonMetaModel",
-                "entityDataJsonList", "json"
-            )
-            val encodeToString = json.encodeToString(entityDataJsonList)
-            file.appendText(encodeToString)
+        val columnEntityDataJsonList = metaDataJsons(ColumnEntityMapGenerator(codeGenerator, rootPackage, logger), metaInformation)
 
-            file.close()
-        }
-
-
-        kotlin.runCatching {
-            file = codeGenerator.createNewFile(
-                ALL_FILES,
-                "JsonMetaModel",
-                "entityDataJsonList", "yml"
-            )
-            val yml = Yaml
-            val default = yml.default
-
-            val encodeToString = default.encodeToString(Q.serializer(), Q(entityDataJsonList))
-            file.appendText(encodeToString)
-
-            file.close()
-        }
+        genJsonAndYml("entityDataJsonList", E(entityDataJsonList), E.serializer())
+        genJsonAndYml("columnDataJsonList", C(columnEntityDataJsonList), C.serializer())
         return emptyList()
     }
 
+    private inline fun<reified T> genJsonAndYml(
+        fileName: String,
+        dataJsonList: T,
+        serializer: KSerializer<T>,
+
+        ) {
+        kotlin.runCatching {
+            file = codeGenerator.createNewFile(
+                ALL_FILES,
+                "JsonMetaModel",
+                fileName, "json"
+            )
+            val encodeToString = json.encodeToString(dataJsonList)
+            file.appendText(encodeToString)
+
+            file.close()
+        }
+
+
+        kotlin.runCatching {
+            file = codeGenerator.createNewFile(
+                ALL_FILES,
+                "JsonMetaModel",
+                fileName, "yml"
+            )
+            val yml = Yaml
+            val default = yml.default
+            val encodeToString = default.encodeToString(serializer, dataJsonList)
+            file.appendText(encodeToString)
+
+            file.close()
+        }
+    }
+
+    private fun <G, MJ> metaDataJsons(
+        entityMapGenerator: G,
+        metaInformation: MetaInformation,
+    ): List<MJ>
+            where G : AbstractGenerator<MetaInformation>,
+                  G : ISideEffect<MJ> {
+        entityMapGenerator.textGenerator(metaInformation)
+        return entityMapGenerator.entityDataJsonList()
+    }
+
     @kotlinx.serialization.Serializable
-    data class Q(val asd: List<IEntityDataJson>)
+    data class E(val entities: List<IEntityDataJson>)
+
+    @kotlinx.serialization.Serializable
+    data class C(val columns: List<ColumnEntityDataJson>)
 
     private fun triple(resolver: Resolver): Triple<List<KSAnnotated>, MetaInformation, PackageName> {
         val symbols: List<KSAnnotated> =

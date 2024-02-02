@@ -5,6 +5,8 @@ import com.google.devtools.ksp.processing.KSPLogger
 import ru.vood.dmgen.annotation.FlowEntityType
 import ru.vood.dmgen.annotation.MetaColumns
 import ru.vood.dmgen.dto.*
+import ru.vood.dmgen.metaJson.ColumnEntityDataJson
+import ru.vood.dmgen.metaJson.IEntityDataJson
 import ru.vood.processor.datamodel.abstraction.model.MetaInformation
 import ru.vood.processor.datamodel.abstraction.model.dto.SyntheticFieldInfo
 import ru.vood.processor.datamodel.gen.*
@@ -13,16 +15,22 @@ import ru.vood.processor.datamodel.gen.CollectName.syntheticClassName
 import ru.vood.processor.datamodel.gen.runtime.intf.InterfaceGenerator
 import java.time.LocalDateTime
 import java.util.*
+import java.util.concurrent.CopyOnWriteArrayList
 import javax.annotation.processing.Generated
 
 class ColumnEntityMapGenerator(
     codeGenerator: CodeGenerator,
     rootPackage: PackageName,
     logger: KSPLogger
-) : AbstractDataDictionaryGenerator<MetaInformation>(codeGenerator, rootPackage, logger) {
+) : AbstractDataDictionaryGenerator<MetaInformation>(codeGenerator, rootPackage, logger),
+    ISideEffect<ColumnEntityDataJson>
+{
 
     override val nameClass: String
         get() = columnEntityEnumGeneratorNameClass
+
+    private val entityDataJsonList = CopyOnWriteArrayList<ColumnEntityDataJson>()
+    override fun entityDataJsonList()= entityDataJsonList.toList()
 
     override fun textGenerator(metaInfo: MetaInformation): Set<GeneratedFile> {
         val metaEntitySet = metaInfo.entities.values.toSet()
@@ -89,7 +97,13 @@ class ColumnEntityMapGenerator(
                                     EntityName(fromEntity.designClassShortName),
                                     SimpleColumnName(fromEntity.entityFieldName)
                                 )
-
+                                entityDataJsonList.add(ColumnEntityDataJson(
+                                    EntityName(ent.designClassShortName),
+                                    SimpleColumnName(fromEntity.entityFieldName),
+                                    isOptional,
+                                    fromEntity.comment?:"пусто"
+                                )
+                                )
 
                                 "${fullColumnName.value}" to """${fullColumnEnumName}.${fullColumnName.value} to ${InterfaceGenerator.GeneratedClasses.SyntheticColumnEntityData}(
                                 |entity= ${InterfaceGenerator.GeneratedClasses.EntityEnum}.${ent.designClassShortName},
@@ -99,31 +113,6 @@ class ColumnEntityMapGenerator(
                                 |comment ="${fromEntity.comment}",
                                 |iColExtractFunction = $columnKindType,
                                 |)""".trimMargin()
-//                                    }
-//                                    is SealedSyntheticFieldInfo -> {
-//
-//
-//                                        val fullColumnName = FullColumnName(
-//                                            EntityName(ent.designClassShortName),
-//                                            SimpleColumnName(ent.entityFieldName)
-//                                        )
-//
-//                                        val joinToString =
-//                                            synth.metaEntities.map { it -> """${InterfaceGenerator.GeneratedClasses.EntityEnum}.${it.designClassShortName}""" }
-//                                                .joinToString(",")
-//
-//                                        "11 ${fullColumnName.value}" to """${fullColumnEnumName}.${fullColumnName.value} to ${InterfaceGenerator.GeneratedClasses.SealedSyntheticColumnEntityData}(
-//                                          |entity= ${InterfaceGenerator.GeneratedClasses.EntityEnum}.${ent.designClassShortName},
-//                                          |simpleColumnName= ${SimpleColumnName::class.java.simpleName}( "${ent.entityFieldName}"),
-//                                          |isOptional= false,
-//                                          |comment= "${ent.comment}",
-//                                          |outEntities= setOf(${joinToString}),
-//                                          |)""".trimMargin()
-//
-//
-//                                    }
-//                                }
-
 
                             } //map
 
