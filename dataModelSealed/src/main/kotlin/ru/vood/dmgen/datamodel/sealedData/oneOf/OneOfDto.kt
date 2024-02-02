@@ -1,11 +1,13 @@
 package ru.vood.dmgen.datamodel.sealedData.oneOf
 
 import ru.vood.dmgen.annotation.*
+import ru.vood.dmgen.datamodel.sealedData.Deal
 import ru.vood.dmgen.datamodel.valueClasses.DealId
 
 
 @FlowEntity(FlowEntityType.ONE_OF)
 @ForeignKey(
+//    value = Deal::class,
     kClass = "ru.vood.dmgen.datamodel.sealedData.Deal",
     name = "OneOfDto_FK",
     cols = [ForeignKeyColumns("dealId", "id")],
@@ -18,6 +20,7 @@ sealed interface OneOfDto {
 
 @FlowEntity(FlowEntityType.INNER)
 @ForeignKey(
+//    value = OneOfDto::class,
     kClass = "ru.vood.dmgen.datamodel.sealedData.oneOf.OneOfDto",
     name = "DealOneData_FK",
     cols = [ForeignKeyColumns("dealId", "dealId")],
@@ -33,6 +36,7 @@ interface DealOneData {
 
 @FlowEntity(FlowEntityType.INNER)
 @ForeignKey(
+//    value = OneOfDto::class,
     kClass = "ru.vood.dmgen.datamodel.sealedData.oneOf.OneOfDto",
     name = "DealTwoData_FK",
     cols = [ForeignKeyColumns("dealId", "dealId")],

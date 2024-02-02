@@ -1,13 +1,15 @@
 package ru.vood.dmgen.datamodel.oneOf
 
 import ru.vood.dmgen.annotation.*
+import ru.vood.dmgen.datamodel.a.Deal
 import ru.vood.dmgen.datamodel.valueClasses.DealId
 
 
 @FlowEntity(FlowEntityType.AGGREGATE)
 @ForeignKey(
+//    value = Deal::class,
     kClass = "ru.vood.dmgen.datamodel.a.Deal",
-    "OneOfDto_FK",
+    name ="OneOfDto_FK",
     cols = [ForeignKeyColumns("dealId", "id")],
     foreignKeyType = ForeignKeyType.OPTIONAL
 )
@@ -19,8 +21,9 @@ interface OneOfDto {
 
 @FlowEntity(FlowEntityType.ONE_OF)
 @ForeignKey(
+//    value = OneOfDto::class,
     kClass = "ru.vood.dmgen.datamodel.oneOf.OneOfDto",
-    "DealOneOfData_FK",
+    name = "DealOneOfData_FK",
     cols = [ForeignKeyColumns("dealId", "dealId")],
     foreignKeyType = ForeignKeyType.MANDATORY
 )
@@ -34,8 +37,9 @@ sealed interface DealOneOfData {
 
 @FlowEntity(FlowEntityType.INNER)
 @ForeignKey(
+//    value = DealOneOfData::class,
     kClass = "ru.vood.dmgen.datamodel.oneOf.DealOneOfData",
-    "DealOneData_FK",
+    name = "DealOneData_FK",
     cols = [ForeignKeyColumns("dealId", "dealId")],
     foreignKeyType = ForeignKeyType.MANDATORY
 )
@@ -50,8 +54,9 @@ interface DealOneData {
 
 @FlowEntity(FlowEntityType.INNER)
 @ForeignKey(
+//    value = DealOneOfData::class,
     kClass = "ru.vood.dmgen.datamodel.oneOf.DealOneOfData",
-    "DealTwoData_FK",
+    name = "DealTwoData_FK",
     cols = [ForeignKeyColumns("dealId", "dealId")],
     foreignKeyType = ForeignKeyType.MANDATORY
 )
