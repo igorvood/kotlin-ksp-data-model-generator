@@ -6,6 +6,7 @@ import ru.vood.dmgen.annotation.FlowEntityType
 import ru.vood.dmgen.annotation.MetaColumns
 import ru.vood.dmgen.dto.*
 import ru.vood.dmgen.metaJson.IColumnEntityDataJson
+import ru.vood.dmgen.metaJson.SimpleColumnEntityDataJson
 import ru.vood.dmgen.metaJson.SyntheticColumnEntityDataJson
 import ru.vood.processor.datamodel.abstraction.model.MetaInformation
 import ru.vood.processor.datamodel.abstraction.model.dto.SyntheticFieldInfo
@@ -98,10 +99,11 @@ class ColumnEntityMapGenerator(
                                 )
                                 entityDataJsonList.add(
                                     SyntheticColumnEntityDataJson(
-                                        EntityName(ent.designClassShortName),
-                                        SimpleColumnName(fromEntity.entityFieldName),
-                                        isOptional,
-                                        fromEntity.comment ?: "пусто"
+                                        entity = EntityName(value = ent.designClassShortName),
+                                        simpleColumnName = SimpleColumnName(fromEntity.entityFieldName),
+                                        isOptional = isOptional,
+                                        comment = fromEntity.comment ?: "пусто",
+                                        outEntity = EntityName(value = fromEntity.designClassShortName)
                                     )
                                 )
 
@@ -120,6 +122,16 @@ class ColumnEntityMapGenerator(
                         val simpleF = ent.fields
                             .sortedBy { ec -> ec.position }
                             .map { col ->
+                                entityDataJsonList.add(
+                                    SimpleColumnEntityDataJson(
+                                        entity = EntityName(value = ent.designClassShortName),
+                                        simpleColumnName = SimpleColumnName(col.name.value),
+                                        isOptional = col.isNullable,
+                                        comment = col.comment ?: "пусто",
+                                        simpleColumnType = SimpleColumnType(value = col.type)
+                                    )
+                                )
+
                                 "${ent.designClassShortName}_${col.name.value}" to """${fullColumnEnumName}.${ent.designClassShortName}_${col.name.value} to ${InterfaceGenerator.GeneratedClasses.SimpleColumnEntityData}(
                                 |entity = ${InterfaceGenerator.GeneratedClasses.EntityEnum}.${ent.designClassShortName},
                                 |simpleColumnName = ${SimpleColumnName::class.simpleName}("${col.name.value}"),
