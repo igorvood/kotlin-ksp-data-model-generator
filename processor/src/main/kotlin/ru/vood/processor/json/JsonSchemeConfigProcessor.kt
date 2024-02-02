@@ -11,6 +11,7 @@ import kotlinx.serialization.KSerializer
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import ru.vood.dmgen.annotation.FlowEntity
+import ru.vood.dmgen.metaJson.FKMetaDataJson
 import ru.vood.dmgen.metaJson.IColumnEntityDataJson
 import ru.vood.dmgen.metaJson.SyntheticColumnEntityDataJson
 import ru.vood.dmgen.metaJson.IEntityDataJson
@@ -23,6 +24,7 @@ import ru.vood.processor.datamodel.gen.PackageName
 import ru.vood.processor.datamodel.gen.appendText
 import ru.vood.processor.datamodel.gen.meta.ColumnEntityMapGenerator
 import ru.vood.processor.datamodel.gen.meta.EntityMapGenerator
+import ru.vood.processor.datamodel.gen.meta.ForeignKeyMapGenerator
 import java.io.OutputStream
 import kotlin.properties.Delegates
 
@@ -38,11 +40,12 @@ class JsonSchemeConfigProcessor(val codeGenerator: CodeGenerator, val logger: KS
         val (symbols: List<KSAnnotated>, metaInformation, rootPackage) = triple(resolver)
 
         val entityDataJsonList = metaDataJsons(EntityMapGenerator(codeGenerator, rootPackage, logger), metaInformation)
-
         val columnEntityDataJsonList = metaDataJsons(ColumnEntityMapGenerator(codeGenerator, rootPackage, logger), metaInformation)
+        val foreignKeyEntityDataJsonList = metaDataJsons(ForeignKeyMapGenerator(codeGenerator, rootPackage, logger), metaInformation)
 
         genJsonAndYml("entityDataJsonList", E(entityDataJsonList), E.serializer())
         genJsonAndYml("columnDataJsonList", C(columnEntityDataJsonList), C.serializer())
+        genJsonAndYml("foreignKeyDataJsonList", F(foreignKeyEntityDataJsonList), F.serializer())
         return emptyList()
     }
 
@@ -95,6 +98,10 @@ class JsonSchemeConfigProcessor(val codeGenerator: CodeGenerator, val logger: KS
 
     @kotlinx.serialization.Serializable
     data class C(val columns: List<IColumnEntityDataJson>)
+
+    @kotlinx.serialization.Serializable
+    data class F(val columns: List<FKMetaDataJson>)
+
 
     private fun triple(resolver: Resolver): Triple<List<KSAnnotated>, MetaInformation, PackageName> {
         val symbols: List<KSAnnotated> =

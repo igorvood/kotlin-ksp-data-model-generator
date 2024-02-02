@@ -2,9 +2,12 @@ package ru.vood.processor.datamodel.gen.meta
 
 import com.google.devtools.ksp.processing.CodeGenerator
 import com.google.devtools.ksp.processing.KSPLogger
-import ru.vood.dmgen.annotation.MetaEntities
 import ru.vood.dmgen.annotation.MetaFKs
+import ru.vood.dmgen.dto.EntityName
 import ru.vood.dmgen.dto.RelationType
+import ru.vood.dmgen.dto.UkName
+import ru.vood.dmgen.metaJson.FKMetaDataJson
+import ru.vood.dmgen.metaJson.FkPairJson
 import ru.vood.processor.datamodel.abstraction.model.MetaInformation
 import ru.vood.processor.datamodel.gen.*
 import ru.vood.processor.datamodel.gen.CollectName.entityClassName
@@ -14,17 +17,22 @@ import ru.vood.processor.datamodel.gen.meta.UniqueKeyMapGenerator.Companion.uniq
 import ru.vood.processor.datamodel.gen.runtime.intf.InterfaceGenerator
 import java.time.LocalDateTime
 import java.util.*
+import java.util.concurrent.CopyOnWriteArrayList
 import javax.annotation.processing.Generated
 
 class ForeignKeyMapGenerator(
     codeGenerator: CodeGenerator,
     rootPackage: PackageName,
-    logger: KSPLogger
+    logger: KSPLogger,
 
-) : AbstractDataDictionaryGenerator<MetaInformation>(codeGenerator, rootPackage, logger) {
+    ) : AbstractDataDictionaryGenerator<MetaInformation>(codeGenerator, rootPackage, logger),
+    ISideEffect<FKMetaDataJson> {
 
     override val nameClass: String
         get() = foreignKeyEnumGeneratorNameClass
+
+    private val entityDataJsonList = CopyOnWriteArrayList<FKMetaDataJson>()
+    override fun entityDataJsonList() = entityDataJsonList
 
     override fun textGenerator(metaInfo: MetaInformation): Set<GeneratedFile> {
         val generatedClassData = metaInfo.metaForeignKeys.toSet()
@@ -42,6 +50,21 @@ class ForeignKeyMapGenerator(
 
                             """data.${fkPa.from.name.value}"""
                         }.joinToString(",")
+
+                        entityDataJsonList.add(
+                            FKMetaDataJson(
+                                fromEntity = EntityName(value = metaForeign.fromEntity.designClassShortName),
+                                toEntity = EntityName(metaForeign.toEntity.designClassShortName),
+                                uk = UkName(metaForeign.uk.name.value),
+                                relationType = metaForeign.relationType,
+                                fkCols = metaForeign.fkCols.map { w ->
+                                    FkPairJson(
+                                        from = EntityName(value = metaForeign.fromEntity.designClassShortName) to w.from.name,
+                                        to = EntityName(metaForeign.toEntity.designClassShortName) to w.to.name
+                                    )
+                                }.toSet()
+                            )
+                        )
 
                         metaForeign.name.value to """${fkEnumName}.${metaForeign.name.value} to ${InterfaceGenerator.GeneratedClasses.FKMetaData}<${
                             entityClassName(
