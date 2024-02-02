@@ -5,8 +5,8 @@ import com.google.devtools.ksp.processing.KSPLogger
 import ru.vood.dmgen.annotation.FlowEntityType
 import ru.vood.dmgen.annotation.MetaColumns
 import ru.vood.dmgen.dto.*
-import ru.vood.dmgen.metaJson.ColumnEntityDataJson
-import ru.vood.dmgen.metaJson.IEntityDataJson
+import ru.vood.dmgen.metaJson.IColumnEntityDataJson
+import ru.vood.dmgen.metaJson.SyntheticColumnEntityDataJson
 import ru.vood.processor.datamodel.abstraction.model.MetaInformation
 import ru.vood.processor.datamodel.abstraction.model.dto.SyntheticFieldInfo
 import ru.vood.processor.datamodel.gen.*
@@ -21,16 +21,15 @@ import javax.annotation.processing.Generated
 class ColumnEntityMapGenerator(
     codeGenerator: CodeGenerator,
     rootPackage: PackageName,
-    logger: KSPLogger
+    logger: KSPLogger,
 ) : AbstractDataDictionaryGenerator<MetaInformation>(codeGenerator, rootPackage, logger),
-    ISideEffect<ColumnEntityDataJson>
-{
+    ISideEffect<IColumnEntityDataJson> {
 
     override val nameClass: String
         get() = columnEntityEnumGeneratorNameClass
 
-    private val entityDataJsonList = CopyOnWriteArrayList<ColumnEntityDataJson>()
-    override fun entityDataJsonList()= entityDataJsonList.toList()
+    private val entityDataJsonList = CopyOnWriteArrayList<IColumnEntityDataJson>()
+    override fun entityDataJsonList() = entityDataJsonList.toList()
 
     override fun textGenerator(metaInfo: MetaInformation): Set<GeneratedFile> {
         val metaEntitySet = metaInfo.entities.values.toSet()
@@ -97,12 +96,13 @@ class ColumnEntityMapGenerator(
                                     EntityName(fromEntity.designClassShortName),
                                     SimpleColumnName(fromEntity.entityFieldName)
                                 )
-                                entityDataJsonList.add(ColumnEntityDataJson(
-                                    EntityName(ent.designClassShortName),
-                                    SimpleColumnName(fromEntity.entityFieldName),
-                                    isOptional,
-                                    fromEntity.comment?:"пусто"
-                                )
+                                entityDataJsonList.add(
+                                    SyntheticColumnEntityDataJson(
+                                        EntityName(ent.designClassShortName),
+                                        SimpleColumnName(fromEntity.entityFieldName),
+                                        isOptional,
+                                        fromEntity.comment ?: "пусто"
+                                    )
                                 )
 
                                 "${fullColumnName.value}" to """${fullColumnEnumName}.${fullColumnName.value} to ${InterfaceGenerator.GeneratedClasses.SyntheticColumnEntityData}(

@@ -11,7 +11,8 @@ import kotlinx.serialization.KSerializer
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import ru.vood.dmgen.annotation.FlowEntity
-import ru.vood.dmgen.metaJson.ColumnEntityDataJson
+import ru.vood.dmgen.metaJson.IColumnEntityDataJson
+import ru.vood.dmgen.metaJson.SyntheticColumnEntityDataJson
 import ru.vood.dmgen.metaJson.IEntityDataJson
 import ru.vood.processor.datamodel.abstraction.model.MetaEntity
 import ru.vood.processor.datamodel.abstraction.model.MetaInformation
@@ -93,7 +94,7 @@ class JsonSchemeConfigProcessor(val codeGenerator: CodeGenerator, val logger: KS
     data class E(val entities: List<IEntityDataJson>)
 
     @kotlinx.serialization.Serializable
-    data class C(val columns: List<ColumnEntityDataJson>)
+    data class C(val columns: List<IColumnEntityDataJson>)
 
     private fun triple(resolver: Resolver): Triple<List<KSAnnotated>, MetaInformation, PackageName> {
         val symbols: List<KSAnnotated> =
