@@ -31,8 +31,9 @@ class JsonSchemeConfigProcessor(val codeGenerator: CodeGenerator, val logger: KS
     override fun process(resolver: Resolver): List<KSAnnotated> {
         val (symbols: List<KSAnnotated>, metaInformation, rootPackage) = triple(resolver)
 
-        EntityMapGenerator(codeGenerator, rootPackage, logger).textGenerator(metaInformation)
-        val entityDataJsonList: MutableList<IEntityDataJson> = EntityMapGenerator.entityDataJsonList
+        val entityMapGenerator = EntityMapGenerator(codeGenerator, rootPackage, logger)
+        entityMapGenerator.textGenerator(metaInformation)
+        val entityDataJsonList = entityMapGenerator.entityDataJsonList()
 
 //        file = codeGenerator.createNewFileByPath(ALL_FILES, "qwerty", "json")
         kotlin.runCatching {
@@ -69,7 +70,7 @@ class JsonSchemeConfigProcessor(val codeGenerator: CodeGenerator, val logger: KS
     }
 
     @kotlinx.serialization.Serializable
-    data class Q(val asd: MutableList<IEntityDataJson>)
+    data class Q(val asd: List<IEntityDataJson>)
 
     private fun triple(resolver: Resolver): Triple<List<KSAnnotated>, MetaInformation, PackageName> {
         val symbols: List<KSAnnotated> =

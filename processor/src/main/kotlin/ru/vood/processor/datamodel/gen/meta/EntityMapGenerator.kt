@@ -16,6 +16,7 @@ import ru.vood.processor.datamodel.gen.*
 import ru.vood.processor.datamodel.gen.runtime.intf.InterfaceGenerator
 import java.time.LocalDateTime
 import java.util.*
+import java.util.concurrent.CopyOnWriteArrayList
 import javax.annotation.processing.Generated
 
 class EntityMapGenerator(
@@ -23,11 +24,16 @@ class EntityMapGenerator(
     rootPackage: PackageName,
     logger: KSPLogger
 
-) : AbstractDataDictionaryGenerator<MetaInformation>(codeGenerator, rootPackage, logger) {
+) : AbstractDataDictionaryGenerator<MetaInformation>(codeGenerator, rootPackage, logger),
+    ISideEffect<IEntityDataJson>{
 
     override val nameClass: String
         get() = nameClassEntityEnumGenerator
 
+
+    private val entityDataJsonList = CopyOnWriteArrayList<IEntityDataJson>()
+
+    override fun entityDataJsonList(): List<IEntityDataJson> =  entityDataJsonList.toList()
     override fun textGenerator(metaInfo: MetaInformation): Set<GeneratedFile> {
         val generatedClassData = metaInfo.entities.values.toSet()
 
@@ -154,8 +160,6 @@ ${entities.joinToString(",\n") { it.second }}
         val entityDataMapName = """entityDataMap"""
         val nameClassEntityEnumGenerator = "DataDictionaryEntityMap"
         val entityEnumName = "EntityEnum"
-        // нельзя так делать, но надо по быстрому проверить идею
-        val entityDataJsonList = mutableListOf<IEntityDataJson>()
     }
 
 }
