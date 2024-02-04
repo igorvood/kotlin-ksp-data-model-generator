@@ -11,6 +11,7 @@ import ru.vood.model.generator.ksp.common.dto.PackageName
 import ru.vood.processor.datamodel.abstraction.model.MetaCollector.collectMetaInformation
 import ru.vood.processor.datamodel.abstraction.model.MetaEntity
 import ru.vood.processor.datamodel.abstraction.model.MetaInformation
+import ru.vood.processor.datamodel.newG.IEntityDetailGenerator
 import ru.vood.processor.datamodel.newG.IEntityOriginGenerator
 import ru.vood.processor.datamodel.newG.SerializableEntityGenerator
 
@@ -42,6 +43,7 @@ class NewDataModelConfigProcessor(
         val listOf = listOf(
             SerializableEntityGenerator(rootPackage1),
             IEntityOriginGenerator(rootPackage1),
+            IEntityDetailGenerator(rootPackage1),
         )
 
         listOf

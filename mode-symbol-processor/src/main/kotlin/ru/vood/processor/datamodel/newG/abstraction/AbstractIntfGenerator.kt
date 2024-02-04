@@ -15,7 +15,6 @@ abstract class AbstractIntfGenerator(rootPackage: PackageName, moduleName: Strin
     override fun files(): List<FileSpec> {
         val classBuilder = TypeSpec.interfaceBuilder(moduleName)
             .generated(this::class)
-
         return listOf(fileSpec.addType(fillInterfaceBuilder(classBuilder).build()).build())
     }
 

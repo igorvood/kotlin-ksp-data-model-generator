@@ -342,6 +342,7 @@ data class ${GeneratedClasses.IndexesMetaDto}(
 
         @Deprecated("")
         IEntityOrigin(interfaceGeneratorPackageName),
+        @Deprecated("")
         IEntityDetail(interfaceGeneratorPackageName),
         IContextOf(interfaceGeneratorPackageName),
         ColumnEntityData(interfaceGeneratorPackageName),
