@@ -14,13 +14,8 @@ class IEntityOriginGenerator(rootPackage: PackageName) : AbstractIntfGenerator(
     rootPackage,
     InterfaceGenerator.GeneratedClasses.IEntityOrigin.name
 ) {
-    override fun files(): List<FileSpec> {
-        val classBuilder = TypeSpec.interfaceBuilder(moduleName)
-            .addKdoc("Оригинал сущности, только поля принадлежащие ей")
+    override fun fillInterfaceBuilder(classBuilder: TypeSpec.Builder): TypeSpec.Builder =
+        classBuilder.addKdoc("Оригинал сущности, только поля принадлежащие ей")
             .addSuperinterface(serializableEntity)
-//            .addSuperinterface(CassandraTypes.rowColumnMapper.parameterizedBy(typeName))
-            .generated(IEntityOriginGenerator::class)
 
-        return listOf(fileSpec.addType(classBuilder.build()).build())
-    }
 }
