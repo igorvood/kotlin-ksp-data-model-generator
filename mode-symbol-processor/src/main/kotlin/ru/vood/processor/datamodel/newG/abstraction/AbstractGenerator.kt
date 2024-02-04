@@ -13,4 +13,6 @@ abstract class AbstractGenerator (
         packageName = rootPackage.value + "."+subPackage.value,
         fileName = moduleName
     )
+
+    abstract fun files(): List<FileSpec>
 }

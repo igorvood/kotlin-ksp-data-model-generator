@@ -37,16 +37,14 @@ class NewDataModelConfigProcessor(
     }
 
     override fun finish() {
-        val newInterfaceGenerator = NewInterfaceAbstractGenerator(rootPackage!!)
+        val rootPackage1 = rootPackage!!
+        val listOf = listOf(NewInterfaceAbstractGenerator(rootPackage1))
 
-
-        val sd = newInterfaceGenerator.files()
-
-
-        sd.forEach { fs ->
-            fs.writeTo(codeGenerator = codeGenerator, aggregating = true)
-        }
-
+        listOf
+            .flatMap { it.files() }
+            .forEach { fs ->
+                fs.writeTo(codeGenerator = codeGenerator, aggregating = true)
+            }
         super.finish()
     }
 

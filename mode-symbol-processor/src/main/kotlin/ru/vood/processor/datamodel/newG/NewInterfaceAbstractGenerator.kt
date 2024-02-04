@@ -13,7 +13,7 @@ class NewInterfaceAbstractGenerator(rootPackage: PackageName) : AbstractIntfGene
     rootPackage,
     InterfaceGenerator.GeneratedClasses.SerializableEntity.name
 ) {
-    fun files(): List<FileSpec> {
+    override fun files(): List<FileSpec> {
         val classBuilder = TypeSpec.interfaceBuilder(moduleName)
             .addKdoc("Сериализуемая сущность")
             .generated(NewInterfaceAbstractGenerator::class)
