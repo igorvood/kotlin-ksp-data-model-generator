@@ -40,6 +40,9 @@ private fun logToFile(message: String) = lock.withLock {
 }
 
 abstract class BaseSymbolProcessor(environment: SymbolProcessorEnvironment) : SymbolProcessor {
+
+
+
     val kspLogger: KSPLogger = if (!debug) environment.logger else object : KSPLogger {
 
         override fun error(message: String, symbol: KSNode?) {

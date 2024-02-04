@@ -12,6 +12,9 @@ dependencies {
 //    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1")
 //    implementation("com.charleskorn.kaml:kaml:0.48.0")
     implementation(kotlin("stdlib"))
+    implementation("com.squareup:kotlinpoet:1.12.0")
+    implementation("com.squareup:kotlinpoet-ksp:1.12.0")
+
 
 }
 repositories {

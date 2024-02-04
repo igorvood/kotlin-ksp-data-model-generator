@@ -18,6 +18,7 @@ pluginManagement {
         mavenCentral()
     }
 }
+
 include(":core")
 include(":symbol-processor-common")
 include(":mode-symbol-processor")
