@@ -51,6 +51,7 @@ class NewDataModelConfigProcessor(
             ISyntheticColExtractFunctionGenerator(rootPackageCommon),
             SimpleColExtractFunctionGenerator(rootPackageCommon),
             SyntheticGenerator(rootPackageCommon),
+            SyntheticSetGenerator(rootPackageCommon),
         )
 
         listOf
