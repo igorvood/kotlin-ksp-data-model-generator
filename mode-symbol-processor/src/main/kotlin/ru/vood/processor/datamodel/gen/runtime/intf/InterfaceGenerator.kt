@@ -7,10 +7,11 @@ import ru.vood.dmgen.dto.RelationType
 import ru.vood.dmgen.dto.SimpleColumnName
 import ru.vood.dmgen.dto.SimpleColumnType
 import ru.vood.dmgen.dto.TypeUk
+import ru.vood.model.generator.ksp.common.CommonClassNames.subPackageAbstractDataDictionaryGenerator
 import ru.vood.model.generator.ksp.common.dto.PackageName
 import ru.vood.processor.datamodel.abstraction.model.MetaInformation
 import ru.vood.processor.datamodel.gen.*
-import ru.vood.processor.datamodel.gen.AbstractDataDictionaryGenerator.Companion.subPackageAbstractDataDictionaryGenerator
+
 import ru.vood.processor.datamodel.gen.meta.ColumnEntityMapGenerator.Companion.fullColumnEnumName
 import java.time.LocalDateTime
 import java.util.*

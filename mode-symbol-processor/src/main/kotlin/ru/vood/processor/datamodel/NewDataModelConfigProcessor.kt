@@ -11,7 +11,7 @@ import ru.vood.model.generator.ksp.common.dto.PackageName
 import ru.vood.processor.datamodel.abstraction.model.MetaCollector.collectMetaInformation
 import ru.vood.processor.datamodel.abstraction.model.MetaEntity
 import ru.vood.processor.datamodel.abstraction.model.MetaInformation
-import ru.vood.processor.datamodel.newG.NewInterfaceGenerator
+import ru.vood.processor.datamodel.newG.NewInterfaceAbstractGenerator
 
 class NewDataModelConfigProcessor(
     environment: SymbolProcessorEnvironment,
@@ -37,7 +37,7 @@ class NewDataModelConfigProcessor(
     }
 
     override fun finish() {
-        val newInterfaceGenerator = NewInterfaceGenerator(rootPackage!!)
+        val newInterfaceGenerator = NewInterfaceAbstractGenerator(rootPackage!!)
 
 
         val sd = newInterfaceGenerator.files()

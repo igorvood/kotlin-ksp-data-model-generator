@@ -2,6 +2,7 @@ package ru.vood.processor.datamodel.gen
 
 import com.google.devtools.ksp.processing.CodeGenerator
 import com.google.devtools.ksp.processing.KSPLogger
+import ru.vood.model.generator.ksp.common.CommonClassNames.subPackageAbstractDataDictionaryGenerator
 import ru.vood.model.generator.ksp.common.dto.PackageName
 
 abstract class AbstractDataDictionaryGenerator<META>(
@@ -15,9 +16,5 @@ abstract class AbstractDataDictionaryGenerator<META>(
         get() = subPackageAbstractDataDictionaryGenerator
 
     abstract val nameClass: String
-
-    companion object {
-        val subPackageAbstractDataDictionaryGenerator = PackageName("metaEnum")
-    }
 
 }
