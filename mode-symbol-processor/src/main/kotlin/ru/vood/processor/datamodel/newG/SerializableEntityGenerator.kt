@@ -9,14 +9,14 @@ import ru.vood.model.generator.ksp.common.dto.PackageName
 import ru.vood.processor.datamodel.gen.runtime.intf.InterfaceGenerator
 import ru.vood.processor.datamodel.newG.abstraction.AbstractIntfGenerator
 
-class NewInterfaceAbstractGenerator(rootPackage: PackageName) : AbstractIntfGenerator(
+class SerializableEntityGenerator(rootPackage: PackageName) : AbstractIntfGenerator(
     rootPackage,
     InterfaceGenerator.GeneratedClasses.SerializableEntity.name
 ) {
     override fun files(): List<FileSpec> {
         val classBuilder = TypeSpec.interfaceBuilder(moduleName)
             .addKdoc("Сериализуемая сущность")
-            .generated(NewInterfaceAbstractGenerator::class)
+            .generated(SerializableEntityGenerator::class)
             .addProperty(
                 PropertySpec.builder("designEntityName", entityEnum)
                     .addKdoc("Мета информация по сущности")
