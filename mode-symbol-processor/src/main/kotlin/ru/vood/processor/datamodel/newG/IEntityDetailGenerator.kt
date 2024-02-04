@@ -17,7 +17,7 @@ class IEntityDetailGenerator(rootPackage: PackageName) : AbstractIntfGenerator(
     InterfaceGenerator.GeneratedClasses.IEntityDetail.name
 ) {
     override fun fillInterfaceBuilder(classBuilder: TypeSpec.Builder): TypeSpec.Builder {
-        val returnType = iEntityDetail.plusParameter(iEntityOrigin)
+        val returnType = iEntityDetail.plusParameter(WildcardTypeName.producerOf(iEntityOrigin))
         val builder = CodeBlock.builder()
         builder.add("""  return when(%T.getFk(entityName, origin.designEntityName).relationType){
             %T.MANY_TO_ONE -> syntheticFieldSet(entityName)
@@ -30,7 +30,7 @@ class IEntityDetailGenerator(rootPackage: PackageName) : AbstractIntfGenerator(
             .addTypeVariable(typeVariableIEntityOrigin)
             .addProperty(
                 PropertySpec.builder("origin", typeVariableIEntityOrigin)
-                    .addKdoc("Оригинал сущности, только поля принадлежащие ей")
+                    .addKdoc("Детальная сущность, с иными сущностями имеющими на текущую внешний ключ")
                     .build()
             )
             .addFunction(
