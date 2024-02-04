@@ -20,7 +20,7 @@ pluginManagement {
 }
 include(":core")
 include(":symbol-processor-common")
-include(":processor")
+include(":mode-symbol-processor")
 
 
 include(":dataModelSealed")

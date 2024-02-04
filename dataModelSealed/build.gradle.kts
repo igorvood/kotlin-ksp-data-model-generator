@@ -12,8 +12,8 @@ repositories {
 
 dependencies {
     implementation(project(":core"))
-    implementation(project(":processor"))
-    ksp(project(":processor"))
+    implementation(project(":mode-symbol-processor"))
+    ksp(project(":mode-symbol-processor"))
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1")
 }
 
