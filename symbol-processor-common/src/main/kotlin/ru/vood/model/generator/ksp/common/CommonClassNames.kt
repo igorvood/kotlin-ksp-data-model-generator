@@ -4,7 +4,8 @@ import com.squareup.kotlinpoet.*
 import ru.vood.model.generator.ksp.common.dto.PackageName
 import java.util.concurrent.atomic.AtomicReference
 import javax.annotation.processing.Generated
-import javax.management.relation.RelationType
+
+
 
 object CommonClassNames {
 
@@ -21,7 +22,9 @@ object CommonClassNames {
 
     val generated = Generated::class.asClassName()
     val relationType = ru.vood.dmgen.dto.RelationType::class.asClassName()
+    val kSerializer = ClassName("kotlinx.serialization", "KSerializer")
 
+    val nameT = "T"
 
     val subPackageAbstractDataDictionaryGenerator = PackageName("metaEnum")
     val subPackageIntfGenerator = PackageName("newintf")
@@ -30,6 +33,13 @@ object CommonClassNames {
         ClassName(
             "${rootPackage.value}.${subPackageAbstractDataDictionaryGenerator.value}",
             "EntityEnum"
+        )
+    }
+
+    val uniqueKeyEnum by lazy {
+        ClassName(
+            "${rootPackage.value}.${subPackageAbstractDataDictionaryGenerator.value}",
+            "UniqueKeyEnum"
         )
     }
 
@@ -61,12 +71,9 @@ object CommonClassNames {
         )
     }
 
+    val typeVariableT  by lazy { TypeVariableName(nameT) }
 
-    val typeVariableIEntityOrigin  by lazy { TypeVariableName("T", iEntityOrigin) }
-
-//    val typeVariableIEntityOrigin  by lazy { TypeName(true, listOf<AnnotationSpec>(), ) }
-
-
+    val typeVariableIEntityOrigin  by lazy { TypeVariableName(nameT, iEntityOrigin) }
 
 
 }
