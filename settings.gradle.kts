@@ -18,14 +18,17 @@ pluginManagement {
         mavenCentral()
     }
 }
-
-include(":processor")
 include(":core")
+include(":symbol-processor-common")
+include(":processor")
+
+
 include(":dataModelSealed")
+include(":dataModel")
 
 include(":workload")
-include(":dataModel")
 include(":grpc-common-client-server")
+
 
 
 //include(":functionGeneratorPlugin")
