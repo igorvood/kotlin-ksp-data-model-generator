@@ -22,6 +22,10 @@ object CommonClassNames {
 
     val generated = Generated::class.asClassName()
     val relationType = ru.vood.dmgen.dto.RelationType::class.asClassName()
+    val simpleColumnName = ru.vood.dmgen.dto.SimpleColumnName::class.asClassName()
+    val boolean = Boolean::class.asClassName()
+    val string = String::class.asClassName()
+
     val kSerializer = ClassName("kotlinx.serialization", "KSerializer")
 
     val nameT = "T"

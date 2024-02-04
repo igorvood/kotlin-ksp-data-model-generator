@@ -11,10 +11,7 @@ import ru.vood.model.generator.ksp.common.dto.PackageName
 import ru.vood.processor.datamodel.abstraction.model.MetaCollector.collectMetaInformation
 import ru.vood.processor.datamodel.abstraction.model.MetaEntity
 import ru.vood.processor.datamodel.abstraction.model.MetaInformation
-import ru.vood.processor.datamodel.newG.IContextOfGenerator
-import ru.vood.processor.datamodel.newG.IEntityDetailGenerator
-import ru.vood.processor.datamodel.newG.IEntityOriginGenerator
-import ru.vood.processor.datamodel.newG.SerializableEntityGenerator
+import ru.vood.processor.datamodel.newG.*
 
 class NewDataModelConfigProcessor(
     environment: SymbolProcessorEnvironment,
@@ -46,6 +43,7 @@ class NewDataModelConfigProcessor(
             IEntityOriginGenerator(rootPackage1),
             IEntityDetailGenerator(rootPackage1),
             IContextOfGenerator(rootPackage1),
+            ColumnEntityDataGenerator(rootPackage1),
         )
 
         listOf
