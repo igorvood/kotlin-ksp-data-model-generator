@@ -5,6 +5,7 @@ import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.plusParameter
 import com.squareup.kotlinpoet.TypeVariableName
 import com.squareup.kotlinpoet.asClassName
+import ru.vood.dmgen.annotation.FlowEntityType
 import ru.vood.model.generator.ksp.common.dto.PackageName
 import java.util.concurrent.atomic.AtomicReference
 import javax.annotation.processing.Generated
@@ -25,6 +26,8 @@ object CommonClassNames {
 
     val generated = Generated::class.asClassName()
     val jvmInline = JvmInline::class.asClassName()
+    val flowEntityType = FlowEntityType::class.asClassName()
+
 
     val relationType = ru.vood.dmgen.dto.RelationType::class.asClassName()
     val simpleColumnName = ru.vood.dmgen.dto.SimpleColumnName::class.asClassName()
@@ -32,6 +35,8 @@ object CommonClassNames {
     val boolean = Boolean::class.asClassName()
     val string = String::class.asClassName()
 
+    val kClass = ClassName("kotlin.reflect", "KClass")
+    val any = ClassName("kotlin", "Any")
     val kSerializer = ClassName("kotlinx.serialization", "KSerializer")
 
     val nameT = "T"
