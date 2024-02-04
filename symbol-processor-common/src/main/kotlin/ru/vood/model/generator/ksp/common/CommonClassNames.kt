@@ -23,6 +23,7 @@ object CommonClassNames {
     val generated = Generated::class.asClassName()
     val relationType = ru.vood.dmgen.dto.RelationType::class.asClassName()
     val simpleColumnName = ru.vood.dmgen.dto.SimpleColumnName::class.asClassName()
+    val simpleColumnType = ru.vood.dmgen.dto.SimpleColumnType::class.asClassName()
     val boolean = Boolean::class.asClassName()
     val string = String::class.asClassName()
 
@@ -65,6 +66,13 @@ object CommonClassNames {
         ClassName(
             "${rootPackage.value}.${subPackageIntfGenerator.value}",
             "IEntityDetail"
+        )
+    }
+
+    val columnEntityData by lazy {
+        ClassName(
+            "${rootPackage.value}.${subPackageIntfGenerator.value}",
+            "ColumnEntityData"
         )
     }
 

@@ -1,0 +1,66 @@
+package ru.vood.processor.datamodel.newG
+
+import com.squareup.kotlinpoet.*
+import ru.vood.model.generator.ksp.common.CommonClassNames
+import ru.vood.model.generator.ksp.common.CommonClassNames.simpleColumnType
+import ru.vood.model.generator.ksp.common.dto.PackageName
+import ru.vood.processor.datamodel.gen.runtime.intf.InterfaceGenerator
+import ru.vood.processor.datamodel.newG.ColumnEntityDataGenerator.Companion.columnEntityDataGeneratorPropSpec
+
+import ru.vood.processor.datamodel.newG.abstraction.AbstractDataClassGenerator
+
+class SimpleColumnEntityDataGenerator(rootPackage: PackageName) : AbstractDataClassGenerator(
+    rootPackage = rootPackage,
+    moduleName = InterfaceGenerator.GeneratedClasses.SimpleColumnEntityData.name,
+) {
+    override fun fillInterfaceBuilder(classBuilder: TypeSpec.Builder): TypeSpec.Builder {
+        val constructor: FunSpec.Builder = FunSpec.constructorBuilder()
+
+        columnEntityDataGeneratorPropSpecConstructorImplemented(classBuilder, constructor)
+
+
+        return classBuilder
+            .addTypeVariable(CommonClassNames.typeVariableIEntityOrigin)
+            .addSuperinterface(CommonClassNames.columnEntityData)
+            .addKdoc("Мета данные по простому реквизиту сущности")
+            .primaryConstructor(constructor.build())
+    }
+
+
+    companion object {
+
+        val simpleColumnEntityDataGeneratorPropSpec = columnEntityDataGeneratorPropSpec
+            .map { ps ->
+                PropertySpec.builder(ps.name, ps.type)
+                    .initializer("%N", ps.name)
+                    .addModifiers(KModifier.OVERRIDE)
+                    .addKdoc(ps.kdoc)
+                    .build()
+            }
+            .plus(
+                PropertySpec.builder("simpleColumnType", simpleColumnType)
+                    .initializer("%N", "simpleColumnType")
+                    .addKdoc("Тип простого реквизита")
+                    .build()
+            )
+            .plus(
+                PropertySpec.builder("iColExtractFunction", simpleColumnType)
+                    .initializer("%N", "iColExtractFunction")
+                    .addKdoc("ф-ция экстрактор значения колонки")
+                    .build()
+            )
+
+        private fun columnEntityDataGeneratorPropSpecConstructorImplemented(
+            classBuilder: TypeSpec.Builder,
+            constructor: FunSpec.Builder,
+        ) = simpleColumnEntityDataGeneratorPropSpec
+            .forEach { ps ->
+                constructor.addParameter(
+                    ParameterSpec.builder(ps.name, ps.type)
+                        .build()
+                )
+                classBuilder.addProperty(ps)
+            }
+    }
+
+}

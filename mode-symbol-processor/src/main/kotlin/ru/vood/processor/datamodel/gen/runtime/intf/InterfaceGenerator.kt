@@ -348,6 +348,7 @@ data class ${GeneratedClasses.IndexesMetaDto}(
         IContextOf(interfaceGeneratorPackageName),
         @Deprecated("")
         ColumnEntityData(interfaceGeneratorPackageName),
+        @Deprecated("")
         SimpleColumnEntityData(interfaceGeneratorPackageName),
         SyntheticColumnEntityData(interfaceGeneratorPackageName),
         SealedSyntheticColumnEntityData(interfaceGeneratorPackageName),

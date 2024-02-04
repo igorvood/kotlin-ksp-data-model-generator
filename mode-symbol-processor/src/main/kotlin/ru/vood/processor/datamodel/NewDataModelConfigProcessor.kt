@@ -44,6 +44,7 @@ class NewDataModelConfigProcessor(
             IEntityDetailGenerator(rootPackage1),
             IContextOfGenerator(rootPackage1),
             ColumnEntityDataGenerator(rootPackage1),
+            SimpleColumnEntityDataGenerator(rootPackage1),
         )
 
         listOf
