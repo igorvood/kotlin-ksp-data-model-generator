@@ -7,13 +7,12 @@ import ru.vood.model.generator.ksp.common.CommonClassNames.entityEnum
 import ru.vood.model.generator.ksp.common.KspCommonUtils.generated
 import ru.vood.model.generator.ksp.common.dto.PackageName
 import ru.vood.processor.datamodel.gen.runtime.intf.InterfaceGenerator
+import ru.vood.processor.datamodel.newG.abstraction.AbstractIntfGenerator
 
-class NewInterfaceAbstractGenerator(rootPackage: PackageName) : AbstractGenerator(
+class NewInterfaceAbstractGenerator(rootPackage: PackageName) : AbstractIntfGenerator(
     rootPackage,
-    PackageName("newintf"),
     InterfaceGenerator.GeneratedClasses.SerializableEntity.name
 ) {
-
     fun files(): List<FileSpec> {
         val classBuilder = TypeSpec.interfaceBuilder(moduleName)
             .addKdoc("Сериализуемая сущность")
