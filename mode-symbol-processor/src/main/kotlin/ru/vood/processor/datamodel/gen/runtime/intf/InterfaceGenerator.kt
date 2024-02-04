@@ -127,19 +127,19 @@ import ${GeneratedClasses.FullColumnNameEnum.getPac(rootPackage)}
 //) : ${GeneratedClasses.ColumnEntityData}<T>
 
 
-@${Generated::class.java.simpleName}("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
-data class ${GeneratedClasses.SyntheticColumnEntityData}<T>(
-    override val entity:  ${GeneratedClasses.EntityEnum},
-    /**имя колонки*/
-    override val simpleColumnName: ${SimpleColumnName::class.java.simpleName},
-    /**признак опциональности колонки*/
-    override val isOptional: Boolean,
-    /**коментарий колонки*/
-    override val comment: String,
-    /**ф-ция экстрактор значения колонки*/
-    val iColExtractFunction: ${GeneratedClasses.ISyntheticColExtractFunction}<T, *>,
-    val outEntity:  ${GeneratedClasses.EntityEnum}
-) : ${GeneratedClasses.ColumnEntityData}
+//@${Generated::class.java.simpleName}("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
+//data class ${GeneratedClasses.SyntheticColumnEntityData}<T>(
+//    override val entity:  ${GeneratedClasses.EntityEnum},
+//    /**имя колонки*/
+//    override val simpleColumnName: ${SimpleColumnName::class.java.simpleName},
+//    /**признак опциональности колонки*/
+//    override val isOptional: Boolean,
+//    /**коментарий колонки*/
+//    override val comment: String,
+//    /**ф-ция экстрактор значения колонки*/
+//    val iColExtractFunction: ${GeneratedClasses.ISyntheticColExtractFunction}<T, *>,
+//    val outEntity:  ${GeneratedClasses.EntityEnum}
+//) : ${GeneratedClasses.ColumnEntityData}
 
 @${Generated::class.java.simpleName}("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
 data class ${GeneratedClasses.SealedSyntheticColumnEntityData}<T>(
@@ -350,6 +350,7 @@ data class ${GeneratedClasses.IndexesMetaDto}(
         ColumnEntityData(interfaceGeneratorPackageName),
         @Deprecated("")
         SimpleColumnEntityData(interfaceGeneratorPackageName),
+        @Deprecated("")
         SyntheticColumnEntityData(interfaceGeneratorPackageName),
         SealedSyntheticColumnEntityData(interfaceGeneratorPackageName),
         IColExtractFunction(interfaceGeneratorPackageName),

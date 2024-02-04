@@ -1,8 +1,6 @@
 package ru.vood.processor.datamodel.newG.abstraction
 
-import com.squareup.kotlinpoet.FileSpec
-import com.squareup.kotlinpoet.KModifier
-import com.squareup.kotlinpoet.TypeSpec
+import com.squareup.kotlinpoet.*
 import ru.vood.model.generator.ksp.common.CommonClassNames.subPackageIntfGenerator
 import ru.vood.model.generator.ksp.common.KspCommonUtils.generated
 import ru.vood.model.generator.ksp.common.dto.PackageName
@@ -26,4 +24,19 @@ abstract class AbstractDataClassGenerator(
     }
 
     abstract fun fillInterfaceBuilder(classBuilder: TypeSpec.Builder): TypeSpec.Builder
+
+    protected fun columnEntityDataGeneratorPropSpecConstructorImplemented(
+        classBuilder: TypeSpec.Builder,
+        constructor: FunSpec.Builder,
+        propSpec: List<PropertySpec>
+    ) {
+        propSpec
+            .forEach { ps ->
+                constructor.addParameter(
+                    ParameterSpec.builder(ps.name, ps.type)
+                        .build()
+                )
+                classBuilder.addProperty(ps)
+            }
+    }
 }

@@ -63,6 +63,13 @@ object CommonClassNames {
         )
     }
 
+    val synthetic by lazy {
+        ClassName(
+            "${rootPackage.value}.${subPackageIntfGenerator.value}",
+            "Synthetic"
+        )
+    }
+
     val simpleColExtractFunction by lazy {
         ClassName(
             "${rootPackage.value}.${subPackageIntfGenerator.value}",
