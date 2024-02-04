@@ -78,6 +78,12 @@ object CommonClassNames {
         )
     }
 
+    val iColExtractFunction by lazy {
+        ClassName(
+            "${rootPackage.value}.${subPackageIntfGenerator.value}",
+            "IColExtractFunction"
+        )
+    }
 
     val iEntityOrigin by lazy {
         ClassName(
