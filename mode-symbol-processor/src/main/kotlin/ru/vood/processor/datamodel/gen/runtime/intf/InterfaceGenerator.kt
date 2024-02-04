@@ -141,19 +141,19 @@ import ${GeneratedClasses.FullColumnNameEnum.getPac(rootPackage)}
 //    val outEntity:  ${GeneratedClasses.EntityEnum}
 //) : ${GeneratedClasses.ColumnEntityData}
 
-@${Generated::class.java.simpleName}("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
-data class ${GeneratedClasses.SealedSyntheticColumnEntityData}<T>(
-    override val entity:  ${GeneratedClasses.EntityEnum},
-    /**имя колонки*/
-    override val simpleColumnName: ${SimpleColumnName::class.java.simpleName},
-    /**признак опциональности колонки*/
-    override val isOptional: Boolean,
-    /**коментарий колонки*/
-    override val comment: String,
-    /**ф-ция экстрактор значения колонки*/
-//    override val iColExtractFunction: ${GeneratedClasses.ISyntheticColExtractFunction}<T, *>,
-    val outEntities: Set< ${GeneratedClasses.EntityEnum}>
-) : ${GeneratedClasses.ColumnEntityData}
+//@${Generated::class.java.simpleName}("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
+//data class ${GeneratedClasses.SealedSyntheticColumnEntityData}<T>(
+//    override val entity:  ${GeneratedClasses.EntityEnum},
+//    /**имя колонки*/
+//    override val simpleColumnName: ${SimpleColumnName::class.java.simpleName},
+//    /**признак опциональности колонки*/
+//    override val isOptional: Boolean,
+//    /**коментарий колонки*/
+//    override val comment: String,
+//    /**ф-ция экстрактор значения колонки*/
+////    override val iColExtractFunction: ${GeneratedClasses.ISyntheticColExtractFunction}<T, *>,
+//    val outEntities: Set< ${GeneratedClasses.EntityEnum}>
+//) : ${GeneratedClasses.ColumnEntityData}
 
 @${Generated::class.java.simpleName}("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
 sealed interface ${GeneratedClasses.IColExtractFunction}<in T, out OUT> {
@@ -352,6 +352,7 @@ data class ${GeneratedClasses.IndexesMetaDto}(
         SimpleColumnEntityData(interfaceGeneratorPackageName),
         @Deprecated("")
         SyntheticColumnEntityData(interfaceGeneratorPackageName),
+        @Deprecated("")
         SealedSyntheticColumnEntityData(interfaceGeneratorPackageName),
         IColExtractFunction(interfaceGeneratorPackageName),
         ISyntheticColExtractFunction(interfaceGeneratorPackageName),
