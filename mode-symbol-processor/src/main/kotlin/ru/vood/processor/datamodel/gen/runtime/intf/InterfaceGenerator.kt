@@ -163,11 +163,11 @@ import ${GeneratedClasses.FullColumnNameEnum.getPac(rootPackage)}
 //@${Generated::class.java.simpleName}("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
 //sealed interface ${GeneratedClasses.ISyntheticColExtractFunction}<in T, out OUT> : ${GeneratedClasses.IColExtractFunction}<T, OUT>
 
-@JvmInline
-@${Generated::class.java.simpleName}("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
-value class ${GeneratedClasses.SimpleColExtractFunction}<T : IEntityOrigin, OUT>(
-    override val extractFieldValue: (entity: T) -> OUT
-) : ${GeneratedClasses.IColExtractFunction}<T, OUT>
+//@JvmInline
+//@${Generated::class.java.simpleName}("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
+//value class ${GeneratedClasses.SimpleColExtractFunction}<T : IEntityOrigin, OUT>(
+//    override val extractFieldValue: (entity: T) -> OUT
+//) : ${GeneratedClasses.IColExtractFunction}<T, OUT>
 
 @JvmInline
 @${Generated::class.java.simpleName}("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
@@ -358,6 +358,7 @@ data class ${GeneratedClasses.IndexesMetaDto}(
         IColExtractFunction(interfaceGeneratorPackageName),
         @Deprecated("")
         ISyntheticColExtractFunction(interfaceGeneratorPackageName),
+        @Deprecated("")
         SimpleColExtractFunction(interfaceGeneratorPackageName),
         Synthetic(interfaceGeneratorPackageName),
         SyntheticSet(interfaceGeneratorPackageName),

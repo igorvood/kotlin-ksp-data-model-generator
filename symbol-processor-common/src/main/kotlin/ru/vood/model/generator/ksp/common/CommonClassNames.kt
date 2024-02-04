@@ -21,6 +21,8 @@ object CommonClassNames {
     }
 
     val generated = Generated::class.asClassName()
+    val jvmInline = JvmInline::class.asClassName()
+
     val relationType = ru.vood.dmgen.dto.RelationType::class.asClassName()
     val simpleColumnName = ru.vood.dmgen.dto.SimpleColumnName::class.asClassName()
     val simpleColumnType = ru.vood.dmgen.dto.SimpleColumnType::class.asClassName()
