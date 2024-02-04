@@ -4,6 +4,11 @@ import com.google.devtools.ksp.processing.Resolver
 import com.google.devtools.ksp.processing.SymbolProcessorEnvironment
 import com.google.devtools.ksp.symbol.KSAnnotated
 import com.squareup.kotlinpoet.ksp.writeTo
+import kotlinx.coroutines.flow.asFlow
+import kotlinx.coroutines.flow.flatMapConcat
+import kotlinx.coroutines.flow.forEach
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.runBlocking
 import ru.vood.dmgen.annotation.FlowEntity
 import ru.vood.model.generator.ksp.common.BaseSymbolProcessor
 import ru.vood.model.generator.ksp.common.CommonClassNames
@@ -54,12 +59,17 @@ class NewDataModelConfigProcessor(
             SyntheticSetGenerator(rootPackageCommon),
             IEntityDataGenerator(rootPackageCommon),
         )
+        runBlocking {
+            listOf
+                .asFlow()
+                .map { q -> q.files().asFlow() }
+                .flatMapConcat {it }
+                .collect { fs ->
+                    kspLogger.logging("generate ${fs.name} ")
+                    fs.writeTo(codeGenerator = codeGenerator, aggregating = true)
+                }
 
-        listOf
-            .flatMap { it.files() }
-            .forEach { fs ->
-                fs.writeTo(codeGenerator = codeGenerator, aggregating = true)
-            }
+        }
         super.finish()
     }
 
