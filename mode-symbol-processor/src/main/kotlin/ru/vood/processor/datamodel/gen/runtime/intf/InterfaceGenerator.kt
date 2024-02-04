@@ -336,9 +336,11 @@ data class ${GeneratedClasses.IndexesMetaDto}(
     }
 
     enum class GeneratedClasses(val subPackageName: PackageName) {
+        @Deprecated("")
         SerializableEntity(interfaceGeneratorPackageName),
         IndexesMetaDto(interfaceGeneratorPackageName),
 
+        @Deprecated("")
         IEntityOrigin(interfaceGeneratorPackageName),
         IEntityDetail(interfaceGeneratorPackageName),
         IContextOf(interfaceGeneratorPackageName),

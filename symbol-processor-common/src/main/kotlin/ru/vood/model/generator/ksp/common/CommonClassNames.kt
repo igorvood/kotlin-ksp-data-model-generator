@@ -21,11 +21,26 @@ object CommonClassNames {
 
     val generated = Generated::class.asClassName()
     val subPackageAbstractDataDictionaryGenerator = PackageName("metaEnum")
+    val subPackageIntfGenerator = PackageName("newintf")
 
     val entityEnum by lazy {
         ClassName(
             "${rootPackage.value}.${subPackageAbstractDataDictionaryGenerator.value}",
             "EntityEnum"
+        )
+    }
+
+    val serializableEntity by lazy {
+        ClassName(
+            "${rootPackage.value}.${subPackageIntfGenerator.value}",
+            "SerializableEntity"
+        )
+    }
+
+    val iEntityOrigin by lazy {
+        ClassName(
+            "${rootPackage.value}.${subPackageIntfGenerator.value}",
+            "IEntityOrigin"
         )
     }
 
