@@ -1,5 +1,7 @@
 package ru.vood.processor.datamodel.gen
 
+import ru.vood.model.generator.ksp.common.dto.PackageName
+
 data class GeneratedFile(
     val fileName: FileName,
     val generatedCode: GeneratedCode,
@@ -13,5 +15,4 @@ value class FileName(val value: String)
 @JvmInline
 value class GeneratedCode(val value: String)
 
-@JvmInline
-value class PackageName(val value: String)
+

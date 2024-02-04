@@ -1,10 +1,10 @@
 package ru.vood.processor.datamodel.newG
 
 import com.squareup.kotlinpoet.FileSpec
-import com.squareup.kotlinpoet.KModifier
+import com.squareup.kotlinpoet.PropertySpec
 import com.squareup.kotlinpoet.TypeSpec
 import ru.vood.model.generator.ksp.common.KspCommonUtils.generated
-import ru.vood.processor.datamodel.gen.PackageName
+import ru.vood.model.generator.ksp.common.dto.PackageName
 import ru.vood.processor.datamodel.gen.runtime.intf.InterfaceGenerator
 
 class NewInterfaceGenerator(val rootPackage: PackageName) {
@@ -15,11 +15,19 @@ class NewInterfaceGenerator(val rootPackage: PackageName) {
             fileName = moduleName
         )
 
-        val classBuilder = TypeSpec.classBuilder(moduleName)
+        val classBuilder = TypeSpec.interfaceBuilder(moduleName)
 //            .addOriginatingKSFile(containingFile)
             .generated(NewInterfaceGenerator::class)
-            .addModifiers(KModifier.PUBLIC, KModifier.OPEN)
+//            .addProperty(    PropertySpec.builder("designEntityName", "EntityEnum")
+//                .initializer("object : %T {}", "moduleClass")
+//                .build())
+//        val designEntityName: EntityEnum
+
+//            .addModifiers(KModifier.PUBLIC, KModifier.OPEN)
+
 //            .addSuperinterface(declaration.toClassName())
+
+//        classBuilder.addProperty()
 
 
         return listOf(fileSpec.addType(classBuilder.build()).build())

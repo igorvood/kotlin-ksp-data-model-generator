@@ -8,6 +8,7 @@ import ru.vood.dmgen.dto.*
 import ru.vood.dmgen.metaJson.IColumnEntityDataJson
 import ru.vood.dmgen.metaJson.SimpleColumnEntityDataJson
 import ru.vood.dmgen.metaJson.SyntheticColumnEntityDataJson
+import ru.vood.model.generator.ksp.common.dto.PackageName
 import ru.vood.processor.datamodel.abstraction.model.MetaInformation
 import ru.vood.processor.datamodel.abstraction.model.dto.SyntheticFieldInfo
 import ru.vood.processor.datamodel.gen.*

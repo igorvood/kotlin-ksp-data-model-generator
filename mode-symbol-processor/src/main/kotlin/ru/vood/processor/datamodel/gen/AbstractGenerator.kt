@@ -3,13 +3,14 @@ package ru.vood.processor.datamodel.gen
 import com.google.devtools.ksp.processing.CodeGenerator
 import com.google.devtools.ksp.processing.Dependencies
 import com.google.devtools.ksp.processing.KSPLogger
+import ru.vood.model.generator.ksp.common.dto.PackageName
 import java.io.OutputStream
 import kotlin.properties.Delegates
 
 abstract class AbstractGenerator<META>(
     val codeGenerator: CodeGenerator,
     val rootPackage: PackageName,
-    val logger: KSPLogger
+    val logger: KSPLogger,
 ) {
 
     private var file by Delegates.notNull<OutputStream>()

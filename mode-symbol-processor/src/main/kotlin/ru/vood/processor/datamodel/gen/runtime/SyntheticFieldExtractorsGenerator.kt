@@ -3,9 +3,9 @@ package ru.vood.processor.datamodel.gen.runtime
 import com.google.devtools.ksp.processing.CodeGenerator
 import com.google.devtools.ksp.processing.KSPLogger
 import ru.vood.dmgen.annotation.FlowEntityType
-import ru.vood.dmgen.annotation.ModelEntity
 import ru.vood.dmgen.annotation.ModelEntityDetail
 import ru.vood.dmgen.dto.RelationType
+import ru.vood.model.generator.ksp.common.dto.PackageName
 import ru.vood.processor.datamodel.abstraction.model.Dependency
 import ru.vood.processor.datamodel.abstraction.model.MetaEntity
 import ru.vood.processor.datamodel.abstraction.model.MetaForeignKey
@@ -22,7 +22,7 @@ import javax.annotation.processing.Generated
 class SyntheticFieldExtractorsGenerator(
     codeGenerator: CodeGenerator,
     rootPackage: PackageName,
-    logger: KSPLogger
+    logger: KSPLogger,
 ) : AbstractGenerator<MetaInformation>(codeGenerator, rootPackage, logger) {
 
     override fun textGenerator(metaInfo: MetaInformation): Set<GeneratedFile> {
@@ -32,7 +32,7 @@ class SyntheticFieldExtractorsGenerator(
     private fun collectEntityFile(
         metaForeignKeys: Set<MetaForeignKey>,
         aggregateInnerDep: Dependency,
-        collector: Set<GeneratedFile> = setOf()
+        collector: Set<GeneratedFile> = setOf(),
     ): Set<GeneratedFile> {
 
         val metaEntity = aggregateInnerDep.metaEntity
@@ -151,7 +151,7 @@ override val designEntityName: ${InterfaceGenerator.GeneratedClasses.EntityEnum}
 
     private fun extractSyntheticByrelationType(
         syntheticFieldInfos: List<SyntheticFieldInfo>,
-        relationTypeFilter: RelationType
+        relationTypeFilter: RelationType,
     ) = syntheticFieldInfos
         .filter {
             it.relationType == relationTypeFilter
@@ -164,7 +164,7 @@ override val designEntityName: ${InterfaceGenerator.GeneratedClasses.EntityEnum}
 
     private fun headCreate(
         metaEntity: MetaEntity,
-        syntheticFieldImport: String
+        syntheticFieldImport: String,
     ) = """package ${metaEntity.designClassPackageName}
                         
     ${

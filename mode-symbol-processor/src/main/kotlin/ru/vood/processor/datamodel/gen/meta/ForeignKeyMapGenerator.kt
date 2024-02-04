@@ -8,6 +8,7 @@ import ru.vood.dmgen.dto.RelationType
 import ru.vood.dmgen.dto.UkName
 import ru.vood.dmgen.metaJson.FKMetaDataJson
 import ru.vood.dmgen.metaJson.FkPairJson
+import ru.vood.model.generator.ksp.common.dto.PackageName
 import ru.vood.processor.datamodel.abstraction.model.MetaInformation
 import ru.vood.processor.datamodel.gen.*
 import ru.vood.processor.datamodel.gen.CollectName.entityClassName

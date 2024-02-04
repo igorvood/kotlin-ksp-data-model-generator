@@ -11,6 +11,7 @@ import ru.vood.dmgen.metaJson.SealedEntityDataJson
 import ru.vood.dmgen.metaJson.value.InterfaceEntityClassName
 import ru.vood.dmgen.metaJson.value.RuntimeEntityClassName
 import ru.vood.dmgen.metaJson.value.RuntimeSyntheticEntityClassName
+import ru.vood.model.generator.ksp.common.dto.PackageName
 import ru.vood.processor.datamodel.abstraction.model.MetaInformation
 import ru.vood.processor.datamodel.gen.*
 import ru.vood.processor.datamodel.gen.runtime.intf.InterfaceGenerator
@@ -22,10 +23,10 @@ import javax.annotation.processing.Generated
 class EntityMapGenerator(
     codeGenerator: CodeGenerator,
     rootPackage: PackageName,
-    logger: KSPLogger
+    logger: KSPLogger,
 
-) : AbstractDataDictionaryGenerator<MetaInformation>(codeGenerator, rootPackage, logger),
-    ISideEffect<IEntityDataJson>{
+    ) : AbstractDataDictionaryGenerator<MetaInformation>(codeGenerator, rootPackage, logger),
+    ISideEffect<IEntityDataJson> {
 
     override val nameClass: String
         get() = nameClassEntityEnumGenerator
@@ -33,7 +34,7 @@ class EntityMapGenerator(
 
     private val entityDataJsonList = CopyOnWriteArrayList<IEntityDataJson>()
 
-    override fun entityDataJsonList(): List<IEntityDataJson> =  entityDataJsonList.toList()
+    override fun entityDataJsonList(): List<IEntityDataJson> = entityDataJsonList.toList()
     override fun textGenerator(metaInfo: MetaInformation): Set<GeneratedFile> {
         val generatedClassData = metaInfo.entities.values.toSet()
 
@@ -74,16 +75,18 @@ class EntityMapGenerator(
                                     .map { fk -> EntityName(fk.fromEntity.designClassShortName) }
                                     .toSet()
 
-                                entityDataJsonList.add(SealedEntityDataJson(
-                                    InterfaceEntityClassName(metaEntity.designClassFullClassName.value),
-                                    RuntimeEntityClassName(CollectName.entityClassName(metaEntity)),
-                                    RuntimeSyntheticEntityClassName(CollectName.syntheticClassName(                                        metaEntity                                    )),
-                                    EntityName(metaEntity.designClassShortName),
-                                    metaEntity.comment?:"пусто",
-                                    metaEntity.flowEntityType,
-                                    distinct
+                                entityDataJsonList.add(
+                                    SealedEntityDataJson(
+                                        InterfaceEntityClassName(metaEntity.designClassFullClassName.value),
+                                        RuntimeEntityClassName(CollectName.entityClassName(metaEntity)),
+                                        RuntimeSyntheticEntityClassName(CollectName.syntheticClassName(metaEntity)),
+                                        EntityName(metaEntity.designClassShortName),
+                                        metaEntity.comment ?: "пусто",
+                                        metaEntity.flowEntityType,
+                                        distinct
 
-                                ))
+                                    )
+                                )
 
                                 val sealedChildrenEntities = distinct
                                     .map { sealedChildrenEntity -> """${InterfaceGenerator.GeneratedClasses.EntityEnum}.${sealedChildrenEntity.value}""" }

@@ -13,14 +13,13 @@ import kotlinx.serialization.json.Json
 import ru.vood.dmgen.annotation.FlowEntity
 import ru.vood.dmgen.metaJson.FKMetaDataJson
 import ru.vood.dmgen.metaJson.IColumnEntityDataJson
-import ru.vood.dmgen.metaJson.SyntheticColumnEntityDataJson
 import ru.vood.dmgen.metaJson.IEntityDataJson
+import ru.vood.model.generator.ksp.common.dto.PackageName
 import ru.vood.processor.datamodel.abstraction.model.MetaEntity
 import ru.vood.processor.datamodel.abstraction.model.MetaInformation
 import ru.vood.processor.datamodel.abstraction.model.metaInformation
 import ru.vood.processor.datamodel.gen.AbstractGenerator
 import ru.vood.processor.datamodel.gen.ISideEffect
-import ru.vood.processor.datamodel.gen.PackageName
 import ru.vood.processor.datamodel.gen.appendText
 import ru.vood.processor.datamodel.gen.meta.ColumnEntityMapGenerator
 import ru.vood.processor.datamodel.gen.meta.EntityMapGenerator
@@ -40,8 +39,10 @@ class JsonSchemeConfigProcessor(val codeGenerator: CodeGenerator, val logger: KS
         val (symbols: List<KSAnnotated>, metaInformation, rootPackage) = triple(resolver)
 
         val entityDataJsonList = metaDataJsons(EntityMapGenerator(codeGenerator, rootPackage, logger), metaInformation)
-        val columnEntityDataJsonList = metaDataJsons(ColumnEntityMapGenerator(codeGenerator, rootPackage, logger), metaInformation)
-        val foreignKeyEntityDataJsonList = metaDataJsons(ForeignKeyMapGenerator(codeGenerator, rootPackage, logger), metaInformation)
+        val columnEntityDataJsonList =
+            metaDataJsons(ColumnEntityMapGenerator(codeGenerator, rootPackage, logger), metaInformation)
+        val foreignKeyEntityDataJsonList =
+            metaDataJsons(ForeignKeyMapGenerator(codeGenerator, rootPackage, logger), metaInformation)
 
         genJsonAndYml("entityDataJsonList", E(entityDataJsonList), E.serializer())
         genJsonAndYml("columnDataJsonList", C(columnEntityDataJsonList), C.serializer())
@@ -49,7 +50,7 @@ class JsonSchemeConfigProcessor(val codeGenerator: CodeGenerator, val logger: KS
         return emptyList()
     }
 
-    private inline fun<reified T> genJsonAndYml(
+    private inline fun <reified T> genJsonAndYml(
         fileName: String,
         dataJsonList: T,
         serializer: KSerializer<T>,

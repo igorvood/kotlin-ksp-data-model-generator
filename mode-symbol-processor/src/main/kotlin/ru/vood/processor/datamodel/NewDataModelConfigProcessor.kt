@@ -6,10 +6,11 @@ import com.google.devtools.ksp.symbol.KSAnnotated
 import com.squareup.kotlinpoet.ksp.writeTo
 import ru.vood.dmgen.annotation.FlowEntity
 import ru.vood.model.generator.ksp.common.BaseSymbolProcessor
+import ru.vood.model.generator.ksp.common.CommonClassNames
+import ru.vood.model.generator.ksp.common.dto.PackageName
 import ru.vood.processor.datamodel.abstraction.model.MetaCollector.collectMetaInformation
 import ru.vood.processor.datamodel.abstraction.model.MetaEntity
 import ru.vood.processor.datamodel.abstraction.model.MetaInformation
-import ru.vood.processor.datamodel.gen.PackageName
 import ru.vood.processor.datamodel.newG.NewInterfaceGenerator
 
 class NewDataModelConfigProcessor(
@@ -31,7 +32,7 @@ class NewDataModelConfigProcessor(
         val setMetaEnt = metaInformation.entities.values.toSet()
 
         rootPackage = PackageName(commonPackage(setMetaEnt))
-
+        CommonClassNames.setRootPackage(rootPackage!!)
         return symbols
     }
 
