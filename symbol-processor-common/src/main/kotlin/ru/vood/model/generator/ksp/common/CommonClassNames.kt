@@ -30,9 +30,10 @@ object CommonClassNames {
     val kSerializer = ClassName("kotlinx.serialization", "KSerializer")
 
     val nameT = "T"
+    val nameStar = "*"
 
     val subPackageAbstractDataDictionaryGenerator = PackageName("metaEnum")
-    val subPackageIntfGenerator = PackageName("newintf")
+    val subPackageIntfGenerator = PackageName("intf")
 
     val entityEnum by lazy {
         ClassName(
@@ -54,6 +55,21 @@ object CommonClassNames {
             "SerializableEntity"
         )
     }
+
+    val iSyntheticColExtractFunction by lazy {
+        ClassName(
+            "${rootPackage.value}.${subPackageIntfGenerator.value}",
+            "ISyntheticColExtractFunction"
+        )
+    }
+
+    val simpleColExtractFunction by lazy {
+        ClassName(
+            "${rootPackage.value}.${subPackageIntfGenerator.value}",
+            "SimpleColExtractFunction"
+        )
+    }
+
 
     val iEntityOrigin by lazy {
         ClassName(
@@ -92,6 +108,7 @@ object CommonClassNames {
     }
 
     val typeVariableT  by lazy { TypeVariableName(nameT) }
+    val typeVariableStar  by lazy { TypeVariableName(nameStar) }
 
     val typeVariableIEntityOrigin  by lazy { TypeVariableName(nameT, iEntityOrigin) }
 

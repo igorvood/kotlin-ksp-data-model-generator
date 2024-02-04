@@ -1,8 +1,13 @@
 package ru.vood.processor.datamodel.newG
 
 import com.squareup.kotlinpoet.*
+import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.plusParameter
 import ru.vood.model.generator.ksp.common.CommonClassNames
+import ru.vood.model.generator.ksp.common.CommonClassNames.iSyntheticColExtractFunction
+import ru.vood.model.generator.ksp.common.CommonClassNames.simpleColExtractFunction
 import ru.vood.model.generator.ksp.common.CommonClassNames.simpleColumnType
+import ru.vood.model.generator.ksp.common.CommonClassNames.typeVariableStar
+import ru.vood.model.generator.ksp.common.CommonClassNames.typeVariableT
 import ru.vood.model.generator.ksp.common.dto.PackageName
 import ru.vood.processor.datamodel.gen.runtime.intf.InterfaceGenerator
 import ru.vood.processor.datamodel.newG.ColumnEntityDataGenerator.Companion.columnEntityDataGeneratorPropSpec
@@ -44,7 +49,7 @@ class SimpleColumnEntityDataGenerator(rootPackage: PackageName) : AbstractDataCl
                     .build()
             )
             .plus(
-                PropertySpec.builder("iColExtractFunction", simpleColumnType)
+                PropertySpec.builder("iColExtractFunction", simpleColExtractFunction.plusParameter(typeVariableT).plusParameter(typeVariableStar))
                     .initializer("%N", "iColExtractFunction")
                     .addKdoc("ф-ция экстрактор значения колонки")
                     .build()

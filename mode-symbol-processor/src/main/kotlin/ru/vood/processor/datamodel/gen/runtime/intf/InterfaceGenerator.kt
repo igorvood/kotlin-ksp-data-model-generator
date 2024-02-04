@@ -46,85 +46,85 @@ import ${GeneratedClasses.FullColumnNameEnum.getPac(rootPackage)}
 
 
 
-@${Generated::class.java.simpleName}("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
-/**Сериализуемая сущность*/
-interface ${GeneratedClasses.SerializableEntity} {
-    /**Мета информаци по сущности*/
-    val designEntityName: ${GeneratedClasses.EntityEnum}
-}
+//@${Generated::class.java.simpleName}("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
+///**Сериализуемая сущность*/
+//interface ${GeneratedClasses.SerializableEntity} {
+//    /**Мета информаци по сущности*/
+//    val designEntityName: ${GeneratedClasses.EntityEnum}
+//}
 
-@${Generated::class.java.simpleName}("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
-/**Оригинал сущности, только поля принадлежащие ей*/
-interface ${GeneratedClasses.IEntityOrigin} : ${GeneratedClasses.SerializableEntity}
+//@${Generated::class.java.simpleName}("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
+///**Оригинал сущности, только поля принадлежащие ей*/
+//interface ${GeneratedClasses.IEntityOrigin} : ${GeneratedClasses.SerializableEntity}
 
-@${Generated::class.java.simpleName}("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
-interface ${GeneratedClasses.IEntityDetail}<T : ${GeneratedClasses.IEntityOrigin}> : ${GeneratedClasses.IEntityOrigin} {
+//@${Generated::class.java.simpleName}("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
+//interface ${GeneratedClasses.IEntityDetail}<T : ${GeneratedClasses.IEntityOrigin}> : ${GeneratedClasses.IEntityOrigin} {
+//
+//    /**Оригинал сущности, только поля принадлежащие ей*/
+//    val origin: T
+//    
+//    fun syntheticField(entityName: ${GeneratedClasses.EntityEnum}): Set<${GeneratedClasses.IEntityDetail}<out ${GeneratedClasses.IEntityOrigin}>> {
+//       return when(FkNameEnum.getFk(entityName, origin.designEntityName).relationType){
+//            RelationType.MANY_TO_ONE -> syntheticFieldSet(entityName)
+//            RelationType.ONE_TO_ONE_MANDATORY -> setOf( syntheticFieldMandatory(entityName))
+//            RelationType.ONE_TO_ONE_OPTIONAL -> syntheticFieldOptional(entityName)?.let { setOf(it) }?: setOf()
+//        }
+//    }
+//    
+//    /**Для опциональных сущностей. По имени сущности имеющей fk на текущую возвращает ее экземляр.*/
+//    fun syntheticFieldOptional(entityName:  ${GeneratedClasses.EntityEnum}): ${GeneratedClasses.IEntityDetail}<out ${GeneratedClasses.IEntityOrigin}>?
+//    /**Для обязательных сущностей. По имени сущности имеющей fk на текущую возвращает ее экземляр.*/
+//    fun syntheticFieldMandatory(entityName:  ${GeneratedClasses.EntityEnum}): ${GeneratedClasses.IEntityDetail}<out ${GeneratedClasses.IEntityOrigin}>
+//    /**Для сущностей имеющих связь, много к одному к текущей. По имени сущности имеющей fk на текущую возвращает ее экземляр.*/
+//    fun syntheticFieldSet(entityName: ${GeneratedClasses.EntityEnum}): Set<${GeneratedClasses.IEntityDetail}<out ${GeneratedClasses.IEntityOrigin}>>
+//
+//
+//}
 
-    /**Оригинал сущности, только поля принадлежащие ей*/
-    val origin: T
-    
-    fun syntheticField(entityName: ${GeneratedClasses.EntityEnum}): Set<${GeneratedClasses.IEntityDetail}<out ${GeneratedClasses.IEntityOrigin}>> {
-       return when(FkNameEnum.getFk(entityName, origin.designEntityName).relationType){
-            RelationType.MANY_TO_ONE -> syntheticFieldSet(entityName)
-            RelationType.ONE_TO_ONE_MANDATORY -> setOf( syntheticFieldMandatory(entityName))
-            RelationType.ONE_TO_ONE_OPTIONAL -> syntheticFieldOptional(entityName)?.let { setOf(it) }?: setOf()
-        }
-    }
-    
-    /**Для опциональных сущностей. По имени сущности имеющей fk на текущую возвращает ее экземляр.*/
-    fun syntheticFieldOptional(entityName:  ${GeneratedClasses.EntityEnum}): ${GeneratedClasses.IEntityDetail}<out ${GeneratedClasses.IEntityOrigin}>?
-    /**Для обязательных сущностей. По имени сущности имеющей fk на текущую возвращает ее экземляр.*/
-    fun syntheticFieldMandatory(entityName:  ${GeneratedClasses.EntityEnum}): ${GeneratedClasses.IEntityDetail}<out ${GeneratedClasses.IEntityOrigin}>
-    /**Для сущностей имеющих связь, много к одному к текущей. По имени сущности имеющей fk на текущую возвращает ее экземляр.*/
-    fun syntheticFieldSet(entityName: ${GeneratedClasses.EntityEnum}): Set<${GeneratedClasses.IEntityDetail}<out ${GeneratedClasses.IEntityOrigin}>>
+//@${Generated::class.java.simpleName}("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
+//interface ${GeneratedClasses.IContextOf}<T : ${GeneratedClasses.IEntityOrigin}> : ${GeneratedClasses.SerializableEntity} {
+//
+//    /**Мета информация по уникальному ключу*/
+//    val ukName: ${GeneratedClasses.UniqueKeyEnum}
+//
+//    /**Сериализатор оригинальной сущности*/
+//    val ktEntitySerializer: KSerializer<T>
+//
+//    /**Сериализатор детальной(аггрегированной) сущности*/
+//    val ktSyntheticEntitySerializer: KSerializer<out ${GeneratedClasses.IEntityDetail}<out T>>
+//
+//}
+//
+//@${Generated::class.java.simpleName}("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
+///**Мета данные по реквизиту сущности*/
+//sealed interface ${GeneratedClasses.ColumnEntityData}<T> {
+//    /**имя сущности*/
+//    val entity:  ${GeneratedClasses.EntityEnum}
+//
+//    /**имя колонки*/
+//    val simpleColumnName: ${SimpleColumnName::class.java.simpleName}
+//
+//    /**признак опциональности колонки*/
+//    val isOptional: Boolean
+//
+//    /**коментарий колонки*/
+//    val comment: ${String::class.java.simpleName}
+//    /**ф-ция экстрактор значения колонки*/
+//}
 
-
-}
-
-@${Generated::class.java.simpleName}("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
-interface ${GeneratedClasses.IContextOf}<T : ${GeneratedClasses.IEntityOrigin}> : ${GeneratedClasses.SerializableEntity} {
-
-    /**Мета информация по уникальному ключу*/
-    val ukName: ${GeneratedClasses.UniqueKeyEnum}
-
-    /**Сериализатор оригинальной сущности*/
-    val ktEntitySerializer: KSerializer<T>
-
-    /**Сериализатор детальной(аггрегированной) сущности*/
-    val ktSyntheticEntitySerializer: KSerializer<out ${GeneratedClasses.IEntityDetail}<out T>>
-
-}
-
-@${Generated::class.java.simpleName}("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
-/**Мета данные по реквизиту сущности*/
-sealed interface ${GeneratedClasses.ColumnEntityData}<T> {
-    /**имя сущности*/
-    val entity:  ${GeneratedClasses.EntityEnum}
-
-    /**имя колонки*/
-    val simpleColumnName: ${SimpleColumnName::class.java.simpleName}
-
-    /**признак опциональности колонки*/
-    val isOptional: Boolean
-
-    /**коментарий колонки*/
-    val comment: ${String::class.java.simpleName}
-    /**ф-ция экстрактор значения колонки*/
-}
-
-@${Generated::class.java.simpleName}("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
-data class ${GeneratedClasses.SimpleColumnEntityData}<T : ${GeneratedClasses.IEntityOrigin}>(
-    override val entity:  ${GeneratedClasses.EntityEnum},
-    /**имя колонки*/
-    override val simpleColumnName: ${SimpleColumnName::class.java.simpleName},
-    /**признак опциональности колонки*/
-    override val isOptional: Boolean,
-    /**коментарий колонки*/
-    override val comment: String,
-    /**ф-ция экстрактор значения колонки*/
-    val iColExtractFunction: ${GeneratedClasses.SimpleColExtractFunction}<T, *>,
-    val simpleColumnType: ${SimpleColumnType::class.java.simpleName}
-) : ${GeneratedClasses.ColumnEntityData}<T>
+//@${Generated::class.java.simpleName}("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
+//data class ${GeneratedClasses.SimpleColumnEntityData}<T : ${GeneratedClasses.IEntityOrigin}>(
+//    override val entity:  ${GeneratedClasses.EntityEnum},
+//    /**имя колонки*/
+//    override val simpleColumnName: ${SimpleColumnName::class.java.simpleName},
+//    /**признак опциональности колонки*/
+//    override val isOptional: Boolean,
+//    /**коментарий колонки*/
+//    override val comment: String,
+//    /**ф-ция экстрактор значения колонки*/
+//    val iColExtractFunction: ${GeneratedClasses.SimpleColExtractFunction}<T, *>,
+//    val simpleColumnType: ${SimpleColumnType::class.java.simpleName}
+//) : ${GeneratedClasses.ColumnEntityData}<T>
 
 
 @${Generated::class.java.simpleName}("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
@@ -139,7 +139,7 @@ data class ${GeneratedClasses.SyntheticColumnEntityData}<T>(
     /**ф-ция экстрактор значения колонки*/
     val iColExtractFunction: ${GeneratedClasses.ISyntheticColExtractFunction}<T, *>,
     val outEntity:  ${GeneratedClasses.EntityEnum}
-) : ${GeneratedClasses.ColumnEntityData}<T>
+) : ${GeneratedClasses.ColumnEntityData}
 
 @${Generated::class.java.simpleName}("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
 data class ${GeneratedClasses.SealedSyntheticColumnEntityData}<T>(
@@ -153,7 +153,7 @@ data class ${GeneratedClasses.SealedSyntheticColumnEntityData}<T>(
     /**ф-ция экстрактор значения колонки*/
 //    override val iColExtractFunction: ${GeneratedClasses.ISyntheticColExtractFunction}<T, *>,
     val outEntities: Set< ${GeneratedClasses.EntityEnum}>
-) : ${GeneratedClasses.ColumnEntityData}<T>
+) : ${GeneratedClasses.ColumnEntityData}
 
 @${Generated::class.java.simpleName}("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
 sealed interface ${GeneratedClasses.IColExtractFunction}<in T, out OUT> {

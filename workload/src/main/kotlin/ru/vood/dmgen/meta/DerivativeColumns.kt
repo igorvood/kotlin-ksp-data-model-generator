@@ -26,9 +26,9 @@ object DerivativeColumns {
         .entries
         .map { asd ->
             asd.key to asd.value
-                .filter { c -> c.value is SyntheticColumnEntityData }
+                .filter { c -> c.value is SyntheticColumnEntityData<*> }
                 .map { c ->
-                    c.value as SyntheticColumnEntityData
+                    c.value as SyntheticColumnEntityData<*>
                 }
                 .toSet()
         }

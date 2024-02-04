@@ -25,7 +25,7 @@ class PumlGenerator {
                 }
                 val culumns =
                     entitiesColumnsMap[en]!!.values
-                        .map { col: ColumnEntityData<out IEntityOrigin> ->
+                        .map { col: ColumnEntityData ->
                             val question = if (col.isOptional) {
                                 "?"
                             } else {
@@ -33,9 +33,9 @@ class PumlGenerator {
                             }
 
                             val typeCol = when (val c = col) {
-                                is SimpleColumnEntityData -> c.simpleColumnType.value
-                                is SyntheticColumnEntityData -> c.outEntity
-                                is SealedSyntheticColumnEntityData -> c.outEntities.map { it }.joinToString(",")
+                                is SimpleColumnEntityData<*> -> c.simpleColumnType.value
+                                is SyntheticColumnEntityData<*> -> c.outEntity
+                                is SealedSyntheticColumnEntityData <*>-> c.outEntities.map { it }.joinToString(",")
                             }
                             "${col.simpleColumnName.value}: $typeCol$question"
                         }

@@ -49,7 +49,7 @@ class SealedPumlGenerator {
                 }
                 val culumns =
                     entitiesColumnsMap[en]!!.values
-                        .map { col: ru.vood.dmgen.datamodel.sealedData.intf.ColumnEntityData<out ru.vood.dmgen.datamodel.sealedData.intf.IEntityOrigin> ->
+                        .map { col: ru.vood.dmgen.datamodel.sealedData.intf.ColumnEntityData ->
                             val question = if (col.isOptional) {
                                 "?"
                             } else {
@@ -57,9 +57,9 @@ class SealedPumlGenerator {
                             }
 
                             val typeCol = when (val c = col) {
-                                is ru.vood.dmgen.datamodel.sealedData.intf.SimpleColumnEntityData -> c.simpleColumnType.value
-                                is ru.vood.dmgen.datamodel.sealedData.intf.SyntheticColumnEntityData -> c.outEntity
-                                is ru.vood.dmgen.datamodel.sealedData.intf.SealedSyntheticColumnEntityData -> c.outEntities.map { it }.joinToString(",")
+                                is ru.vood.dmgen.datamodel.sealedData.intf.SimpleColumnEntityData <*>-> c.simpleColumnType.value
+                                is ru.vood.dmgen.datamodel.sealedData.intf.SyntheticColumnEntityData<*> -> c.outEntity
+                                is ru.vood.dmgen.datamodel.sealedData.intf.SealedSyntheticColumnEntityData <*>-> c.outEntities.map { it }.joinToString(",")
                             }
                             "${col.simpleColumnName.value}: $typeCol$question"
                         }
