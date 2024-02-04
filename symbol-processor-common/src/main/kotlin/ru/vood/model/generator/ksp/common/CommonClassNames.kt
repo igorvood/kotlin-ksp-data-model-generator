@@ -30,6 +30,7 @@ object CommonClassNames {
     val kSerializer = ClassName("kotlinx.serialization", "KSerializer")
 
     val nameT = "T"
+    val nameOut = "OUT"
     val nameStar = "*"
 
     val subPackageAbstractDataDictionaryGenerator = PackageName("metaEnum")
@@ -115,7 +116,10 @@ object CommonClassNames {
     }
 
     val typeVariableT  by lazy { TypeVariableName(nameT) }
+    val typeVariableOUT  by lazy { TypeVariableName(nameOut) }
     val typeVariableStar  by lazy { TypeVariableName(nameStar) }
+
+    val typeVariableF  by lazy { TypeVariableName("(entity: T) -> OUT") }
 
     val typeVariableIEntityOrigin  by lazy { TypeVariableName(nameT, iEntityOrigin) }
 

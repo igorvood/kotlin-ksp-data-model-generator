@@ -38,7 +38,8 @@ class IEntityDetailGenerator(rootPackage: PackageName) : AbstractIntfGenerator(
                     .addKdoc("Для опциональных сущностей. По имени сущности имеющей fk на текущую возвращает ее экземляр.")
                     .addParameter(ParameterSpec("entityName", CommonClassNames.entityEnum))
                     .returns(returnType.copy(nullable = true))
-                    .addCode("""TODO("method need implementation")""")
+                    .addModifiers(KModifier.ABSTRACT)
+//                    .addCode("""TODO("method need implementation")""")
                     .build()
             )
             .addFunction(
@@ -46,7 +47,8 @@ class IEntityDetailGenerator(rootPackage: PackageName) : AbstractIntfGenerator(
                     .addKdoc("Для обязательных сущностей. По имени сущности имеющей fk на текущую возвращает ее экземляр.")
                     .addParameter(ParameterSpec("entityName", CommonClassNames.entityEnum))
                     .returns(returnType)
-                    .addCode("""TODO("method need implementation")""")
+                    .addModifiers(KModifier.ABSTRACT)
+//                    .addCode("""TODO("method need implementation")""")
                     .build()
             )
             .addFunction(
@@ -54,7 +56,8 @@ class IEntityDetailGenerator(rootPackage: PackageName) : AbstractIntfGenerator(
                     .addKdoc("Для сущностей имеющих связь, много к одному к текущей. По имени сущности имеющей fk на текущую возвращает ее экземляр.")
                     .addParameter(ParameterSpec("entityName", CommonClassNames.entityEnum))
                     .returns(SET.plusParameter(returnType))
-                    .addCode("""TODO("method need implementation")""")
+                    .addModifiers(KModifier.ABSTRACT)
+//                    .addCode("""TODO("method need implementation")""")
                     .build()
             )
             .addFunction(

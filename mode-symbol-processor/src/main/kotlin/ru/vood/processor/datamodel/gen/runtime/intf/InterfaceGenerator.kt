@@ -155,10 +155,10 @@ import ${GeneratedClasses.FullColumnNameEnum.getPac(rootPackage)}
 //    val outEntities: Set< ${GeneratedClasses.EntityEnum}>
 //) : ${GeneratedClasses.ColumnEntityData}
 
-@${Generated::class.java.simpleName}("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
-sealed interface ${GeneratedClasses.IColExtractFunction}<in T, out OUT> {
-    val extractFieldValue: (entity: T) -> OUT
-}
+//@${Generated::class.java.simpleName}("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
+//sealed interface ${GeneratedClasses.IColExtractFunction}<in T, out OUT> {
+//    val extractFieldValue: (entity: T) -> OUT
+//}
 
 @${Generated::class.java.simpleName}("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
 sealed interface ${GeneratedClasses.ISyntheticColExtractFunction}<in T, out OUT> : ${GeneratedClasses.IColExtractFunction}<T, OUT>
@@ -354,6 +354,7 @@ data class ${GeneratedClasses.IndexesMetaDto}(
         SyntheticColumnEntityData(interfaceGeneratorPackageName),
         @Deprecated("")
         SealedSyntheticColumnEntityData(interfaceGeneratorPackageName),
+        @Deprecated("")
         IColExtractFunction(interfaceGeneratorPackageName),
         ISyntheticColExtractFunction(interfaceGeneratorPackageName),
         SimpleColExtractFunction(interfaceGeneratorPackageName),

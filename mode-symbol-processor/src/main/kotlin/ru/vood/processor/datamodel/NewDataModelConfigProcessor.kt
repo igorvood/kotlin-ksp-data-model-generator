@@ -47,6 +47,7 @@ class NewDataModelConfigProcessor(
             SimpleColumnEntityDataGenerator(rootPackage1),
             SyntheticColumnEntityDataGenerator(rootPackage1),
             SealedSyntheticColumnEntityDataGenerator(rootPackage1),
+            IColExtractFunctionGenerator(rootPackage1),
         )
 
         listOf
