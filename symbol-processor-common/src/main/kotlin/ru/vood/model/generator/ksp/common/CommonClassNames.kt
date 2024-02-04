@@ -64,6 +64,14 @@ object CommonClassNames {
         )
     }
 
+    val iContextOf by lazy {
+        ClassName(
+            "${rootPackage.value}.${subPackageIntfGenerator.value}",
+            "IContextOf"
+        )
+    }
+
+
     val fkNameEnum by lazy {
         ClassName(
             "${rootPackage.value}.${subPackageAbstractDataDictionaryGenerator.value}",
