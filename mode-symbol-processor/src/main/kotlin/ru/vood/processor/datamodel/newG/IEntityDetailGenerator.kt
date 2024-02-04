@@ -19,11 +19,11 @@ class IEntityDetailGenerator(rootPackage: PackageName) : AbstractIntfGenerator(
     override fun fillInterfaceBuilder(classBuilder: TypeSpec.Builder): TypeSpec.Builder {
         val returnType = iEntityDetail.plusParameter(iEntityOrigin)
         val builder = CodeBlock.builder()
-        builder.add("  return when(%T.getFk(entityName, origin.designEntityName).relationType){\n" +
-                "            %T.MANY_TO_ONE -> syntheticFieldSet(entityName)\n" +
-                "            %T.ONE_TO_ONE_MANDATORY -> setOf( syntheticFieldMandatory(entityName))\n" +
-                "            %T.ONE_TO_ONE_OPTIONAL -> syntheticFieldOptional(entityName)?.let { setOf(it) }?: setOf()\n" +
-                "        }", fkNameEnum, relationType, relationType,relationType)
+        builder.add("""  return when(%T.getFk(entityName, origin.designEntityName).relationType){
+            %T.MANY_TO_ONE -> syntheticFieldSet(entityName)
+            %T.ONE_TO_ONE_MANDATORY -> setOf( syntheticFieldMandatory(entityName))
+            %T.ONE_TO_ONE_OPTIONAL -> syntheticFieldOptional(entityName)?.let { setOf(it) }?: setOf()
+        }""", fkNameEnum, relationType, relationType,relationType)
 
         return classBuilder.addKdoc("Оригинал сущности, только поля принадлежащие ей")
             .addSuperinterface(iEntityOrigin)
