@@ -37,19 +37,20 @@ class NewDataModelConfigProcessor(
     }
 
     override fun finish() {
-        val rootPackage1 = rootPackage!!
+        val rootPackageCommon = rootPackage!!
         val listOf = listOf(
-            SerializableEntityGenerator(rootPackage1),
-            IEntityOriginGenerator(rootPackage1),
-            IEntityDetailGenerator(rootPackage1),
-            IContextOfGenerator(rootPackage1),
-            ColumnEntityDataGenerator(rootPackage1),
-            SimpleColumnEntityDataGenerator(rootPackage1),
-            SyntheticColumnEntityDataGenerator(rootPackage1),
-            SealedSyntheticColumnEntityDataGenerator(rootPackage1),
-            IColExtractFunctionGenerator(rootPackage1),
-            ISyntheticColExtractFunctionGenerator(rootPackage1),
-            SimpleColExtractFunctionGenerator(rootPackage1),
+            SerializableEntityGenerator(rootPackageCommon),
+            IEntityOriginGenerator(rootPackageCommon),
+            IEntityDetailGenerator(rootPackageCommon),
+            IContextOfGenerator(rootPackageCommon),
+            ColumnEntityDataGenerator(rootPackageCommon),
+            SimpleColumnEntityDataGenerator(rootPackageCommon),
+            SyntheticColumnEntityDataGenerator(rootPackageCommon),
+            SealedSyntheticColumnEntityDataGenerator(rootPackageCommon),
+            IColExtractFunctionGenerator(rootPackageCommon),
+            ISyntheticColExtractFunctionGenerator(rootPackageCommon),
+            SimpleColExtractFunctionGenerator(rootPackageCommon),
+            SyntheticGenerator(rootPackageCommon),
         )
 
         listOf

@@ -1,10 +1,13 @@
 package ru.vood.model.generator.ksp.common
 
-import com.squareup.kotlinpoet.*
+import com.squareup.kotlinpoet.ClassName
+import com.squareup.kotlinpoet.KModifier
+import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.plusParameter
+import com.squareup.kotlinpoet.TypeVariableName
+import com.squareup.kotlinpoet.asClassName
 import ru.vood.model.generator.ksp.common.dto.PackageName
 import java.util.concurrent.atomic.AtomicReference
 import javax.annotation.processing.Generated
-
 
 
 object CommonClassNames {
@@ -34,6 +37,7 @@ object CommonClassNames {
     val nameT = "T"
     val nameOut = "OUT"
     val nameStar = "*"
+    val nameSINTH_IN = "SINTH_IN"
 
     val subPackageAbstractDataDictionaryGenerator = PackageName("metaEnum")
     val subPackageIntfGenerator = PackageName("intf")
@@ -122,14 +126,26 @@ object CommonClassNames {
             "FkNameEnum"
         )
     }
+    val typeVariableSinthIn by lazy { TypeVariableName(nameSINTH_IN) }
+    val typeVariableT by lazy { TypeVariableName(nameT) }
+    val typeVariableOUT by lazy { TypeVariableName(nameOut) }
+    val typeVariableStar by lazy { TypeVariableName(nameStar) }
 
-    val typeVariableT  by lazy { TypeVariableName(nameT) }
-    val typeVariableOUT  by lazy { TypeVariableName(nameOut) }
-    val typeVariableStar  by lazy { TypeVariableName(nameStar) }
 
-    val typeVariableF  by lazy { TypeVariableName("(entity: T) -> OUT") }
+    val typeVariableF by lazy { TypeVariableName("(entity: T) -> OUT") }
+    val typeVariableFQ by lazy { TypeVariableName("(entity: SINTH_IN) -> Set<IEntityDetail<OUT>>") }
 
-    val typeVariableIEntityOrigin  by lazy { TypeVariableName(nameT, iEntityOrigin) }
+    val typeVariableIEntityOrigin by lazy { TypeVariableName(nameT, iEntityOrigin) }
+    val typeVariableIEntityOriginOut by lazy { TypeVariableName(nameOut, iEntityOrigin) }
+
+    //    val typeVariableIEntityDetail  by lazy { TypeVariableName(typeVariableSINTH_IN, iEntityDetail) }
+    val typeVariableIEntityDetail by lazy {
+        TypeVariableName(
+            nameSINTH_IN, iEntityDetail.plusParameter(
+                TypeVariableName(typeVariableIEntityOrigin.name, KModifier.OUT)
+            )
+        )
+    }
 
 
 }

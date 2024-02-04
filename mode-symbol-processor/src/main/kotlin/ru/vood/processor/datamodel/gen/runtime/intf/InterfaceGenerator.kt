@@ -169,14 +169,14 @@ import ${GeneratedClasses.FullColumnNameEnum.getPac(rootPackage)}
 //    override val extractFieldValue: (entity: T) -> OUT
 //) : ${GeneratedClasses.IColExtractFunction}<T, OUT>
 
-@JvmInline
-@${Generated::class.java.simpleName}("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
-value class ${GeneratedClasses.Synthetic}<
-        ORIG_IN : ${GeneratedClasses.IEntityOrigin},
-        SINTH_IN : ${GeneratedClasses.IEntityDetail}<out ORIG_IN>,
-        OUT : ${GeneratedClasses.IEntityOrigin}>(
-    override val extractFieldValue: (entity: SINTH_IN) -> Set<${GeneratedClasses.IEntityDetail}<OUT>>
-) : ${GeneratedClasses.ISyntheticColExtractFunction}<SINTH_IN, Set<${GeneratedClasses.IEntityDetail}<OUT>>>
+//@JvmInline
+//@${Generated::class.java.simpleName}("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
+//value class ${GeneratedClasses.Synthetic}<
+//        ORIG_IN : ${GeneratedClasses.IEntityOrigin},
+//        SINTH_IN : ${GeneratedClasses.IEntityDetail}<out ORIG_IN>,
+//        OUT : ${GeneratedClasses.IEntityOrigin}>(
+//    override val extractFieldValue: (entity: SINTH_IN) -> Set<${GeneratedClasses.IEntityDetail}<OUT>>
+//) : ${GeneratedClasses.ISyntheticColExtractFunction}<SINTH_IN, Set<${GeneratedClasses.IEntityDetail}<OUT>>>
 
 @JvmInline
 @${Generated::class.java.simpleName}("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
@@ -360,6 +360,7 @@ data class ${GeneratedClasses.IndexesMetaDto}(
         ISyntheticColExtractFunction(interfaceGeneratorPackageName),
         @Deprecated("")
         SimpleColExtractFunction(interfaceGeneratorPackageName),
+        @Deprecated("")
         Synthetic(interfaceGeneratorPackageName),
         SyntheticSet(interfaceGeneratorPackageName),
         IEntityData(interfaceGeneratorPackageName),

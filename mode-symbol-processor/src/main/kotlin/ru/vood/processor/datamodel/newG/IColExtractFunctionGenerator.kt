@@ -28,7 +28,7 @@ class IColExtractFunctionGenerator(rootPackage: PackageName) : AbstractIntfGener
     companion object {
 
 
-        private val extractFieldValue = PropertySpec.builder("extractFieldValue", typeVariableF)
+        val extractFieldValue = PropertySpec.builder("extractFieldValue", typeVariableF)
             .build()
 
         private val extractFieldValueF = FunSpec.builder("extractFieldValueF")
