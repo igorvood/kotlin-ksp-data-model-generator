@@ -59,6 +59,7 @@ class NewDataModelConfigProcessor(
             SyntheticSetGenerator(rootPackageCommon),
             IEntityDataGenerator(rootPackageCommon),
             EntityDataGenerator(rootPackageCommon),
+            SealedEntityDataGenerator(rootPackageCommon),
         )
         runBlocking {
             listOf
