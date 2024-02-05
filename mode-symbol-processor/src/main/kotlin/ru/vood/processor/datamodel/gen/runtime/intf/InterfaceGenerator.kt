@@ -216,26 +216,26 @@ import ${GeneratedClasses.FullColumnNameEnum.getPac(rootPackage)}
 //    val entityType: ${FlowEntityType::class.java.simpleName}
 //}
 
-@${Generated::class.java.simpleName}("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
-/**Мета данные по сущности*/
-data class ${GeneratedClasses.EntityData}(
-    /**интрефейс описывающий структуру сущности */
-    override val designClass: KClass<out Any>,
-    /**класс описывающий сущность*/
-    override val runtimeClass: KClass<out ${GeneratedClasses.IEntityOrigin}>,
-    /**синтетический класс описывающий сущность, включает в себя все сущности, которорые имею форен на текущую*/
-    override val runtimeSyntheticClass: KClass<out ${GeneratedClasses.IEntityOrigin}>,
-    /**сериализатор оригинальной сущности*/
-    override val serializer: KSerializer<out ${GeneratedClasses.IEntityOrigin}>,
-    /**сериализатор синтетической сущности*/
-    override val serializerSynthetic: KSerializer<out ${GeneratedClasses.IEntityDetail}<out ${GeneratedClasses.IEntityOrigin}>>,
-    /**Имя сущности*/
-    override val entityName:  ${GeneratedClasses.EntityEnum},
-    /**коментарий сущности*/
-    override val comment: String,
-    /**тип сущности*/
-    override val entityType: ${FlowEntityType::class.java.simpleName} 
-) : ${GeneratedClasses.IEntityData}
+//@${Generated::class.java.simpleName}("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
+///**Мета данные по сущности*/
+//data class ${GeneratedClasses.EntityData}(
+//    /**интрефейс описывающий структуру сущности */
+//    override val designClass: KClass<out Any>,
+//    /**класс описывающий сущность*/
+//    override val runtimeClass: KClass<out ${GeneratedClasses.IEntityOrigin}>,
+//    /**синтетический класс описывающий сущность, включает в себя все сущности, которорые имею форен на текущую*/
+//    override val runtimeSyntheticClass: KClass<out ${GeneratedClasses.IEntityOrigin}>,
+//    /**сериализатор оригинальной сущности*/
+//    override val serializer: KSerializer<out ${GeneratedClasses.IEntityOrigin}>,
+//    /**сериализатор синтетической сущности*/
+//    override val serializerSynthetic: KSerializer<out ${GeneratedClasses.IEntityDetail}<out ${GeneratedClasses.IEntityOrigin}>>,
+//    /**Имя сущности*/
+//    override val entityName:  ${GeneratedClasses.EntityEnum},
+//    /**коментарий сущности*/
+//    override val comment: String,
+//    /**тип сущности*/
+//    override val entityType: ${FlowEntityType::class.java.simpleName} 
+//) : ${GeneratedClasses.IEntityData}
 
 @${Generated::class.java.simpleName}("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
 data class ${GeneratedClasses.SealedEntityData}(
@@ -366,6 +366,7 @@ data class ${GeneratedClasses.IndexesMetaDto}(
         SyntheticSet(interfaceGeneratorPackageName),
         @Deprecated("")
         IEntityData(interfaceGeneratorPackageName),
+        @Deprecated("")
         EntityData(interfaceGeneratorPackageName),
         FKMetaData(interfaceGeneratorPackageName),
         SealedEntityData(interfaceGeneratorPackageName),
