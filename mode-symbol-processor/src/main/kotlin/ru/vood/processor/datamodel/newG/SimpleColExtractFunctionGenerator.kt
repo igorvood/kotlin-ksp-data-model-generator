@@ -4,6 +4,7 @@ import com.squareup.kotlinpoet.*
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.plusParameter
 import ru.vood.model.generator.ksp.common.CommonClassNames
 import ru.vood.model.generator.ksp.common.CommonClassNames.jvmInline
+import ru.vood.model.generator.ksp.common.CommonClassNames.simpleColExtractFunction
 import ru.vood.model.generator.ksp.common.CommonClassNames.typeVariableOUT
 import ru.vood.model.generator.ksp.common.CommonClassNames.typeVariableT
 import ru.vood.model.generator.ksp.common.dto.PackageName
@@ -13,7 +14,7 @@ import ru.vood.processor.datamodel.newG.abstraction.AbstractDataClassGenerator
 
 class SimpleColExtractFunctionGenerator(rootPackage: PackageName) : AbstractDataClassGenerator(
     rootPackage = rootPackage,
-    moduleName = InterfaceGenerator.GeneratedClasses.SimpleColExtractFunction.name,
+    moduleName = simpleColExtractFunction,
     modifiers = KModifier.VALUE
 ) {
     override fun fillInterfaceBuilder(classBuilder: TypeSpec.Builder): TypeSpec.Builder {

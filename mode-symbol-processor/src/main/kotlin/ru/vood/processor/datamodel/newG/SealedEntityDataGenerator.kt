@@ -4,6 +4,7 @@ import com.squareup.kotlinpoet.*
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.plusParameter
 import ru.vood.model.generator.ksp.common.CommonClassNames
 import ru.vood.model.generator.ksp.common.CommonClassNames.iEntityData
+import ru.vood.model.generator.ksp.common.CommonClassNames.sealedEntityData
 import ru.vood.model.generator.ksp.common.dto.PackageName
 import ru.vood.processor.datamodel.gen.runtime.intf.InterfaceGenerator
 import ru.vood.processor.datamodel.newG.IEntityDataGenerator.Companion.iEntityDataGeneratorPropertySpec
@@ -11,7 +12,7 @@ import ru.vood.processor.datamodel.newG.abstraction.AbstractDataClassGenerator
 
 class SealedEntityDataGenerator(rootPackage: PackageName) : AbstractDataClassGenerator(
     rootPackage = rootPackage,
-    moduleName = InterfaceGenerator.GeneratedClasses.SealedEntityData.name,
+    moduleName = sealedEntityData,
 ) {
     override fun fillInterfaceBuilder(classBuilder: TypeSpec.Builder): TypeSpec.Builder {
         val constructor: FunSpec.Builder = FunSpec.constructorBuilder()

@@ -8,6 +8,7 @@ import com.squareup.kotlinpoet.WildcardTypeName
 import ru.vood.model.generator.ksp.common.CommonClassNames.any
 import ru.vood.model.generator.ksp.common.CommonClassNames.entityEnum
 import ru.vood.model.generator.ksp.common.CommonClassNames.flowEntityType
+import ru.vood.model.generator.ksp.common.CommonClassNames.iEntityData
 import ru.vood.model.generator.ksp.common.CommonClassNames.iEntityDetail
 import ru.vood.model.generator.ksp.common.CommonClassNames.iEntityOrigin
 import ru.vood.model.generator.ksp.common.CommonClassNames.kClass
@@ -19,7 +20,7 @@ import ru.vood.processor.datamodel.newG.abstraction.AbstractIntfGenerator
 
 class IEntityDataGenerator(rootPackage: PackageName) : AbstractIntfGenerator(
     rootPackage = rootPackage,
-    moduleName = InterfaceGenerator.GeneratedClasses.IEntityData.name,
+    moduleName = iEntityData,
     kModifier = KModifier.SEALED
 ) {
     override fun fillInterfaceBuilder(classBuilder: TypeSpec.Builder): TypeSpec.Builder {

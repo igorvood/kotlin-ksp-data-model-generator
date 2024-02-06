@@ -7,14 +7,14 @@ import ru.vood.model.generator.ksp.common.CommonClassNames.entityEnum
 import ru.vood.model.generator.ksp.common.CommonClassNames.kClass
 import ru.vood.model.generator.ksp.common.CommonClassNames.kSerializer
 import ru.vood.model.generator.ksp.common.CommonClassNames.typeVariableT
+import ru.vood.model.generator.ksp.common.CommonClassNames.uKEntityData
 import ru.vood.model.generator.ksp.common.CommonClassNames.uniqueKeyEnum
 import ru.vood.model.generator.ksp.common.dto.PackageName
-import ru.vood.processor.datamodel.gen.runtime.intf.InterfaceGenerator
 import ru.vood.processor.datamodel.newG.abstraction.AbstractDataClassGenerator
 
 class UKEntityDataGenerator(rootPackage: PackageName) : AbstractDataClassGenerator(
     rootPackage = rootPackage,
-    moduleName = InterfaceGenerator.GeneratedClasses.UKEntityData.name,
+    moduleName = uKEntityData,
 ) {
     override fun fillInterfaceBuilder(classBuilder: TypeSpec.Builder): TypeSpec.Builder {
         val constructor: FunSpec.Builder = FunSpec.constructorBuilder()

@@ -8,7 +8,7 @@ import ru.vood.model.generator.ksp.common.dto.PackageName
 
 abstract class AbstractDataClassGenerator(
     rootPackage: PackageName,
-    moduleName: String,
+    moduleName: ClassName,
     val modifiers: KModifier = KModifier.DATA,
 ) : AbstractGenerator(
     rootPackage = rootPackage,

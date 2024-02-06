@@ -3,6 +3,7 @@ package ru.vood.processor.datamodel.newG
 import com.squareup.kotlinpoet.*
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.plusParameter
 import ru.vood.model.generator.ksp.common.CommonClassNames
+import ru.vood.model.generator.ksp.common.CommonClassNames.fkPair
 import ru.vood.model.generator.ksp.common.CommonClassNames.fullColumnNameEnum
 import ru.vood.model.generator.ksp.common.CommonClassNames.iEntityData
 import ru.vood.model.generator.ksp.common.dto.PackageName
@@ -12,7 +13,7 @@ import ru.vood.processor.datamodel.newG.abstraction.AbstractDataClassGenerator
 
 class FkPairGenerator(rootPackage: PackageName) : AbstractDataClassGenerator(
     rootPackage = rootPackage,
-    moduleName = InterfaceGenerator.GeneratedClasses.FkPair.name,
+    moduleName = fkPair,
 ) {
     override fun fillInterfaceBuilder(classBuilder: TypeSpec.Builder): TypeSpec.Builder {
         val constructor: FunSpec.Builder = FunSpec.constructorBuilder()

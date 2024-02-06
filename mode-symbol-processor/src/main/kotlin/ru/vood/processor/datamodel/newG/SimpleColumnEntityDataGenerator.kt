@@ -5,6 +5,7 @@ import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.plusParameter
 import ru.vood.model.generator.ksp.common.CommonClassNames
 import ru.vood.model.generator.ksp.common.CommonClassNames.iSyntheticColExtractFunction
 import ru.vood.model.generator.ksp.common.CommonClassNames.simpleColExtractFunction
+import ru.vood.model.generator.ksp.common.CommonClassNames.simpleColumnEntityData
 import ru.vood.model.generator.ksp.common.CommonClassNames.simpleColumnType
 import ru.vood.model.generator.ksp.common.CommonClassNames.typeVariableStar
 import ru.vood.model.generator.ksp.common.CommonClassNames.typeVariableT
@@ -16,7 +17,7 @@ import ru.vood.processor.datamodel.newG.abstraction.AbstractDataClassGenerator
 
 class SimpleColumnEntityDataGenerator(rootPackage: PackageName) : AbstractDataClassGenerator(
     rootPackage = rootPackage,
-    moduleName = InterfaceGenerator.GeneratedClasses.SimpleColumnEntityData.name,
+    moduleName = simpleColumnEntityData,
 ) {
     override fun fillInterfaceBuilder(classBuilder: TypeSpec.Builder): TypeSpec.Builder {
         val constructor: FunSpec.Builder = FunSpec.constructorBuilder()

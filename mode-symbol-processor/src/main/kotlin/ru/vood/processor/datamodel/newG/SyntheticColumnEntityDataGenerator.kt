@@ -7,6 +7,7 @@ import ru.vood.model.generator.ksp.common.CommonClassNames.entityEnum
 import ru.vood.model.generator.ksp.common.CommonClassNames.iSyntheticColExtractFunction
 import ru.vood.model.generator.ksp.common.CommonClassNames.simpleColExtractFunction
 import ru.vood.model.generator.ksp.common.CommonClassNames.simpleColumnType
+import ru.vood.model.generator.ksp.common.CommonClassNames.syntheticColumnEntityData
 import ru.vood.model.generator.ksp.common.CommonClassNames.typeVariableStar
 import ru.vood.model.generator.ksp.common.CommonClassNames.typeVariableT
 import ru.vood.model.generator.ksp.common.dto.PackageName
@@ -17,7 +18,7 @@ import ru.vood.processor.datamodel.newG.abstraction.AbstractDataClassGenerator
 
 class SyntheticColumnEntityDataGenerator(rootPackage: PackageName) : AbstractDataClassGenerator(
     rootPackage = rootPackage,
-    moduleName = InterfaceGenerator.GeneratedClasses.SyntheticColumnEntityData.name,
+    moduleName = syntheticColumnEntityData,
 ) {
     override fun fillInterfaceBuilder(classBuilder: TypeSpec.Builder): TypeSpec.Builder {
         val constructor: FunSpec.Builder = FunSpec.constructorBuilder()

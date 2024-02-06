@@ -4,15 +4,15 @@ import com.squareup.kotlinpoet.*
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.plusParameter
 import ru.vood.model.generator.ksp.common.CommonClassNames.enumMap
 import ru.vood.model.generator.ksp.common.CommonClassNames.iEntityOrigin
+import ru.vood.model.generator.ksp.common.CommonClassNames.indexesMetaDto
 import ru.vood.model.generator.ksp.common.CommonClassNames.uKEntityData
 import ru.vood.model.generator.ksp.common.CommonClassNames.uniqueKeyEnum
 import ru.vood.model.generator.ksp.common.dto.PackageName
-import ru.vood.processor.datamodel.gen.runtime.intf.InterfaceGenerator
 import ru.vood.processor.datamodel.newG.abstraction.AbstractDataClassGenerator
 
 class IndexesMetaDtoGenerator(rootPackage: PackageName) : AbstractDataClassGenerator(
     rootPackage = rootPackage,
-    moduleName = InterfaceGenerator.GeneratedClasses.IndexesMetaDto.name,
+    moduleName = indexesMetaDto,
 ) {
     override fun fillInterfaceBuilder(classBuilder: TypeSpec.Builder): TypeSpec.Builder {
         val constructor: FunSpec.Builder = FunSpec.constructorBuilder()

@@ -114,6 +114,63 @@ object CommonClassNames {
             "IEntityData"
         )
     }
+    val entityData by lazy {
+        ClassName(
+            "${rootPackage.value}.${subPackageIntfGenerator.value}",
+            "EntityData"
+        )
+    }
+
+    val fKMetaData by lazy {
+        ClassName(
+            "${rootPackage.value}.${subPackageIntfGenerator.value}",
+            "FKMetaData"
+        )
+    }
+
+    val indexesMetaDto by lazy {
+        ClassName(
+            "${rootPackage.value}.${subPackageIntfGenerator.value}",
+            "IndexesMetaDto"
+        )
+    }
+
+    val sealedEntityData by lazy {
+        ClassName(
+            "${rootPackage.value}.${subPackageIntfGenerator.value}",
+            "SealedEntityData"
+        )
+    }
+
+    val sealedSyntheticColumnEntityData by lazy {
+        ClassName(
+            "${rootPackage.value}.${subPackageIntfGenerator.value}",
+            "SealedSyntheticColumnEntityData"
+        )
+    }
+
+    val simpleColumnEntityData by lazy {
+        ClassName(
+            "${rootPackage.value}.${subPackageIntfGenerator.value}",
+            "SimpleColumnEntityData"
+        )
+    }
+
+    val syntheticColumnEntityData by lazy {
+        ClassName(
+            "${rootPackage.value}.${subPackageIntfGenerator.value}",
+            "SyntheticColumnEntityData"
+        )
+    }
+
+    val syntheticSet by lazy {
+        ClassName(
+            "${rootPackage.value}.${subPackageIntfGenerator.value}",
+            "SyntheticSet"
+        )
+    }
+
+
 
     val iColExtractFunction by lazy {
         ClassName(

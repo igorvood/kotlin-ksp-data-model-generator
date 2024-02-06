@@ -5,6 +5,7 @@ import com.squareup.kotlinpoet.PropertySpec
 import com.squareup.kotlinpoet.TypeSpec
 import com.squareup.kotlinpoet.WildcardTypeName
 import ru.vood.model.generator.ksp.common.CommonClassNames
+import ru.vood.model.generator.ksp.common.CommonClassNames.iContextOf
 import ru.vood.model.generator.ksp.common.CommonClassNames.kSerializer
 import ru.vood.model.generator.ksp.common.CommonClassNames.typeVariableT
 import ru.vood.model.generator.ksp.common.CommonClassNames.uniqueKeyEnum
@@ -13,8 +14,8 @@ import ru.vood.processor.datamodel.gen.runtime.intf.InterfaceGenerator
 import ru.vood.processor.datamodel.newG.abstraction.AbstractIntfGenerator
 
 class IContextOfGenerator(rootPackage: PackageName) : AbstractIntfGenerator(
-    rootPackage,
-    InterfaceGenerator.GeneratedClasses.IContextOf.name
+    rootPackage = rootPackage,
+    moduleName = iContextOf
 ) {
     override fun fillInterfaceBuilder(classBuilder: TypeSpec.Builder): TypeSpec.Builder =
         classBuilder

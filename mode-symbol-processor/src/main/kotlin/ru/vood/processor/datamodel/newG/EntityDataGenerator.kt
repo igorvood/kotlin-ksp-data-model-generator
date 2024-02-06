@@ -4,6 +4,7 @@ import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.PropertySpec
 import com.squareup.kotlinpoet.TypeSpec
+import ru.vood.model.generator.ksp.common.CommonClassNames.entityData
 import ru.vood.model.generator.ksp.common.CommonClassNames.iEntityData
 import ru.vood.model.generator.ksp.common.dto.PackageName
 import ru.vood.processor.datamodel.gen.runtime.intf.InterfaceGenerator
@@ -12,7 +13,7 @@ import ru.vood.processor.datamodel.newG.abstraction.AbstractDataClassGenerator
 
 class EntityDataGenerator(rootPackage: PackageName) : AbstractDataClassGenerator(
     rootPackage = rootPackage,
-    moduleName = InterfaceGenerator.GeneratedClasses.EntityData.name,
+    moduleName = entityData,
 ) {
     override fun fillInterfaceBuilder(classBuilder: TypeSpec.Builder): TypeSpec.Builder {
         val constructor: FunSpec.Builder = FunSpec.constructorBuilder()

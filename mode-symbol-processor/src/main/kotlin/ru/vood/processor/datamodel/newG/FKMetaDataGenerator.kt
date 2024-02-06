@@ -7,6 +7,7 @@ import com.squareup.kotlinpoet.SET
 import com.squareup.kotlinpoet.TypeSpec
 import ru.vood.model.generator.ksp.common.CommonClassNames
 import ru.vood.model.generator.ksp.common.CommonClassNames.entityEnum
+import ru.vood.model.generator.ksp.common.CommonClassNames.fKMetaData
 import ru.vood.model.generator.ksp.common.CommonClassNames.typeVariableFConOfIEntityOrigin
 import ru.vood.model.generator.ksp.common.CommonClassNames.uniqueKeyEnum
 import ru.vood.model.generator.ksp.common.dto.PackageName
@@ -15,7 +16,7 @@ import ru.vood.processor.datamodel.newG.abstraction.AbstractDataClassGenerator
 
 class FKMetaDataGenerator(rootPackage: PackageName) : AbstractDataClassGenerator(
     rootPackage = rootPackage,
-    moduleName = InterfaceGenerator.GeneratedClasses.FKMetaData.name,
+    moduleName = fKMetaData,
 ) {
     override fun fillInterfaceBuilder(classBuilder: TypeSpec.Builder): TypeSpec.Builder {
         val constructor: FunSpec.Builder = FunSpec.constructorBuilder()

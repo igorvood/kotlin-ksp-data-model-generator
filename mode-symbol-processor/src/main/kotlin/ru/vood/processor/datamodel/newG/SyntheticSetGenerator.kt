@@ -4,6 +4,7 @@ import com.squareup.kotlinpoet.*
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.plusParameter
 import ru.vood.model.generator.ksp.common.CommonClassNames
 import ru.vood.model.generator.ksp.common.CommonClassNames.iEntityDetail
+import ru.vood.model.generator.ksp.common.CommonClassNames.syntheticSet
 import ru.vood.model.generator.ksp.common.CommonClassNames.typeVariableIEntityDetail
 import ru.vood.model.generator.ksp.common.CommonClassNames.typeVariableIEntityOrigin
 import ru.vood.model.generator.ksp.common.CommonClassNames.typeVariableIEntityOriginOut
@@ -15,7 +16,7 @@ import ru.vood.processor.datamodel.newG.abstraction.AbstractDataClassGenerator
 
 class SyntheticSetGenerator(rootPackage: PackageName) : AbstractDataClassGenerator(
     rootPackage = rootPackage,
-    moduleName = InterfaceGenerator.GeneratedClasses.SyntheticSet.name,
+    moduleName = syntheticSet,
     modifiers = KModifier.VALUE
 ) {
     override fun fillInterfaceBuilder(classBuilder: TypeSpec.Builder): TypeSpec.Builder {

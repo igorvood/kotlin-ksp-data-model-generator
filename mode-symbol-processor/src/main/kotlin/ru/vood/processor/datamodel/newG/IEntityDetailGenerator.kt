@@ -13,8 +13,8 @@ import ru.vood.processor.datamodel.gen.runtime.intf.InterfaceGenerator
 import ru.vood.processor.datamodel.newG.abstraction.AbstractIntfGenerator
 
 class IEntityDetailGenerator(rootPackage: PackageName) : AbstractIntfGenerator(
-    rootPackage,
-    InterfaceGenerator.GeneratedClasses.IEntityDetail.name
+    rootPackage = rootPackage,
+    moduleName = iEntityDetail
 ) {
     override fun fillInterfaceBuilder(classBuilder: TypeSpec.Builder): TypeSpec.Builder {
         val returnType = iEntityDetail.plusParameter(WildcardTypeName.producerOf(iEntityOrigin))

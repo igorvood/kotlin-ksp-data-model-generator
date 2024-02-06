@@ -4,6 +4,7 @@ import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.PropertySpec
 import com.squareup.kotlinpoet.TypeSpec
 import ru.vood.model.generator.ksp.common.CommonClassNames.boolean
+import ru.vood.model.generator.ksp.common.CommonClassNames.columnEntityData
 import ru.vood.model.generator.ksp.common.CommonClassNames.entityEnum
 import ru.vood.model.generator.ksp.common.CommonClassNames.simpleColumnName
 import ru.vood.model.generator.ksp.common.CommonClassNames.string
@@ -13,7 +14,7 @@ import ru.vood.processor.datamodel.newG.abstraction.AbstractIntfGenerator
 
 class ColumnEntityDataGenerator(rootPackage: PackageName) : AbstractIntfGenerator(
     rootPackage = rootPackage,
-    moduleName = InterfaceGenerator.GeneratedClasses.ColumnEntityData.name,
+    moduleName = columnEntityData,
     kModifier = KModifier.SEALED
 ) {
     override fun fillInterfaceBuilder(classBuilder: TypeSpec.Builder): TypeSpec.Builder {
