@@ -60,6 +60,8 @@ class NewDataModelConfigProcessor(
             IEntityDataGenerator(rootPackageCommon),
             EntityDataGenerator(rootPackageCommon),
             SealedEntityDataGenerator(rootPackageCommon),
+            FkPairGenerator(rootPackageCommon),
+            FKMetaDataGenerator(rootPackageCommon),
         )
         runBlocking {
             listOf

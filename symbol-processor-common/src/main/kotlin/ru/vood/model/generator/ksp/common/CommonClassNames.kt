@@ -54,6 +54,13 @@ object CommonClassNames {
         )
     }
 
+    val fullColumnNameEnum by lazy {
+        ClassName(
+            "${rootPackage.value}.${subPackageAbstractDataDictionaryGenerator.value}",
+            "FullColumnNameEnum"
+        )
+    }
+
     val uniqueKeyEnum by lazy {
         ClassName(
             "${rootPackage.value}.${subPackageAbstractDataDictionaryGenerator.value}",
@@ -86,6 +93,13 @@ object CommonClassNames {
         ClassName(
             "${rootPackage.value}.${subPackageIntfGenerator.value}",
             "SimpleColExtractFunction"
+        )
+    }
+
+    val fkPair by lazy {
+        ClassName(
+            "${rootPackage.value}.${subPackageIntfGenerator.value}",
+            "FkPair"
         )
     }
 
@@ -145,6 +159,7 @@ object CommonClassNames {
 
 
     val typeVariableF by lazy { TypeVariableName("(entity: T) -> OUT") }
+    val typeVariableFConOf by lazy { TypeVariableName("(T) -> IContextOf<out IEntityOrigin>") }
     val typeVariableFQ by lazy { TypeVariableName("(entity: SINTH_IN) -> Set<IEntityDetail<OUT>>") }
 
     val typeVariableIEntityOrigin by lazy { TypeVariableName(nameT, iEntityOrigin) }

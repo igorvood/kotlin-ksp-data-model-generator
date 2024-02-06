@@ -259,24 +259,24 @@ import ${GeneratedClasses.FullColumnNameEnum.getPac(rootPackage)}
 //    val children: Set< ${GeneratedClasses.EntityEnum}>
 //) : ${GeneratedClasses.IEntityData}
 
-@${Generated::class.java.simpleName}("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
-/**Мета данные по внегнему ключу*/
-data class ${GeneratedClasses.FKMetaData}<T : ${GeneratedClasses.IEntityOrigin}>(
-    /**Сущность из которой идет внешний ключ*/
-    val fromEntity:  ${GeneratedClasses.EntityEnum},
-    /**Сущность к которой идет внешний ключ*/
-    val toEntity:  ${GeneratedClasses.EntityEnum},
-    /**Имя уикалоного индекса из toEntity на которой нацелен внешний ключ*/
-    val uk: ${GeneratedClasses.UniqueKeyEnum},
-    /**Тип связи
-     * TODO по идеи величина вычисляемая, сейчас задается разработчиком*/
-    val relationType: ${RelationType::class.java.simpleName},
-    /**Коллекция колонок входящих во внешний ключ */
-    val fkCols: Set<${GeneratedClasses.FkPair}>,
-    /**Ф-ция вытаскивающая из fromEntity, экземпляр уникального ключа toEntity -> uk.
-     * хорошо подходит для поиска  */
-    val сontextExtractor: (T) -> ${GeneratedClasses.IContextOf}<out ${GeneratedClasses.IEntityOrigin}>
-)
+//@${Generated::class.java.simpleName}("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
+///**Мета данные по внегнему ключу*/
+//data class ${GeneratedClasses.FKMetaData}<T : ${GeneratedClasses.IEntityOrigin}>(
+//    /**Сущность из которой идет внешний ключ*/
+//    val fromEntity:  ${GeneratedClasses.EntityEnum},
+//    /**Сущность к которой идет внешний ключ*/
+//    val toEntity:  ${GeneratedClasses.EntityEnum},
+//    /**Имя уикалоного индекса из toEntity на которой нацелен внешний ключ*/
+//    val uk: ${GeneratedClasses.UniqueKeyEnum},
+//    /**Тип связи
+//     * TODO по идеи величина вычисляемая, сейчас задается разработчиком*/
+//    val relationType: ${RelationType::class.java.simpleName},
+//    /**Коллекция колонок входящих во внешний ключ */
+//    val fkCols: Set<${GeneratedClasses.FkPair}>,
+//    /**Ф-ция вытаскивающая из fromEntity, экземпляр уникального ключа toEntity -> uk.
+//     * хорошо подходит для поиска  */
+//    val сontextExtractor: (T) -> ${GeneratedClasses.IContextOf}<out ${GeneratedClasses.IEntityOrigin}>
+//)
 
 @${Generated::class.java.simpleName}("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
 /**Мета данные по уникальному ключу*/
@@ -298,11 +298,11 @@ data class ${GeneratedClasses.UKEntityData}<T : IEntityOrigin>(
 //    override val contextOfClass: KClass<${GeneratedClasses.IContextOf}<T>>
 )
 
-@${Generated::class.java.simpleName}("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
-data class ${GeneratedClasses.FkPair}(
-    val from: $fullColumnEnumName,
-    val to: $fullColumnEnumName
-)
+//@${Generated::class.java.simpleName}("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
+//data class ${GeneratedClasses.FkPair}(
+//    val from: $fullColumnEnumName,
+//    val to: $fullColumnEnumName
+//)
 
 @${Generated::class.java.simpleName}("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
 data class ${GeneratedClasses.IndexesMetaDto}(
@@ -368,10 +368,12 @@ data class ${GeneratedClasses.IndexesMetaDto}(
         IEntityData(interfaceGeneratorPackageName),
         @Deprecated("")
         EntityData(interfaceGeneratorPackageName),
+        @Deprecated("")
         FKMetaData(interfaceGeneratorPackageName),
         @Deprecated("")
         SealedEntityData(interfaceGeneratorPackageName),
         UKEntityData(interfaceGeneratorPackageName),
+        @Deprecated("")
         FkPair(interfaceGeneratorPackageName),
         EntityEnum(subPackageAbstractDataDictionaryGenerator),
         FkNameEnum(subPackageAbstractDataDictionaryGenerator),
