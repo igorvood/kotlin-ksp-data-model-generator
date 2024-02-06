@@ -29,6 +29,7 @@ class FKMetaDataGenerator(rootPackage: PackageName) : AbstractDataClassGenerator
         return classBuilder
             .addTypeVariable(CommonClassNames.typeVariableIEntityOrigin)
             .primaryConstructor(constructor.build())
+            .addKdoc("Мета данные по внешнему ключу")
 
     }
 
