@@ -278,25 +278,25 @@ import ${GeneratedClasses.FullColumnNameEnum.getPac(rootPackage)}
 //    val сontextExtractor: (T) -> ${GeneratedClasses.IContextOf}<out ${GeneratedClasses.IEntityOrigin}>
 //)
 
-@${Generated::class.java.simpleName}("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
-/**Мета данные по уникальному ключу*/
-data class ${GeneratedClasses.UKEntityData}<T : IEntityOrigin>(
-    /**Имя уникального ключа*/
-    val ukName: ${GeneratedClasses.UniqueKeyEnum},
-    /**Колонки входящие в ключ*/
-    val columns: List<${SimpleColumnName::class.java.simpleName}>,
-    /**Сериализатор уникального ключа*/
-    val serializer: KSerializer<out ${GeneratedClasses.IContextOf}<out T>>,
-    /**Класс уникального ключа*/
-    val ukClass: KClass<out ${GeneratedClasses.IContextOf}<out T>>,
-    /**Имя сушности, к которой относится уникальный ключ*/
-    val entity:  ${GeneratedClasses.EntityEnum},
-    /**Экстрактор уникального ключа из ДТО*/
-    val extractContext: (T) -> ${GeneratedClasses.IContextOf}<T>,
-    /**Тип уникального ключа PK, UK*/
-    val typeUk: ${TypeUk::class.java.simpleName}
-//    override val contextOfClass: KClass<${GeneratedClasses.IContextOf}<T>>
-)
+//@${Generated::class.java.simpleName}("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
+///**Мета данные по уникальному ключу*/
+//data class ${GeneratedClasses.UKEntityData}<T : IEntityOrigin>(
+//    /**Имя уникального ключа*/
+//    val ukName: ${GeneratedClasses.UniqueKeyEnum},
+//    /**Колонки входящие в ключ*/
+//    val columns: List<${SimpleColumnName::class.java.simpleName}>,
+//    /**Сериализатор уникального ключа*/
+//    val serializer: KSerializer<out ${GeneratedClasses.IContextOf}<out T>>,
+//    /**Класс уникального ключа*/
+//    val ukClass: KClass<out ${GeneratedClasses.IContextOf}<out T>>,
+//    /**Имя сушности, к которой относится уникальный ключ*/
+//    val entity:  ${GeneratedClasses.EntityEnum},
+//    /**Экстрактор уникального ключа из ДТО*/
+//    val extractContext: (T) -> ${GeneratedClasses.IContextOf}<T>,
+//    /**Тип уникального ключа PK, UK*/
+//    val typeUk: ${TypeUk::class.java.simpleName}
+////    override val contextOfClass: KClass<${GeneratedClasses.IContextOf}<T>>
+//)
 
 //@${Generated::class.java.simpleName}("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
 //data class ${GeneratedClasses.FkPair}(
@@ -372,6 +372,7 @@ data class ${GeneratedClasses.IndexesMetaDto}(
         FKMetaData(interfaceGeneratorPackageName),
         @Deprecated("")
         SealedEntityData(interfaceGeneratorPackageName),
+        @Deprecated("")
         UKEntityData(interfaceGeneratorPackageName),
         @Deprecated("")
         FkPair(interfaceGeneratorPackageName),

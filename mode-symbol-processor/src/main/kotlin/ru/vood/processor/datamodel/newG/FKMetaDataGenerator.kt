@@ -7,7 +7,7 @@ import com.squareup.kotlinpoet.SET
 import com.squareup.kotlinpoet.TypeSpec
 import ru.vood.model.generator.ksp.common.CommonClassNames
 import ru.vood.model.generator.ksp.common.CommonClassNames.entityEnum
-import ru.vood.model.generator.ksp.common.CommonClassNames.typeVariableFConOf
+import ru.vood.model.generator.ksp.common.CommonClassNames.typeVariableFConOfIEntityOrigin
 import ru.vood.model.generator.ksp.common.CommonClassNames.uniqueKeyEnum
 import ru.vood.model.generator.ksp.common.dto.PackageName
 import ru.vood.processor.datamodel.gen.runtime.intf.InterfaceGenerator
@@ -70,7 +70,7 @@ class FKMetaDataGenerator(rootPackage: PackageName) : AbstractDataClassGenerator
 
         private val сontextExtractor = PropertySpec.builder(
             name = "сontextExtractor",
-            type = typeVariableFConOf
+            type = typeVariableFConOfIEntityOrigin
         )
             .addKdoc("Ф-ция вытаскивающая из fromEntity, экземпляр уникального ключа toEntity -> uk. Хорошо подходит для поиска")
             .build()

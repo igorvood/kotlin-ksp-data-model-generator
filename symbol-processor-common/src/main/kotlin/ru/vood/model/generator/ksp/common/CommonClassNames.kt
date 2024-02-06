@@ -6,6 +6,7 @@ import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.plusParameter
 import com.squareup.kotlinpoet.TypeVariableName
 import com.squareup.kotlinpoet.asClassName
 import ru.vood.dmgen.annotation.FlowEntityType
+import ru.vood.dmgen.dto.TypeUk
 import ru.vood.model.generator.ksp.common.dto.PackageName
 import java.util.concurrent.atomic.AtomicReference
 import javax.annotation.processing.Generated
@@ -27,6 +28,7 @@ object CommonClassNames {
     val generated = Generated::class.asClassName()
     val jvmInline = JvmInline::class.asClassName()
     val flowEntityType = FlowEntityType::class.asClassName()
+    val typeUk = TypeUk::class.asClassName()
 
 
     val relationType = ru.vood.dmgen.dto.RelationType::class.asClassName()
@@ -159,7 +161,8 @@ object CommonClassNames {
 
 
     val typeVariableF by lazy { TypeVariableName("(entity: T) -> OUT") }
-    val typeVariableFConOf by lazy { TypeVariableName("(T) -> IContextOf<out IEntityOrigin>") }
+    val typeVariableFConOfIEntityOrigin by lazy { TypeVariableName("(T) -> IContextOf<out IEntityOrigin>") }
+    val typeVariableFConOfT by lazy { TypeVariableName("(T) -> IContextOf<T>") }
     val typeVariableFQ by lazy { TypeVariableName("(entity: SINTH_IN) -> Set<IEntityDetail<OUT>>") }
 
     val typeVariableIEntityOrigin by lazy { TypeVariableName(nameT, iEntityOrigin) }

@@ -26,7 +26,7 @@ class EntityDao(
     fun saveFullAggregateNoParent(
         pkJson: PKJsonVal,
         entityName: EntityEnum,
-        entityJson: PayLoadJsonVal
+        entityJson: PayLoadJsonVal,
     ) {
         jdbcOperations.update(
             """insert into entity_context(pk, entity_type, payload) VALUES (?, ?, ?) """,
@@ -37,7 +37,7 @@ class EntityDao(
     fun <TT> findEntityByUk(
         ktEntitySerializer: KSerializer<TT>,
         ukName: UniqueKeyEnum,
-        ukJson: UKJsonVal
+        ukJson: UKJsonVal,
     ): TT {
         val query = jdbcOperations.query(
             """
@@ -60,7 +60,7 @@ class EntityDao(
     fun <TT> findEntityAsJsonElementByUk(
         ktEntitySerializer: KSerializer<TT>,
         ukName: UniqueKeyEnum,
-        ukJson: UKJsonVal
+        ukJson: UKJsonVal,
     ): JsonElement {
         val query = jdbcOperations.query(
             """
@@ -81,7 +81,7 @@ class EntityDao(
 
     fun <T : IEntityOrigin> findPKJsonVal(
         uk: IContextOf<T>,
-        ukJson: UKJsonVal
+        ukJson: UKJsonVal,
     ): PKJsonVal {
         val queryJsons = jdbcOperations.query(
             """
@@ -101,7 +101,7 @@ class EntityDao(
 
     fun findAllChildEntityDto(
         pkVal: PKJsonVal,
-        indexesMetaDto: IndexesMetaDto
+        indexesMetaDto: IndexesMetaDto,
     ) = jdbcOperations.query(
         """with recursive temp1(entity_type, pk, parent_entity_type, parent_pk, payload, levell)
                        as (select T1.entity_type,
@@ -143,7 +143,7 @@ class EntityDao(
         childrenEntityName: EntityEnum,
         childrenEntityJson: PayLoadJsonVal,
         pkDtoParentEntityName: EntityEnum,
-        pkJsonParent: PKJsonVal
+        pkJsonParent: PKJsonVal,
     ) {
         jdbcOperations.update(
             """insert into entity_context(pk, entity_type, payload, parent_entity_type, parent_pk) VALUES (?, ?, ?, ?, ?) """,

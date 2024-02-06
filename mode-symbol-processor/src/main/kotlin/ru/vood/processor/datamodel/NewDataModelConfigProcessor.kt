@@ -62,6 +62,7 @@ class NewDataModelConfigProcessor(
             SealedEntityDataGenerator(rootPackageCommon),
             FkPairGenerator(rootPackageCommon),
             FKMetaDataGenerator(rootPackageCommon),
+            UKEntityDataGenerator(rootPackageCommon),
         )
         runBlocking {
             listOf
