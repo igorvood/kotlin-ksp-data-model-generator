@@ -9,7 +9,6 @@ import ru.vood.model.generator.ksp.common.CommonClassNames.entityEnum
 import ru.vood.model.generator.ksp.common.CommonClassNames.simpleColumnName
 import ru.vood.model.generator.ksp.common.CommonClassNames.string
 import ru.vood.model.generator.ksp.common.dto.PackageName
-import ru.vood.processor.datamodel.gen.runtime.intf.InterfaceGenerator
 import ru.vood.processor.datamodel.newG.abstraction.AbstractIntfGenerator
 
 class ColumnEntityDataGenerator(rootPackage: PackageName) : AbstractIntfGenerator(
@@ -40,7 +39,8 @@ class ColumnEntityDataGenerator(rootPackage: PackageName) : AbstractIntfGenerato
             .addKdoc("коментарий колонки")
             .build()
 
-        val columnEntityDataGeneratorPropSpec = setOf(entityPropertySpec, simpleColumnNamePropertySpec, isOptionalPropertySpec, commentPropertySpec)
+        val columnEntityDataGeneratorPropSpec =
+            setOf(entityPropertySpec, simpleColumnNamePropertySpec, isOptionalPropertySpec, commentPropertySpec)
 
     }
 

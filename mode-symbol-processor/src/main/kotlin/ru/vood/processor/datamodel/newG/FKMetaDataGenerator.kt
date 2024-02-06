@@ -11,7 +11,6 @@ import ru.vood.model.generator.ksp.common.CommonClassNames.fKMetaData
 import ru.vood.model.generator.ksp.common.CommonClassNames.typeVariableFConOfIEntityOrigin
 import ru.vood.model.generator.ksp.common.CommonClassNames.uniqueKeyEnum
 import ru.vood.model.generator.ksp.common.dto.PackageName
-import ru.vood.processor.datamodel.gen.runtime.intf.InterfaceGenerator
 import ru.vood.processor.datamodel.newG.abstraction.AbstractDataClassGenerator
 
 class FKMetaDataGenerator(rootPackage: PackageName) : AbstractDataClassGenerator(

@@ -23,7 +23,7 @@ import ru.vood.processor.datamodel.gen.runtime.intf.InterfaceGenerator
 
 class DataModelConfigProcessor(
     val codeGenerator: CodeGenerator,
-    val logger: KSPLogger
+    val logger: KSPLogger,
 ) : SymbolProcessor {
 
     override fun process(resolver: Resolver): List<KSAnnotated> {

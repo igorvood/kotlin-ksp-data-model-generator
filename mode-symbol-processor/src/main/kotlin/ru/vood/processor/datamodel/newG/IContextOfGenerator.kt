@@ -10,7 +10,6 @@ import ru.vood.model.generator.ksp.common.CommonClassNames.kSerializer
 import ru.vood.model.generator.ksp.common.CommonClassNames.typeVariableT
 import ru.vood.model.generator.ksp.common.CommonClassNames.uniqueKeyEnum
 import ru.vood.model.generator.ksp.common.dto.PackageName
-import ru.vood.processor.datamodel.gen.runtime.intf.InterfaceGenerator
 import ru.vood.processor.datamodel.newG.abstraction.AbstractIntfGenerator
 
 class IContextOfGenerator(rootPackage: PackageName) : AbstractIntfGenerator(

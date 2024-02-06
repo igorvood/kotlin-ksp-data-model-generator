@@ -19,14 +19,20 @@ fun metaEntityColumns(
     /**имя */
     currentClass: ModelClassName,
     foreignKey: ForeignKey,
-    logger: KSPLogger
+    logger: KSPLogger,
 ): List<MetaEntityColumn> {
     val fromMetaEntity =
         entities[entity]
-            ?: logger.kspError("Для внешнего ключа ${foreignKey.name} сущности ${currentClass.value} не найдена сущность ${entity.value} указанная в ссылке", entities[currentClass]?.ksAnnotated)
+            ?: logger.kspError(
+                "Для внешнего ключа ${foreignKey.name} сущности ${currentClass.value} не найдена сущность ${entity.value} указанная в ссылке",
+                entities[currentClass]?.ksAnnotated
+            )
     val fromCols = cols.map { fkField ->
         fromMetaEntity.fields.filter { field -> field.name.value == fkField }.firstOrNull()
-            ?:  logger.kspError("Для внешнего ключа ${foreignKey.name} сущности ${currentClass.value} не найдено поле ${fkField}  у сущности  ${entity.value}",  entities[currentClass]?.ksAnnotated)
+            ?: logger.kspError(
+                "Для внешнего ключа ${foreignKey.name} сущности ${currentClass.value} не найдено поле ${fkField}  у сущности  ${entity.value}",
+                entities[currentClass]?.ksAnnotated
+            )
 
     }
     return fromCols
@@ -39,7 +45,7 @@ tailrec fun collectMetaForeignKey(
     entities: Map<ModelClassName, MetaEntity>,
     /**Коллектор, сюда складывается разобранная информация о внешних ключах*/
     collector: Set<MetaForeignKeyTemporary> = setOf(),
-    logger: KSPLogger
+    logger: KSPLogger,
 ): Set<MetaForeignKeyTemporary> {
     // есть еще что обрабатывать?
     return when (elementsAnnotatedWith.isEmpty()) {
@@ -132,7 +138,7 @@ tailrec fun collectMetaForeignKey(
 private fun fkAssert(
     fromCols: List<MetaEntityColumn>,
     toCols: List<MetaEntityColumn>,
-    foreignKey: ForeignKey
+    foreignKey: ForeignKey,
 ) {
     if (fromCols.size != toCols.size) {
         error("Не совпадают по кол-ву списки колонок currentTypeCols и outTypeCols во внешнем ключе $foreignKey")

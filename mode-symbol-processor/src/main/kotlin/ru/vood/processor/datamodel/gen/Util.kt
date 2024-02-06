@@ -15,7 +15,7 @@ fun syntheticFieldInfos(
     childrenEntities: List<MetaEntity>,
     metaForeignKeys: Set<MetaForeignKey>,
     metaEntity: MetaEntity,
-    logger: KSPLogger
+    logger: KSPLogger,
 ): List<ISyntheticFieldInfo> {
     val joinToString = childrenEntities.map { it.entityFieldName }.joinToString(",")
     logger.info("fun syntheticFieldInfos  ${metaEntity.entityFieldName} childrens $joinToString")
@@ -25,7 +25,7 @@ fun syntheticFieldInfos(
             .map { childrenMetaEntity ->
                 when (val fet = childrenMetaEntity.flowEntityType) {
                     FlowEntityType.AGGREGATE -> Optional.empty<SyntheticFieldInfo>()
-                    FlowEntityType.INNER
+                    FlowEntityType.INNER,
                     -> {
                         val metaForeignKey =
                             getMetaForeignKey(metaForeignKeys, metaEntity, childrenMetaEntity)
@@ -53,7 +53,7 @@ fun syntheticFieldInfos(
 private fun getMetaForeignKey(
     metaForeignKeys: Set<MetaForeignKey>,
     metaEntity: MetaEntity,
-    childredMetaEntity: MetaEntity
+    childredMetaEntity: MetaEntity,
 ): MetaForeignKey {
     val currentFks =
         metaForeignKeys.filter { fk -> fk.toEntity == metaEntity && fk.fromEntity == childredMetaEntity }

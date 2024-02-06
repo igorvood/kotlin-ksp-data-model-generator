@@ -2,7 +2,6 @@ package ru.vood.processor.datamodel.gen.meta
 
 import com.google.devtools.ksp.processing.CodeGenerator
 import com.google.devtools.ksp.processing.KSPLogger
-import ru.vood.dmgen.annotation.MetaFKs
 import ru.vood.dmgen.annotation.MetaUKs
 import ru.vood.dmgen.dto.SimpleColumnName
 import ru.vood.dmgen.dto.TypeUk
@@ -17,9 +16,9 @@ import javax.annotation.processing.Generated
 class UniqueKeyMapGenerator(
     codeGenerator: CodeGenerator,
     rootPackage: PackageName,
-    logger: KSPLogger
+    logger: KSPLogger,
 
-) : AbstractDataDictionaryGenerator<MetaInformation>(codeGenerator, rootPackage, logger) {
+    ) : AbstractDataDictionaryGenerator<MetaInformation>(codeGenerator, rootPackage, logger) {
 
     override val nameClass: String
         get() = uniqueKeyEnumGeneratorNameClass

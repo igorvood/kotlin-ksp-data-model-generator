@@ -20,9 +20,9 @@ import javax.annotation.processing.Generated
 class InterfaceGenerator(
     codeGenerator: CodeGenerator,
     rootPackage: PackageName,
-    logger: KSPLogger
+    logger: KSPLogger,
 
-) : AbstractGenerator<MetaInformation>(codeGenerator, rootPackage, logger) {
+    ) : AbstractGenerator<MetaInformation>(codeGenerator, rootPackage, logger) {
 
     override fun textGenerator(metaInfo: MetaInformation): Set<GeneratedFile> {
         val trimIndent = """
@@ -338,43 +338,61 @@ import ${GeneratedClasses.FullColumnNameEnum.getPac(rootPackage)}
     enum class GeneratedClasses(val subPackageName: PackageName) {
         @Deprecated("")
         SerializableEntity(interfaceGeneratorPackageName),
+
         @Deprecated("")
         IndexesMetaDto(interfaceGeneratorPackageName),
 
         @Deprecated("")
         IEntityOrigin(interfaceGeneratorPackageName),
+
         @Deprecated("")
         IEntityDetail(interfaceGeneratorPackageName),
+
         @Deprecated("")
         IContextOf(interfaceGeneratorPackageName),
+
         @Deprecated("")
         ColumnEntityData(interfaceGeneratorPackageName),
+
         @Deprecated("")
         SimpleColumnEntityData(interfaceGeneratorPackageName),
+
         @Deprecated("")
         SyntheticColumnEntityData(interfaceGeneratorPackageName),
+
         @Deprecated("")
         SealedSyntheticColumnEntityData(interfaceGeneratorPackageName),
+
         @Deprecated("")
         IColExtractFunction(interfaceGeneratorPackageName),
+
         @Deprecated("")
         ISyntheticColExtractFunction(interfaceGeneratorPackageName),
+
         @Deprecated("")
         SimpleColExtractFunction(interfaceGeneratorPackageName),
+
         @Deprecated("")
         Synthetic(interfaceGeneratorPackageName),
+
         @Deprecated("")
         SyntheticSet(interfaceGeneratorPackageName),
+
         @Deprecated("")
         IEntityData(interfaceGeneratorPackageName),
+
         @Deprecated("")
         EntityData(interfaceGeneratorPackageName),
+
         @Deprecated("")
         FKMetaData(interfaceGeneratorPackageName),
+
         @Deprecated("")
         SealedEntityData(interfaceGeneratorPackageName),
+
         @Deprecated("")
         UKEntityData(interfaceGeneratorPackageName),
+
         @Deprecated("")
         FkPair(interfaceGeneratorPackageName),
         EntityEnum(subPackageAbstractDataDictionaryGenerator),

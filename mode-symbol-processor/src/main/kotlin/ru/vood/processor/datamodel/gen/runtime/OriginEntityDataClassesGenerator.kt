@@ -4,14 +4,16 @@ import com.google.devtools.ksp.processing.CodeGenerator
 import com.google.devtools.ksp.processing.KSPLogger
 import ru.vood.dmgen.annotation.FlowEntityType
 import ru.vood.dmgen.annotation.ModelEntity
-import ru.vood.dmgen.annotation.ModelEntityContext
 import ru.vood.model.generator.ksp.common.dto.PackageName
 import ru.vood.processor.datamodel.abstraction.model.Dependency
 import ru.vood.processor.datamodel.abstraction.model.MetaEntity
 import ru.vood.processor.datamodel.abstraction.model.MetaForeignKey
 import ru.vood.processor.datamodel.abstraction.model.MetaInformation
-import ru.vood.processor.datamodel.gen.*
+import ru.vood.processor.datamodel.gen.AbstractGenerator
 import ru.vood.processor.datamodel.gen.CollectName.entityClassName
+import ru.vood.processor.datamodel.gen.FileName
+import ru.vood.processor.datamodel.gen.GeneratedCode
+import ru.vood.processor.datamodel.gen.GeneratedFile
 import ru.vood.processor.datamodel.gen.runtime.intf.InterfaceGenerator
 import java.time.LocalDateTime
 import javax.annotation.processing.Generated
@@ -19,7 +21,7 @@ import javax.annotation.processing.Generated
 class OriginEntityDataClassesGenerator(
     codeGenerator: CodeGenerator,
     rootPackage: PackageName,
-    logger: KSPLogger
+    logger: KSPLogger,
 ) : AbstractGenerator<MetaInformation>(codeGenerator, rootPackage, logger) {
 
     override fun textGenerator(metaInfo: MetaInformation): Set<GeneratedFile> {
@@ -29,7 +31,7 @@ class OriginEntityDataClassesGenerator(
     private fun collectEntityFile(
         metaForeignKeys: Set<MetaForeignKey>,
         aggregateInnerDep: Dependency,
-        collector: Set<GeneratedFile> = setOf()
+        collector: Set<GeneratedFile> = setOf(),
     ): Set<GeneratedFile> {
         val metaEntity = aggregateInnerDep.metaEntity
 

@@ -6,7 +6,6 @@ import ru.vood.model.generator.ksp.common.CommonClassNames
 import ru.vood.model.generator.ksp.common.CommonClassNames.iEntityData
 import ru.vood.model.generator.ksp.common.CommonClassNames.sealedEntityData
 import ru.vood.model.generator.ksp.common.dto.PackageName
-import ru.vood.processor.datamodel.gen.runtime.intf.InterfaceGenerator
 import ru.vood.processor.datamodel.newG.IEntityDataGenerator.Companion.iEntityDataGeneratorPropertySpec
 import ru.vood.processor.datamodel.newG.abstraction.AbstractDataClassGenerator
 
@@ -40,7 +39,7 @@ class SealedEntityDataGenerator(rootPackage: PackageName) : AbstractDataClassGen
                     .build()
             }
             .plus(
-                PropertySpec.builder("children", SET.plusParameter( CommonClassNames.entityEnum))
+                PropertySpec.builder("children", SET.plusParameter(CommonClassNames.entityEnum))
                     .initializer("%N", "children")
                     .addKdoc("перечень наследников")
                     .build()

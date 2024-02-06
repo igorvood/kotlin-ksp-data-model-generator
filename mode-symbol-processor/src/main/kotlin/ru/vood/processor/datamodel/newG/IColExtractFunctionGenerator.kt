@@ -2,12 +2,10 @@ package ru.vood.processor.datamodel.newG
 
 import com.squareup.kotlinpoet.*
 import ru.vood.model.generator.ksp.common.CommonClassNames
-import ru.vood.model.generator.ksp.common.CommonClassNames.entityEnum
 import ru.vood.model.generator.ksp.common.CommonClassNames.typeVariableF
 import ru.vood.model.generator.ksp.common.CommonClassNames.typeVariableOUT
 import ru.vood.model.generator.ksp.common.CommonClassNames.typeVariableT
 import ru.vood.model.generator.ksp.common.dto.PackageName
-import ru.vood.processor.datamodel.gen.runtime.intf.InterfaceGenerator
 import ru.vood.processor.datamodel.newG.abstraction.AbstractIntfGenerator
 
 class IColExtractFunctionGenerator(rootPackage: PackageName) : AbstractIntfGenerator(

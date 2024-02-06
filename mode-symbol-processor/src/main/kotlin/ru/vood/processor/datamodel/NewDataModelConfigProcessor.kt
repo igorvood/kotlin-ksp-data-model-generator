@@ -6,7 +6,6 @@ import com.google.devtools.ksp.symbol.KSAnnotated
 import com.squareup.kotlinpoet.ksp.writeTo
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.flatMapConcat
-import kotlinx.coroutines.flow.forEach
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.runBlocking
 import ru.vood.dmgen.annotation.FlowEntity
@@ -69,7 +68,7 @@ class NewDataModelConfigProcessor(
             listOf
                 .asFlow()
                 .map { q -> q.files().asFlow() }
-                .flatMapConcat {it }
+                .flatMapConcat { it }
                 .collect { fs ->
                     kspLogger.logging("generate ${fs.name} ")
                     fs.writeTo(codeGenerator = codeGenerator, aggregating = true)

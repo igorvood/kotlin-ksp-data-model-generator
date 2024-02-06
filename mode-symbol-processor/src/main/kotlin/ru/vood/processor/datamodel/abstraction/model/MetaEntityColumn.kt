@@ -10,7 +10,7 @@ import ru.vood.dmgen.dto.SimpleColumnName
 
 class MetaEntityColumn(
     val position: Int,
-    val element: KSPropertyDeclaration
+    val element: KSPropertyDeclaration,
 ) {
     val name = SimpleColumnName(element.simpleName.asString())
 

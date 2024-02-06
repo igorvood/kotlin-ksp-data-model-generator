@@ -9,7 +9,6 @@ import ru.vood.model.generator.ksp.common.CommonClassNames.iEntityOrigin
 import ru.vood.model.generator.ksp.common.CommonClassNames.relationType
 import ru.vood.model.generator.ksp.common.CommonClassNames.typeVariableIEntityOrigin
 import ru.vood.model.generator.ksp.common.dto.PackageName
-import ru.vood.processor.datamodel.gen.runtime.intf.InterfaceGenerator
 import ru.vood.processor.datamodel.newG.abstraction.AbstractIntfGenerator
 
 class IEntityDetailGenerator(rootPackage: PackageName) : AbstractIntfGenerator(
@@ -19,11 +18,13 @@ class IEntityDetailGenerator(rootPackage: PackageName) : AbstractIntfGenerator(
     override fun fillInterfaceBuilder(classBuilder: TypeSpec.Builder): TypeSpec.Builder {
         val returnType = iEntityDetail.plusParameter(WildcardTypeName.producerOf(iEntityOrigin))
         val builder = CodeBlock.builder()
-        builder.add("""  return when(%T.getFk(entityName, origin.designEntityName).relationType){
+        builder.add(
+            """  return when(%T.getFk(entityName, origin.designEntityName).relationType){
             %T.MANY_TO_ONE -> syntheticFieldSet(entityName)
             %T.ONE_TO_ONE_MANDATORY -> setOf( syntheticFieldMandatory(entityName))
             %T.ONE_TO_ONE_OPTIONAL -> syntheticFieldOptional(entityName)?.let { setOf(it) }?: setOf()
-        }""", fkNameEnum, relationType, relationType,relationType)
+        }""", fkNameEnum, relationType, relationType, relationType
+        )
 
         return classBuilder.addKdoc("Оригинал сущности, только поля принадлежащие ей")
             .addSuperinterface(iEntityOrigin)

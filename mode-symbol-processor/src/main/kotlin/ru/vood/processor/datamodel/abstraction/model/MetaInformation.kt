@@ -6,7 +6,7 @@ import ru.vood.processor.datamodel.abstraction.model.dto.ModelClassName
 
 data class MetaInformation(
     val metaForeignKeys: Set<MetaForeignKey>,
-    val entities: Map<ModelClassName, MetaEntity>
+    val entities: Map<ModelClassName, MetaEntity>,
 ) {
     val allEntityPackagesImport =
         entities.values.distinctBy { it.designClassPackageName }.map { "import ${it.designClassPackageName}.*" }
@@ -53,7 +53,7 @@ data class MetaInformation(
 data class Dependency(
     val metaEntity: MetaEntity,
     val children: Set<Dependency>,
-    val parent: MetaEntity?
+    val parent: MetaEntity?,
 )
 
 

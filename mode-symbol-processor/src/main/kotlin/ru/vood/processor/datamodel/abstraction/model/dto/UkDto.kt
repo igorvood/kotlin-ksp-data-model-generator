@@ -8,7 +8,7 @@ import ru.vood.dmgen.dto.UkName
 data class UkDto(
     val name: UkName,
     val cols: Set<SimpleColumnName>,
-    val typeUk: TypeUk
+    val typeUk: TypeUk,
 )
 
 //@JvmInline

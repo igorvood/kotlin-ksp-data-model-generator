@@ -7,7 +7,6 @@ import com.squareup.kotlinpoet.TypeSpec
 import ru.vood.model.generator.ksp.common.CommonClassNames.entityData
 import ru.vood.model.generator.ksp.common.CommonClassNames.iEntityData
 import ru.vood.model.generator.ksp.common.dto.PackageName
-import ru.vood.processor.datamodel.gen.runtime.intf.InterfaceGenerator
 import ru.vood.processor.datamodel.newG.IEntityDataGenerator.Companion.iEntityDataGeneratorPropertySpec
 import ru.vood.processor.datamodel.newG.abstraction.AbstractDataClassGenerator
 

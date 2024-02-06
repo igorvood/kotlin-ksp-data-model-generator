@@ -1,14 +1,11 @@
 package ru.vood.processor.datamodel.newG
 
-import com.squareup.kotlinpoet.*
-import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.plusParameter
-import ru.vood.model.generator.ksp.common.CommonClassNames
+import com.squareup.kotlinpoet.FunSpec
+import com.squareup.kotlinpoet.PropertySpec
+import com.squareup.kotlinpoet.TypeSpec
 import ru.vood.model.generator.ksp.common.CommonClassNames.fkPair
 import ru.vood.model.generator.ksp.common.CommonClassNames.fullColumnNameEnum
-import ru.vood.model.generator.ksp.common.CommonClassNames.iEntityData
 import ru.vood.model.generator.ksp.common.dto.PackageName
-import ru.vood.processor.datamodel.gen.runtime.intf.InterfaceGenerator
-import ru.vood.processor.datamodel.newG.IEntityDataGenerator.Companion.iEntityDataGeneratorPropertySpec
 import ru.vood.processor.datamodel.newG.abstraction.AbstractDataClassGenerator
 
 class FkPairGenerator(rootPackage: PackageName) : AbstractDataClassGenerator(

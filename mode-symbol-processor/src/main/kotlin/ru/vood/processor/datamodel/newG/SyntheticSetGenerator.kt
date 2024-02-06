@@ -11,7 +11,6 @@ import ru.vood.model.generator.ksp.common.CommonClassNames.typeVariableIEntityOr
 import ru.vood.model.generator.ksp.common.CommonClassNames.typeVariableOUT
 import ru.vood.model.generator.ksp.common.CommonClassNames.typeVariableSinthIn
 import ru.vood.model.generator.ksp.common.dto.PackageName
-import ru.vood.processor.datamodel.gen.runtime.intf.InterfaceGenerator
 import ru.vood.processor.datamodel.newG.abstraction.AbstractDataClassGenerator
 
 class SyntheticSetGenerator(rootPackage: PackageName) : AbstractDataClassGenerator(
@@ -33,8 +32,11 @@ class SyntheticSetGenerator(rootPackage: PackageName) : AbstractDataClassGenerat
             .addTypeVariable(typeVariableIEntityOrigin)
             .addTypeVariable(typeVariableIEntityDetail)
             .addTypeVariable(typeVariableIEntityOriginOut)
-            .addSuperinterface(CommonClassNames.iSyntheticColExtractFunction.plusParameter(typeVariableSinthIn). plusParameter(
-                SET.plusParameter(iEntityDetail.plusParameter(typeVariableOUT))))
+            .addSuperinterface(
+                CommonClassNames.iSyntheticColExtractFunction.plusParameter(typeVariableSinthIn).plusParameter(
+                    SET.plusParameter(iEntityDetail.plusParameter(typeVariableOUT))
+                )
+            )
 //            .addKdoc("Мета данные по простому реквизиту сущности")
             .primaryConstructor(constructor.build())
     }
@@ -43,8 +45,9 @@ class SyntheticSetGenerator(rootPackage: PackageName) : AbstractDataClassGenerat
     companion object {
 
 
-        val extractFieldValue = PropertySpec.builder(IColExtractFunctionGenerator.extractFieldValue.name, CommonClassNames.typeVariableFQ)
-            .build()
+        val extractFieldValue =
+            PropertySpec.builder(IColExtractFunctionGenerator.extractFieldValue.name, CommonClassNames.typeVariableFQ)
+                .build()
 
         private val simpleColExtractFunctionGeneratorPropSpec = listOf(extractFieldValue)
             .map { ps ->

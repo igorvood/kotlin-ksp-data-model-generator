@@ -8,14 +8,16 @@ import ru.vood.model.generator.ksp.common.CommonClassNames.subPackageIntfGenerat
 import ru.vood.model.generator.ksp.common.KspCommonUtils.generated
 import ru.vood.model.generator.ksp.common.dto.PackageName
 
-abstract class AbstractIntfGenerator(rootPackage: PackageName,
-                                     moduleName: ClassName,
-                                     private val kModifier: KModifier?=null) : AbstractGenerator(
+abstract class AbstractIntfGenerator(
+    rootPackage: PackageName,
+    moduleName: ClassName,
+    private val kModifier: KModifier? = null,
+) : AbstractGenerator(
     rootPackage = rootPackage,
     subPackage = subPackageIntfGenerator,
     moduleName = moduleName,
 
-) {
+    ) {
 
     override fun files(): List<FileSpec> {
 

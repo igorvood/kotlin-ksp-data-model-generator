@@ -14,9 +14,9 @@ import javax.annotation.processing.Generated
 class ContextDataClassesGenerator(
     codeGenerator: CodeGenerator,
     rootPackage: PackageName,
-    logger: KSPLogger
+    logger: KSPLogger,
 
-) : AbstractGenerator<MetaInformation>(codeGenerator, rootPackage, logger) {
+    ) : AbstractGenerator<MetaInformation>(codeGenerator, rootPackage, logger) {
 
     override fun textGenerator(metaInfo: MetaInformation): Set<GeneratedFile> {
         val generatedClassData = metaInfo.entities.values.toSet()

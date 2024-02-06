@@ -1,19 +1,18 @@
 package ru.vood.processor.datamodel.newG
 
-import com.squareup.kotlinpoet.*
+import com.squareup.kotlinpoet.FunSpec
+import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.plusParameter
+import com.squareup.kotlinpoet.PropertySpec
+import com.squareup.kotlinpoet.TypeSpec
 import ru.vood.model.generator.ksp.common.CommonClassNames
 import ru.vood.model.generator.ksp.common.CommonClassNames.entityEnum
 import ru.vood.model.generator.ksp.common.CommonClassNames.iSyntheticColExtractFunction
-import ru.vood.model.generator.ksp.common.CommonClassNames.simpleColExtractFunction
-import ru.vood.model.generator.ksp.common.CommonClassNames.simpleColumnType
 import ru.vood.model.generator.ksp.common.CommonClassNames.syntheticColumnEntityData
 import ru.vood.model.generator.ksp.common.CommonClassNames.typeVariableStar
 import ru.vood.model.generator.ksp.common.CommonClassNames.typeVariableT
 import ru.vood.model.generator.ksp.common.dto.PackageName
-import ru.vood.processor.datamodel.gen.runtime.intf.InterfaceGenerator
 import ru.vood.processor.datamodel.newG.ColumnEntityDataGenerator.Companion.columnEntityDataGeneratorPropSpec
-
 import ru.vood.processor.datamodel.newG.abstraction.AbstractDataClassGenerator
 
 class SyntheticColumnEntityDataGenerator(rootPackage: PackageName) : AbstractDataClassGenerator(
@@ -22,7 +21,11 @@ class SyntheticColumnEntityDataGenerator(rootPackage: PackageName) : AbstractDat
 ) {
     override fun fillInterfaceBuilder(classBuilder: TypeSpec.Builder): TypeSpec.Builder {
         val constructor: FunSpec.Builder = FunSpec.constructorBuilder()
-        columnEntityDataGeneratorPropSpecConstructorImplemented(classBuilder, constructor, simpleColumnEntityDataGeneratorPropSpec)
+        columnEntityDataGeneratorPropSpecConstructorImplemented(
+            classBuilder,
+            constructor,
+            simpleColumnEntityDataGeneratorPropSpec
+        )
         return classBuilder
             .addTypeVariable(CommonClassNames.typeVariableIEntityOrigin)
             .addSuperinterface(CommonClassNames.columnEntityData)
@@ -48,7 +51,10 @@ class SyntheticColumnEntityDataGenerator(rootPackage: PackageName) : AbstractDat
                     .build()
             )
             .plus(
-                PropertySpec.builder("iColExtractFunction", iSyntheticColExtractFunction.plusParameter(typeVariableT).plusParameter(typeVariableStar))
+                PropertySpec.builder(
+                    "iColExtractFunction",
+                    iSyntheticColExtractFunction.plusParameter(typeVariableT).plusParameter(typeVariableStar)
+                )
                     .initializer("%N", "iColExtractFunction")
                     .addKdoc("ф-ция экстрактор значения колонки")
                     .build()
