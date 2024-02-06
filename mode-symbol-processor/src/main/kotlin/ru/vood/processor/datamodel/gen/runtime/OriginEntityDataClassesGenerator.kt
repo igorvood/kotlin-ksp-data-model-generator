@@ -4,7 +4,10 @@ import com.google.devtools.ksp.processing.CodeGenerator
 import com.google.devtools.ksp.processing.KSPLogger
 import ru.vood.dmgen.annotation.FlowEntityType
 import ru.vood.dmgen.annotation.ModelEntity
+import ru.vood.model.generator.ksp.common.CommonClassNames.generated
+import ru.vood.model.generator.ksp.common.CommonClassNames.iEntityOrigin
 import ru.vood.model.generator.ksp.common.dto.PackageName
+import ru.vood.model.generator.ksp.common.util.import
 import ru.vood.processor.datamodel.abstraction.model.Dependency
 import ru.vood.processor.datamodel.abstraction.model.MetaEntity
 import ru.vood.processor.datamodel.abstraction.model.MetaForeignKey
@@ -127,10 +130,9 @@ ${
             } ?: ""
         }          
     
-import ${Generated::class.java.canonicalName}
+${generated.import()}
+${iEntityOrigin.import()}
 import ${ModelEntity::class.java.canonicalName}
-
-import ${InterfaceGenerator.GeneratedClasses.IEntityOrigin.getPac(rootPackage)}
 import ${InterfaceGenerator.GeneratedClasses.EntityEnum.getPac(rootPackage)}
     
     

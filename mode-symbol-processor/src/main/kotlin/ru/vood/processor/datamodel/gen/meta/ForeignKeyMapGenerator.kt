@@ -8,7 +8,9 @@ import ru.vood.dmgen.dto.RelationType
 import ru.vood.dmgen.dto.UkName
 import ru.vood.dmgen.metaJson.FKMetaDataJson
 import ru.vood.dmgen.metaJson.FkPairJson
+import ru.vood.model.generator.ksp.common.CommonClassNames.iEntityOrigin
 import ru.vood.model.generator.ksp.common.dto.PackageName
+import ru.vood.model.generator.ksp.common.util.import
 import ru.vood.processor.datamodel.abstraction.model.MetaInformation
 import ru.vood.processor.datamodel.gen.*
 import ru.vood.processor.datamodel.gen.CollectName.entityClassName
@@ -94,7 +96,7 @@ class ForeignKeyMapGenerator(
 import ${InterfaceGenerator.GeneratedClasses.FKMetaData.getPac(rootPackage)}
 import ${InterfaceGenerator.GeneratedClasses.FkPair.getPac(rootPackage)}
 import ${InterfaceGenerator.GeneratedClasses.UniqueKeyEnum.getPac(rootPackage)}
-import ${InterfaceGenerator.GeneratedClasses.IEntityOrigin.getPac(rootPackage)}
+${iEntityOrigin.import()}
 import ${Generated::class.java.canonicalName}
 import ${EnumMap::class.java.canonicalName}
 import ${MetaFKs::class.java.canonicalName}

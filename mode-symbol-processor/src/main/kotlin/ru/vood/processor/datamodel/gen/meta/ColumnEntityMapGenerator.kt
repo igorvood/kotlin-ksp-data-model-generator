@@ -8,7 +8,9 @@ import ru.vood.dmgen.dto.*
 import ru.vood.dmgen.metaJson.IColumnEntityDataJson
 import ru.vood.dmgen.metaJson.SimpleColumnEntityDataJson
 import ru.vood.dmgen.metaJson.SyntheticColumnEntityDataJson
+import ru.vood.model.generator.ksp.common.CommonClassNames.iEntityOrigin
 import ru.vood.model.generator.ksp.common.dto.PackageName
+import ru.vood.model.generator.ksp.common.util.import
 import ru.vood.processor.datamodel.abstraction.model.MetaInformation
 import ru.vood.processor.datamodel.abstraction.model.dto.SyntheticFieldInfo
 import ru.vood.processor.datamodel.gen.*
@@ -159,7 +161,7 @@ import ${InterfaceGenerator.GeneratedClasses.SealedSyntheticColumnEntityData.get
 import ${InterfaceGenerator.GeneratedClasses.EntityEnum.getPac(rootPackage)}
 
 import ${InterfaceGenerator.GeneratedClasses.ColumnEntityData.getPac(rootPackage)}
-import ${InterfaceGenerator.GeneratedClasses.IEntityOrigin.getPac(rootPackage)}
+${iEntityOrigin.import()}
 
 import ${Generated::class.java.canonicalName}
 import ${EnumMap::class.java.canonicalName}
