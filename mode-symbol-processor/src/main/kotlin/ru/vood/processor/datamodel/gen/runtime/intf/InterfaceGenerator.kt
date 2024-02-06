@@ -304,17 +304,17 @@ import ${GeneratedClasses.FullColumnNameEnum.getPac(rootPackage)}
 //    val to: $fullColumnEnumName
 //)
 
-@${Generated::class.java.simpleName}("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
-data class ${GeneratedClasses.IndexesMetaDto}(
-    /**Мета по первичному ключу*/
-    val pkEntityData: ${GeneratedClasses.UKEntityData}<out ${GeneratedClasses.IEntityOrigin}>,
-    /**мета по уникальным индексам, исключая первичный ключ*/
-    val ukOnlySet: Set<${GeneratedClasses.UKEntityData}<out ${GeneratedClasses.IEntityOrigin}>>
-) {
-    /**мета по уникальным индексам включая первичный ключ*/
-    val ukAndPkMap = ${EnumMap::class.java.simpleName}(ukOnlySet.plus(pkEntityData).associateBy { it.ukName })
-
-}
+//@${Generated::class.java.simpleName}("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
+//data class ${GeneratedClasses.IndexesMetaDto}(
+//    /**Мета по первичному ключу*/
+//    val pkEntityData: ${GeneratedClasses.UKEntityData}<out ${GeneratedClasses.IEntityOrigin}>,
+//    /**мета по уникальным индексам, исключая первичный ключ*/
+//    val ukOnlySet: Set<${GeneratedClasses.UKEntityData}<out ${GeneratedClasses.IEntityOrigin}>>
+//) {
+//    /**мета по уникальным индексам включая первичный ключ*/
+//    val ukAndPkMap = ${EnumMap::class.java.simpleName}(ukOnlySet.plus(pkEntityData).associateBy { it.ukName })
+//
+//}
 
 
 
@@ -338,6 +338,7 @@ data class ${GeneratedClasses.IndexesMetaDto}(
     enum class GeneratedClasses(val subPackageName: PackageName) {
         @Deprecated("")
         SerializableEntity(interfaceGeneratorPackageName),
+        @Deprecated("")
         IndexesMetaDto(interfaceGeneratorPackageName),
 
         @Deprecated("")

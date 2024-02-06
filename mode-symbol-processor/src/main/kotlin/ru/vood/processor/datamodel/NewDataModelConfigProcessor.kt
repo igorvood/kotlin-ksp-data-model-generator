@@ -63,6 +63,7 @@ class NewDataModelConfigProcessor(
             FkPairGenerator(rootPackageCommon),
             FKMetaDataGenerator(rootPackageCommon),
             UKEntityDataGenerator(rootPackageCommon),
+            IndexesMetaDtoGenerator(rootPackageCommon),
         )
         runBlocking {
             listOf

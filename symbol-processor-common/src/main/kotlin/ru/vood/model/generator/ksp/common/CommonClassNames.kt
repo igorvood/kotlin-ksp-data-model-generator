@@ -8,6 +8,7 @@ import com.squareup.kotlinpoet.asClassName
 import ru.vood.dmgen.annotation.FlowEntityType
 import ru.vood.dmgen.dto.TypeUk
 import ru.vood.model.generator.ksp.common.dto.PackageName
+import java.util.*
 import java.util.concurrent.atomic.AtomicReference
 import javax.annotation.processing.Generated
 
@@ -36,6 +37,8 @@ object CommonClassNames {
     val simpleColumnType = ru.vood.dmgen.dto.SimpleColumnType::class.asClassName()
     val boolean = Boolean::class.asClassName()
     val string = String::class.asClassName()
+    val enumMap = EnumMap::class.asClassName()
+
 
     val kClass = ClassName("kotlin.reflect", "KClass")
     val any = ClassName("kotlin", "Any")
@@ -123,6 +126,13 @@ object CommonClassNames {
         ClassName(
             "${rootPackage.value}.${subPackageIntfGenerator.value}",
             "IEntityOrigin"
+        )
+    }
+
+    val uKEntityData by lazy {
+        ClassName(
+            "${rootPackage.value}.${subPackageIntfGenerator.value}",
+            "UKEntityData"
         )
     }
 
