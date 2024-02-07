@@ -6,6 +6,7 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.runBlocking
 import ru.vood.dmgen.annotation.FlowEntity
+import ru.vood.model.generator.ksp.common.CommonClassNames
 import ru.vood.model.generator.ksp.common.dto.PackageName
 import ru.vood.processor.datamodel.abstraction.model.MetaEntity
 import ru.vood.processor.datamodel.abstraction.model.MetaInformation
@@ -92,6 +93,7 @@ class DataModelConfigProcessor(
 
         val setMetaEnt = metaInformation.entities.values.toSet()
         val rootPackage = PackageName(commonPackage(setMetaEnt))
+        CommonClassNames.setRootPackage(rootPackage)
         return Triple(symbols, metaInformation, rootPackage)
     }
 
