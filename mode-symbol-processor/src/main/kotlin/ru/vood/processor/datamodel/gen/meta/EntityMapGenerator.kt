@@ -12,6 +12,7 @@ import ru.vood.dmgen.metaJson.value.InterfaceEntityClassName
 import ru.vood.dmgen.metaJson.value.RuntimeEntityClassName
 import ru.vood.dmgen.metaJson.value.RuntimeSyntheticEntityClassName
 import ru.vood.model.generator.ksp.common.CommonClassNames.entityData
+import ru.vood.model.generator.ksp.common.CommonClassNames.sealedEntityData
 import ru.vood.model.generator.ksp.common.dto.PackageName
 import ru.vood.model.generator.ksp.common.util.import
 import ru.vood.processor.datamodel.abstraction.model.MetaInformation
@@ -95,7 +96,7 @@ class EntityMapGenerator(
                                     .joinToString(", ")
 
 
-                                """${InterfaceGenerator.GeneratedClasses.SealedEntityData}(
+                                """${sealedEntityData.simpleName}(
                             |designClass =  ${metaEntity.designClassFullClassName.value}::class, 
                             |runtimeClass = ${CollectName.entityClassName(metaEntity)}::class,
                             |runtimeSyntheticClass = ${
@@ -123,7 +124,7 @@ class EntityMapGenerator(
 
 import ${FlowEntityType::class.java.canonicalName}.*
 ${entityData.import()}
-import ${InterfaceGenerator.GeneratedClasses.SealedEntityData.getPac(rootPackage)}
+${sealedEntityData.import()}
 import ${InterfaceGenerator.GeneratedClasses.EntityEnum.getPac(rootPackage)}
 import ${Generated::class.java.canonicalName}
 import ${MetaEntities::class.java.canonicalName}
