@@ -9,6 +9,7 @@ import ru.vood.dmgen.dto.UkName
 import ru.vood.dmgen.metaJson.FKMetaDataJson
 import ru.vood.dmgen.metaJson.FkPairJson
 import ru.vood.model.generator.ksp.common.CommonClassNames.fKMetaData
+import ru.vood.model.generator.ksp.common.CommonClassNames.fkPair
 import ru.vood.model.generator.ksp.common.CommonClassNames.iEntityOrigin
 import ru.vood.model.generator.ksp.common.dto.PackageName
 import ru.vood.model.generator.ksp.common.util.import
@@ -47,7 +48,7 @@ class ForeignKeyMapGenerator(
                     .map { metaForeign ->
                         val fkCols = metaForeign.fkCols.map { fkPa ->
 
-                            """${InterfaceGenerator.GeneratedClasses.FkPair}(${fullColumnEnumName}.${metaForeign.fromEntity.designClassShortName}_${fkPa.from.name.value}, ${fullColumnEnumName}.${metaForeign.toEntity.designClassShortName}_${fkPa.to.name.value})"""
+                            """${fkPair.simpleName}(${fullColumnEnumName}.${metaForeign.fromEntity.designClassShortName}_${fkPa.from.name.value}, ${fullColumnEnumName}.${metaForeign.toEntity.designClassShortName}_${fkPa.to.name.value})"""
                         }.joinToString(",\n")
 
                         val contextCols = metaForeign.fkCols.map { fkPa ->
@@ -95,7 +96,7 @@ class ForeignKeyMapGenerator(
                     """package ${packageName.value}
                         
 ${fKMetaData.import()}
-import ${InterfaceGenerator.GeneratedClasses.FkPair.getPac(rootPackage)}
+${fkPair.import()}
 import ${InterfaceGenerator.GeneratedClasses.UniqueKeyEnum.getPac(rootPackage)}
 ${iEntityOrigin.import()}
 import ${Generated::class.java.canonicalName}
