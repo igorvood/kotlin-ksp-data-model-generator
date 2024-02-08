@@ -61,9 +61,6 @@ import ${GeneratedClasses.FullColumnNameEnum.getPac(rootPackage)}
 
     enum class GeneratedClasses(val subPackageName: PackageName) {
         @Deprecated("")
-        UKEntityData(interfaceGeneratorPackageName),
-
-        @Deprecated("")
         FkPair(interfaceGeneratorPackageName),
         EntityEnum(subPackageAbstractDataDictionaryGenerator),
         FkNameEnum(subPackageAbstractDataDictionaryGenerator),

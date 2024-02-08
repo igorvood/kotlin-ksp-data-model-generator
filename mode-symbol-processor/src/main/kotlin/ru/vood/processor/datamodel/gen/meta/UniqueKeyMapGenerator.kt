@@ -5,7 +5,9 @@ import com.google.devtools.ksp.processing.KSPLogger
 import ru.vood.dmgen.annotation.MetaUKs
 import ru.vood.dmgen.dto.SimpleColumnName
 import ru.vood.dmgen.dto.TypeUk
+import ru.vood.model.generator.ksp.common.CommonClassNames.uKEntityData
 import ru.vood.model.generator.ksp.common.dto.PackageName
+import ru.vood.model.generator.ksp.common.util.import
 import ru.vood.processor.datamodel.abstraction.model.MetaInformation
 import ru.vood.processor.datamodel.gen.*
 import ru.vood.processor.datamodel.gen.runtime.intf.InterfaceGenerator
@@ -42,7 +44,7 @@ class UniqueKeyMapGenerator(
 
                                 val ukClassName = CollectName.ukClassName(ukDto.name)
 
-                                "${ukDto.name.value}" to """${InterfaceGenerator.GeneratedClasses.UniqueKeyEnum}.${ukDto.name.value} to ${InterfaceGenerator.GeneratedClasses.UKEntityData}(
+                                "${ukDto.name.value}" to """${InterfaceGenerator.GeneratedClasses.UniqueKeyEnum}.${ukDto.name.value} to ${uKEntityData.simpleName}(
                                     |ukName = ${InterfaceGenerator.GeneratedClasses.UniqueKeyEnum}.${ukDto.name.value},
                                     |columns = listOf($ukCols),
                                     |serializer = ${ukClassName}.serializer(),
@@ -68,7 +70,7 @@ class UniqueKeyMapGenerator(
                 val trimIndent =
                     """package ${packageName.value}
                         
-import ${InterfaceGenerator.GeneratedClasses.UKEntityData.getPac(rootPackage)}
+${uKEntityData.import()}
 import ${TypeUk::class.java.canonicalName}.*
 import ${InterfaceGenerator.GeneratedClasses.UniqueKeyEnum.getPac(rootPackage)}
 import ${SimpleColumnName::class.java.canonicalName}
