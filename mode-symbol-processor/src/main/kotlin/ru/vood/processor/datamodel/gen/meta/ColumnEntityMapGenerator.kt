@@ -8,6 +8,7 @@ import ru.vood.dmgen.dto.*
 import ru.vood.dmgen.metaJson.IColumnEntityDataJson
 import ru.vood.dmgen.metaJson.SimpleColumnEntityDataJson
 import ru.vood.dmgen.metaJson.SyntheticColumnEntityDataJson
+import ru.vood.model.generator.ksp.common.CommonClassNames.columnEntityData
 import ru.vood.model.generator.ksp.common.CommonClassNames.iEntityOrigin
 import ru.vood.model.generator.ksp.common.dto.PackageName
 import ru.vood.model.generator.ksp.common.util.import
@@ -160,7 +161,7 @@ import ${InterfaceGenerator.GeneratedClasses.SimpleColumnEntityData.getPac(rootP
 import ${InterfaceGenerator.GeneratedClasses.SealedSyntheticColumnEntityData.getPac(rootPackage)}
 import ${InterfaceGenerator.GeneratedClasses.EntityEnum.getPac(rootPackage)}
 
-import ${InterfaceGenerator.GeneratedClasses.ColumnEntityData.getPac(rootPackage)}
+${columnEntityData.import()}
 ${iEntityOrigin.import()}
 
 import ${Generated::class.java.canonicalName}
