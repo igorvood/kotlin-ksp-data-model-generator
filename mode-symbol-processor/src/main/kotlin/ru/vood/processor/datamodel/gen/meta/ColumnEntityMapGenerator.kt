@@ -10,6 +10,7 @@ import ru.vood.dmgen.metaJson.SimpleColumnEntityDataJson
 import ru.vood.dmgen.metaJson.SyntheticColumnEntityDataJson
 import ru.vood.model.generator.ksp.common.CommonClassNames.columnEntityData
 import ru.vood.model.generator.ksp.common.CommonClassNames.iEntityOrigin
+import ru.vood.model.generator.ksp.common.CommonClassNames.simpleColExtractFunction
 import ru.vood.model.generator.ksp.common.CommonClassNames.simpleColumnEntityData
 import ru.vood.model.generator.ksp.common.CommonClassNames.syntheticColumnEntityData
 import ru.vood.model.generator.ksp.common.dto.PackageName
@@ -143,7 +144,7 @@ class ColumnEntityMapGenerator(
                                 |simpleColumnName = ${SimpleColumnName::class.simpleName}("${col.name.value}"),
                                 |isOptional = ${col.isNullable},
                                 |comment = "${col.comment}",
-                                |iColExtractFunction = ${InterfaceGenerator.GeneratedClasses.SimpleColExtractFunction}<$entityClass, ${col.type}${col.question}> {it.${col.name.value}},
+                                |iColExtractFunction = ${simpleColExtractFunction.simpleName}<$entityClass, ${col.type}${col.question}> {it.${col.name.value}},
                                 |simpleColumnType = ${SimpleColumnType::class.simpleName}("${col.type}")
                                 |)""".trimMargin()
                             }
@@ -160,7 +161,6 @@ import ${SimpleColumnType::class.java.canonicalName}
 import ${SimpleColumnName::class.java.canonicalName}
 ${syntheticColumnEntityData.import()}
 ${simpleColumnEntityData.import()}
-import ${InterfaceGenerator.GeneratedClasses.SealedSyntheticColumnEntityData.getPac(rootPackage)}
 import ${InterfaceGenerator.GeneratedClasses.EntityEnum.getPac(rootPackage)}
 
 ${columnEntityData.import()}
@@ -169,8 +169,7 @@ ${iEntityOrigin.import()}
 import ${Generated::class.java.canonicalName}
 import ${EnumMap::class.java.canonicalName}
 import ${MetaColumns::class.java.canonicalName}
-import ${InterfaceGenerator.GeneratedClasses.IColExtractFunction.getPac(rootPackage)}
-import ${InterfaceGenerator.GeneratedClasses.SimpleColExtractFunction.getPac(rootPackage)}
+${simpleColExtractFunction.import()}
 import ${InterfaceGenerator.GeneratedClasses.Synthetic.getPac(rootPackage)}
 import ${InterfaceGenerator.GeneratedClasses.SyntheticSet.getPac(rootPackage)}
 import kotlin.reflect.KProperty1
