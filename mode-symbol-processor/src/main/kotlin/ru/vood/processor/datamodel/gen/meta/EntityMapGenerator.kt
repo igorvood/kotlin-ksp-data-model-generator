@@ -11,7 +11,9 @@ import ru.vood.dmgen.metaJson.SealedEntityDataJson
 import ru.vood.dmgen.metaJson.value.InterfaceEntityClassName
 import ru.vood.dmgen.metaJson.value.RuntimeEntityClassName
 import ru.vood.dmgen.metaJson.value.RuntimeSyntheticEntityClassName
+import ru.vood.model.generator.ksp.common.CommonClassNames.entityData
 import ru.vood.model.generator.ksp.common.dto.PackageName
+import ru.vood.model.generator.ksp.common.util.import
 import ru.vood.processor.datamodel.abstraction.model.MetaInformation
 import ru.vood.processor.datamodel.gen.*
 import ru.vood.processor.datamodel.gen.runtime.intf.InterfaceGenerator
@@ -58,7 +60,7 @@ class EntityMapGenerator(
                                     )
                                 )
 
-                                """${InterfaceGenerator.GeneratedClasses.EntityData}(
+                                """${entityData.simpleName}(
                             |designClass =  ${metaEntity.designClassFullClassName.value}::class, 
                             |runtimeClass = ${CollectName.entityClassName(metaEntity)}::class,
                             |runtimeSyntheticClass = ${CollectName.syntheticClassName(metaEntity)}::class,
@@ -120,7 +122,7 @@ class EntityMapGenerator(
                     """package ${packageName.value}
 
 import ${FlowEntityType::class.java.canonicalName}.*
-import ${InterfaceGenerator.GeneratedClasses.EntityData.getPac(rootPackage)}
+${entityData.import()}
 import ${InterfaceGenerator.GeneratedClasses.SealedEntityData.getPac(rootPackage)}
 import ${InterfaceGenerator.GeneratedClasses.EntityEnum.getPac(rootPackage)}
 import ${Generated::class.java.canonicalName}

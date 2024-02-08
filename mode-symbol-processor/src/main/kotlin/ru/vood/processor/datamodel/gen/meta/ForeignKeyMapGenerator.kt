@@ -8,6 +8,7 @@ import ru.vood.dmgen.dto.RelationType
 import ru.vood.dmgen.dto.UkName
 import ru.vood.dmgen.metaJson.FKMetaDataJson
 import ru.vood.dmgen.metaJson.FkPairJson
+import ru.vood.model.generator.ksp.common.CommonClassNames.fKMetaData
 import ru.vood.model.generator.ksp.common.CommonClassNames.iEntityOrigin
 import ru.vood.model.generator.ksp.common.dto.PackageName
 import ru.vood.model.generator.ksp.common.util.import
@@ -69,7 +70,7 @@ class ForeignKeyMapGenerator(
                             )
                         )
 
-                        metaForeign.name.value to """${fkEnumName}.${metaForeign.name.value} to ${InterfaceGenerator.GeneratedClasses.FKMetaData}<${
+                        metaForeign.name.value to """${fkEnumName}.${metaForeign.name.value} to ${fKMetaData.simpleName}<${
                             entityClassName(
                                 metaForeign.fromEntity
                             )
@@ -93,7 +94,7 @@ class ForeignKeyMapGenerator(
                 val trimIndent =
                     """package ${packageName.value}
                         
-import ${InterfaceGenerator.GeneratedClasses.FKMetaData.getPac(rootPackage)}
+${fKMetaData.import()}
 import ${InterfaceGenerator.GeneratedClasses.FkPair.getPac(rootPackage)}
 import ${InterfaceGenerator.GeneratedClasses.UniqueKeyEnum.getPac(rootPackage)}
 ${iEntityOrigin.import()}
