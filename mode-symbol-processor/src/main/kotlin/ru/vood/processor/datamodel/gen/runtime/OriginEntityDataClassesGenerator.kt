@@ -73,8 +73,8 @@ override val ${col.name.value}: $kotlinMetaClass$nullableSymbol""".trimIndent()
         }
 
         val implemets = when (sealedForeign.size) {
-            0 -> """${InterfaceGenerator.GeneratedClasses.IEntityOrigin}, ${metaEntity.designClassFullClassName.value}"""
-            1 -> """${InterfaceGenerator.GeneratedClasses.IEntityOrigin}, ${metaEntity.designClassFullClassName.value}, ${
+            0 -> """${iEntityOrigin.simpleName}, ${metaEntity.designClassFullClassName.value}"""
+            1 -> """${iEntityOrigin.simpleName}, ${metaEntity.designClassFullClassName.value}, ${
                 entityClassName(
                     sealedForeign[0].toEntity
                 )

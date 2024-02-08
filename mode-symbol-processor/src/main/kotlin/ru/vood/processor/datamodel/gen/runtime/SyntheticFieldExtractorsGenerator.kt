@@ -5,7 +5,9 @@ import com.google.devtools.ksp.processing.KSPLogger
 import ru.vood.dmgen.annotation.FlowEntityType
 import ru.vood.dmgen.annotation.ModelEntityDetail
 import ru.vood.dmgen.dto.RelationType
+import ru.vood.model.generator.ksp.common.CommonClassNames.iEntityOrigin
 import ru.vood.model.generator.ksp.common.dto.PackageName
+import ru.vood.model.generator.ksp.common.util.import
 import ru.vood.processor.datamodel.abstraction.model.Dependency
 import ru.vood.processor.datamodel.abstraction.model.MetaEntity
 import ru.vood.processor.datamodel.abstraction.model.MetaForeignKey
@@ -75,19 +77,19 @@ $fk
 
 ): $s         
 {
-     override fun syntheticFieldOptional(entityName:  ${InterfaceGenerator.GeneratedClasses.EntityEnum}): ${InterfaceGenerator.GeneratedClasses.IEntityDetail}<out ${InterfaceGenerator.GeneratedClasses.IEntityOrigin}>? = 
+     override fun syntheticFieldOptional(entityName:  ${InterfaceGenerator.GeneratedClasses.EntityEnum}): ${InterfaceGenerator.GeneratedClasses.IEntityDetail}<out ${iEntityOrigin.simpleName}>? = 
      when (entityName) {
                 $fkFunCodeOptional
                 else -> error("In Entity ${'$'}{designEntityName} Not found optional synthetic field for entity ${'$'}{entityName}")
             }
 
-     override fun syntheticFieldMandatory(entityName:  ${InterfaceGenerator.GeneratedClasses.EntityEnum}): ${InterfaceGenerator.GeneratedClasses.IEntityDetail}<out ${InterfaceGenerator.GeneratedClasses.IEntityOrigin}> = 
+     override fun syntheticFieldMandatory(entityName:  ${InterfaceGenerator.GeneratedClasses.EntityEnum}): ${InterfaceGenerator.GeneratedClasses.IEntityDetail}<out ${iEntityOrigin.simpleName}> = 
      when (entityName) {
                 $fkFunCodeMandatory
                 else -> error("In Entity ${'$'}{designEntityName} Not found mandatory synthetic field for entity ${'$'}{entityName}")
             }
 
-     override fun syntheticFieldSet(entityName: ${InterfaceGenerator.GeneratedClasses.EntityEnum}): Set<${InterfaceGenerator.GeneratedClasses.IEntityDetail}<out ${InterfaceGenerator.GeneratedClasses.IEntityOrigin}>> = 
+     override fun syntheticFieldSet(entityName: ${InterfaceGenerator.GeneratedClasses.EntityEnum}): Set<${InterfaceGenerator.GeneratedClasses.IEntityDetail}<out ${iEntityOrigin.simpleName}>> = 
      when (entityName) {
                 $fkFunCodeSet
                 else -> error("In Entity ${'$'}{designEntityName} Not found mandatory synthetic field for entity ${'$'}{entityName}")
@@ -107,15 +109,15 @@ override val origin: $originClassName
 : $s
 {
 
-  override fun syntheticFieldOptional(entityName:  ${InterfaceGenerator.GeneratedClasses.EntityEnum}): ${InterfaceGenerator.GeneratedClasses.IEntityDetail}<out ${InterfaceGenerator.GeneratedClasses.IEntityOrigin}>? {
+  override fun syntheticFieldOptional(entityName:  ${InterfaceGenerator.GeneratedClasses.EntityEnum}): ${InterfaceGenerator.GeneratedClasses.IEntityDetail}<out ${iEntityOrigin.simpleName}>? {
         TODO("Not yet implemented")
     }   
 
-      override fun syntheticFieldMandatory(entityName:  ${InterfaceGenerator.GeneratedClasses.EntityEnum}): ${InterfaceGenerator.GeneratedClasses.IEntityDetail}<out ${InterfaceGenerator.GeneratedClasses.IEntityOrigin}> {
+      override fun syntheticFieldMandatory(entityName:  ${InterfaceGenerator.GeneratedClasses.EntityEnum}): ${InterfaceGenerator.GeneratedClasses.IEntityDetail}<out ${iEntityOrigin.simpleName}> {
         TODO("Not yet implemented")
     }   
 
-    override fun syntheticFieldSet(entityName: ${InterfaceGenerator.GeneratedClasses.EntityEnum}): Set<${InterfaceGenerator.GeneratedClasses.IEntityDetail}<out ${InterfaceGenerator.GeneratedClasses.IEntityOrigin}>> {
+    override fun syntheticFieldSet(entityName: ${InterfaceGenerator.GeneratedClasses.EntityEnum}): Set<${InterfaceGenerator.GeneratedClasses.IEntityDetail}<out ${iEntityOrigin.simpleName}>> {
         TODO("Not yet implemented")
     }   
 
@@ -178,7 +180,7 @@ override val designEntityName: ${InterfaceGenerator.GeneratedClasses.EntityEnum}
     import ${InterfaceGenerator.GeneratedClasses.IEntityDetail.getPac(rootPackage)}     
     import ${Generated::class.java.canonicalName}
     import ${ModelEntityDetail::class.java.canonicalName}
-    import ${InterfaceGenerator.GeneratedClasses.IEntityOrigin.getPac(rootPackage)}
+    ${iEntityOrigin.import()}
     import ${InterfaceGenerator.GeneratedClasses.EntityEnum.getPac(rootPackage)}
     
     ${syntheticFieldImport}
