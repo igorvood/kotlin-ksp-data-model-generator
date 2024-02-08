@@ -12,6 +12,7 @@ import ru.vood.model.generator.ksp.common.CommonClassNames.columnEntityData
 import ru.vood.model.generator.ksp.common.CommonClassNames.iEntityOrigin
 import ru.vood.model.generator.ksp.common.CommonClassNames.simpleColExtractFunction
 import ru.vood.model.generator.ksp.common.CommonClassNames.simpleColumnEntityData
+import ru.vood.model.generator.ksp.common.CommonClassNames.synthetic
 import ru.vood.model.generator.ksp.common.CommonClassNames.syntheticColumnEntityData
 import ru.vood.model.generator.ksp.common.dto.PackageName
 import ru.vood.model.generator.ksp.common.util.import
@@ -76,7 +77,7 @@ class ColumnEntityMapGenerator(
                                     RelationType.ONE_TO_ONE_OPTIONAL -> {
                                         val funBody =
                                             if (synth.isOneOf) sealedText else """it.${fromEntity.entityFieldName}?.let{q->setOf(q)}?:setOf()"""
-                                        "${InterfaceGenerator.GeneratedClasses.Synthetic}<$entityClass, $syntheticClassName, ${synth.metaEntity.designClassPackageName}.${
+                                        "${synthetic.simpleName}<$entityClass, $syntheticClassName, ${synth.metaEntity.designClassPackageName}.${
                                             entityClassName(
                                                 synth.metaEntity
                                             )
@@ -85,7 +86,7 @@ class ColumnEntityMapGenerator(
                                     RelationType.ONE_TO_ONE_MANDATORY -> {
                                         val funBody =
                                             if (synth.isOneOf) sealedText else """setOf(it.${fromEntity.entityFieldName})"""
-                                        "${InterfaceGenerator.GeneratedClasses.Synthetic}<$entityClass, $syntheticClassName, ${synth.metaEntity.designClassPackageName}.${
+                                        "${synthetic.simpleName}<$entityClass, $syntheticClassName, ${synth.metaEntity.designClassPackageName}.${
                                             entityClassName(
                                                 synth.metaEntity
                                             )
@@ -170,7 +171,7 @@ import ${Generated::class.java.canonicalName}
 import ${EnumMap::class.java.canonicalName}
 import ${MetaColumns::class.java.canonicalName}
 ${simpleColExtractFunction.import()}
-import ${InterfaceGenerator.GeneratedClasses.Synthetic.getPac(rootPackage)}
+${synthetic.import()}
 import ${InterfaceGenerator.GeneratedClasses.SyntheticSet.getPac(rootPackage)}
 import kotlin.reflect.KProperty1
 ${metaInfo.allEntityPackagesImport}
