@@ -14,6 +14,7 @@ import ru.vood.model.generator.ksp.common.CommonClassNames.simpleColExtractFunct
 import ru.vood.model.generator.ksp.common.CommonClassNames.simpleColumnEntityData
 import ru.vood.model.generator.ksp.common.CommonClassNames.synthetic
 import ru.vood.model.generator.ksp.common.CommonClassNames.syntheticColumnEntityData
+import ru.vood.model.generator.ksp.common.CommonClassNames.syntheticSet
 import ru.vood.model.generator.ksp.common.dto.PackageName
 import ru.vood.model.generator.ksp.common.util.import
 import ru.vood.processor.datamodel.abstraction.model.MetaInformation
@@ -93,7 +94,7 @@ class ColumnEntityMapGenerator(
                                         }>{$funBody}"
                                     }
                                     RelationType.MANY_TO_ONE ->
-                                        "${InterfaceGenerator.GeneratedClasses.SyntheticSet}<$entityClass, $syntheticClassName, ${synth.metaEntity.designClassPackageName}.${
+                                        "${syntheticSet.simpleName}<$entityClass, $syntheticClassName, ${synth.metaEntity.designClassPackageName}.${
                                             entityClassName(
                                                 synth.metaEntity
                                             )
@@ -172,7 +173,7 @@ import ${EnumMap::class.java.canonicalName}
 import ${MetaColumns::class.java.canonicalName}
 ${simpleColExtractFunction.import()}
 ${synthetic.import()}
-import ${InterfaceGenerator.GeneratedClasses.SyntheticSet.getPac(rootPackage)}
+${syntheticSet.import()}
 import kotlin.reflect.KProperty1
 ${metaInfo.allEntityPackagesImport}
 
