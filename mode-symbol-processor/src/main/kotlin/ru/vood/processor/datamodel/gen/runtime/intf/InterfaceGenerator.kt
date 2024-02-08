@@ -61,9 +61,6 @@ import ${GeneratedClasses.FullColumnNameEnum.getPac(rootPackage)}
 
     enum class GeneratedClasses(val subPackageName: PackageName) {
         @Deprecated("")
-        SimpleColumnEntityData(interfaceGeneratorPackageName),
-
-        @Deprecated("")
         SyntheticColumnEntityData(interfaceGeneratorPackageName),
 
         @Deprecated("")
