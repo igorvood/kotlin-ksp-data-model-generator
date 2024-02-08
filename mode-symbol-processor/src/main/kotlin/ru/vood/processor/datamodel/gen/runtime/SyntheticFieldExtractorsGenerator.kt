@@ -5,6 +5,7 @@ import com.google.devtools.ksp.processing.KSPLogger
 import ru.vood.dmgen.annotation.FlowEntityType
 import ru.vood.dmgen.annotation.ModelEntityDetail
 import ru.vood.dmgen.dto.RelationType
+import ru.vood.model.generator.ksp.common.CommonClassNames.iEntityDetail
 import ru.vood.model.generator.ksp.common.CommonClassNames.iEntityOrigin
 import ru.vood.model.generator.ksp.common.dto.PackageName
 import ru.vood.model.generator.ksp.common.util.import
@@ -66,7 +67,7 @@ class SyntheticFieldExtractorsGenerator(
         val fullClassName = syntheticClassName(metaEntity)
 
         val simpleColumns = "override val origin: $originClassName"
-        val s = """${InterfaceGenerator.GeneratedClasses.IEntityDetail}<$originClassName>"""
+        val s = """${iEntityDetail.simpleName}<$originClassName>"""
         val code = when (metaEntity.flowEntityType) {
             FlowEntityType.INNER, FlowEntityType.AGGREGATE -> """${headCreate(metaEntity, syntheticFieldImport)}
 data class $fullClassName (
@@ -77,19 +78,19 @@ $fk
 
 ): $s         
 {
-     override fun syntheticFieldOptional(entityName:  ${InterfaceGenerator.GeneratedClasses.EntityEnum}): ${InterfaceGenerator.GeneratedClasses.IEntityDetail}<out ${iEntityOrigin.simpleName}>? = 
+     override fun syntheticFieldOptional(entityName:  ${InterfaceGenerator.GeneratedClasses.EntityEnum}): ${iEntityDetail.simpleName}<out ${iEntityOrigin.simpleName}>? = 
      when (entityName) {
                 $fkFunCodeOptional
                 else -> error("In Entity ${'$'}{designEntityName} Not found optional synthetic field for entity ${'$'}{entityName}")
             }
 
-     override fun syntheticFieldMandatory(entityName:  ${InterfaceGenerator.GeneratedClasses.EntityEnum}): ${InterfaceGenerator.GeneratedClasses.IEntityDetail}<out ${iEntityOrigin.simpleName}> = 
+     override fun syntheticFieldMandatory(entityName:  ${InterfaceGenerator.GeneratedClasses.EntityEnum}): ${iEntityDetail.simpleName}<out ${iEntityOrigin.simpleName}> = 
      when (entityName) {
                 $fkFunCodeMandatory
                 else -> error("In Entity ${'$'}{designEntityName} Not found mandatory synthetic field for entity ${'$'}{entityName}")
             }
 
-     override fun syntheticFieldSet(entityName: ${InterfaceGenerator.GeneratedClasses.EntityEnum}): Set<${InterfaceGenerator.GeneratedClasses.IEntityDetail}<out ${iEntityOrigin.simpleName}>> = 
+     override fun syntheticFieldSet(entityName: ${InterfaceGenerator.GeneratedClasses.EntityEnum}): Set<${iEntityDetail.simpleName}<out ${iEntityOrigin.simpleName}>> = 
      when (entityName) {
                 $fkFunCodeSet
                 else -> error("In Entity ${'$'}{designEntityName} Not found mandatory synthetic field for entity ${'$'}{entityName}")
@@ -109,15 +110,15 @@ override val origin: $originClassName
 : $s
 {
 
-  override fun syntheticFieldOptional(entityName:  ${InterfaceGenerator.GeneratedClasses.EntityEnum}): ${InterfaceGenerator.GeneratedClasses.IEntityDetail}<out ${iEntityOrigin.simpleName}>? {
+  override fun syntheticFieldOptional(entityName:  ${InterfaceGenerator.GeneratedClasses.EntityEnum}): ${iEntityDetail.simpleName}<out ${iEntityOrigin.simpleName}>? {
         TODO("Not yet implemented")
     }   
 
-      override fun syntheticFieldMandatory(entityName:  ${InterfaceGenerator.GeneratedClasses.EntityEnum}): ${InterfaceGenerator.GeneratedClasses.IEntityDetail}<out ${iEntityOrigin.simpleName}> {
+      override fun syntheticFieldMandatory(entityName:  ${InterfaceGenerator.GeneratedClasses.EntityEnum}): ${iEntityDetail.simpleName}<out ${iEntityOrigin.simpleName}> {
         TODO("Not yet implemented")
     }   
 
-    override fun syntheticFieldSet(entityName: ${InterfaceGenerator.GeneratedClasses.EntityEnum}): Set<${InterfaceGenerator.GeneratedClasses.IEntityDetail}<out ${iEntityOrigin.simpleName}>> {
+    override fun syntheticFieldSet(entityName: ${InterfaceGenerator.GeneratedClasses.EntityEnum}): Set<${iEntityDetail.simpleName}<out ${iEntityOrigin.simpleName}>> {
         TODO("Not yet implemented")
     }   
 
@@ -177,7 +178,7 @@ override val designEntityName: ${InterfaceGenerator.GeneratedClasses.EntityEnum}
     """.trimIndent()
         } ?: ""
     }          
-    import ${InterfaceGenerator.GeneratedClasses.IEntityDetail.getPac(rootPackage)}     
+    ${iEntityDetail.import()}     
     import ${Generated::class.java.canonicalName}
     import ${ModelEntityDetail::class.java.canonicalName}
     ${iEntityOrigin.import()}
