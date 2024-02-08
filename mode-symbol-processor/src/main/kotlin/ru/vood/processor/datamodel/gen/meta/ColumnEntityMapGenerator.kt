@@ -11,6 +11,7 @@ import ru.vood.dmgen.metaJson.SyntheticColumnEntityDataJson
 import ru.vood.model.generator.ksp.common.CommonClassNames.columnEntityData
 import ru.vood.model.generator.ksp.common.CommonClassNames.iEntityOrigin
 import ru.vood.model.generator.ksp.common.CommonClassNames.simpleColumnEntityData
+import ru.vood.model.generator.ksp.common.CommonClassNames.syntheticColumnEntityData
 import ru.vood.model.generator.ksp.common.dto.PackageName
 import ru.vood.model.generator.ksp.common.util.import
 import ru.vood.processor.datamodel.abstraction.model.MetaInformation
@@ -112,7 +113,7 @@ class ColumnEntityMapGenerator(
                                     )
                                 )
 
-                                "${fullColumnName.value}" to """${fullColumnEnumName}.${fullColumnName.value} to ${InterfaceGenerator.GeneratedClasses.SyntheticColumnEntityData}(
+                                "${fullColumnName.value}" to """${fullColumnEnumName}.${fullColumnName.value} to ${syntheticColumnEntityData.simpleName}(
                                 |entity= ${InterfaceGenerator.GeneratedClasses.EntityEnum}.${ent.designClassShortName},
                                 |outEntity = ${InterfaceGenerator.GeneratedClasses.EntityEnum}.${fromEntity.designClassShortName},
                                 |simpleColumnName = ${SimpleColumnName::class.simpleName}("${fromEntity.entityFieldName}"),
@@ -157,7 +158,7 @@ class ColumnEntityMapGenerator(
 import ${SimpleColumnType::class.java.canonicalName}
 
 import ${SimpleColumnName::class.java.canonicalName}
-import ${InterfaceGenerator.GeneratedClasses.SyntheticColumnEntityData.getPac(rootPackage)}
+${syntheticColumnEntityData.import()}
 ${simpleColumnEntityData.import()}
 import ${InterfaceGenerator.GeneratedClasses.SealedSyntheticColumnEntityData.getPac(rootPackage)}
 import ${InterfaceGenerator.GeneratedClasses.EntityEnum.getPac(rootPackage)}
