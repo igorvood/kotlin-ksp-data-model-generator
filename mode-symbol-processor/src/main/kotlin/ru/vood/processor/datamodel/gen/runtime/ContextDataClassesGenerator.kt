@@ -3,7 +3,9 @@ package ru.vood.processor.datamodel.gen.runtime
 import com.google.devtools.ksp.processing.CodeGenerator
 import com.google.devtools.ksp.processing.KSPLogger
 import ru.vood.dmgen.annotation.ModelEntityContext
+import ru.vood.model.generator.ksp.common.CommonClassNames.iContextOf
 import ru.vood.model.generator.ksp.common.dto.PackageName
+import ru.vood.model.generator.ksp.common.util.import
 import ru.vood.processor.datamodel.abstraction.model.MetaInformation
 import ru.vood.processor.datamodel.gen.*
 import ru.vood.processor.datamodel.gen.CollectName.ukClassName
@@ -47,7 +49,7 @@ class ContextDataClassesGenerator(
 import ${InterfaceGenerator.GeneratedClasses.UniqueKeyEnum.getPac(rootPackage)}
 import ${Generated::class.java.canonicalName}
 import ${ModelEntityContext::class.java.canonicalName}
-import ${InterfaceGenerator.GeneratedClasses.IContextOf.getPac(rootPackage)}
+${iContextOf.import()}
 import ${InterfaceGenerator.GeneratedClasses.EntityEnum.getPac(rootPackage)}
                     
 @kotlinx.serialization.Serializable
@@ -55,7 +57,7 @@ import ${InterfaceGenerator.GeneratedClasses.EntityEnum.getPac(rootPackage)}
 @${ModelEntityContext::class.java.simpleName}
 data class $fullClassName (
 $joinToString
-): ${InterfaceGenerator.GeneratedClasses.IContextOf}<$entityName>
+): ${iContextOf.simpleName}<$entityName>
 {
 override val designEntityName: ${InterfaceGenerator.GeneratedClasses.EntityEnum}
         get() = ${InterfaceGenerator.GeneratedClasses.EntityEnum}.$dataClass
