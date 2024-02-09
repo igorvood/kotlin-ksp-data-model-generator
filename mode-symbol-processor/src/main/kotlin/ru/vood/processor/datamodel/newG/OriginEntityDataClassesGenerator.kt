@@ -2,12 +2,14 @@ package ru.vood.processor.datamodel.newG
 
 import com.google.devtools.ksp.processing.KSPLogger
 import com.squareup.kotlinpoet.*
+import ru.vood.dmgen.annotation.FlowEntityType
 import ru.vood.model.generator.ksp.common.CommonClassNames.iEntityOrigin
 import ru.vood.model.generator.ksp.common.KspCommonUtils.generated
 import ru.vood.processor.datamodel.abstraction.model.Dependency
 import ru.vood.processor.datamodel.abstraction.model.MetaForeignKey
 import ru.vood.processor.datamodel.abstraction.model.MetaInformation
 import ru.vood.processor.datamodel.gen.CollectName
+import ru.vood.processor.datamodel.gen.CollectName.entityClassName
 import ru.vood.processor.datamodel.newG.SerializableEntityGenerator.Companion.designEntityNamePropertySpec
 import ru.vood.processor.datamodel.newG.abstraction.AbstractEntityGenerator
 
@@ -40,9 +42,32 @@ class OriginEntityDataClassesGenerator(
         val classBuilder = TypeSpec.classBuilder(classNameStr)
             .generated(this::class)
             .addKdoc(metaEntity.comment ?: "Empty comment")
-            .addSuperinterface(metaEntity.designPoetClassName)
-            .addSuperinterface(iEntityOrigin)
             .addModifiers(KModifier.DATA)
+
+        // Определить есть ли форены на sealed сущность
+        val sealedForeign = metaForeignKeys.filter { fk ->
+            fk.fromEntity.designClassFullClassName == metaEntity.designClassFullClassName &&
+                    when (fk.toEntity.flowEntityType) {
+                        FlowEntityType.INNER -> false
+                        FlowEntityType.AGGREGATE -> false
+                        FlowEntityType.ONE_OF -> true
+                    }
+        }
+
+        when (sealedForeign.size) {
+            // форенов нет, прописываю стандартные интерфейсы
+            0 -> classBuilder
+                .addSuperinterface(metaEntity.designPoetClassName)
+                .addSuperinterface(iEntityOrigin)
+            // форен один, прописываю стандартные интерфейсы + sealed интерфейс
+            1 -> classBuilder
+                .addSuperinterface(metaEntity.designPoetClassName)
+                .addSuperinterface(iEntityOrigin)
+                .addSuperinterface(entityClassName(sealedForeign[0].toEntity.designPoetClassName))
+            // форенов несколько и такую ситуацию не могу обработать
+            else -> kspLogger.error("for $classNameStr found several foreign on sealed interface", metaEntity.ksAnnotated)
+        }
+
 
         //поместить все проперти из наследуемого интерфеса (его имя тут хранится metaEntity.designPoetClassName) в дефолтный конструктор
         val propSpec = metaEntity.fields
@@ -71,7 +96,11 @@ class OriginEntityDataClassesGenerator(
             .addModifiers(KModifier.OVERRIDE)
             .getter(
                 FunSpec.getterBuilder()
-                    .addCode("return %T.%L", designEntityNamePropertySpec.type, metaEntity.designPoetClassName.simpleName)
+                    .addCode(
+                        "return %T.%L",
+                        designEntityNamePropertySpec.type,
+                        metaEntity.designPoetClassName.simpleName
+                    )
                     .build()
             )
             .build()
