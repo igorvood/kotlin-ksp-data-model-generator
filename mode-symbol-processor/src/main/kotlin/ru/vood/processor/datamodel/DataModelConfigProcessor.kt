@@ -11,14 +11,12 @@ import ru.vood.model.generator.ksp.common.dto.PackageName
 import ru.vood.processor.datamodel.abstraction.model.MetaEntity
 import ru.vood.processor.datamodel.abstraction.model.MetaInformation
 import ru.vood.processor.datamodel.abstraction.model.metaInformation
-
 import ru.vood.processor.datamodel.gen.appendText
 import ru.vood.processor.datamodel.gen.meta.ColumnEntityMapGenerator
 import ru.vood.processor.datamodel.gen.meta.EntityMapGenerator
 import ru.vood.processor.datamodel.gen.meta.ForeignKeyMapGenerator
 import ru.vood.processor.datamodel.gen.meta.UniqueKeyMapGenerator
 import ru.vood.processor.datamodel.gen.runtime.ContextDataClassesGenerator
-import ru.vood.processor.datamodel.gen.runtime.OriginEntityDataClassesGenerator
 import ru.vood.processor.datamodel.gen.runtime.SyntheticFieldExtractorsGenerator
 import ru.vood.processor.datamodel.gen.runtime.intf.InterfaceGenerator
 
@@ -49,13 +47,13 @@ class DataModelConfigProcessor(
                         metaInformation
                     )
                 },
-                async {
-                    OriginEntityDataClassesGenerator(
-                        codeGenerator,
-                        rootPackage,
-                        logger
-                    ).createFiles(metaInformation)
-                },
+//                async {
+//                    OriginEntityDataClassesGenerator(
+//                        codeGenerator,
+//                        rootPackage,
+//                        logger
+//                    ).createFiles(metaInformation)
+//                },
             )
             listOf
 

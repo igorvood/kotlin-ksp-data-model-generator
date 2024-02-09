@@ -32,7 +32,7 @@ class OriginEntityDataClassesGenerator(
     ): List<FileSpec> {
         val metaEntity = aggregateInnerDep.metaEntity
         // Имя создаваемого класса
-        val classNameStr = entityClassName(metaEntity) + "Temp"
+        val classNameStr = entityClassName(metaEntity) //+ "Temp"
 
         //Создам Файл для класса
         val fileSpec = FileSpec.builder(
@@ -127,14 +127,17 @@ class OriginEntityDataClassesGenerator(
         }
 
 
+
         //поместить все проперти из наследуемого интерфеса (его имя тут хранится metaEntity.designPoetClassName) в дефолтный конструктор
         val propSpec = metaEntity.fields
             .sortedBy { it.position }
             .map { col ->
-                PropertySpec.builder(col.name.value, col.typePoetClassName)
+//                val nullableSymbol = if (col.isNullable) "?" else " "
+                PropertySpec.builder(col.name.value, col.typePoetClassName.copy(nullable = col.isNullable))
                     .initializer("%N", col.name.value)
                     .addKdoc(col.comment ?: "Empty comment")
                     .addModifiers(KModifier.OVERRIDE)
+                    .mutable(false)
                     .build()
             }
         val constructor: FunSpec.Builder = FunSpec.constructorBuilder()
