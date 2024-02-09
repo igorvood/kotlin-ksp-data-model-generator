@@ -4,6 +4,8 @@ import com.google.devtools.ksp.processing.KSPLogger
 import com.squareup.kotlinpoet.*
 import ru.vood.dmgen.annotation.FlowEntityType
 import ru.vood.model.generator.ksp.common.CommonClassNames.iEntityOrigin
+import ru.vood.model.generator.ksp.common.CommonClassNames.modelEntity
+import ru.vood.model.generator.ksp.common.CommonClassNames.serializable
 import ru.vood.model.generator.ksp.common.KspCommonUtils.generated
 import ru.vood.processor.datamodel.abstraction.model.Dependency
 import ru.vood.processor.datamodel.abstraction.model.MetaForeignKey
@@ -41,6 +43,8 @@ class OriginEntityDataClassesGenerator(
         // Создам класс, что будет описываться в файле
         val classBuilder = TypeSpec.classBuilder(classNameStr)
             .generated(this::class)
+            .addAnnotation(serializable)
+            .addAnnotation(modelEntity)
             .addKdoc(metaEntity.comment ?: "Empty comment")
             .addModifiers(KModifier.DATA)
 

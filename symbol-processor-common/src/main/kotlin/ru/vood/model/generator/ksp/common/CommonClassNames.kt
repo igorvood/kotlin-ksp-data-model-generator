@@ -6,6 +6,7 @@ import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.plusParameter
 import com.squareup.kotlinpoet.TypeVariableName
 import com.squareup.kotlinpoet.asClassName
 import ru.vood.dmgen.annotation.FlowEntityType
+import ru.vood.dmgen.annotation.ModelEntity
 import ru.vood.dmgen.dto.TypeUk
 import ru.vood.model.generator.ksp.common.dto.PackageName
 import java.util.*
@@ -38,11 +39,14 @@ object CommonClassNames {
     val boolean = Boolean::class.asClassName()
     val string = String::class.asClassName()
     val enumMap = EnumMap::class.asClassName()
+    val modelEntity = ModelEntity::class.asClassName()
+
 
 
     val kClass = ClassName("kotlin.reflect", "KClass")
     val any = ClassName("kotlin", "Any")
     val kSerializer = ClassName("kotlinx.serialization", "KSerializer")
+    val serializable = ClassName("kotlinx.serialization", "Serializable")
 
     val nameT = "T"
     val nameOut = "OUT"
