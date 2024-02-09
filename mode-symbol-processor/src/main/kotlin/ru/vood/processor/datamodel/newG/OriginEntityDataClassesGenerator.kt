@@ -8,9 +8,9 @@ import ru.vood.model.generator.ksp.common.CommonClassNames.modelEntity
 import ru.vood.model.generator.ksp.common.CommonClassNames.serializable
 import ru.vood.model.generator.ksp.common.KspCommonUtils.generated
 import ru.vood.processor.datamodel.abstraction.model.Dependency
+import ru.vood.processor.datamodel.abstraction.model.MetaEntity
 import ru.vood.processor.datamodel.abstraction.model.MetaForeignKey
 import ru.vood.processor.datamodel.abstraction.model.MetaInformation
-import ru.vood.processor.datamodel.gen.CollectName
 import ru.vood.processor.datamodel.gen.CollectName.entityClassName
 import ru.vood.processor.datamodel.newG.SerializableEntityGenerator.Companion.designEntityNamePropertySpec
 import ru.vood.processor.datamodel.newG.abstraction.AbstractEntityGenerator
@@ -32,7 +32,7 @@ class OriginEntityDataClassesGenerator(
     ): List<FileSpec> {
         val metaEntity = aggregateInnerDep.metaEntity
         // Имя создаваемого класса
-        val classNameStr = CollectName.entityClassName(metaEntity) + "Temp"
+        val classNameStr = entityClassName(metaEntity) + "Temp"
 
         //Создам Файл для класса
         val fileSpec = FileSpec.builder(
@@ -40,6 +40,57 @@ class OriginEntityDataClassesGenerator(
             fileName = classNameStr
         )
 
+        val classBuilder = when (metaEntity.flowEntityType) {
+            FlowEntityType.INNER, FlowEntityType.AGGREGATE -> dataClassBuilder(
+                classNameStr,
+                metaEntity,
+                metaForeignKeys
+            )
+            FlowEntityType.ONE_OF -> sealedInterfaceBuilder(
+                classNameStr,
+                metaEntity,
+                metaForeignKeys
+            )
+        }
+
+
+        // для всех потомков текущего класса рекурсивно вызвать формирование сущностей
+        val childrenFiles = aggregateInnerDep.children
+            .map { df -> collectEntityFile(metaForeignKeys, df, collector) }
+            .flatten()
+            .toSet()
+
+
+        return listOf(fileSpec.addType(classBuilder.build()).build()).plus(childrenFiles)
+    }
+
+    private fun sealedInterfaceBuilder(
+        classNameStr: String,
+        metaEntity: MetaEntity,
+        metaForeignKeys: Set<MetaForeignKey>,
+    ): TypeSpec.Builder {
+        // Создам класс, что будет описываться в файле
+        val classBuilder = TypeSpec.interfaceBuilder(classNameStr)
+            .generated(this::class)
+            .addAnnotation(serializable)
+            .addAnnotation(modelEntity)
+            .addKdoc(metaEntity.comment ?: "Empty comment")
+            .addModifiers(KModifier.SEALED)
+            .addSuperinterface(metaEntity.designPoetClassName)
+            .addSuperinterface(iEntityOrigin)
+
+        // надо переопределить геттер из интерфейса iEntityOrigin
+        val designPoetClassNameGetter = designEntityNamePropertySpec(metaEntity)
+
+        return classBuilder
+            .addProperty(designPoetClassNameGetter)
+    }
+
+    private fun dataClassBuilder(
+        classNameStr: String,
+        metaEntity: MetaEntity,
+        metaForeignKeys: Set<MetaForeignKey>,
+    ): TypeSpec.Builder {
         // Создам класс, что будет описываться в файле
         val classBuilder = TypeSpec.classBuilder(classNameStr)
             .generated(this::class)
@@ -69,7 +120,10 @@ class OriginEntityDataClassesGenerator(
                 .addSuperinterface(iEntityOrigin)
                 .addSuperinterface(entityClassName(sealedForeign[0].toEntity.designPoetClassName))
             // форенов несколько и такую ситуацию не могу обработать
-            else -> kspLogger.error("for $classNameStr found several foreign on sealed interface", metaEntity.ksAnnotated)
+            else -> kspLogger.error(
+                "for $classNameStr found several foreign on sealed interface",
+                metaEntity.ksAnnotated
+            )
         }
 
 
@@ -95,7 +149,17 @@ class OriginEntityDataClassesGenerator(
             }
 
         // надо переопределить геттер из интерфейса iEntityOrigin
-        val getter = PropertySpec.builder(designEntityNamePropertySpec.name, designEntityNamePropertySpec.type)
+        val designPoetClassNameGetter = designEntityNamePropertySpec(metaEntity)
+
+        // добавить в класс конструктор и геттер
+        classBuilder
+            .primaryConstructor(constructor.build())
+            .addProperty(designPoetClassNameGetter)
+        return classBuilder
+    }
+
+    private fun designEntityNamePropertySpec(metaEntity: MetaEntity) =
+        PropertySpec.builder(designEntityNamePropertySpec.name, designEntityNamePropertySpec.type)
             .addKdoc(designEntityNamePropertySpec.kdoc)
             .addModifiers(KModifier.OVERRIDE)
             .getter(
@@ -108,19 +172,4 @@ class OriginEntityDataClassesGenerator(
                     .build()
             )
             .build()
-
-        // добавить в класс конструктор и геттер
-        classBuilder
-            .primaryConstructor(constructor.build())
-            .addProperty(getter)
-
-        // для всех потомков текущего класса рекурсивно вызвать формирование сущностей
-        val childrenFiles = aggregateInnerDep.children
-            .map { df -> collectEntityFile(metaForeignKeys, df, collector) }
-            .flatten()
-            .toSet()
-
-
-        return listOf(fileSpec.addType(classBuilder.build()).build()).plus(childrenFiles)
-    }
 }
