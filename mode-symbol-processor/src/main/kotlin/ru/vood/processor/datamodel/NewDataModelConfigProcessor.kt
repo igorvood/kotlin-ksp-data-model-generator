@@ -81,7 +81,6 @@ class NewDataModelConfigProcessor(
                         fs.writeTo(codeGenerator = codeGenerator, aggregating = true)
                         kspLogger.logging("generated ${fs.name} ")
                     }
-
                 }
 
         }
@@ -113,7 +112,7 @@ class NewDataModelConfigProcessor(
 
             }
 
-            val toList = setMetaEnt.toList().map { it.designClassPackageName }
+            val toList = setMetaEnt.toList().map { it.designPoetClassName.packageName }
             val value = toList[0]
             return commonPackageRecurcive(value, toList.drop(1))
         }
