@@ -81,7 +81,7 @@ class DataModelConfigProcessor(
             resolver.getSymbolsWithAnnotation(checkNotNull(FlowEntity::class.qualifiedName)).toList()
         logger.warn("count entities ${symbols.size}")
 
-        val metaInformation = metaInformation(symbols, logger)
+        val metaInformation = metaInformation(symbols, logger, false)
 
         metaInformation.entities.values
             .forEach { metaEntity ->

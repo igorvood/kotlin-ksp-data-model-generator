@@ -29,12 +29,15 @@ class NewDataModelConfigProcessor(
 
     override fun processRound(resolver: Resolver): List<KSAnnotated> {
 
-        kspLogger.info("KSP options "+environment.options)
+        kspLogger.warn("KSP options "+environment.options)
+
+        val nullableProbSetDefaultNull = environment.options["nullableProbSetDefaultNull"]?.let { it.toBoolean() }?:false
+
 
         val symbols: List<KSAnnotated> =
             resolver.getSymbolsWithAnnotation(checkNotNull(FlowEntity::class.qualifiedName)).toList()
 
-        metaInformation = collectMetaInformation(symbols, kspLogger)
+        metaInformation = collectMetaInformation(symbols, kspLogger, nullableProbSetDefaultNull)
 
         val setMetaEnt = metaInformation.entities.values.toSet()
 

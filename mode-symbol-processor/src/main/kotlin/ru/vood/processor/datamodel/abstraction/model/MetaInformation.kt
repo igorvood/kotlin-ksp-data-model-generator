@@ -7,6 +7,7 @@ import ru.vood.processor.datamodel.abstraction.model.dto.ModelClassName
 data class MetaInformation(
     val metaForeignKeys: Set<MetaForeignKey>,
     val entities: Map<ModelClassName, MetaEntity>,
+    val nullableProbSetDefaultNull: Boolean,
 ) {
     val allEntityPackagesImport =
         entities.values.distinctBy { it.designClassPackageName }.map { "import ${it.designClassPackageName}.*" }

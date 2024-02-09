@@ -154,7 +154,7 @@ private fun fkAssert(
         }
 }
 
-fun metaInformation(annotatedDataClasses: List<KSAnnotated>, logger: KSPLogger): MetaInformation {
+fun metaInformation(annotatedDataClasses: List<KSAnnotated>, logger: KSPLogger, nullableProbSetDefaultNull: Boolean): MetaInformation {
     //Вытаскиваю все классы аннотированые
     val elementsAnnotatedWithFlowEntity = annotatedDataClasses
         .filterIsInstance<KSClassDeclaration>()
@@ -176,7 +176,7 @@ fun metaInformation(annotatedDataClasses: List<KSAnnotated>, logger: KSPLogger):
     checkDublicateFKName(collectMetaForeignKey)
 
     val fieldsFk = fieldsFk(collectMetaForeignKey, logger)
-    return MetaInformation(fieldsFk, entities)
+    return MetaInformation(fieldsFk, entities, nullableProbSetDefaultNull)
 }
 
 private fun checkDublicateFKName(collectMetaForeignKey: Set<MetaForeignKeyTemporary>) {

@@ -143,10 +143,15 @@ class OriginEntityDataClassesGenerator(
         val constructor: FunSpec.Builder = FunSpec.constructorBuilder()
         propSpec
             .forEach { ps ->
+                val addKdoc = ParameterSpec.builder(ps.name, ps.type)
+                    .addKdoc(ps.kdoc)
+                if (metaInformation.nullableProbSetDefaultNull && ps.type.isNullable){
+                    addKdoc
+                        .defaultValue(CodeBlock.of("%S", null))
+                }
+
                 constructor.addParameter(
-                    ParameterSpec.builder(ps.name, ps.type)
-                        .addKdoc(ps.kdoc)
-                        .build()
+                    addKdoc.build()
                 )
                 classBuilder.addProperty(ps)
             }

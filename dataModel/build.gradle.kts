@@ -16,9 +16,6 @@ dependencies {
 }
 
 ksp {
-    arg("PROD", "prod")
-    arg("TEST", "test")
-    arg("DEV", "dev")
     arg("nullableProbSetDefaultNull", "true")
 }
 

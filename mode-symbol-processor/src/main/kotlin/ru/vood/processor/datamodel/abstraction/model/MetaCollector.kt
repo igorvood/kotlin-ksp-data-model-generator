@@ -12,14 +12,18 @@ object MetaCollector {
 
     private val metaInform: AtomicReference<MetaInformation?> = AtomicReference(null)
 
-    fun collectMetaInformation(annotatedDataClasses: List<KSAnnotated>, logger: KSPLogger): MetaInformation {
+    fun collectMetaInformation(
+        annotatedDataClasses: List<KSAnnotated>,
+        logger: KSPLogger,
+        nullableProbSetDefaultNull: Boolean
+    ): MetaInformation {
         return if (metaInform.get() != null) {
             metaInform.get()!!
         } else {
             this.annotatedDataClasses = annotatedDataClasses
             this.logger = logger
 
-            metaInform.set(metaInformation(annotatedDataClasses, logger))
+            metaInform.set(metaInformation(annotatedDataClasses, logger, nullableProbSetDefaultNull))
             metaInform.get()!!
         }
 
