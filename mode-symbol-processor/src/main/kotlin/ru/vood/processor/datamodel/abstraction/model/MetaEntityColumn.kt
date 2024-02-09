@@ -24,6 +24,8 @@ class MetaEntityColumn(
 
     val type = with(element.type.resolve().declaration) { packageName.asString() + "." + simpleName.asString() }
 
+    val typePoetClassName = with(element.type.resolve().declaration) { com.squareup.kotlinpoet.ClassName(packageName.asString(), simpleName.asString()) }
+
     @OptIn(KspExperimental::class)
     val comment: String? = element.getAnnotationsByType(Comment::class).firstOrNull()?.comment
 

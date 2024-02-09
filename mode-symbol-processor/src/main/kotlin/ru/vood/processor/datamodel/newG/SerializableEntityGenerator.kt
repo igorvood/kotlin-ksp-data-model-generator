@@ -11,12 +11,16 @@ class SerializableEntityGenerator(rootPackage: PackageName) : AbstractIntfGenera
     rootPackage,
     serializableEntity
 ) {
-    override fun fillInterfaceBuilder(classBuilder: TypeSpec.Builder): TypeSpec.Builder =
-        classBuilder
+    override fun fillInterfaceBuilder(classBuilder: TypeSpec.Builder): TypeSpec.Builder {
+        return classBuilder
             .addKdoc("Сериализуемая сущность")
-            .addProperty(
-                PropertySpec.builder("designEntityName", entityEnum)
-                    .addKdoc("Мета информация по сущности")
-                    .build()
-            )
+            .addProperty(designEntityNamePropertySpec)
+    }
+
+    companion object {
+        val designEntityNamePropertySpec = PropertySpec.builder("designEntityName", entityEnum)
+            .addKdoc("Мета информация по сущности")
+            .build()
+
+    }
 }

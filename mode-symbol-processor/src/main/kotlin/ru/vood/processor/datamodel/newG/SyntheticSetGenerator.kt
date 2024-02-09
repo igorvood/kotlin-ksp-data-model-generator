@@ -12,6 +12,7 @@ import ru.vood.model.generator.ksp.common.CommonClassNames.typeVariableOUT
 import ru.vood.model.generator.ksp.common.CommonClassNames.typeVariableSinthIn
 import ru.vood.model.generator.ksp.common.dto.PackageName
 import ru.vood.processor.datamodel.newG.abstraction.AbstractDataClassGenerator
+import ru.vood.processor.datamodel.newG.abstraction.propertyInConstructor
 
 class SyntheticSetGenerator(rootPackage: PackageName) : AbstractDataClassGenerator(
     rootPackage = rootPackage,
@@ -21,7 +22,7 @@ class SyntheticSetGenerator(rootPackage: PackageName) : AbstractDataClassGenerat
     override fun fillInterfaceBuilder(classBuilder: TypeSpec.Builder): TypeSpec.Builder {
         val constructor: FunSpec.Builder = FunSpec.constructorBuilder()
 
-        columnEntityDataGeneratorPropSpecConstructorImplemented(
+        propertyInConstructor(
             classBuilder,
             constructor,
             simpleColExtractFunctionGeneratorPropSpec

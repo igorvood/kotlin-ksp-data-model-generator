@@ -8,6 +8,7 @@ import ru.vood.model.generator.ksp.common.CommonClassNames.sealedSyntheticColumn
 import ru.vood.model.generator.ksp.common.dto.PackageName
 import ru.vood.processor.datamodel.newG.ColumnEntityDataGenerator.Companion.columnEntityDataGeneratorPropSpec
 import ru.vood.processor.datamodel.newG.abstraction.AbstractDataClassGenerator
+import ru.vood.processor.datamodel.newG.abstraction.propertyInConstructor
 
 class SealedSyntheticColumnEntityDataGenerator(rootPackage: PackageName) : AbstractDataClassGenerator(
     rootPackage = rootPackage,
@@ -15,7 +16,7 @@ class SealedSyntheticColumnEntityDataGenerator(rootPackage: PackageName) : Abstr
 ) {
     override fun fillInterfaceBuilder(classBuilder: TypeSpec.Builder): TypeSpec.Builder {
         val constructor: FunSpec.Builder = FunSpec.constructorBuilder()
-        columnEntityDataGeneratorPropSpecConstructorImplemented(
+        propertyInConstructor(
             classBuilder,
             constructor,
             simpleColumnEntityDataGeneratorPropSpec

@@ -8,12 +8,12 @@ abstract class AbstractGenerator(
     val rootPackage: PackageName,
     val subPackage: PackageName,
     val moduleName: ClassName,
-) {
+): AbstractEntityGenerator() {
 
     val fileSpec = FileSpec.builder(
         packageName = rootPackage.value + "." + subPackage.value,
         fileName = moduleName.simpleName
     )
 
-    abstract fun files(): List<FileSpec>
+
 }

@@ -30,18 +30,5 @@ abstract class AbstractDataClassGenerator(
 
     abstract fun fillInterfaceBuilder(classBuilder: TypeSpec.Builder): TypeSpec.Builder
 
-    protected fun columnEntityDataGeneratorPropSpecConstructorImplemented(
-        classBuilder: TypeSpec.Builder,
-        constructor: FunSpec.Builder,
-        propSpec: List<PropertySpec>,
-    ) {
-        propSpec
-            .forEach { ps ->
-                constructor.addParameter(
-                    ParameterSpec.builder(ps.name, ps.type)
-                        .build()
-                )
-                classBuilder.addProperty(ps)
-            }
-    }
+
 }

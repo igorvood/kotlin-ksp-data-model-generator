@@ -12,6 +12,7 @@ import ru.vood.model.generator.ksp.common.CommonClassNames.typeVariableFConOfIEn
 import ru.vood.model.generator.ksp.common.CommonClassNames.uniqueKeyEnum
 import ru.vood.model.generator.ksp.common.dto.PackageName
 import ru.vood.processor.datamodel.newG.abstraction.AbstractDataClassGenerator
+import ru.vood.processor.datamodel.newG.abstraction.propertyInConstructor
 
 class FKMetaDataGenerator(rootPackage: PackageName) : AbstractDataClassGenerator(
     rootPackage = rootPackage,
@@ -20,7 +21,7 @@ class FKMetaDataGenerator(rootPackage: PackageName) : AbstractDataClassGenerator
     override fun fillInterfaceBuilder(classBuilder: TypeSpec.Builder): TypeSpec.Builder {
         val constructor: FunSpec.Builder = FunSpec.constructorBuilder()
 
-        columnEntityDataGeneratorPropSpecConstructorImplemented(
+        propertyInConstructor(
             classBuilder,
             constructor,
             fkPairGeneratorPropertySpecCons

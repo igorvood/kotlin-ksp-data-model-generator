@@ -4,6 +4,7 @@ import com.google.devtools.ksp.KspExperimental
 import com.google.devtools.ksp.getAnnotationsByType
 import com.google.devtools.ksp.processing.KSPLogger
 import com.google.devtools.ksp.symbol.KSClassDeclaration
+import com.squareup.kotlinpoet.ClassName
 import ru.vood.dmgen.annotation.*
 import ru.vood.dmgen.dto.SimpleColumnName
 import ru.vood.dmgen.dto.TypeUk
@@ -18,9 +19,13 @@ data class MetaEntity(val ksAnnotated: KSClassDeclaration, val logger: KSPLogger
 
     val sealedChildren = ksAnnotated.getSealedSubclasses().map { ModelClassName(it.simpleName.asString()) }.toSet()
 
+    @Deprecated("подлежит удалению пользуй designPoetClassName")
     val designClassShortName: String = ksAnnotated.simpleName.asString()
 
+    @Deprecated("подлежит удалению пользуй designPoetClassName")
     val designClassPackageName: String = ksAnnotated.packageName.asString()
+
+    val designPoetClassName = ClassName(ksAnnotated.packageName.asString(), ksAnnotated.simpleName.asString())
 
     val designClassFullClassName = ModelClassName("$designClassPackageName.$designClassShortName")
 

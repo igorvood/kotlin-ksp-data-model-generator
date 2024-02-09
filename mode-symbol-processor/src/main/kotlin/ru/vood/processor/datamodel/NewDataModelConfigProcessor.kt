@@ -63,6 +63,7 @@ class NewDataModelConfigProcessor(
             FKMetaDataGenerator(rootPackageCommon),
             UKEntityDataGenerator(rootPackageCommon),
             IndexesMetaDtoGenerator(rootPackageCommon),
+            OriginEntityDataClassesGenerator(metaInformation, kspLogger),
         )
         runBlocking {
             listOf
@@ -70,8 +71,11 @@ class NewDataModelConfigProcessor(
                 .map { q -> q.files().asFlow() }
                 .flatMapConcat { it }
                 .collect { fs ->
-                    kspLogger.logging("generate ${fs.name} ")
-                    fs.writeTo(codeGenerator = codeGenerator, aggregating = true)
+                    kotlin.runCatching {
+                        fs.writeTo(codeGenerator = codeGenerator, aggregating = true)
+                        kspLogger.logging("generated ${fs.name} ")
+                    }
+
                 }
 
         }
