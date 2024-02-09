@@ -55,7 +55,7 @@ class DataModelConfigProcessor(
 //                    ).createFiles(metaInformation)
 //                },
             )
-            listOf
+
 
             val awaitAll = listOf.awaitAll()
             awaitAll
