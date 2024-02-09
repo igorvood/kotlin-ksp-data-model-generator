@@ -27,12 +27,16 @@ class OriginEntityDataClassesGenerator(
         collector: Set<FileSpec> = setOf(),
     ): List<FileSpec> {
         val metaEntity = aggregateInnerDep.metaEntity
+        // Имя создаваемого класса
         val classNameStr = CollectName.entityClassName(metaEntity) + "Temp"
+
+        //Создам Файл для класса
         val fileSpec = FileSpec.builder(
-            packageName = metaEntity.designClassPackageName,
+            packageName = metaEntity.designPoetClassName.packageName,
             fileName = classNameStr
         )
 
+        // Создам класс, что будет описываться в файле
         val classBuilder = TypeSpec.classBuilder(classNameStr)
             .generated(this::class)
             .addKdoc(metaEntity.comment ?: "Empty comment")
@@ -40,6 +44,7 @@ class OriginEntityDataClassesGenerator(
             .addSuperinterface(iEntityOrigin)
             .addModifiers(KModifier.DATA)
 
+        //поместить все проперти из наследуемого интерфеса (его имя тут хранится metaEntity.designPoetClassName) в дефолтный конструктор
         val propSpec = metaEntity.fields
             .sortedBy { it.position }
             .map { col ->
@@ -60,7 +65,7 @@ class OriginEntityDataClassesGenerator(
                 classBuilder.addProperty(ps)
             }
 
-
+        // надо переопределить геттер из интерфейса iEntityOrigin
         val getter = PropertySpec.builder(designEntityNamePropertySpec.name, designEntityNamePropertySpec.type)
             .addKdoc(designEntityNamePropertySpec.kdoc)
             .addModifiers(KModifier.OVERRIDE)
@@ -71,27 +76,18 @@ class OriginEntityDataClassesGenerator(
             )
             .build()
 
-
-        val designEntityNameFunSpec = FunSpec.getterBuilder()
-//            .addParameter(ParameterSpec(designEntityNamePropertySpec.name, designEntityNamePropertySpec.type))
-//            .addTypeVariable(TypeVariableName(designEntityNamePropertySpec.name))
-            .addKdoc(designEntityNamePropertySpec.kdoc)
-            .addModifiers(KModifier.OVERRIDE)
-//            .addStatement("%T.ObjectValue(_sourceValue.origin(), mapOf())", ConfigClassNames.configValue)
-//            .returns(designEntityNamePropertySpec.type)
-            .build()
-
+        // добавить в класс конструктор и геттер
         classBuilder
             .primaryConstructor(constructor.build())
             .addProperty(getter)
 
-
-        val map = aggregateInnerDep.children
+        // для всех потомков текущего класса рекурсивно вызвать формирование сущностей
+        val childrenFiles = aggregateInnerDep.children
             .map { df -> collectEntityFile(metaForeignKeys, df, collector) }
             .flatten()
             .toSet()
 
 
-        return listOf(fileSpec.addType(classBuilder.build()).build()).plus(map)
+        return listOf(fileSpec.addType(classBuilder.build()).build()).plus(childrenFiles)
     }
 }
