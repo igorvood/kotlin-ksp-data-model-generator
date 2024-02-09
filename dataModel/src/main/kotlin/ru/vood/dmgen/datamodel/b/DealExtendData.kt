@@ -12,12 +12,13 @@ import ru.vood.dmgen.datamodel.valueClasses.DealId
     cols = [ForeignKeyColumns("dealId", "id")],
     foreignKeyType = ForeignKeyType.MANDATORY
 )
-
+@Comment("Параметр сделки, отношение к сделке один к одному")
 interface DealExtendData {
     @Pk
     @Comment("Это ее идентификатор")
     val dealId: DealId
 
+    @Comment("Параметр сделки, отношение к сделке один к одному")
     val extendData: String
 
 }

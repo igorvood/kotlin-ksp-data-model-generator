@@ -25,6 +25,7 @@ class OriginEntityDataClassesGenerator(
         return collectEntityFile(metaInformation.metaForeignKeys, metaInformation.aggregateInnerDep(kspLogger))
     }
 
+    /**рекурсивная ф-ция по генерации чистых сущностей*/
     private fun collectEntityFile(
         metaForeignKeys: Set<MetaForeignKey>,
         aggregateInnerDep: Dependency,
@@ -40,6 +41,7 @@ class OriginEntityDataClassesGenerator(
             fileName = classNameStr
         )
 
+        // selaed и иные классы создаются по разному
         val classBuilder = when (metaEntity.flowEntityType) {
             FlowEntityType.INNER, FlowEntityType.AGGREGATE -> dataClassBuilder(
                 classNameStr,
@@ -60,7 +62,7 @@ class OriginEntityDataClassesGenerator(
             .flatten()
             .toSet()
 
-
+        // надо добавить только что сгенерированный класс к его потомкам
         return listOf(fileSpec.addType(classBuilder.build()).build()).plus(childrenFiles)
     }
 
@@ -69,7 +71,7 @@ class OriginEntityDataClassesGenerator(
         metaEntity: MetaEntity,
         metaForeignKeys: Set<MetaForeignKey>,
     ): TypeSpec.Builder {
-        // Создам класс, что будет описываться в файле
+        // Создам интерфейс, что будет описываться в файле
         val classBuilder = TypeSpec.interfaceBuilder(classNameStr)
             .generated(this::class)
             .addAnnotation(serializable)
@@ -132,7 +134,6 @@ class OriginEntityDataClassesGenerator(
         val propSpec = metaEntity.fields
             .sortedBy { it.position }
             .map { col ->
-//                val nullableSymbol = if (col.isNullable) "?" else " "
                 PropertySpec.builder(col.name.value, col.typePoetClassName.copy(nullable = col.isNullable))
                     .initializer("%N", col.name.value)
                     .addKdoc(col.comment ?: "Empty comment")
@@ -140,19 +141,24 @@ class OriginEntityDataClassesGenerator(
                     .mutable(false)
                     .build()
             }
+        //надо добавить все свойства в конструктор
         val constructor: FunSpec.Builder = FunSpec.constructorBuilder()
         propSpec
             .forEach { ps ->
-                val addKdoc = ParameterSpec.builder(ps.name, ps.type)
+                val parameterSpec = ParameterSpec.builder(ps.name, ps.type)
                     .addKdoc(ps.kdoc)
+                // если включена настройка по генерации значения по умолчанию для опциональных полей
+                // и поле опциональное, надо проставить зн по умолчанию
                 if (metaInformation.nullableProbSetDefaultNull && ps.type.isNullable){
-                    addKdoc
+                    parameterSpec
                         .defaultValue(CodeBlock.of("%S", null))
                 }
 
+                // надо добавить параметры в конструктор
                 constructor.addParameter(
-                    addKdoc.build()
+                    parameterSpec.build()
                 )
+                // и также надо добавить эти же св-ва в класс
                 classBuilder.addProperty(ps)
             }
 

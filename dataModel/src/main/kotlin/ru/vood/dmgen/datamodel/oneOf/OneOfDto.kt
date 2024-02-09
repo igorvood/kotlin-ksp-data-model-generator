@@ -13,9 +13,12 @@ import ru.vood.dmgen.datamodel.valueClasses.DealId
     cols = [ForeignKeyColumns("dealId", "id")],
     foreignKeyType = ForeignKeyType.OPTIONAL
 )
+@Comment("Параметр сделки, отношение к сделке один к одному")
 interface OneOfDto {
     @Pk
+    @Comment("Параметр сделки, отношение к сделке один к одному")
     val dealId: DealId
+    @Comment("Параметр сделки, отношение к сделке один к одному")
     val paramDate: String
 }
 
@@ -28,6 +31,7 @@ interface OneOfDto {
     foreignKeyType = ForeignKeyType.MANDATORY
 )
 @kotlinx.serialization.Serializable
+@Comment("Параметр сделки, отношение к сделке один к одному")
 sealed interface DealOneOfData {
     @Pk
     @Comment("Это ее идентификатор")
@@ -43,11 +47,13 @@ sealed interface DealOneOfData {
     cols = [ForeignKeyColumns("dealId", "dealId")],
     foreignKeyType = ForeignKeyType.MANDATORY
 )
+@Comment("Параметр сделки, отношение к сделке один к одному")
 interface DealOneData {
     @Pk
     @Comment("Это ее идентификатор")
     val dealId: DealId
 
+    @Comment("Параметр сделки, отношение к сделке один к одному")
     val one: String?
 }
 
@@ -60,11 +66,12 @@ interface DealOneData {
     cols = [ForeignKeyColumns("dealId", "dealId")],
     foreignKeyType = ForeignKeyType.MANDATORY
 )
+@Comment("Параметр сделки, отношение к сделке один к одному")
 interface DealTwoData {
     @Pk
     @Comment("Это ее идентификатор")
     val dealId: DealId
-
+    @Comment("Параметр сделки, отношение к сделке один к одному")
     val two: String?
 }
 

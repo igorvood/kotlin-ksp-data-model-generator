@@ -38,7 +38,7 @@ data class MetaEntity(val ksAnnotated: KSClassDeclaration, val logger: KSPLogger
 
     val entityFieldName = designClassShortName[0].lowercaseChar() + designClassShortName.substring(1)
 
-    val comment: String? = ksAnnotated.getAnnotationsByType(Comment::class).firstOrNull()?.comment
+    val comment: String by lazy { ksAnnotated.getAnnotationsByType(Comment::class).firstOrNull()?.comment?:logger.kspError("Annotation ${Comment::class.simpleName} mandatory for entity $designPoetClassName", ksAnnotated) }
 
     val foreignKeysAnnotations = ksAnnotated.getAnnotationsByType(ForeignKey::class).toList()
 
@@ -102,7 +102,7 @@ data class MetaEntity(val ksAnnotated: KSClassDeclaration, val logger: KSPLogger
     }
 
     val fields: List<MetaEntityColumn> by lazy {
-        val map = ksAnnotated.getAllProperties().withIndex().map { MetaEntityColumn(it.index, it.value) }.toList()
+        val map = ksAnnotated.getAllProperties().withIndex().map { MetaEntityColumn(it.index, it.value, logger) }.toList()
         map.forEach {
             logger.warn("field -> ${it.name.value}", it.element)
         }

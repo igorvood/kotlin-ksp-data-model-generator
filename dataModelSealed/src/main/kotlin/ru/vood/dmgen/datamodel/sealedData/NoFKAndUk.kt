@@ -11,6 +11,8 @@ import ru.vood.dmgen.datamodel.valueClasses.DealId
     cols = [ForeignKeyColumns("dealId", "id")],
     foreignKeyType = ForeignKeyType.MANDATORY
 )
+@Comment("Параметр сделки, отношение к сделке один к одному")
 sealed interface NoFKAndUk {
+    @Comment("Параметр сделки, отношение к сделке один к одному")
     val dealId: DealId
 }

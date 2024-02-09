@@ -24,18 +24,24 @@ import ru.vood.dmgen.datamodel.valueClasses.DealId
     foreignKeyType = ForeignKeyType.OPTIONAL
 )
 //@Uk("Product_UK_3",["summa"])
+@Comment("Параметр сделки, отношение к сделке один к одному")
 interface ProductPayments {
     @Pk
+    @Comment("Параметр сделки, отношение к сделке один к одному")
     val productId: String
 
     @Pk
+    @Comment("Параметр сделки, отношение к сделке один к одному")
     val dealId: DealId
 
     //    @Pk
+    @Comment("Параметр сделки, отношение к сделке один к одному")
     val id: String
 
+    @Comment("Параметр сделки, отношение к сделке один к одному")
     val summa: Long
 
+    @Comment("Параметр сделки, отношение к сделке один к одному")
     val noRelationData: NoRelationData
 
 }

@@ -16,9 +16,12 @@ import ru.vood.dmgen.datamodel.valueClasses.DealId
     "DealParamOneToOne_UK",
     ["dealId", "paramDate"]
 )
+@Comment("Параметр сделки, отношение к сделке один к одному")
 interface DealParamOneToOne {
     @Pk
+    @Comment("Параметр сделки, отношение к сделке один к одному")
     val dealId: DealId
+    @Comment("Параметр сделки, отношение к сделке один к одному")
     val paramDate: String
 }
 
@@ -34,9 +37,12 @@ interface DealParamOneToOne {
     "DealParamOneToOne_UK2",
     ["dealId", "paramDate"]
 )
+@Comment("Параметр сделки, отношение к сделке один к одному")
 interface InnerToDealParamOneToOne {
     @Pk
+    @Comment("Параметр сделки, отношение к сделке один к одному")
     val dealId: DealId
+    @Comment("Параметр сделки, отношение к сделке один к одному")
     val paramDate: String
 }
 
@@ -49,9 +55,12 @@ interface InnerToDealParamOneToOne {
     cols = [ForeignKeyColumns("dealId", "id")],
     foreignKeyType = ForeignKeyType.OPTIONAL
 )
+@Comment("Параметр сделки, отношение к сделке один к одному")
 interface DealParamOneToOneOptional {
     @Pk
+    @Comment("Параметр сделки, отношение к сделке один к одному")
     val dealId: DealId
+    @Comment("Параметр сделки, отношение к сделке один к одному")
     val paramDate: String
 }
 
@@ -63,12 +72,16 @@ interface DealParamOneToOneOptional {
     cols = [ForeignKeyColumns("dealId", "id")],
     foreignKeyType = ForeignKeyType.MANDATORY
 )
+@Comment("Параметр сделки, отношение к сделке один к одному")
 interface DealParamSet {
     @Pk
+    @Comment("Параметр сделки, отношение к сделке один к одному")
     val dealId: DealId
 
     @Pk
+    @Comment("Параметр сделки, отношение к сделке один к одному")
     val id: Int
 
+    @Comment("Параметр сделки, отношение к сделке один к одному")
     val paramDate: String
 }

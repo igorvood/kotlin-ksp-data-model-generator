@@ -17,10 +17,14 @@ interface Deal {
     @Comment("Это ее идентификатор")
     val id: DealId
 
+    @Comment("Параметр сделки, отношение к сделке один к одному")
     val s: String
+    @Comment("Параметр сделки, отношение к сделке один к одному")
     val sn: String?
 
+    @Comment("Параметр сделки, отношение к сделке один к одному")
     val b: Boolean
+    @Comment("Параметр сделки, отношение к сделке один к одному")
     val bn: Boolean?
 
     fun virtual() = s + sn
