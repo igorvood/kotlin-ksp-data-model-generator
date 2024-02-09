@@ -28,6 +28,9 @@ class NewDataModelConfigProcessor(
     private var rootPackage: PackageName? = null
 
     override fun processRound(resolver: Resolver): List<KSAnnotated> {
+
+        kspLogger.info("KSP options "+environment.options)
+
         val symbols: List<KSAnnotated> =
             resolver.getSymbolsWithAnnotation(checkNotNull(FlowEntity::class.qualifiedName)).toList()
 

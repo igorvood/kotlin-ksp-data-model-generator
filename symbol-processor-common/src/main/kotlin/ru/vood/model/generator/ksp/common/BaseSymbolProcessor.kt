@@ -39,7 +39,7 @@ private fun logToFile(message: String) = lock.withLock {
     logWriter.flush()
 }
 
-abstract class BaseSymbolProcessor(environment: SymbolProcessorEnvironment) : SymbolProcessor {
+abstract class BaseSymbolProcessor(protected val environment: SymbolProcessorEnvironment) : SymbolProcessor {
 
 
 
