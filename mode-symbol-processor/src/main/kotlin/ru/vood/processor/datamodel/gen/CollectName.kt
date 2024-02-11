@@ -10,7 +10,7 @@ object CollectName {
 //        """${metaEntity.designClassShortName}_Context_${ukName.value}"""
         """${ukName.value}Context"""
 
-    fun ukClassName(metaEntity: ClassName, ukName: UkName)= ClassName(metaEntity.packageName, "${ukName.value}Context")
+    fun ukClassName(metaEntity: ClassName, ukName: UkName) = ClassName(metaEntity.packageName, "${ukName.value}Context")
 
 
     @Deprecated("Asd")

@@ -10,10 +10,11 @@ import ru.vood.processor.datamodel.newG.abstraction.AbstractDataClassSingleFileG
 import ru.vood.processor.datamodel.newG.abstraction.propertyInConstructor
 import ru.vood.processor.datamodel.newG.common.ColumnEntityDataSingleFileGenerator.Companion.columnEntityDataGeneratorPropSpec
 
-class SealedSyntheticColumnEntityDataSingleFileGenerator(rootPackage: PackageName) : AbstractDataClassSingleFileGenerator(
-    rootPackage = rootPackage,
-    moduleName = sealedSyntheticColumnEntityData,
-) {
+class SealedSyntheticColumnEntityDataSingleFileGenerator(rootPackage: PackageName) :
+    AbstractDataClassSingleFileGenerator(
+        rootPackage = rootPackage,
+        moduleName = sealedSyntheticColumnEntityData,
+    ) {
     override fun fillInterfaceBuilder(classBuilder: TypeSpec.Builder): TypeSpec.Builder {
         val constructor: FunSpec.Builder = FunSpec.constructorBuilder()
         propertyInConstructor(

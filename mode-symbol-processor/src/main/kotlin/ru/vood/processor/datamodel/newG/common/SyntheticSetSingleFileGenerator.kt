@@ -47,7 +47,10 @@ class SyntheticSetSingleFileGenerator(rootPackage: PackageName) : AbstractDataCl
 
 
         val extractFieldValue =
-            PropertySpec.builder(IColExtractFunctionSingleFileGenerator.extractFieldValue.name, CommonClassNames.typeVariableFQ)
+            PropertySpec.builder(
+                IColExtractFunctionSingleFileGenerator.extractFieldValue.name,
+                CommonClassNames.typeVariableFQ
+            )
                 .build()
 
         private val simpleColExtractFunctionGeneratorPropSpec = listOf(extractFieldValue)
