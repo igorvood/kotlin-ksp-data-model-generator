@@ -29,7 +29,7 @@ class SyntheticFieldExtractorsGenerator(
 ) : AbstractGenerator<MetaInformation>(codeGenerator, rootPackage, logger) {
 
     override fun textGenerator(metaInfo: MetaInformation): Set<GeneratedFile> {
-        return collectEntityFile(metaInfo.metaForeignKeys, metaInfo.aggregateInnerDep(logger))
+        return collectEntityFile(metaInfo.metaForeignKeys, metaInfo.aggregateInnerDep)
     }
 
     private fun collectEntityFile(
@@ -41,7 +41,7 @@ class SyntheticFieldExtractorsGenerator(
         val metaEntity = aggregateInnerDep.metaEntity
 
         val chldrenEntities = aggregateInnerDep.children.map { it.metaEntity }
-        val syntheticFieldInfos1 = syntheticFieldInfos(chldrenEntities, metaForeignKeys, metaEntity, logger)
+        val syntheticFieldInfos1 = syntheticFieldInfos(chldrenEntities, metaForeignKeys, metaEntity)
 
         val syntheticFieldInfos = syntheticFieldInfos1.filterIsInstance<SyntheticFieldInfo>()
 

@@ -2,18 +2,21 @@ package ru.vood.processor.datamodel.abstraction.model
 
 import com.google.devtools.ksp.processing.KSPLogger
 import ru.vood.processor.datamodel.abstraction.model.dto.ModelClassName
+import ru.vood.processor.datamodel.gen.syntheticFieldInfos
 
 
 data class MetaInformation(
     val metaForeignKeys: Set<MetaForeignKey>,
     val entities: Map<ModelClassName, MetaEntity>,
     val nullableProbSetDefaultNull: Boolean,
+    val logger: KSPLogger,
 ) {
     val allEntityPackagesImport =
         entities.values.distinctBy { it.designClassPackageName }.map { "import ${it.designClassPackageName}.*" }
             .joinToString("\n")
 
-    fun aggregateInnerDep(logger: KSPLogger): Dependency {
+    val aggregateInnerDep by lazy { aggregateInnerDepFun() }
+    private fun aggregateInnerDepFun(): Dependency {
 
         val filter =
             entities.filter { metaForeignKeys.filter { fk -> fk.fromEntity == it.value }.isEmpty() }
@@ -29,20 +32,26 @@ data class MetaInformation(
         val root = filter.entries.toList()[0].value
         return Dependency(
             metaEntity = root,
-            collectInnerDependency(root, root),
-            parent = null
+            collectInnerDependency(root, root, metaForeignKeys),
+            parent = null,
+            metaForeignKeys
         )
     }
 
-    private fun collectInnerDependency(parentModelClassName: MetaEntity, root: MetaEntity): Set<Dependency> {
-        return metaForeignKeys
+    private fun collectInnerDependency(
+        parentModelClassName: MetaEntity,
+        root: MetaEntity,
+        metaForeignKeys: Set<MetaForeignKey>,
+    ): Set<Dependency> {
+        return this.metaForeignKeys
             .filter { it.toEntity.designClassFullClassName == parentModelClassName.designClassFullClassName }
             .map {
-                val collectInnerDependency = collectInnerDependency(it.fromEntity, root)
+                val collectInnerDependency = collectInnerDependency(it.fromEntity, root, this.metaForeignKeys)
                 Dependency(
                     metaEntity = it.fromEntity,
                     children = collectInnerDependency,
-                    parent = parentModelClassName
+                    parent = parentModelClassName,
+                    metaForeignKeys
                 )
             }
             .toSet()
@@ -55,6 +64,11 @@ data class Dependency(
     val metaEntity: MetaEntity,
     val children: Set<Dependency>,
     val parent: MetaEntity?,
-)
+    val metaForeignKeys: Set<MetaForeignKey>,
+) {
+
+    val syntheticFieldsInfo by lazy { syntheticFieldInfos(children.map { it.metaEntity }, metaForeignKeys, metaEntity) }
+
+}
 
 

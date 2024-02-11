@@ -10,27 +10,24 @@ import ru.vood.model.generator.ksp.common.CommonClassNames.entityEnum
 import ru.vood.model.generator.ksp.common.KspCommonUtils.generated
 import ru.vood.model.generator.ksp.common.util.KotlinPoetUtils.controlFlow
 import ru.vood.processor.datamodel.abstraction.model.Dependency
-import ru.vood.processor.datamodel.abstraction.model.MetaEntity
 import ru.vood.processor.datamodel.abstraction.model.MetaForeignKey
 import ru.vood.processor.datamodel.abstraction.model.MetaInformation
 import ru.vood.processor.datamodel.abstraction.model.dto.SyntheticFieldInfo
 import ru.vood.processor.datamodel.gen.CollectName
 import ru.vood.processor.datamodel.gen.CollectName.syntheticClassName
-import ru.vood.processor.datamodel.gen.runtime.intf.InterfaceGenerator
 import ru.vood.processor.datamodel.gen.syntheticFieldInfos
 import ru.vood.processor.datamodel.newG.IEntityDetailGenerator.Companion.originPropertySpec
 import ru.vood.processor.datamodel.newG.IEntityDetailGenerator.Companion.syntheticFieldMandatoryFunSpec
 import ru.vood.processor.datamodel.newG.IEntityDetailGenerator.Companion.syntheticFieldOptionalFunSpec
 import ru.vood.processor.datamodel.newG.IEntityDetailGenerator.Companion.syntheticFieldSetFunSpec
 import ru.vood.processor.datamodel.newG.abstraction.AbstractEntityGenerator
-import java.util.*
 
 class SyntheticFieldExtractorsGenerator(
     private val metaInfo: MetaInformation,
     private val kspLogger: KSPLogger,
 ) : AbstractEntityGenerator() {
     override fun files(): List<FileSpec> {
-        return collectEntityFile(metaInfo.metaForeignKeys, metaInfo.aggregateInnerDep(kspLogger))
+        return collectEntityFile(metaInfo.metaForeignKeys, metaInfo.aggregateInnerDep)
     }
 
     private fun collectEntityFile(
@@ -39,14 +36,12 @@ class SyntheticFieldExtractorsGenerator(
         collector: Set<FileSpec> = setOf(),
     ): List<FileSpec> {
         val metaEntity = aggregateInnerDep.metaEntity
-        val chldrenEntities = aggregateInnerDep.children.map { it.metaEntity }
-        val syntheticFieldInfos1 = syntheticFieldInfos(chldrenEntities, metaForeignKeys, metaEntity, kspLogger)
 
-        val syntheticFieldInfos = syntheticFieldInfos1.filterIsInstance<SyntheticFieldInfo>()
+        val syntheticFieldInfos = aggregateInnerDep.syntheticFieldsInfo.filterIsInstance<SyntheticFieldInfo>()
 
 
         // Имя создаваемого класса
-        val classNameStr = CollectName.syntheticClassName(metaEntity.designPoetClassName)
+        val classNameStr = syntheticClassName(metaEntity.designPoetClassName)
 
         //Создам Файл для класса
         val fileSpec = FileSpec.builder(

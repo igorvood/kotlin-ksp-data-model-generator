@@ -55,7 +55,7 @@ class ColumnEntityMapGenerator(
                             .filter { fk -> fk.toEntity == ent }
                             .map { it.fromEntity }
 
-                        val syntheticFieldInfos = syntheticFieldInfos(filter, metaForeignKeys, ent, logger)
+                        val syntheticFieldInfos = syntheticFieldInfos(filter, metaForeignKeys, ent)
 
                         logger.info(" syntheticFieldInfos     ${syntheticFieldInfos.size}   ${filter.size}  ${ent.entityFieldName}")
 

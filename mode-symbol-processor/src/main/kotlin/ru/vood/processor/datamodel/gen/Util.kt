@@ -1,6 +1,5 @@
 package ru.vood.processor.datamodel.gen
 
-import com.google.devtools.ksp.processing.KSPLogger
 import ru.vood.dmgen.annotation.FlowEntityType
 import ru.vood.dmgen.dto.RelationType
 import ru.vood.processor.datamodel.abstraction.model.MetaEntity
@@ -15,11 +14,7 @@ fun syntheticFieldInfos(
     childrenEntities: List<MetaEntity>,
     metaForeignKeys: Set<MetaForeignKey>,
     metaEntity: MetaEntity,
-    logger: KSPLogger,
 ): List<ISyntheticFieldInfo> {
-    val joinToString = childrenEntities.map { it.entityFieldName }.joinToString(",")
-    logger.info("fun syntheticFieldInfos  ${metaEntity.entityFieldName} childrens $joinToString")
-
     return when (metaEntity.flowEntityType) {
         FlowEntityType.AGGREGATE, FlowEntityType.INNER -> childrenEntities
             .map { childrenMetaEntity ->

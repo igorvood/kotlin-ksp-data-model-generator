@@ -22,7 +22,7 @@ class OriginEntityDataClassesGenerator(
     ) : AbstractEntityGenerator() {
 
     override fun files(): List<FileSpec> {
-        return collectEntityFile(metaInformation.metaForeignKeys, metaInformation.aggregateInnerDep(kspLogger))
+        return collectEntityFile(metaInformation.metaForeignKeys, metaInformation.aggregateInnerDep)
     }
 
     /**рекурсивная ф-ция по генерации чистых сущностей*/
