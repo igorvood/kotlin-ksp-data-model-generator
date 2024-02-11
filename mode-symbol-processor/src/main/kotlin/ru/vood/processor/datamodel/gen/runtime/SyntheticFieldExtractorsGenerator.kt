@@ -22,6 +22,7 @@ import java.time.LocalDateTime
 import java.util.*
 import javax.annotation.processing.Generated
 
+@Deprecated("подлежит удалению")
 class SyntheticFieldExtractorsGenerator(
     codeGenerator: CodeGenerator,
     rootPackage: PackageName,
