@@ -13,6 +13,7 @@ import ru.vood.model.generator.ksp.common.CommonClassNames.typeVariableSinthIn
 import ru.vood.model.generator.ksp.common.dto.PackageName
 import ru.vood.processor.datamodel.newG.abstraction.AbstractDataClassGenerator
 import ru.vood.processor.datamodel.newG.abstraction.propertyInConstructor
+import ru.vood.processor.datamodel.newG.common.IColExtractFunctionGenerator
 
 class SyntheticSetGenerator(rootPackage: PackageName) : AbstractDataClassGenerator(
     rootPackage = rootPackage,

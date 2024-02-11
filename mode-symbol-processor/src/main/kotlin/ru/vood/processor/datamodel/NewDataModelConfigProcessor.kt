@@ -16,10 +16,7 @@ import ru.vood.processor.datamodel.abstraction.model.MetaCollector.collectMetaIn
 import ru.vood.processor.datamodel.abstraction.model.MetaEntity
 import ru.vood.processor.datamodel.abstraction.model.MetaInformation
 import ru.vood.processor.datamodel.newG.*
-import ru.vood.processor.datamodel.newG.common.ColumnEntityDataGenerator
-import ru.vood.processor.datamodel.newG.common.EntityDataGenerator
-import ru.vood.processor.datamodel.newG.common.FKMetaDataGenerator
-import ru.vood.processor.datamodel.newG.common.FkPairGenerator
+import ru.vood.processor.datamodel.newG.common.*
 
 class NewDataModelConfigProcessor(
     environment: SymbolProcessorEnvironment,
