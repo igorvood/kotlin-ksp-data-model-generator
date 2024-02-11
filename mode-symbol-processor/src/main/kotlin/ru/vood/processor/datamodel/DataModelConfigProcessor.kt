@@ -88,8 +88,7 @@ class DataModelConfigProcessor(
             }
 
 
-        val setMetaEnt = metaInformation.entities.values.toSet()
-        val rootPackage = PackageName(commonPackage(setMetaEnt))
+        val rootPackage = PackageName(commonPackage( metaInformation.entities.values.toSet()))
         CommonClassNames.setRootPackage(rootPackage)
         return Triple(symbols, metaInformation, rootPackage)
     }

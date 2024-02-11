@@ -1,6 +1,9 @@
 package ru.vood.processor.datamodel.abstraction.model
 
 import com.google.devtools.ksp.processing.KSPLogger
+import ru.vood.model.generator.ksp.common.CommonClassNames.setRootPackage
+import ru.vood.model.generator.ksp.common.dto.PackageName
+import ru.vood.processor.datamodel.NewDataModelConfigProcessor.Companion.commonPackage
 import ru.vood.processor.datamodel.abstraction.model.dto.ModelClassName
 import ru.vood.processor.datamodel.gen.syntheticFieldInfos
 
@@ -11,11 +14,18 @@ data class MetaInformation(
     val nullableProbSetDefaultNull: Boolean,
     val logger: KSPLogger,
 ) {
+    val rootPackage by lazy {  PackageName(commonPackage( entities.values.toSet()))}
+    init {
+        setRootPackage(rootPackage)
+    }
+
     val allEntityPackagesImport =
         entities.values.distinctBy { it.designClassPackageName }.map { "import ${it.designClassPackageName}.*" }
             .joinToString("\n")
 
     val aggregateInnerDep by lazy { aggregateInnerDepFun() }
+
+
     private fun aggregateInnerDepFun(): Dependency {
 
         val filter =
