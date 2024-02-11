@@ -46,8 +46,6 @@ object CommonClassNames {
     val modelEntityContext = ModelEntityContext::class.asClassName()
 
 
-
-
     val kClass = ClassName("kotlin.reflect", "KClass")
     val any = ClassName("kotlin", "Any")
     val kSerializer = ClassName("kotlinx.serialization", "KSerializer")
@@ -178,7 +176,6 @@ object CommonClassNames {
             "SyntheticSet"
         )
     }
-
 
 
     val iColExtractFunction by lazy {

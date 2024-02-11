@@ -6,19 +6,31 @@ import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.ksp.toClassName
 
 object KotlinPoetUtils {
-    inline fun FunSpec.Builder.controlFlow(controlFlow: String, vararg args: Any, callback: FunSpec.Builder.() -> Unit): FunSpec.Builder {
+    inline fun FunSpec.Builder.controlFlow(
+        controlFlow: String,
+        vararg args: Any,
+        callback: FunSpec.Builder.() -> Unit,
+    ): FunSpec.Builder {
         this.beginControlFlow(controlFlow, *args)
         callback(this)
         return this.endControlFlow()
     }
 
-    inline fun CodeBlock.Builder.controlFlow(controlFlow: String, vararg args: Any, callback: CodeBlock.Builder.() -> Unit): CodeBlock.Builder {
+    inline fun CodeBlock.Builder.controlFlow(
+        controlFlow: String,
+        vararg args: Any,
+        callback: CodeBlock.Builder.() -> Unit,
+    ): CodeBlock.Builder {
         this.beginControlFlow(controlFlow, *args)
         callback(this)
         return this.endControlFlow()
     }
 
-    inline fun CodeBlock.Builder.nextControlFlow(controlFlow: String, vararg args: Any, callback: CodeBlock.Builder.() -> Unit): CodeBlock.Builder {
+    inline fun CodeBlock.Builder.nextControlFlow(
+        controlFlow: String,
+        vararg args: Any,
+        callback: CodeBlock.Builder.() -> Unit,
+    ): CodeBlock.Builder {
         this.nextControlFlow(controlFlow, args)
         callback(this)
         return this

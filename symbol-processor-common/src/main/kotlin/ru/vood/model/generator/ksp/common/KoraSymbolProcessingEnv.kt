@@ -7,7 +7,9 @@ object KoraSymbolProcessingEnv {
 
     var logger: KSPLogger
         get() = loggerLocal.get()
-        set(value) { loggerLocal.set(value) }
+        set(value) {
+            loggerLocal.set(value)
+        }
 
     fun resetLogger() {
         loggerLocal.set(null)
