@@ -21,7 +21,6 @@ import ru.vood.processor.datamodel.newG.common.IEntityDetailGenerator.Companion.
 import ru.vood.processor.datamodel.newG.common.IEntityDetailGenerator.Companion.syntheticFieldOptionalFunSpec
 import ru.vood.processor.datamodel.newG.common.IEntityDetailGenerator.Companion.syntheticFieldSetFunSpec
 
-@Deprecated("asd")
 class SyntheticEntityGenerator(
     private val metaInfo: MetaInformation,
     private val kspLogger: KSPLogger,
