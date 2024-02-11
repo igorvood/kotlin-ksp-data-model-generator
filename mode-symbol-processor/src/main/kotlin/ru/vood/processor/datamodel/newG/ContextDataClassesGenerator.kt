@@ -75,7 +75,6 @@ class ContextDataClassesGenerator(
                     .primaryConstructor(constructor.build())
                     .addProperty(propertySpecEnum(ukNamePropertySpec, ukName))
                     .addProperty(designEntityNamePropertySpec(metaEntity))
-
                     .addProperty(
                         propertySpecSerializer(
                             PropertySpec.builder(
