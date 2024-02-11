@@ -72,7 +72,7 @@ class NewDataModelConfigProcessor(
             UKEntityDataGenerator(rootPackageCommon),
             IndexesMetaDtoGenerator(rootPackageCommon),
             OriginEntityDataClassesGenerator(metaInformation, kspLogger),
-            SyntheticFieldExtractorsGenerator(metaInformation, kspLogger),
+            SyntheticEntityGenerator(metaInformation, kspLogger),
         )
         runBlocking {
             listOf
