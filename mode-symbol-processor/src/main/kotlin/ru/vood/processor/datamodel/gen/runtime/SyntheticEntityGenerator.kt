@@ -23,7 +23,7 @@ import java.util.*
 import javax.annotation.processing.Generated
 
 @Deprecated("подлежит удалению")
-class SyntheticFieldExtractorsGenerator(
+class SyntheticEntityGenerator(
     codeGenerator: CodeGenerator,
     rootPackage: PackageName,
     logger: KSPLogger,
