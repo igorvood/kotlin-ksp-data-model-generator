@@ -16,7 +16,6 @@ class IEntityDetailGenerator(rootPackage: PackageName) : AbstractIntfGenerator(
     moduleName = iEntityDetail
 ) {
     override fun fillInterfaceBuilder(classBuilder: TypeSpec.Builder): TypeSpec.Builder {
-        val returnType = iEntityDetail.plusParameter(WildcardTypeName.producerOf(iEntityOrigin))
         val builder = CodeBlock.builder()
         builder.add(
             """  return when(%T.getFk(entityName, origin.designEntityName).relationType){
@@ -25,50 +24,51 @@ class IEntityDetailGenerator(rootPackage: PackageName) : AbstractIntfGenerator(
             %T.ONE_TO_ONE_OPTIONAL -> syntheticFieldOptional(entityName)?.let { setOf(it) }?: setOf()
         }""", fkNameEnum, relationType, relationType, relationType
         )
-
+        val syntheticFieldFunSpec = FunSpec.builder("syntheticField")
+            .addParameter(ParameterSpec("entityName", CommonClassNames.entityEnum))
+            .returns(SET.plusParameter(returnType))
+            .addCode(builder.build())
+            .build()
         return classBuilder.addKdoc("Оригинал сущности, только поля принадлежащие ей")
             .addSuperinterface(iEntityOrigin)
             .addTypeVariable(typeVariableIEntityOrigin)
-            .addProperty(
-                PropertySpec.builder("origin", typeVariableIEntityOrigin)
-                    .addKdoc("Детальная сущность, с иными сущностями имеющими на текущую внешний ключ")
-                    .build()
-            )
-            .addFunction(
-                FunSpec.builder("syntheticFieldOptional")
-                    .addKdoc("Для опциональных сущностей. По имени сущности имеющей fk на текущую возвращает ее экземляр.")
-                    .addParameter(ParameterSpec("entityName", CommonClassNames.entityEnum))
-                    .returns(returnType.copy(nullable = true))
-                    .addModifiers(KModifier.ABSTRACT)
-//                    .addCode("""TODO("method need implementation")""")
-                    .build()
-            )
-            .addFunction(
-                FunSpec.builder("syntheticFieldMandatory")
-                    .addKdoc("Для обязательных сущностей. По имени сущности имеющей fk на текущую возвращает ее экземляр.")
-                    .addParameter(ParameterSpec("entityName", CommonClassNames.entityEnum))
-                    .returns(returnType)
-                    .addModifiers(KModifier.ABSTRACT)
-//                    .addCode("""TODO("method need implementation")""")
-                    .build()
-            )
-            .addFunction(
-                FunSpec.builder("syntheticFieldSet")
-                    .addKdoc("Для сущностей имеющих связь, много к одному к текущей. По имени сущности имеющей fk на текущую возвращает ее экземляр.")
-                    .addParameter(ParameterSpec("entityName", CommonClassNames.entityEnum))
-                    .returns(SET.plusParameter(returnType))
-                    .addModifiers(KModifier.ABSTRACT)
-//                    .addCode("""TODO("method need implementation")""")
-                    .build()
-            )
-            .addFunction(
-                FunSpec.builder("syntheticField")
-                    .addParameter(ParameterSpec("entityName", CommonClassNames.entityEnum))
-                    .returns(SET.plusParameter(returnType))
-                    .addCode(builder.build())
-                    .build()
-            )
+            .addProperty(originPropertySpec)
+            .addFunction(syntheticFieldOptionalFunSpec)
+            .addFunction(syntheticFieldMandatoryFunSpec)
+            .addFunction(syntheticFieldSetFunSpec)
+            .addFunction(syntheticFieldFunSpec)
     }
 
+    companion object{
+        val originPropertySpec = PropertySpec.builder("origin", typeVariableIEntityOrigin)
+            .addKdoc("Детальная сущность, с иными сущностями имеющими на текущую внешний ключ")
+            .build()
+
+        val returnType = iEntityDetail.plusParameter(WildcardTypeName.producerOf(iEntityOrigin))
+
+        val syntheticFieldOptionalFunSpec = FunSpec.builder("syntheticFieldOptional")
+            .addKdoc("Для опциональных сущностей. По имени сущности имеющей fk на текущую возвращает ее экземляр.")
+            .addParameter(ParameterSpec("entityName", CommonClassNames.entityEnum))
+            .returns(returnType.copy(nullable = true))
+            .addModifiers(KModifier.ABSTRACT)
+//                    .addCode("""TODO("method need implementation")""")
+            .build()
+        val syntheticFieldMandatoryFunSpec = FunSpec.builder("syntheticFieldMandatory")
+            .addKdoc("Для обязательных сущностей. По имени сущности имеющей fk на текущую возвращает ее экземляр.")
+            .addParameter(ParameterSpec("entityName", CommonClassNames.entityEnum))
+            .returns(returnType)
+            .addModifiers(KModifier.ABSTRACT)
+//                    .addCode("""TODO("method need implementation")""")
+            .build()
+        val syntheticFieldSetFunSpec = FunSpec.builder("syntheticFieldSet")
+            .addKdoc("Для сущностей имеющих связь, много к одному к текущей. По имени сущности имеющей fk на текущую возвращает ее экземляр.")
+            .addParameter(ParameterSpec("entityName", CommonClassNames.entityEnum))
+            .returns(SET.plusParameter(returnType))
+            .addModifiers(KModifier.ABSTRACT)
+//                    .addCode("""TODO("method need implementation")""")
+            .build()
+
+
+    }
 
 }

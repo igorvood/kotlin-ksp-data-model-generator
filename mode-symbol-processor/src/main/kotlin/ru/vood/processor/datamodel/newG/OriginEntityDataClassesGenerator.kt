@@ -129,7 +129,6 @@ class OriginEntityDataClassesGenerator(
         }
 
 
-
         //поместить все проперти из наследуемого интерфеса (его имя тут хранится metaEntity.designPoetClassName) в дефолтный конструктор
         val propSpec = metaEntity.fields
             .sortedBy { it.position }
@@ -149,7 +148,7 @@ class OriginEntityDataClassesGenerator(
                     .addKdoc(ps.kdoc)
                 // если включена настройка по генерации значения по умолчанию для опциональных полей
                 // и поле опциональное, надо проставить зн по умолчанию
-                if (metaInformation.nullableProbSetDefaultNull && ps.type.isNullable){
+                if (metaInformation.nullableProbSetDefaultNull && ps.type.isNullable) {
                     parameterSpec
                         .defaultValue(CodeBlock.of("%S", null))
                 }
@@ -172,18 +171,20 @@ class OriginEntityDataClassesGenerator(
         return classBuilder
     }
 
-    private fun designEntityNamePropertySpec(metaEntity: MetaEntity) =
-        PropertySpec.builder(designEntityNamePropertySpec.name, designEntityNamePropertySpec.type)
-            .addKdoc(designEntityNamePropertySpec.kdoc)
-            .addModifiers(KModifier.OVERRIDE)
-            .getter(
-                FunSpec.getterBuilder()
-                    .addCode(
-                        "return %T.%L",
-                        designEntityNamePropertySpec.type,
-                        metaEntity.designPoetClassName.simpleName
-                    )
-                    .build()
-            )
-            .build()
+    companion object {
+        fun designEntityNamePropertySpec(metaEntity: MetaEntity) =
+            PropertySpec.builder(designEntityNamePropertySpec.name, designEntityNamePropertySpec.type)
+                .addKdoc(designEntityNamePropertySpec.kdoc)
+                .addModifiers(KModifier.OVERRIDE)
+                .getter(
+                    FunSpec.getterBuilder()
+                        .addCode(
+                            "return %T.%L",
+                            designEntityNamePropertySpec.type,
+                            metaEntity.designPoetClassName.simpleName
+                        )
+                        .build()
+                )
+                .build()
+    }
 }
