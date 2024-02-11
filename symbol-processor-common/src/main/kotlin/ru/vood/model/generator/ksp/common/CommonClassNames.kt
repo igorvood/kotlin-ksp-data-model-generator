@@ -5,10 +5,7 @@ import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.plusParameter
 import com.squareup.kotlinpoet.TypeVariableName
 import com.squareup.kotlinpoet.asClassName
-import ru.vood.dmgen.annotation.FlowEntityType
-import ru.vood.dmgen.annotation.ModelEntity
-import ru.vood.dmgen.annotation.ModelEntityContext
-import ru.vood.dmgen.annotation.ModelEntityDetail
+import ru.vood.dmgen.annotation.*
 import ru.vood.dmgen.dto.TypeUk
 import ru.vood.model.generator.ksp.common.dto.PackageName
 import java.util.*
@@ -44,6 +41,8 @@ object CommonClassNames {
     val modelEntity = ModelEntity::class.asClassName()
     val modelEntityDetail = ModelEntityDetail::class.asClassName()
     val modelEntityContext = ModelEntityContext::class.asClassName()
+    val metaEntities = MetaEntities ::class.asClassName()
+
 
 
     val kClass = ClassName("kotlin.reflect", "KClass")
