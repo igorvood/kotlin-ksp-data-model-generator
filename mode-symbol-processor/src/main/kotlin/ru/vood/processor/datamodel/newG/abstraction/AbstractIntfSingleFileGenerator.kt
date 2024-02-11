@@ -4,34 +4,32 @@ import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.FileSpec
 import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.TypeSpec
-import ru.vood.model.generator.ksp.common.CommonClassNames
 import ru.vood.model.generator.ksp.common.CommonClassNames.subPackageIntfGenerator
 import ru.vood.model.generator.ksp.common.KspCommonUtils.generated
 import ru.vood.model.generator.ksp.common.dto.PackageName
 
-abstract class AbstractDataClassGenerator(
+abstract class AbstractIntfSingleFileGenerator(
     rootPackage: PackageName,
     moduleName: ClassName,
-    val modifiers: KModifier = KModifier.DATA,
-) : AbstractGenerator(
+    private val kModifier: KModifier? = null,
+) : AbstractSingleFileGenerator(
     rootPackage = rootPackage,
     subPackage = subPackageIntfGenerator,
     moduleName = moduleName,
-) {
+
+    ) {
 
     override fun files(): List<FileSpec> {
-        val classBuilder = TypeSpec.classBuilder(moduleName)
-            .generated(this::class)
-            .addModifiers(modifiers)
 
-        if (modifiers == KModifier.VALUE) {
-            classBuilder
-                .addAnnotation(CommonClassNames.jvmInline)
+
+        val classBuilder = TypeSpec.interfaceBuilder(moduleName)
+            .generated(this::class)
+        kModifier?.let {
+            classBuilder.addModifiers(it)
         }
+
         return listOf(fileSpec.addType(fillInterfaceBuilder(classBuilder).build()).build())
     }
 
     abstract fun fillInterfaceBuilder(classBuilder: TypeSpec.Builder): TypeSpec.Builder
-
-
 }

@@ -6,9 +6,9 @@ import ru.vood.model.generator.ksp.common.CommonClassNames.typeVariableF
 import ru.vood.model.generator.ksp.common.CommonClassNames.typeVariableOUT
 import ru.vood.model.generator.ksp.common.CommonClassNames.typeVariableT
 import ru.vood.model.generator.ksp.common.dto.PackageName
-import ru.vood.processor.datamodel.newG.abstraction.AbstractIntfGenerator
+import ru.vood.processor.datamodel.newG.abstraction.AbstractIntfSingleFileGenerator
 
-class IColExtractFunctionGenerator(rootPackage: PackageName) : AbstractIntfGenerator(
+class IColExtractFunctionSingleFileGenerator(rootPackage: PackageName) : AbstractIntfSingleFileGenerator(
     rootPackage = rootPackage,
     moduleName = CommonClassNames.iColExtractFunction,
     kModifier = KModifier.SEALED

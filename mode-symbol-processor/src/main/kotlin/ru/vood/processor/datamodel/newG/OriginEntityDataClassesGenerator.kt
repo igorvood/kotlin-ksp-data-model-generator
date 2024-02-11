@@ -13,7 +13,7 @@ import ru.vood.processor.datamodel.abstraction.model.MetaForeignKey
 import ru.vood.processor.datamodel.abstraction.model.MetaInformation
 import ru.vood.processor.datamodel.gen.CollectName.entityClassName
 import ru.vood.processor.datamodel.newG.abstraction.AbstractEntityGenerator
-import ru.vood.processor.datamodel.newG.common.SerializableEntityGenerator.Companion.designEntityNamePropertySpec
+import ru.vood.processor.datamodel.newG.common.SerializableEntitySingleFileGenerator.Companion.designEntityNamePropertySpec
 
 class OriginEntityDataClassesGenerator(
     private val metaInformation: MetaInformation,

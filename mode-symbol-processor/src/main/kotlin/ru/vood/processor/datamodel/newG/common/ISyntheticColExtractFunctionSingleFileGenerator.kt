@@ -9,9 +9,9 @@ import ru.vood.model.generator.ksp.common.CommonClassNames.iSyntheticColExtractF
 import ru.vood.model.generator.ksp.common.CommonClassNames.typeVariableOUT
 import ru.vood.model.generator.ksp.common.CommonClassNames.typeVariableT
 import ru.vood.model.generator.ksp.common.dto.PackageName
-import ru.vood.processor.datamodel.newG.abstraction.AbstractIntfGenerator
+import ru.vood.processor.datamodel.newG.abstraction.AbstractIntfSingleFileGenerator
 
-class ISyntheticColExtractFunctionGenerator(rootPackage: PackageName) : AbstractIntfGenerator(
+class ISyntheticColExtractFunctionSingleFileGenerator(rootPackage: PackageName) : AbstractIntfSingleFileGenerator(
     rootPackage = rootPackage,
     moduleName = iSyntheticColExtractFunction,
     kModifier = KModifier.SEALED

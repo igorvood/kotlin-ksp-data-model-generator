@@ -10,10 +10,10 @@ import ru.vood.model.generator.ksp.common.CommonClassNames.typeVariableT
 import ru.vood.model.generator.ksp.common.CommonClassNames.uKEntityData
 import ru.vood.model.generator.ksp.common.CommonClassNames.uniqueKeyEnum
 import ru.vood.model.generator.ksp.common.dto.PackageName
-import ru.vood.processor.datamodel.newG.abstraction.AbstractDataClassGenerator
+import ru.vood.processor.datamodel.newG.abstraction.AbstractDataClassSingleFileGenerator
 import ru.vood.processor.datamodel.newG.abstraction.propertyInConstructor
 
-class UKEntityDataGenerator(rootPackage: PackageName) : AbstractDataClassGenerator(
+class UKEntityDataSingleFileGenerator(rootPackage: PackageName) : AbstractDataClassSingleFileGenerator(
     rootPackage = rootPackage,
     moduleName = uKEntityData,
 ) {

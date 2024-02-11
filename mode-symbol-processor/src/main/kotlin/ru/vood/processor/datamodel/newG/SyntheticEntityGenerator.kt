@@ -16,10 +16,10 @@ import ru.vood.processor.datamodel.abstraction.model.dto.SyntheticFieldInfo
 import ru.vood.processor.datamodel.gen.CollectName
 import ru.vood.processor.datamodel.gen.CollectName.syntheticClassName
 import ru.vood.processor.datamodel.newG.abstraction.AbstractEntityGenerator
-import ru.vood.processor.datamodel.newG.common.IEntityDetailGenerator.Companion.originPropertySpec
-import ru.vood.processor.datamodel.newG.common.IEntityDetailGenerator.Companion.syntheticFieldMandatoryFunSpec
-import ru.vood.processor.datamodel.newG.common.IEntityDetailGenerator.Companion.syntheticFieldOptionalFunSpec
-import ru.vood.processor.datamodel.newG.common.IEntityDetailGenerator.Companion.syntheticFieldSetFunSpec
+import ru.vood.processor.datamodel.newG.common.IEntityDetailSingleFileGenerator.Companion.originPropertySpec
+import ru.vood.processor.datamodel.newG.common.IEntityDetailSingleFileGenerator.Companion.syntheticFieldMandatoryFunSpec
+import ru.vood.processor.datamodel.newG.common.IEntityDetailSingleFileGenerator.Companion.syntheticFieldOptionalFunSpec
+import ru.vood.processor.datamodel.newG.common.IEntityDetailSingleFileGenerator.Companion.syntheticFieldSetFunSpec
 
 class SyntheticEntityGenerator(
     private val metaInfo: MetaInformation,

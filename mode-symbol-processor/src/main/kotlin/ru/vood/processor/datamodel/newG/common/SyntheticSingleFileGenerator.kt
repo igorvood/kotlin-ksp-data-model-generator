@@ -11,10 +11,10 @@ import ru.vood.model.generator.ksp.common.CommonClassNames.typeVariableIEntityOr
 import ru.vood.model.generator.ksp.common.CommonClassNames.typeVariableOUT
 import ru.vood.model.generator.ksp.common.CommonClassNames.typeVariableSinthIn
 import ru.vood.model.generator.ksp.common.dto.PackageName
-import ru.vood.processor.datamodel.newG.abstraction.AbstractDataClassGenerator
+import ru.vood.processor.datamodel.newG.abstraction.AbstractDataClassSingleFileGenerator
 import ru.vood.processor.datamodel.newG.abstraction.propertyInConstructor
 
-class SyntheticGenerator(rootPackage: PackageName) : AbstractDataClassGenerator(
+class SyntheticSingleFileGenerator(rootPackage: PackageName) : AbstractDataClassSingleFileGenerator(
     rootPackage = rootPackage,
     moduleName = synthetic,
     modifiers = KModifier.VALUE
@@ -47,7 +47,7 @@ class SyntheticGenerator(rootPackage: PackageName) : AbstractDataClassGenerator(
 
 
         val extractFieldValue =
-            PropertySpec.builder(IColExtractFunctionGenerator.extractFieldValue.name, CommonClassNames.typeVariableFQ)
+            PropertySpec.builder(IColExtractFunctionSingleFileGenerator.extractFieldValue.name, CommonClassNames.typeVariableFQ)
                 .build()
 
         private val simpleColExtractFunctionGeneratorPropSpec = listOf(extractFieldValue)

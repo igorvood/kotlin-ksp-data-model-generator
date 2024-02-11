@@ -5,9 +5,9 @@ import com.squareup.kotlinpoet.TypeSpec
 import ru.vood.model.generator.ksp.common.CommonClassNames.entityEnum
 import ru.vood.model.generator.ksp.common.CommonClassNames.serializableEntity
 import ru.vood.model.generator.ksp.common.dto.PackageName
-import ru.vood.processor.datamodel.newG.abstraction.AbstractIntfGenerator
+import ru.vood.processor.datamodel.newG.abstraction.AbstractIntfSingleFileGenerator
 
-class SerializableEntityGenerator(rootPackage: PackageName) : AbstractIntfGenerator(
+class SerializableEntitySingleFileGenerator(rootPackage: PackageName) : AbstractIntfSingleFileGenerator(
     rootPackage,
     serializableEntity
 ) {

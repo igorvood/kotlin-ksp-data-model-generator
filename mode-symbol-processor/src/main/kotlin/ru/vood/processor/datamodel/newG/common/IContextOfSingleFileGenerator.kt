@@ -10,9 +10,9 @@ import ru.vood.model.generator.ksp.common.CommonClassNames.kSerializer
 import ru.vood.model.generator.ksp.common.CommonClassNames.typeVariableT
 import ru.vood.model.generator.ksp.common.CommonClassNames.uniqueKeyEnum
 import ru.vood.model.generator.ksp.common.dto.PackageName
-import ru.vood.processor.datamodel.newG.abstraction.AbstractIntfGenerator
+import ru.vood.processor.datamodel.newG.abstraction.AbstractIntfSingleFileGenerator
 
-class IContextOfGenerator(rootPackage: PackageName) : AbstractIntfGenerator(
+class IContextOfSingleFileGenerator(rootPackage: PackageName) : AbstractIntfSingleFileGenerator(
     rootPackage = rootPackage,
     moduleName = iContextOf
 ) {

@@ -9,9 +9,9 @@ import ru.vood.model.generator.ksp.common.CommonClassNames.iEntityOrigin
 import ru.vood.model.generator.ksp.common.CommonClassNames.relationType
 import ru.vood.model.generator.ksp.common.CommonClassNames.typeVariableIEntityOrigin
 import ru.vood.model.generator.ksp.common.dto.PackageName
-import ru.vood.processor.datamodel.newG.abstraction.AbstractIntfGenerator
+import ru.vood.processor.datamodel.newG.abstraction.AbstractIntfSingleFileGenerator
 
-class IEntityDetailGenerator(rootPackage: PackageName) : AbstractIntfGenerator(
+class IEntityDetailSingleFileGenerator(rootPackage: PackageName) : AbstractIntfSingleFileGenerator(
     rootPackage = rootPackage,
     moduleName = iEntityDetail
 ) {

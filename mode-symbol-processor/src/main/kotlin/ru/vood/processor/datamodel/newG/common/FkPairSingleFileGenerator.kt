@@ -6,10 +6,10 @@ import com.squareup.kotlinpoet.TypeSpec
 import ru.vood.model.generator.ksp.common.CommonClassNames.fkPair
 import ru.vood.model.generator.ksp.common.CommonClassNames.fullColumnNameEnum
 import ru.vood.model.generator.ksp.common.dto.PackageName
-import ru.vood.processor.datamodel.newG.abstraction.AbstractDataClassGenerator
+import ru.vood.processor.datamodel.newG.abstraction.AbstractDataClassSingleFileGenerator
 import ru.vood.processor.datamodel.newG.abstraction.propertyInConstructor
 
-class FkPairGenerator(rootPackage: PackageName) : AbstractDataClassGenerator(
+class FkPairSingleFileGenerator(rootPackage: PackageName) : AbstractDataClassSingleFileGenerator(
     rootPackage = rootPackage,
     moduleName = fkPair,
 ) {

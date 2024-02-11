@@ -11,10 +11,10 @@ import ru.vood.model.generator.ksp.common.CommonClassNames.fKMetaData
 import ru.vood.model.generator.ksp.common.CommonClassNames.typeVariableFConOfIEntityOrigin
 import ru.vood.model.generator.ksp.common.CommonClassNames.uniqueKeyEnum
 import ru.vood.model.generator.ksp.common.dto.PackageName
-import ru.vood.processor.datamodel.newG.abstraction.AbstractDataClassGenerator
+import ru.vood.processor.datamodel.newG.abstraction.AbstractDataClassSingleFileGenerator
 import ru.vood.processor.datamodel.newG.abstraction.propertyInConstructor
 
-class FKMetaDataGenerator(rootPackage: PackageName) : AbstractDataClassGenerator(
+class FKMetaDataSingleFileGenerator(rootPackage: PackageName) : AbstractDataClassSingleFileGenerator(
     rootPackage = rootPackage,
     moduleName = fKMetaData,
 ) {

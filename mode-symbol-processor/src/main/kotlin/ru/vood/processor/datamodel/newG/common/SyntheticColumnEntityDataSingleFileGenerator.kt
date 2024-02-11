@@ -1,27 +1,32 @@
 package ru.vood.processor.datamodel.newG.common
 
-import com.squareup.kotlinpoet.*
+import com.squareup.kotlinpoet.FunSpec
+import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.plusParameter
+import com.squareup.kotlinpoet.PropertySpec
+import com.squareup.kotlinpoet.TypeSpec
 import ru.vood.model.generator.ksp.common.CommonClassNames
-import ru.vood.model.generator.ksp.common.CommonClassNames.simpleColExtractFunction
-import ru.vood.model.generator.ksp.common.CommonClassNames.simpleColumnEntityData
-import ru.vood.model.generator.ksp.common.CommonClassNames.simpleColumnType
+import ru.vood.model.generator.ksp.common.CommonClassNames.entityEnum
+import ru.vood.model.generator.ksp.common.CommonClassNames.iSyntheticColExtractFunction
+import ru.vood.model.generator.ksp.common.CommonClassNames.syntheticColumnEntityData
 import ru.vood.model.generator.ksp.common.CommonClassNames.typeVariableStar
 import ru.vood.model.generator.ksp.common.CommonClassNames.typeVariableT
 import ru.vood.model.generator.ksp.common.dto.PackageName
-import ru.vood.processor.datamodel.newG.abstraction.AbstractDataClassGenerator
-import ru.vood.processor.datamodel.newG.common.ColumnEntityDataGenerator.Companion.columnEntityDataGeneratorPropSpec
+import ru.vood.processor.datamodel.newG.abstraction.AbstractDataClassSingleFileGenerator
+import ru.vood.processor.datamodel.newG.abstraction.propertyInConstructor
+import ru.vood.processor.datamodel.newG.common.ColumnEntityDataSingleFileGenerator.Companion.columnEntityDataGeneratorPropSpec
 
-class SimpleColumnEntityDataGenerator(rootPackage: PackageName) : AbstractDataClassGenerator(
+class SyntheticColumnEntityDataSingleFileGenerator(rootPackage: PackageName) : AbstractDataClassSingleFileGenerator(
     rootPackage = rootPackage,
-    moduleName = simpleColumnEntityData,
+    moduleName = syntheticColumnEntityData,
 ) {
     override fun fillInterfaceBuilder(classBuilder: TypeSpec.Builder): TypeSpec.Builder {
         val constructor: FunSpec.Builder = FunSpec.constructorBuilder()
-
-        columnEntityDataGeneratorPropSpecConstructorImplemented(classBuilder, constructor)
-
-
+        propertyInConstructor(
+            classBuilder,
+            constructor,
+            simpleColumnEntityDataGeneratorPropSpec
+        )
         return classBuilder
             .addTypeVariable(CommonClassNames.typeVariableIEntityOrigin)
             .addSuperinterface(CommonClassNames.columnEntityData)
@@ -41,32 +46,22 @@ class SimpleColumnEntityDataGenerator(rootPackage: PackageName) : AbstractDataCl
                     .build()
             }
             .plus(
-                PropertySpec.builder("simpleColumnType", simpleColumnType)
-                    .initializer("%N", "simpleColumnType")
-                    .addKdoc("Тип простого реквизита")
+                PropertySpec.builder("outEntity", entityEnum)
+                    .initializer("%N", "outEntity")
+                    .addKdoc("Тип синтетического реквизита")
                     .build()
             )
             .plus(
                 PropertySpec.builder(
                     "iColExtractFunction",
-                    simpleColExtractFunction.plusParameter(typeVariableT).plusParameter(typeVariableStar)
+                    iSyntheticColExtractFunction.plusParameter(typeVariableT).plusParameter(typeVariableStar)
                 )
                     .initializer("%N", "iColExtractFunction")
                     .addKdoc("ф-ция экстрактор значения колонки")
                     .build()
             )
 
-        private fun columnEntityDataGeneratorPropSpecConstructorImplemented(
-            classBuilder: TypeSpec.Builder,
-            constructor: FunSpec.Builder,
-        ) = simpleColumnEntityDataGeneratorPropSpec
-            .forEach { ps ->
-                constructor.addParameter(
-                    ParameterSpec.builder(ps.name, ps.type)
-                        .build()
-                )
-                classBuilder.addProperty(ps)
-            }
+
     }
 
 }

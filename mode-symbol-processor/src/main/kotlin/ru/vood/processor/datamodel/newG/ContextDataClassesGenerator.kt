@@ -12,9 +12,9 @@ import ru.vood.processor.datamodel.gen.CollectName.entityClassName
 import ru.vood.processor.datamodel.gen.CollectName.syntheticClassName
 import ru.vood.processor.datamodel.newG.OriginEntityDataClassesGenerator.Companion.designEntityNamePropertySpec
 import ru.vood.processor.datamodel.newG.abstraction.AbstractEntityGenerator
-import ru.vood.processor.datamodel.newG.common.IContextOfGenerator.Companion.ktEntitySerializerPropertySpec
-import ru.vood.processor.datamodel.newG.common.IContextOfGenerator.Companion.ktSyntheticEntitySerializerPropertySpec
-import ru.vood.processor.datamodel.newG.common.IContextOfGenerator.Companion.ukNamePropertySpec
+import ru.vood.processor.datamodel.newG.common.IContextOfSingleFileGenerator.Companion.ktEntitySerializerPropertySpec
+import ru.vood.processor.datamodel.newG.common.IContextOfSingleFileGenerator.Companion.ktSyntheticEntitySerializerPropertySpec
+import ru.vood.processor.datamodel.newG.common.IContextOfSingleFileGenerator.Companion.ukNamePropertySpec
 
 class ContextDataClassesGenerator(
     private val metaInformation: MetaInformation,

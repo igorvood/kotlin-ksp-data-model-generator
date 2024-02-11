@@ -7,11 +7,11 @@ import com.squareup.kotlinpoet.TypeSpec
 import ru.vood.model.generator.ksp.common.CommonClassNames.entityData
 import ru.vood.model.generator.ksp.common.CommonClassNames.iEntityData
 import ru.vood.model.generator.ksp.common.dto.PackageName
-import ru.vood.processor.datamodel.newG.abstraction.AbstractDataClassGenerator
+import ru.vood.processor.datamodel.newG.abstraction.AbstractDataClassSingleFileGenerator
 import ru.vood.processor.datamodel.newG.abstraction.propertyInConstructor
-import ru.vood.processor.datamodel.newG.common.IEntityDataGenerator.Companion.iEntityDataGeneratorPropertySpec
+import ru.vood.processor.datamodel.newG.common.IEntityDataSingleFileGenerator.Companion.iEntityDataGeneratorPropertySpec
 
-class EntityDataGenerator(rootPackage: PackageName) : AbstractDataClassGenerator(
+class EntityDataSingleFileGenerator(rootPackage: PackageName) : AbstractDataClassSingleFileGenerator(
     rootPackage = rootPackage,
     moduleName = entityData,
 ) {

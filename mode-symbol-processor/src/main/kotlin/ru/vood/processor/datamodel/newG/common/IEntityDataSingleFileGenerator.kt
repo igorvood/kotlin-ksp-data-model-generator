@@ -15,9 +15,9 @@ import ru.vood.model.generator.ksp.common.CommonClassNames.kClass
 import ru.vood.model.generator.ksp.common.CommonClassNames.kSerializer
 import ru.vood.model.generator.ksp.common.CommonClassNames.string
 import ru.vood.model.generator.ksp.common.dto.PackageName
-import ru.vood.processor.datamodel.newG.abstraction.AbstractIntfGenerator
+import ru.vood.processor.datamodel.newG.abstraction.AbstractIntfSingleFileGenerator
 
-class IEntityDataGenerator(rootPackage: PackageName) : AbstractIntfGenerator(
+class IEntityDataSingleFileGenerator(rootPackage: PackageName) : AbstractIntfSingleFileGenerator(
     rootPackage = rootPackage,
     moduleName = iEntityData,
     kModifier = KModifier.SEALED
