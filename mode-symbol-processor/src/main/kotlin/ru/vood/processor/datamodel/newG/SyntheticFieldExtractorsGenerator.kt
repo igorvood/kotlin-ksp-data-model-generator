@@ -6,7 +6,9 @@ import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.plusParameter
 import ru.vood.dmgen.annotation.FlowEntityType
 import ru.vood.dmgen.dto.RelationType
 import ru.vood.model.generator.ksp.common.CommonClassNames
+import ru.vood.model.generator.ksp.common.CommonClassNames.entityEnum
 import ru.vood.model.generator.ksp.common.KspCommonUtils.generated
+import ru.vood.model.generator.ksp.common.util.KotlinPoetUtils.controlFlow
 import ru.vood.processor.datamodel.abstraction.model.Dependency
 import ru.vood.processor.datamodel.abstraction.model.MetaEntity
 import ru.vood.processor.datamodel.abstraction.model.MetaForeignKey
@@ -49,12 +51,14 @@ class SyntheticFieldExtractorsGenerator(
         //Создам Файл для класса
         val fileSpec = FileSpec.builder(
             packageName = metaEntity.designPoetClassName.packageName,
-            fileName = classNameStr.simpleName + "Temp"
+            fileName = classNameStr.simpleName// + "Temp"
         )
 
         // Создам класс, что будет описываться в файле
         val entityClassName = CollectName.entityClassName(metaEntity.designPoetClassName)
-        val classBuilder = TypeSpec.classBuilder(classNameStr.simpleName + "Temp")
+        val classBuilder = TypeSpec.classBuilder(
+            classNameStr.simpleName// + "Temp"
+        )
             .generated(this::class)
             .addAnnotation(CommonClassNames.serializable)
             .addAnnotation(CommonClassNames.modelEntityDetail)
@@ -74,28 +78,26 @@ class SyntheticFieldExtractorsGenerator(
                     .build()
             }
 
-        val syntheticFieldOptionalFunSpecOverrideBuilder = CodeBlock.builder()
-            .add(
-                """return when(entityName){
-                ${extractSyntheticByrelationType(syntheticFieldInfos, RelationType.ONE_TO_ONE_OPTIONAL)}
-                    else -> error(""${'"'}In Entity ${'$'}{designEntityName} Not found optional synthetic field for entity ${'$'}{entityName}""${'"'})
-                }""",
+        val syntheticFieldOptionalFunSpecOverrideBuilder = whenCodeGen(
+            errText = """Not found optional synthetic field for entity""",
+            syntheticFieldInfos,
+            RelationType.ONE_TO_ONE_OPTIONAL
+        )
+
+
+        val syntheticFieldMandatoryFunSpecOverrideBuilder =
+            whenCodeGen(
+                errText = """Not found mandatory synthetic field for entity""",
+                syntheticFieldInfos = syntheticFieldInfos,
+                oneToOneOptional = RelationType.ONE_TO_ONE_MANDATORY
             )
 
-        val syntheticFieldMandatoryFunSpecOverrideBuilder = CodeBlock.builder()
-            .add(
-                """return when(entityName){
-                ${extractSyntheticByrelationType(syntheticFieldInfos, RelationType.ONE_TO_ONE_MANDATORY)}
-                    else -> error(""${'"'}In Entity ${'$'}{designEntityName} Not found optional synthetic field for entity ${'$'}{entityName}""${'"'})
-                }""",
-            )
 
-        val syntheticFieldSetFunSpecOverrideBuilder = CodeBlock.builder()
-            .add(
-                """return when(entityName){
-                ${extractSyntheticByrelationType(syntheticFieldInfos, RelationType.MANY_TO_ONE)}
-                    else -> error(""${'"'}In Entity ${'$'}{designEntityName} Not found optional synthetic field for entity ${'$'}{entityName}""${'"'})
-                }""",
+        val syntheticFieldSetFunSpecOverrideBuilder =
+            whenCodeGen(
+                errText = """Not found mandatory Set synthetic field for entity""",
+                syntheticFieldInfos = syntheticFieldInfos,
+                oneToOneOptional = RelationType.MANY_TO_ONE
             )
 
         val syntheticFieldOptionalFunSpecOverride = overrideFunBuilder(syntheticFieldOptionalFunSpec)
@@ -115,10 +117,12 @@ class SyntheticFieldExtractorsGenerator(
         val propertySpecs = when (metaEntity.flowEntityType) {
             FlowEntityType.INNER, FlowEntityType.AGGREGATE -> syntheticFieldInfos
                 .map { syntheticFieldInfo ->
-                    val type = when(syntheticFieldInfo.relationType){
-                        RelationType.MANY_TO_ONE ->SET.plusParameter(syntheticClassName(syntheticFieldInfo.metaEntity.designPoetClassName))
-                        RelationType.ONE_TO_ONE_OPTIONAL ->syntheticClassName(syntheticFieldInfo.metaEntity.designPoetClassName).copy(nullable = true)
-                        RelationType.ONE_TO_ONE_MANDATORY ->syntheticClassName(syntheticFieldInfo.metaEntity.designPoetClassName)
+                    val type = when (syntheticFieldInfo.relationType) {
+                        RelationType.MANY_TO_ONE -> SET.plusParameter(syntheticClassName(syntheticFieldInfo.metaEntity.designPoetClassName))
+                        RelationType.ONE_TO_ONE_OPTIONAL -> syntheticClassName(syntheticFieldInfo.metaEntity.designPoetClassName).copy(
+                            nullable = true
+                        )
+                        RelationType.ONE_TO_ONE_MANDATORY -> syntheticClassName(syntheticFieldInfo.metaEntity.designPoetClassName)
                     }
 
                     PropertySpec.builder(
@@ -183,6 +187,33 @@ class SyntheticFieldExtractorsGenerator(
 
     }
 
+    private fun whenCodeGen(
+        errText: String,
+        syntheticFieldInfos: List<SyntheticFieldInfo>,
+        oneToOneOptional: RelationType,
+    ): CodeBlock.Builder {
+        val filter = syntheticFieldInfos
+            .filter {
+                it.relationType == oneToOneOptional
+            }
+        return CodeBlock.builder()
+            .controlFlow("return when(entityName)") {
+                filter.forEach { syntheticFieldInfo ->
+                    when (oneToOneOptional) {
+                        RelationType.ONE_TO_ONE_OPTIONAL, RelationType.ONE_TO_ONE_MANDATORY, RelationType.MANY_TO_ONE ->
+                            addStatement(
+                                "%T.%L -> %L",
+                                entityEnum,
+                                syntheticFieldInfo.metaEntity.designPoetClassName.simpleName,
+                                syntheticFieldInfo.metaEntity.entityFieldName
+                            )
+                    }
+                }
+                addStatement("""else -> error(""${'"'}In Entity ${'$'}{designEntityName} $errText ${'$'}{entityName}""${'"'})""")
+
+            }
+    }
+
     private fun overrideFunBuilder(syntheticFieldOptionalFunSpec1: FunSpec) =
         FunSpec.builder(syntheticFieldOptionalFunSpec1.name)
             .addKdoc(syntheticFieldOptionalFunSpec1.kdoc)
@@ -190,25 +221,4 @@ class SyntheticFieldExtractorsGenerator(
             .returns(syntheticFieldOptionalFunSpec1.returnType!!)
             .addModifiers(KModifier.OVERRIDE)
 
-    private fun genWhenConditionNew(toEntity: MetaEntity, relationType: RelationType) =
-        when (relationType) {
-            RelationType.ONE_TO_ONE_OPTIONAL ->
-                """${InterfaceGenerator.GeneratedClasses.EntityEnum}.${toEntity.designClassShortName} -> ${toEntity.entityFieldName}"""
-            RelationType.ONE_TO_ONE_MANDATORY ->
-                """${InterfaceGenerator.GeneratedClasses.EntityEnum}.${toEntity.designClassShortName} -> ${toEntity.entityFieldName}"""
-            RelationType.MANY_TO_ONE -> """${InterfaceGenerator.GeneratedClasses.EntityEnum}.${toEntity.designClassShortName} -> ${toEntity.entityFieldName}"""
-        }
-
-    private fun extractSyntheticByrelationType(
-        syntheticFieldInfos: List<SyntheticFieldInfo>,
-        relationTypeFilter: RelationType,
-    ) = syntheticFieldInfos
-        .filter {
-            it.relationType == relationTypeFilter
-        }
-        .map { syntheticFieldInfo ->
-            val genField = genWhenConditionNew(syntheticFieldInfo.metaEntity, syntheticFieldInfo.relationType)
-            Optional.of(genField)
-        }
-        .joinToString("\n") { it.get() }
 }

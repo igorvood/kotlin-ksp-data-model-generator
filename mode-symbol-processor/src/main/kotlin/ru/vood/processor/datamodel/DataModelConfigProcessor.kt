@@ -42,11 +42,11 @@ class DataModelConfigProcessor(
                 async { UniqueKeyMapGenerator(codeGenerator, rootPackage, logger).createFiles(metaInformation) },
                 async { ForeignKeyMapGenerator(codeGenerator, rootPackage, logger).createFiles(metaInformation) },
                 async { ContextDataClassesGenerator(codeGenerator, rootPackage, logger).createFiles(metaInformation) },
-                async {
-                    SyntheticFieldExtractorsGenerator(codeGenerator, rootPackage, logger).createFiles(
-                        metaInformation
-                    )
-                },
+//                async {
+//                    SyntheticFieldExtractorsGenerator(codeGenerator, rootPackage, logger).createFiles(
+//                        metaInformation
+//                    )
+//                },
 //                async {
 //                    OriginEntityDataClassesGenerator(
 //                        codeGenerator,
