@@ -33,12 +33,12 @@ class OriginEntityDataClassesGenerator(
     ): List<FileSpec> {
         val metaEntity = aggregateInnerDep.metaEntity
         // Имя создаваемого класса
-        val classNameStr = entityClassName(metaEntity) //+ "Temp"
+        val classNameStr = entityClassName(metaEntity.designPoetClassName) //+ "Temp"
 
         //Создам Файл для класса
         val fileSpec = FileSpec.builder(
             packageName = metaEntity.designPoetClassName.packageName,
-            fileName = classNameStr
+            fileName = classNameStr.simpleName
         )
 
         // selaed и иные классы создаются по разному
@@ -67,7 +67,7 @@ class OriginEntityDataClassesGenerator(
     }
 
     private fun sealedInterfaceBuilder(
-        classNameStr: String,
+        classNameStr: ClassName,
         metaEntity: MetaEntity,
         metaForeignKeys: Set<MetaForeignKey>,
     ): TypeSpec.Builder {
@@ -89,7 +89,7 @@ class OriginEntityDataClassesGenerator(
     }
 
     private fun dataClassBuilder(
-        classNameStr: String,
+        classNameStr: ClassName,
         metaEntity: MetaEntity,
         metaForeignKeys: Set<MetaForeignKey>,
     ): TypeSpec.Builder {

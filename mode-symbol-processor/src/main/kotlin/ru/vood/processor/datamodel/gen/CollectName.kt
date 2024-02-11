@@ -10,13 +10,18 @@ object CollectName {
         """${ukName.value}Context"""
 
 
+    @Deprecated("Asd")
     fun entityClassName(metaEntity: MetaEntity): String =
         """${metaEntity.designClassShortName}Entity"""
 
     fun entityClassName(metaEntity: ClassName): ClassName = ClassName(metaEntity.packageName, metaEntity.simpleName+"Entity")
 
 
+    @Deprecated("Asd")
     fun syntheticClassName(metaEntity: MetaEntity): String =
         """${metaEntity.designClassShortName}Detail"""
+
+
+    fun syntheticClassName(metaEntity: ClassName) = ClassName(metaEntity.packageName, metaEntity.simpleName+"Detail")
 
 }
