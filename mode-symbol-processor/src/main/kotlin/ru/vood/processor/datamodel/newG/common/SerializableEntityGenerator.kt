@@ -1,4 +1,4 @@
-package ru.vood.processor.datamodel.newG
+package ru.vood.processor.datamodel.newG.common
 
 import com.squareup.kotlinpoet.PropertySpec
 import com.squareup.kotlinpoet.TypeSpec

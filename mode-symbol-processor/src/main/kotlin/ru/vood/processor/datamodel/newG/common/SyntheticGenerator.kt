@@ -1,10 +1,10 @@
-package ru.vood.processor.datamodel.newG
+package ru.vood.processor.datamodel.newG.common
 
 import com.squareup.kotlinpoet.*
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.plusParameter
 import ru.vood.model.generator.ksp.common.CommonClassNames
 import ru.vood.model.generator.ksp.common.CommonClassNames.iEntityDetail
-import ru.vood.model.generator.ksp.common.CommonClassNames.syntheticSet
+import ru.vood.model.generator.ksp.common.CommonClassNames.synthetic
 import ru.vood.model.generator.ksp.common.CommonClassNames.typeVariableIEntityDetail
 import ru.vood.model.generator.ksp.common.CommonClassNames.typeVariableIEntityOrigin
 import ru.vood.model.generator.ksp.common.CommonClassNames.typeVariableIEntityOriginOut
@@ -13,11 +13,10 @@ import ru.vood.model.generator.ksp.common.CommonClassNames.typeVariableSinthIn
 import ru.vood.model.generator.ksp.common.dto.PackageName
 import ru.vood.processor.datamodel.newG.abstraction.AbstractDataClassGenerator
 import ru.vood.processor.datamodel.newG.abstraction.propertyInConstructor
-import ru.vood.processor.datamodel.newG.common.IColExtractFunctionGenerator
 
-class SyntheticSetGenerator(rootPackage: PackageName) : AbstractDataClassGenerator(
+class SyntheticGenerator(rootPackage: PackageName) : AbstractDataClassGenerator(
     rootPackage = rootPackage,
-    moduleName = syntheticSet,
+    moduleName = synthetic,
     modifiers = KModifier.VALUE
 ) {
     override fun fillInterfaceBuilder(classBuilder: TypeSpec.Builder): TypeSpec.Builder {

@@ -12,7 +12,7 @@ import ru.vood.processor.datamodel.abstraction.model.MetaEntity
 import ru.vood.processor.datamodel.abstraction.model.MetaForeignKey
 import ru.vood.processor.datamodel.abstraction.model.MetaInformation
 import ru.vood.processor.datamodel.gen.CollectName.entityClassName
-import ru.vood.processor.datamodel.newG.SerializableEntityGenerator.Companion.designEntityNamePropertySpec
+import ru.vood.processor.datamodel.newG.common.SerializableEntityGenerator.Companion.designEntityNamePropertySpec
 import ru.vood.processor.datamodel.newG.abstraction.AbstractEntityGenerator
 
 class OriginEntityDataClassesGenerator(
