@@ -7,6 +7,7 @@ import com.squareup.kotlinpoet.TypeVariableName
 import com.squareup.kotlinpoet.asClassName
 import ru.vood.dmgen.annotation.FlowEntityType
 import ru.vood.dmgen.annotation.ModelEntity
+import ru.vood.dmgen.annotation.ModelEntityContext
 import ru.vood.dmgen.annotation.ModelEntityDetail
 import ru.vood.dmgen.dto.TypeUk
 import ru.vood.model.generator.ksp.common.dto.PackageName
@@ -42,6 +43,8 @@ object CommonClassNames {
     val enumMap = EnumMap::class.asClassName()
     val modelEntity = ModelEntity::class.asClassName()
     val modelEntityDetail = ModelEntityDetail::class.asClassName()
+    val modelEntityContext = ModelEntityContext::class.asClassName()
+
 
 
 

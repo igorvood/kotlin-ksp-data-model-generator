@@ -16,33 +16,35 @@ class IContextOfGenerator(rootPackage: PackageName) : AbstractIntfGenerator(
     rootPackage = rootPackage,
     moduleName = iContextOf
 ) {
-    override fun fillInterfaceBuilder(classBuilder: TypeSpec.Builder): TypeSpec.Builder =
-        classBuilder
+    override fun fillInterfaceBuilder(classBuilder: TypeSpec.Builder): TypeSpec.Builder {
+
+        return classBuilder
             .addSuperinterface(CommonClassNames.serializableEntity)
             .addTypeVariable(CommonClassNames.typeVariableIEntityOrigin)
             .addKdoc("контекст сущности")
-            .addProperty(
-                PropertySpec.builder("ukName", uniqueKeyEnum)
-                    .addKdoc("Мета информация по уникальному ключу")
-                    .build()
-            )
-            .addProperty(
-                PropertySpec.builder("ktEntitySerializer", kSerializer.plusParameter(typeVariableT))
-                    .addKdoc("Сериализатор оригинальной сущности")
-                    .build()
-            )
-            .addProperty(
-                PropertySpec.builder(
-                    "ktSyntheticEntitySerializer", kSerializer.plusParameter(
-                        WildcardTypeName.producerOf(
-                            CommonClassNames.iEntityDetail.plusParameter(
-                                WildcardTypeName.producerOf(typeVariableT)
-                            )
-                        )
+            .addProperty(ukNamePropertySpec)
+            .addProperty(ktEntitySerializerPropertySpec)
+            .addProperty(ktSyntheticEntitySerializerPropertySpec)
+    }
+
+    companion object{
+        val ukNamePropertySpec = PropertySpec.builder("ukName", uniqueKeyEnum)
+            .addKdoc("Мета информация по уникальному ключу")
+            .build()
+        val ktEntitySerializerPropertySpec = PropertySpec.builder("ktEntitySerializer", kSerializer.plusParameter(typeVariableT))
+            .addKdoc("Сериализатор оригинальной сущности")
+            .build()
+        val ktSyntheticEntitySerializerPropertySpec = PropertySpec.builder(
+            "ktSyntheticEntitySerializer", kSerializer.plusParameter(
+                WildcardTypeName.producerOf(
+                    CommonClassNames.iEntityDetail.plusParameter(
+                        WildcardTypeName.producerOf(typeVariableT)
                     )
                 )
-                    .addKdoc("Сериализатор детальной(аггрегированной) сущности")
-                    .build()
             )
+        )
+            .addKdoc("Сериализатор детальной(аггрегированной) сущности")
+            .build()
+    }
 
 }

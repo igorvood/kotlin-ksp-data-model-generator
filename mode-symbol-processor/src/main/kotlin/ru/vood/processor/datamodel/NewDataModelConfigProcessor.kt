@@ -15,6 +15,7 @@ import ru.vood.model.generator.ksp.common.dto.PackageName
 import ru.vood.processor.datamodel.abstraction.model.MetaCollector.collectMetaInformation
 import ru.vood.processor.datamodel.abstraction.model.MetaEntity
 import ru.vood.processor.datamodel.abstraction.model.MetaInformation
+import ru.vood.processor.datamodel.newG.ContextDataClassesGenerator
 import ru.vood.processor.datamodel.newG.OriginEntityDataClassesGenerator
 import ru.vood.processor.datamodel.newG.SyntheticEntityGenerator
 import ru.vood.processor.datamodel.newG.common.*
@@ -27,7 +28,7 @@ class NewDataModelConfigProcessor(
 
 
     private lateinit var metaInformation: MetaInformation
-    private var rootPackage: PackageName? = null
+//    private var rootPackage: PackageName? = null
 
     override fun processRound(resolver: Resolver): List<KSAnnotated> {
 
@@ -42,15 +43,15 @@ class NewDataModelConfigProcessor(
 
         metaInformation = collectMetaInformation(symbols, kspLogger, nullableProbSetDefaultNull)
 
-        val setMetaEnt = metaInformation.entities.values.toSet()
+//        val setMetaEnt = metaInformation.entities.values.toSet()
 
-        rootPackage = PackageName(commonPackage(setMetaEnt))
-        CommonClassNames.setRootPackage(rootPackage!!)
+//        rootPackage = PackageName(commonPackage(setMetaEnt))
+//        CommonClassNames.setRootPackage(rootPackage!!)
         return symbols
     }
 
     override fun finish() {
-        val rootPackageCommon = rootPackage!!
+        val rootPackageCommon = metaInformation.rootPackage
         val listOf = listOf(
             SerializableEntityGenerator(rootPackageCommon),
             IEntityOriginGenerator(rootPackageCommon),
@@ -74,6 +75,7 @@ class NewDataModelConfigProcessor(
             IndexesMetaDtoGenerator(rootPackageCommon),
             OriginEntityDataClassesGenerator(metaInformation, kspLogger),
             SyntheticEntityGenerator(metaInformation, kspLogger),
+            ContextDataClassesGenerator(metaInformation, kspLogger),
         )
         runBlocking {
             listOf

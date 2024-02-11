@@ -172,16 +172,24 @@ class OriginEntityDataClassesGenerator(
     }
 
     companion object {
-        fun designEntityNamePropertySpec(metaEntity: MetaEntity) =
-            PropertySpec.builder(designEntityNamePropertySpec.name, designEntityNamePropertySpec.type)
-                .addKdoc(designEntityNamePropertySpec.kdoc)
+        fun designEntityNamePropertySpec(metaEntity: MetaEntity): PropertySpec {
+            val designEntityNamePropertySpec1 = designEntityNamePropertySpec
+            return propertySpecEnum(designEntityNamePropertySpec1, metaEntity.designPoetClassName)
+        }
+
+        private fun propertySpecEnum(
+            propertySpec: PropertySpec,
+            poetClassName: ClassName,
+        ) =
+            PropertySpec.builder(propertySpec.name, propertySpec.type)
+                .addKdoc(propertySpec.kdoc)
                 .addModifiers(KModifier.OVERRIDE)
                 .getter(
                     FunSpec.getterBuilder()
                         .addCode(
                             "return %T.%L",
-                            designEntityNamePropertySpec.type,
-                            metaEntity.designPoetClassName.simpleName
+                            propertySpec.type,
+                            poetClassName.simpleName
                         )
                         .build()
                 )
