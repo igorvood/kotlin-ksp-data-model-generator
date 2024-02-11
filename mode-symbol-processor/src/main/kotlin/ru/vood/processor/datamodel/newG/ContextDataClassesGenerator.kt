@@ -36,7 +36,7 @@ class ContextDataClassesGenerator(
                 val classNameStr = CollectName.ukClassName(ukName) //+ "Temp"
 
                 //Создам Файл для класса
-                val fileName = classNameStr + "Temp"
+                val fileName = classNameStr// + "Temp"
                 val fileSpec = FileSpec.builder(
                     packageName = metaEntity.designPoetClassName.packageName,
                     fileName = fileName

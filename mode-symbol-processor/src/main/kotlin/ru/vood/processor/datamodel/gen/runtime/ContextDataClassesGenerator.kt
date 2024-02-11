@@ -13,6 +13,7 @@ import ru.vood.processor.datamodel.gen.runtime.intf.InterfaceGenerator
 import java.time.LocalDateTime
 import javax.annotation.processing.Generated
 
+@Deprecated("Подлежит удалению")
 class ContextDataClassesGenerator(
     codeGenerator: CodeGenerator,
     rootPackage: PackageName,
