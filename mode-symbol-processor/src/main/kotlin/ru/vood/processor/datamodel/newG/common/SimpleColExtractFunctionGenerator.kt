@@ -7,9 +7,9 @@ import ru.vood.model.generator.ksp.common.CommonClassNames.simpleColExtractFunct
 import ru.vood.model.generator.ksp.common.CommonClassNames.typeVariableOUT
 import ru.vood.model.generator.ksp.common.CommonClassNames.typeVariableT
 import ru.vood.model.generator.ksp.common.dto.PackageName
-import ru.vood.processor.datamodel.newG.common.IColExtractFunctionGenerator.Companion.iColExtractFunctionGeneratorPropertySpec
 import ru.vood.processor.datamodel.newG.abstraction.AbstractDataClassGenerator
 import ru.vood.processor.datamodel.newG.abstraction.propertyInConstructor
+import ru.vood.processor.datamodel.newG.common.IColExtractFunctionGenerator.Companion.iColExtractFunctionGeneratorPropertySpec
 
 class SimpleColExtractFunctionGenerator(rootPackage: PackageName) : AbstractDataClassGenerator(
     rootPackage = rootPackage,

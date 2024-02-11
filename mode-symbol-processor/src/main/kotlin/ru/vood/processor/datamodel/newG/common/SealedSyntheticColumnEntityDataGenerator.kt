@@ -6,9 +6,9 @@ import ru.vood.model.generator.ksp.common.CommonClassNames
 import ru.vood.model.generator.ksp.common.CommonClassNames.entityEnum
 import ru.vood.model.generator.ksp.common.CommonClassNames.sealedSyntheticColumnEntityData
 import ru.vood.model.generator.ksp.common.dto.PackageName
-import ru.vood.processor.datamodel.newG.common.ColumnEntityDataGenerator.Companion.columnEntityDataGeneratorPropSpec
 import ru.vood.processor.datamodel.newG.abstraction.AbstractDataClassGenerator
 import ru.vood.processor.datamodel.newG.abstraction.propertyInConstructor
+import ru.vood.processor.datamodel.newG.common.ColumnEntityDataGenerator.Companion.columnEntityDataGeneratorPropSpec
 
 class SealedSyntheticColumnEntityDataGenerator(rootPackage: PackageName) : AbstractDataClassGenerator(
     rootPackage = rootPackage,

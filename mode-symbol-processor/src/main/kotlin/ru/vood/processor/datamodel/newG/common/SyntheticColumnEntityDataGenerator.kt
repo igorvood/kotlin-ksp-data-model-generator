@@ -12,9 +12,9 @@ import ru.vood.model.generator.ksp.common.CommonClassNames.syntheticColumnEntity
 import ru.vood.model.generator.ksp.common.CommonClassNames.typeVariableStar
 import ru.vood.model.generator.ksp.common.CommonClassNames.typeVariableT
 import ru.vood.model.generator.ksp.common.dto.PackageName
-import ru.vood.processor.datamodel.newG.common.ColumnEntityDataGenerator.Companion.columnEntityDataGeneratorPropSpec
 import ru.vood.processor.datamodel.newG.abstraction.AbstractDataClassGenerator
 import ru.vood.processor.datamodel.newG.abstraction.propertyInConstructor
+import ru.vood.processor.datamodel.newG.common.ColumnEntityDataGenerator.Companion.columnEntityDataGeneratorPropSpec
 
 class SyntheticColumnEntityDataGenerator(rootPackage: PackageName) : AbstractDataClassGenerator(
     rootPackage = rootPackage,
