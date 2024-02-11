@@ -16,7 +16,6 @@ import ru.vood.processor.datamodel.gen.meta.ColumnEntityMapGenerator
 import ru.vood.processor.datamodel.gen.meta.EntityMapGenerator
 import ru.vood.processor.datamodel.gen.meta.ForeignKeyMapGenerator
 import ru.vood.processor.datamodel.gen.meta.UniqueKeyMapGenerator
-import ru.vood.processor.datamodel.gen.runtime.ContextDataClassesGenerator
 import ru.vood.processor.datamodel.gen.runtime.intf.InterfaceGenerator
 
 class DataModelConfigProcessor(
@@ -88,7 +87,7 @@ class DataModelConfigProcessor(
             }
 
 
-        val rootPackage = PackageName(commonPackage( metaInformation.entities.values.toSet()))
+        val rootPackage = PackageName(commonPackage(metaInformation.entities.values.toSet()))
         CommonClassNames.setRootPackage(rootPackage)
         return Triple(symbols, metaInformation, rootPackage)
     }

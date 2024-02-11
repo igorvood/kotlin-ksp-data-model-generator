@@ -14,7 +14,8 @@ data class MetaInformation(
     val nullableProbSetDefaultNull: Boolean,
     val logger: KSPLogger,
 ) {
-    val rootPackage by lazy {  PackageName(commonPackage( entities.values.toSet()))}
+    val rootPackage by lazy { PackageName(commonPackage(entities.values.toSet())) }
+
     init {
         setRootPackage(rootPackage)
     }

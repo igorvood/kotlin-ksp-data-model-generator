@@ -10,8 +10,6 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.runBlocking
 import ru.vood.dmgen.annotation.FlowEntity
 import ru.vood.model.generator.ksp.common.BaseSymbolProcessor
-import ru.vood.model.generator.ksp.common.CommonClassNames
-import ru.vood.model.generator.ksp.common.dto.PackageName
 import ru.vood.processor.datamodel.abstraction.model.MetaCollector.collectMetaInformation
 import ru.vood.processor.datamodel.abstraction.model.MetaEntity
 import ru.vood.processor.datamodel.abstraction.model.MetaInformation

@@ -27,13 +27,14 @@ class IContextOfGenerator(rootPackage: PackageName) : AbstractIntfGenerator(
             .addProperty(ktSyntheticEntitySerializerPropertySpec)
     }
 
-    companion object{
+    companion object {
         val ukNamePropertySpec = PropertySpec.builder("ukName", uniqueKeyEnum)
             .addKdoc("Мета информация по уникальному ключу")
             .build()
-        val ktEntitySerializerPropertySpec = PropertySpec.builder("ktEntitySerializer", kSerializer.plusParameter(typeVariableT))
-            .addKdoc("Сериализатор оригинальной сущности")
-            .build()
+        val ktEntitySerializerPropertySpec =
+            PropertySpec.builder("ktEntitySerializer", kSerializer.plusParameter(typeVariableT))
+                .addKdoc("Сериализатор оригинальной сущности")
+                .build()
         val ktSyntheticEntitySerializerPropertySpec = PropertySpec.builder(
             "ktSyntheticEntitySerializer", kSerializer.plusParameter(
                 WildcardTypeName.producerOf(
