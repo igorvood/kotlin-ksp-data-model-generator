@@ -11,7 +11,7 @@ import ru.vood.processor.datamodel.gen.CollectName
 import ru.vood.processor.datamodel.gen.CollectName.entityClassName
 import ru.vood.processor.datamodel.gen.CollectName.syntheticClassName
 import ru.vood.processor.datamodel.newG.OriginEntityDataClassesGenerator.Companion.designEntityNamePropertySpec
-import ru.vood.processor.datamodel.newG.abstraction.AbstractEntityGenerator
+import ru.vood.processor.datamodel.newG.abstraction.AbstractGenerator
 import ru.vood.processor.datamodel.newG.common.IContextOfSingleFileGenerator.Companion.ktEntitySerializerPropertySpec
 import ru.vood.processor.datamodel.newG.common.IContextOfSingleFileGenerator.Companion.ktSyntheticEntitySerializerPropertySpec
 import ru.vood.processor.datamodel.newG.common.IContextOfSingleFileGenerator.Companion.ukNamePropertySpec
@@ -20,7 +20,7 @@ class ContextDataClassesGenerator(
     private val metaInformation: MetaInformation,
     private val kspLogger: KSPLogger,
 
-    ) : AbstractEntityGenerator() {
+    ) : AbstractGenerator() {
     override fun files(): List<FileSpec> {
         val generatedClassData = metaInformation.entities.values.toSet()
 
@@ -33,17 +33,17 @@ class ContextDataClassesGenerator(
                 val metaEntity = contextData.first
                 val ukName = contextData.second.key.name
                 // Имя создаваемого класса
-                val classNameStr = CollectName.ukClassName(ukName) //+ "Temp"
+                val ukClassName = CollectName.ukClassName(metaEntity.designPoetClassName, ukName) //+ "Temp"
 
                 //Создам Файл для класса
-                val fileName = classNameStr// + "Temp"
+
                 val fileSpec = FileSpec.builder(
                     packageName = metaEntity.designPoetClassName.packageName,
-                    fileName = fileName
+                    fileName = ukClassName.simpleName
                 )
                 val entityClassName = entityClassName(metaEntity.designPoetClassName)
                 val syntheticClassName = syntheticClassName(metaEntity.designPoetClassName)
-                val classBuilder = TypeSpec.classBuilder(fileName)
+                val classBuilder = TypeSpec.classBuilder(ukClassName)
                     .generated(this::class)
                     .addAnnotation(CommonClassNames.serializable)
                     .addAnnotation(CommonClassNames.modelEntityContext)
@@ -56,8 +56,7 @@ class ContextDataClassesGenerator(
                     .map { mc ->
                         PropertySpec.builder(mc.name.value, mc.typePoetClassName.copy(nullable = mc.isNullable))
                             .initializer("%N", mc.name.value)
-                            .addKdoc(mc.comment ?: "Empty comment")
-//                            .addModifiers(KModifier.OVERRIDE)
+                            .addKdoc(mc.comment)
                             .mutable(false)
                             .build()
                     }

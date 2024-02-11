@@ -12,14 +12,14 @@ import ru.vood.processor.datamodel.abstraction.model.MetaEntity
 import ru.vood.processor.datamodel.abstraction.model.MetaForeignKey
 import ru.vood.processor.datamodel.abstraction.model.MetaInformation
 import ru.vood.processor.datamodel.gen.CollectName.entityClassName
-import ru.vood.processor.datamodel.newG.abstraction.AbstractEntityGenerator
+import ru.vood.processor.datamodel.newG.abstraction.AbstractGenerator
 import ru.vood.processor.datamodel.newG.common.SerializableEntitySingleFileGenerator.Companion.designEntityNamePropertySpec
 
 class OriginEntityDataClassesGenerator(
     private val metaInformation: MetaInformation,
     private val kspLogger: KSPLogger,
 
-    ) : AbstractEntityGenerator() {
+    ) : AbstractGenerator() {
 
     override fun files(): List<FileSpec> {
         return collectEntityFile(metaInformation.metaForeignKeys, metaInformation.aggregateInnerDep)

@@ -15,7 +15,7 @@ import ru.vood.processor.datamodel.abstraction.model.MetaInformation
 import ru.vood.processor.datamodel.abstraction.model.dto.SyntheticFieldInfo
 import ru.vood.processor.datamodel.gen.CollectName
 import ru.vood.processor.datamodel.gen.CollectName.syntheticClassName
-import ru.vood.processor.datamodel.newG.abstraction.AbstractEntityGenerator
+import ru.vood.processor.datamodel.newG.abstraction.AbstractGenerator
 import ru.vood.processor.datamodel.newG.common.IEntityDetailSingleFileGenerator.Companion.originPropertySpec
 import ru.vood.processor.datamodel.newG.common.IEntityDetailSingleFileGenerator.Companion.syntheticFieldMandatoryFunSpec
 import ru.vood.processor.datamodel.newG.common.IEntityDetailSingleFileGenerator.Companion.syntheticFieldOptionalFunSpec
@@ -24,7 +24,7 @@ import ru.vood.processor.datamodel.newG.common.IEntityDetailSingleFileGenerator.
 class SyntheticEntityGenerator(
     private val metaInfo: MetaInformation,
     private val kspLogger: KSPLogger,
-) : AbstractEntityGenerator() {
+) : AbstractGenerator() {
     override fun files(): List<FileSpec> {
         return collectEntityFile(metaInfo.metaForeignKeys, metaInfo.aggregateInnerDep)
     }
