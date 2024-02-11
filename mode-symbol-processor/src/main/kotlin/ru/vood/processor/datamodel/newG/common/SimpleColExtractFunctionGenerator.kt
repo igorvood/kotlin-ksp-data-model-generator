@@ -1,4 +1,4 @@
-package ru.vood.processor.datamodel.newG
+package ru.vood.processor.datamodel.newG.common
 
 import com.squareup.kotlinpoet.*
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.plusParameter
