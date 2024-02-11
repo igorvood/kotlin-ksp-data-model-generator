@@ -29,9 +29,10 @@ class NewDataModelConfigProcessor(
 
     override fun processRound(resolver: Resolver): List<KSAnnotated> {
 
-        kspLogger.warn("KSP options "+environment.options)
+        kspLogger.warn("KSP options " + environment.options)
 
-        val nullableProbSetDefaultNull = environment.options["nullableProbSetDefaultNull"]?.let { it.toBoolean() }?:false
+        val nullableProbSetDefaultNull =
+            environment.options["nullableProbSetDefaultNull"]?.let { it.toBoolean() } ?: false
 
 
         val symbols: List<KSAnnotated> =

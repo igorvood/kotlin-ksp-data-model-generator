@@ -154,7 +154,11 @@ private fun fkAssert(
         }
 }
 
-fun metaInformation(annotatedDataClasses: List<KSAnnotated>, logger: KSPLogger, nullableProbSetDefaultNull: Boolean): MetaInformation {
+fun metaInformation(
+    annotatedDataClasses: List<KSAnnotated>,
+    logger: KSPLogger,
+    nullableProbSetDefaultNull: Boolean,
+): MetaInformation {
     //Вытаскиваю все классы аннотированые
     val elementsAnnotatedWithFlowEntity = annotatedDataClasses
         .filterIsInstance<KSClassDeclaration>()

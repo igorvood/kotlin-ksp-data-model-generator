@@ -1,6 +1,9 @@
 package ru.vood.processor.datamodel.newG.abstraction
 
-import com.squareup.kotlinpoet.*
+import com.squareup.kotlinpoet.ClassName
+import com.squareup.kotlinpoet.FileSpec
+import com.squareup.kotlinpoet.KModifier
+import com.squareup.kotlinpoet.TypeSpec
 import ru.vood.model.generator.ksp.common.CommonClassNames
 import ru.vood.model.generator.ksp.common.CommonClassNames.subPackageIntfGenerator
 import ru.vood.model.generator.ksp.common.KspCommonUtils.generated

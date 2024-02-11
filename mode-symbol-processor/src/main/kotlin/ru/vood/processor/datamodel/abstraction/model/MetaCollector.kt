@@ -15,7 +15,7 @@ object MetaCollector {
     fun collectMetaInformation(
         annotatedDataClasses: List<KSAnnotated>,
         logger: KSPLogger,
-        nullableProbSetDefaultNull: Boolean
+        nullableProbSetDefaultNull: Boolean,
     ): MetaInformation {
         return if (metaInform.get() != null) {
             metaInform.get()!!

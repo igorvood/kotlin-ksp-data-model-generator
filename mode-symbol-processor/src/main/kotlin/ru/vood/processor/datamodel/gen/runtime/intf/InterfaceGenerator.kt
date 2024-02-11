@@ -10,7 +10,10 @@ import ru.vood.dmgen.dto.TypeUk
 import ru.vood.model.generator.ksp.common.CommonClassNames.subPackageAbstractDataDictionaryGenerator
 import ru.vood.model.generator.ksp.common.dto.PackageName
 import ru.vood.processor.datamodel.abstraction.model.MetaInformation
-import ru.vood.processor.datamodel.gen.*
+import ru.vood.processor.datamodel.gen.AbstractGenerator
+import ru.vood.processor.datamodel.gen.FileName
+import ru.vood.processor.datamodel.gen.GeneratedCode
+import ru.vood.processor.datamodel.gen.GeneratedFile
 import java.util.*
 import javax.annotation.processing.Generated
 

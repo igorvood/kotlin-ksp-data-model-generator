@@ -26,11 +26,19 @@ class MetaEntityColumn(
 
     val type = with(element.type.resolve().declaration) { packageName.asString() + "." + simpleName.asString() }
 
-    val typePoetClassName = with(element.type.resolve().declaration) { com.squareup.kotlinpoet.ClassName(packageName.asString(), simpleName.asString()) }
+    val typePoetClassName = with(element.type.resolve().declaration) {
+        com.squareup.kotlinpoet.ClassName(
+            packageName.asString(),
+            simpleName.asString()
+        )
+    }
 
     @OptIn(KspExperimental::class)
 //    val comment: String? = element.getAnnotationsByType(Comment::class).firstOrNull()?.comment
-    val comment: String by lazy { element.getAnnotationsByType(Comment::class).firstOrNull()?.comment?:logger.kspError("Annotation ${Comment::class.simpleName} mandatory for field $name", element) }
+    val comment: String by lazy {
+        element.getAnnotationsByType(Comment::class).firstOrNull()?.comment
+            ?: logger.kspError("Annotation ${Comment::class.simpleName} mandatory for field $name", element)
+    }
 
     @OptIn(KspExperimental::class)
     val inPk: Boolean = element.getAnnotationsByType(Pk::class).toList().isNotEmpty()

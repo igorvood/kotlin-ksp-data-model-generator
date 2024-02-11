@@ -39,7 +39,7 @@ class IEntityDetailGenerator(rootPackage: PackageName) : AbstractIntfGenerator(
             .addFunction(syntheticFieldFunSpec)
     }
 
-    companion object{
+    companion object {
         val originPropertySpec = PropertySpec.builder("origin", typeVariableIEntityOrigin)
             .addKdoc("Детальная сущность, с иными сущностями имеющими на текущую внешний ключ")
             .build()
