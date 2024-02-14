@@ -1,8 +1,12 @@
 package ru.vood.processor.datamodel.newG.meta
 
 import com.squareup.kotlinpoet.*
+import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.plusParameter
 import ru.vood.model.generator.ksp.common.CommonClassNames
+import ru.vood.model.generator.ksp.common.CommonClassNames.entityData
 import ru.vood.model.generator.ksp.common.CommonClassNames.entityEnum
+import ru.vood.model.generator.ksp.common.CommonClassNames.enumMap
+import ru.vood.model.generator.ksp.common.CommonClassNames.iEntityData
 import ru.vood.model.generator.ksp.common.CommonClassNames.string
 import ru.vood.model.generator.ksp.common.KspCommonUtils.generated
 import ru.vood.model.generator.ksp.common.dto.PackageName
@@ -48,18 +52,50 @@ class EntityMapGenerator(
                                     me.designPoetClassName.simpleName
                                 )
                             }
-//                        addStatement("""else -> error(""${'"'}In Entity ${'$'}{designEntityName} $errText ${'$'}{entityName}""${'"'})""")
                         addStatement("""else -> error(""${'"'}In ${'$'}{EntityEnum::class.java.simpleName} not found enum with name ${'$'}value""${'"'})""")
 
                     }
                     .build()
             )
-
-
             .build()
+
+        val cb = CodeBlock.builder()
+         metaInformation.entities.values.forEach {  me ->
+             cb.add(CodeBlock.builder().addStatement("%T.%L to %T,\n", entityEnum, me.designPoetClassName.simpleName, entityData).build())
+//             cb.indent()
+
+//            cb.addStatement("%T.%L to %T", entityEnum, me.designPoetClassName.simpleName, entityData)
+        }
+//        cb.
+        val entityDataMapPropertySpec =  PropertySpec.builder("entityDataMap", enumMap.plusParameter(entityEnum).plusParameter(iEntityData))
+            .addModifiers(KModifier.PRIVATE)
+            .initializer(CodeBlock.builder()
+                .addStatement(
+                    """%T(%T.%L to %T(
+                        |designClass = ru.vood.dmgen.datamodel.sealedData.Deal::class, 
+                        |runtimeClass = DealEntity::class,
+                        |runtimeSyntheticClass = DealDetail::class,
+                        |serializer =DealEntity.serializer(),
+                        |serializerSynthetic =DealDetail.serializer(),
+                        |entityName = EntityEnum.Deal, 
+                        |comment ="Это сущность Сделка",
+                        |entityType =AGGREGATE
+                        |))""".trimMargin(),
+                    enumMap,
+                    entityEnum,
+                    "Deal",
+                    entityData
+//                    cb.build()
+                )
+                .build())
+
+//        val entityDataMapPropertySpec =  PropertySpec.builder("entityDataMap", string)
+//            .addModifiers(KModifier.PRIVATE)
+//            .initializer(CodeBlock.builder().addStatement("%S", "qwe").build())
+
         companionObjectBuilder
             .addFunction(entityMetaByStrFunSpec)
-
+            .addProperty(entityDataMapPropertySpec.build())
 
         classBuilder.addType(companionObjectBuilder.build())
         // надо добавить только что сгенерированный класс к его потомкам
