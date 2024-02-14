@@ -6,12 +6,15 @@ import ru.vood.model.generator.ksp.common.CommonClassNames
 import ru.vood.model.generator.ksp.common.CommonClassNames.entityData
 import ru.vood.model.generator.ksp.common.CommonClassNames.entityEnum
 import ru.vood.model.generator.ksp.common.CommonClassNames.enumMap
+import ru.vood.model.generator.ksp.common.CommonClassNames.flowEntityType
 import ru.vood.model.generator.ksp.common.CommonClassNames.iEntityData
 import ru.vood.model.generator.ksp.common.CommonClassNames.string
 import ru.vood.model.generator.ksp.common.KspCommonUtils.generated
 import ru.vood.model.generator.ksp.common.dto.PackageName
 import ru.vood.model.generator.ksp.common.util.KotlinPoetUtils.controlFlow
 import ru.vood.processor.datamodel.abstraction.model.MetaInformation
+import ru.vood.processor.datamodel.gen.CollectName.entityClassName
+import ru.vood.processor.datamodel.gen.CollectName.syntheticClassName
 import ru.vood.processor.datamodel.newG.abstraction.AbstractSingleFileGenerator
 
 class EntityMapGenerator(
@@ -19,7 +22,8 @@ class EntityMapGenerator(
     private val metaInformation: MetaInformation,
 ) : AbstractSingleFileGenerator(
     rootPackage,
-    PackageName("metaEnumP"),//CommonClassNames.subPackageAbstractDataDictionaryGenerator,
+//    PackageName("metaEnumP"),//
+     CommonClassNames.subPackageAbstractDataDictionaryGenerator,
     entityEnum
 ) {
 
@@ -44,7 +48,7 @@ class EntityMapGenerator(
                 CodeBlock.builder()
                     .controlFlow("return when(value)") {
                         metaInformation.entities.values
-                            .forEach {me ->
+                            .forEach { me ->
                                 addStatement(
                                     "%S -> %T.%L",
                                     me.designPoetClassName.simpleName,
@@ -60,44 +64,58 @@ class EntityMapGenerator(
             .build()
 
         val cb = CodeBlock.builder()
-         metaInformation.entities.values.forEach {  me ->
-             cb.add(CodeBlock.builder().addStatement("%T.%L to %T,\n", entityEnum, me.designPoetClassName.simpleName, entityData).build())
-//             cb.indent()
+            .add("""%T(mapOf(""", enumMap)
+            .indent()
+            .indent()
+        metaInformation.entities.values.forEach { me ->
+            cb.add(
+                """%T.%L to %T(
+                 |designClass =  %T::class, 
+                 |runtimeClass = %T::class,
+                 |runtimeSyntheticClass = %T::class,
+                 |serializer = %T.serializer(),
+                 |serializerSynthetic = %T.serializer(),
+                 |entityName = %T.%L, 
+                 |comment = %S,
+                 |entityType = %T.%L
+                 |),""".trimMargin(),
+                entityEnum,
+                me.designPoetClassName.simpleName,
+                entityData,
+                me.designPoetClassName,
+                entityClassName(me.designPoetClassName),
+                syntheticClassName(me.designPoetClassName),
+                entityClassName(me.designPoetClassName),
+                syntheticClassName(me.designPoetClassName),
+                entityEnum,
+                me.designPoetClassName.simpleName,
+                me.comment,
+                flowEntityType,
+                me.flowEntityType.name,
+            )
 
-//            cb.addStatement("%T.%L to %T", entityEnum, me.designPoetClassName.simpleName, entityData)
         }
-//        cb.
-        val entityDataMapPropertySpec =  PropertySpec.builder("entityDataMap", enumMap.plusParameter(entityEnum).plusParameter(iEntityData))
-            .addModifiers(KModifier.PRIVATE)
-            .initializer(CodeBlock.builder()
-                .addStatement(
-                    """%T(%T.%L to %T(
-                        |designClass = ru.vood.dmgen.datamodel.sealedData.Deal::class, 
-                        |runtimeClass = DealEntity::class,
-                        |runtimeSyntheticClass = DealDetail::class,
-                        |serializer =DealEntity.serializer(),
-                        |serializerSynthetic =DealDetail.serializer(),
-                        |entityName = EntityEnum.Deal, 
-                        |comment ="Это сущность Сделка",
-                        |entityType =AGGREGATE
-                        |))""".trimMargin(),
-                    enumMap,
-                    entityEnum,
-                    "Deal",
-                    entityData
-//                    cb.build()
-                )
-                .build())
-
-//        val entityDataMapPropertySpec =  PropertySpec.builder("entityDataMap", string)
-//            .addModifiers(KModifier.PRIVATE)
-//            .initializer(CodeBlock.builder().addStatement("%S", "qwe").build())
-
+        cb.add(""")""")
+        cb.add(""")""")
+        val typeEnumMap = enumMap.plusParameter(entityEnum).plusParameter(iEntityData)
+        val entityDataMapPropertySpec =
+            PropertySpec.builder("entityDataMap", typeEnumMap)
+                .addModifiers(KModifier.PRIVATE)
+                .initializer(cb.build())
+                .build()
         companionObjectBuilder
             .addFunction(entityMetaByStrFunSpec)
-            .addProperty(entityDataMapPropertySpec.build())
+            .addProperty(entityDataMapPropertySpec)
 
-        classBuilder.addType(companionObjectBuilder.build())
+        classBuilder
+            .addType(companionObjectBuilder.build())
+            .addFunction(FunSpec.builder("entityData")
+                .returns(iEntityData)
+                .addCode(CodeBlock.builder()
+                    .addStatement("return %L[this]!!", entityDataMapPropertySpec.name)
+                    .build())
+                .build()
+            )
         // надо добавить только что сгенерированный класс к его потомкам
         return listOf(fileSpec.addType(classBuilder.build()).build())
 

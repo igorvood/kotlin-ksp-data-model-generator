@@ -34,7 +34,7 @@ class DataModelConfigProcessor(
         runBlocking {
 
             val listOf = listOf(
-                async { EntityMapGenerator(codeGenerator, rootPackage, logger).createFiles(metaInformation) },
+//                async { EntityMapGenerator(codeGenerator, rootPackage, logger).createFiles(metaInformation) },
                 async { InterfaceGenerator(codeGenerator, rootPackage, logger).createFiles(metaInformation) },
                 async { ColumnEntityMapGenerator(codeGenerator, rootPackage, logger).createFiles(metaInformation) },
                 async { UniqueKeyMapGenerator(codeGenerator, rootPackage, logger).createFiles(metaInformation) },
