@@ -64,11 +64,12 @@ class EntityMapGenerator(
             .build()
 
         val cb = CodeBlock.builder()
-            .add("""%T(mapOf(""", enumMap)
+            .addStatement("""%T(""", enumMap)
             .indent()
+            .addStatement("mapOf(")
             .indent()
         metaInformation.entities.values.forEach { me ->
-            cb.add(
+            cb.addStatement(
                 """%T.%L to %T(
                  |designClass =  %T::class, 
                  |runtimeClass = %T::class,
