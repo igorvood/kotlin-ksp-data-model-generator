@@ -2,12 +2,14 @@ package ru.vood.processor.datamodel.newG.meta
 
 import com.squareup.kotlinpoet.*
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.plusParameter
+import ru.vood.dmgen.annotation.FlowEntityType
 import ru.vood.model.generator.ksp.common.CommonClassNames
 import ru.vood.model.generator.ksp.common.CommonClassNames.entityData
 import ru.vood.model.generator.ksp.common.CommonClassNames.entityEnum
 import ru.vood.model.generator.ksp.common.CommonClassNames.enumMap
 import ru.vood.model.generator.ksp.common.CommonClassNames.flowEntityType
 import ru.vood.model.generator.ksp.common.CommonClassNames.iEntityData
+import ru.vood.model.generator.ksp.common.CommonClassNames.sealedEntityData
 import ru.vood.model.generator.ksp.common.CommonClassNames.string
 import ru.vood.model.generator.ksp.common.KspCommonUtils.generated
 import ru.vood.model.generator.ksp.common.dto.PackageName
@@ -68,9 +70,54 @@ class EntityMapGenerator(
             .indent()
             .addStatement("mapOf(")
             .indent()
+            .indent()
+            .indent()
         metaInformation.entities.values.forEach { me ->
-            cb.addStatement(
-                """%T.%L to %T(
+            when (me.flowEntityType) {
+                FlowEntityType.ONE_OF -> {
+                    val distinct = metaInformation.metaForeignKeys
+                        .filter { fk -> fk.toEntity.designClassFullClassName == me.designClassFullClassName }
+                        .map { fk -> fk.fromEntity.designPoetClassName }
+                        .toSet()
+
+                    cb.addStatement(
+                        """%T.%L to %T(
+                 |designClass =  %T::class, 
+                 |runtimeClass = %T::class,
+                 |runtimeSyntheticClass = %T::class,
+                 |serializer = %T.serializer(),
+                 |serializerSynthetic = %T.serializer(),
+                 |entityName = %T.%L, 
+                 |comment = %S,
+                 |entityType = %T.%L,
+                 |children = setOf(""".trimMargin(),
+                        entityEnum,
+                        me.designPoetClassName.simpleName,
+                        sealedEntityData,
+                        me.designPoetClassName,
+                        entityClassName(me.designPoetClassName),
+                        syntheticClassName(me.designPoetClassName),
+                        entityClassName(me.designPoetClassName),
+                        syntheticClassName(me.designPoetClassName),
+                        entityEnum,
+                        me.designPoetClassName.simpleName,
+                        me.comment,
+                        flowEntityType,
+                        me.flowEntityType.name,
+                    )
+                    cb
+                        .indent()
+                        .indent()
+                        .indent()
+                    distinct.forEach {cn ->
+                        cb.addStatement("%T.%L,", entityEnum, cn.simpleName)
+                    }
+                    cb.addStatement(")")
+                        .addStatement("),")
+                }
+                FlowEntityType.INNER, FlowEntityType.AGGREGATE -> {
+                    cb.addStatement(
+                        """%T.%L to %T(
                  |designClass =  %T::class, 
                  |runtimeClass = %T::class,
                  |runtimeSyntheticClass = %T::class,
@@ -80,21 +127,22 @@ class EntityMapGenerator(
                  |comment = %S,
                  |entityType = %T.%L
                  |),""".trimMargin(),
-                entityEnum,
-                me.designPoetClassName.simpleName,
-                entityData,
-                me.designPoetClassName,
-                entityClassName(me.designPoetClassName),
-                syntheticClassName(me.designPoetClassName),
-                entityClassName(me.designPoetClassName),
-                syntheticClassName(me.designPoetClassName),
-                entityEnum,
-                me.designPoetClassName.simpleName,
-                me.comment,
-                flowEntityType,
-                me.flowEntityType.name,
-            )
-
+                        entityEnum,
+                        me.designPoetClassName.simpleName,
+                        entityData,
+                        me.designPoetClassName,
+                        entityClassName(me.designPoetClassName),
+                        syntheticClassName(me.designPoetClassName),
+                        entityClassName(me.designPoetClassName),
+                        syntheticClassName(me.designPoetClassName),
+                        entityEnum,
+                        me.designPoetClassName.simpleName,
+                        me.comment,
+                        flowEntityType,
+                        me.flowEntityType.name,
+                    )
+                }
+            }
         }
         cb.add(""")""")
         cb.add(""")""")
@@ -110,12 +158,15 @@ class EntityMapGenerator(
 
         classBuilder
             .addType(companionObjectBuilder.build())
-            .addFunction(FunSpec.builder("entityData")
-                .returns(iEntityData)
-                .addCode(CodeBlock.builder()
-                    .addStatement("return %L[this]!!", entityDataMapPropertySpec.name)
-                    .build())
-                .build()
+            .addFunction(
+                FunSpec.builder("entityData")
+                    .returns(iEntityData)
+                    .addCode(
+                        CodeBlock.builder()
+                            .addStatement("return %L[this]!!", entityDataMapPropertySpec.name)
+                            .build()
+                    )
+                    .build()
             )
         // надо добавить только что сгенерированный класс к его потомкам
         return listOf(fileSpec.addType(classBuilder.build()).build())
