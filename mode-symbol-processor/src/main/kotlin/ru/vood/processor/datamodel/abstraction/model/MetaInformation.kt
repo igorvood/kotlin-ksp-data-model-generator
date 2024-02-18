@@ -3,7 +3,6 @@ package ru.vood.processor.datamodel.abstraction.model
 import com.google.devtools.ksp.processing.KSPLogger
 import ru.vood.model.generator.ksp.common.CommonClassNames.setRootPackage
 import ru.vood.model.generator.ksp.common.dto.PackageName
-import ru.vood.processor.datamodel.NewDataModelConfigProcessor.Companion.commonPackage
 import ru.vood.processor.datamodel.abstraction.model.dto.ModelClassName
 
 
@@ -19,6 +18,7 @@ data class MetaInformation(
         setRootPackage(rootPackage)
     }
 
+    @Deprecated("Позже удалить")
     val allEntityPackagesImport =
         entities.values.distinctBy { it.designClassPackageName }.map { "import ${it.designClassPackageName}.*" }
             .joinToString("\n")
@@ -67,6 +67,35 @@ data class MetaInformation(
             .toSet()
     }
 
+    companion object {
+        private fun commonPackage(setMetaEnt: Set<MetaEntity>): String {
+            tailrec fun commonPackageRecursive(currentPackage: String, packacges: List<String>): String {
+                return when (packacges.isEmpty()) {
+                    true -> currentPackage
+                    false -> {
+                        val nextPack = packacges[0]
+
+                        var collector = ""
+
+                        for (q in nextPack.withIndex()) {
+                            if (currentPackage.getOrElse(q.index) { '~' } == q.value) {
+                                collector = collector.plus(q.value)
+                            } else {
+                                break
+                            }
+                        }
+
+                        commonPackageRecursive(collector, packacges.drop(1))
+                    }
+                }
+
+            }
+
+            val toList = setMetaEnt.toList().map { it.designPoetClassName.packageName }
+            val value = toList[0]
+            return commonPackageRecursive(value, toList.drop(1))
+        }
+    }
 
 }
 

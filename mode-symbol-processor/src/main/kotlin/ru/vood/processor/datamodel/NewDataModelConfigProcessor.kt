@@ -44,10 +44,6 @@ class NewDataModelConfigProcessor(
 
         metaInformation = collectMetaInformation(symbols, kspLogger, nullableProbSetDefaultNull)
 
-//        val setMetaEnt = metaInformation.entities.values.toSet()
-
-//        rootPackage = PackageName(commonPackage(setMetaEnt))
-//        CommonClassNames.setRootPackage(rootPackage!!)
         return symbols
     }
 
@@ -97,34 +93,4 @@ class NewDataModelConfigProcessor(
         super.finish()
     }
 
-
-    companion object {
-        internal fun commonPackage(setMetaEnt: Set<MetaEntity>): String {
-            tailrec fun commonPackageRecurcive(currentPackage: String, packacges: List<String>): String {
-                return when (packacges.isEmpty()) {
-                    true -> currentPackage
-                    false -> {
-                        val nextPack = packacges[0]
-
-                        var collector = ""
-
-                        for (q in nextPack.withIndex()) {
-                            if (currentPackage.getOrElse(q.index) { '~' } == q.value) {
-                                collector = collector.plus(q.value)
-                            } else {
-                                break
-                            }
-                        }
-
-                        commonPackageRecurcive(collector, packacges.drop(1))
-                    }
-                }
-
-            }
-
-            val toList = setMetaEnt.toList().map { it.designPoetClassName.packageName }
-            val value = toList[0]
-            return commonPackageRecurcive(value, toList.drop(1))
-        }
-    }
 }
