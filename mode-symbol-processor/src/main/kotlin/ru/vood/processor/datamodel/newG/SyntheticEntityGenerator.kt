@@ -36,7 +36,7 @@ class SyntheticEntityGenerator(
     ): List<FileSpec> {
         val metaEntity = aggregateInnerDep.metaEntity
 
-        val syntheticFieldInfos = aggregateInnerDep.syntheticFieldsInfo.filterIsInstance<SyntheticFieldInfo>()
+        val syntheticFieldInfos = aggregateInnerDep.childrenSyntheticFieldsInfo.filterIsInstance<SyntheticFieldInfo>()
 
 
         // Имя создаваемого класса

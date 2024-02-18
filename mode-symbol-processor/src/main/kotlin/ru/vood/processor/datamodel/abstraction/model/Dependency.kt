@@ -9,6 +9,6 @@ data class Dependency(
     val metaForeignKeys: Set<MetaForeignKey>,
 ) {
 
-    val syntheticFieldsInfo by lazy { syntheticFieldInfos(children.map { it.metaEntity }, metaForeignKeys, metaEntity) }
+    val childrenSyntheticFieldsInfo by lazy { syntheticFieldInfos(children.map { it.metaEntity }, metaForeignKeys, metaEntity) }
 
 }
