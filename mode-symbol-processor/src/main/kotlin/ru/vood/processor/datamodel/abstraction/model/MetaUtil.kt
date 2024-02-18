@@ -18,7 +18,7 @@ fun metaEntityColumns(
     cols: Array<String>,
     /**имя */
     currentClass: ModelClassName,
-    foreignKey: ForeignKey,
+    foreignKey: ForeignKeyAnnotationDto,
     logger: KSPLogger,
 ): List<MetaEntityColumn> {
     val fromMetaEntity =
@@ -40,7 +40,7 @@ fun metaEntityColumns(
 
 tailrec fun collectMetaForeignKey(
     /**Список внешних ключей, рекурсивно по одному буду обрабатывать*/
-    elementsAnnotatedWith: List<Pair<ForeignKey, ModelClassName>>,
+    elementsAnnotatedWith: List<Pair<ForeignKeyAnnotationDto, ModelClassName>>,
     /**Все сущности */
     entities: Map<ModelClassName, MetaEntity>,
     /**Коллектор, сюда складывается разобранная информация о внешних ключах*/
@@ -57,7 +57,7 @@ tailrec fun collectMetaForeignKey(
             val head = elementsAnnotatedWith.first()
             val foreignKey = head.first
             val fromMetaEntityClassName = head.second
-            val toMetaEntityClassName = ModelClassName(foreignKey.kClass)
+            val toMetaEntityClassName = ModelClassName(foreignKey.kClass.canonicalName)
 
             //вы таскиваю мету по колонкам сущности из которой форен идет
             val colsFromAnnotation = foreignKey.cols
@@ -139,7 +139,7 @@ tailrec fun collectMetaForeignKey(
 private fun fkAssert(
     fromCols: List<MetaEntityColumn>,
     toCols: List<MetaEntityColumn>,
-    foreignKey: ForeignKey,
+    foreignKey: ForeignKeyAnnotationDto,
 ) {
     if (fromCols.size != toCols.size) {
         error("Не совпадают по кол-ву списки колонок currentTypeCols и outTypeCols во внешнем ключе $foreignKey")

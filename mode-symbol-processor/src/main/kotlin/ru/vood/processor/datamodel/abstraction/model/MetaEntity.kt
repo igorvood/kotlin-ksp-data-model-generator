@@ -45,7 +45,20 @@ class MetaEntityCollector(val ksAnnotated: KSClassDeclaration, val logger: KSPLo
         )
     }
 
-    val foreignKeysAnnotations = ksAnnotated.getAnnotationsByType(ForeignKey::class).toList()
+    val foreignKeysAnnotations = ksAnnotated.getAnnotationsByType(ForeignKey::class)
+        .map {
+            val split = it.kClass.split(".")
+            val joinToString = (0..split.lastIndex - 1).map { split[it] }.joinToString(".")
+
+            val className = ClassName(joinToString, split.last())
+            ForeignKeyAnnotationDto(
+                kClass = className,
+                name = it.name,
+                cols = it.cols.map { cf -> ForeignKeyColumnsDto(cf.currentColName, cf.outColName) },
+                foreignKeyType = it.foreignKeyType
+            )
+        }
+        .toList()
 
     val uniqueKeysAnnotations = ksAnnotated.getAnnotationsByType(Uk::class).toList()
 
@@ -108,17 +121,17 @@ class MetaEntityCollector(val ksAnnotated: KSClassDeclaration, val logger: KSPLo
 
     val fields: List<MetaEntityColumn> by lazy {
         val map =
-            ksAnnotated.getAllProperties().withIndex().map { MetaEntityColumnCollector(it.index, it.value, logger).metaEntityColumn }.toList()
+            ksAnnotated.getAllProperties().withIndex()
+                .map { MetaEntityColumnCollector(it.index, it.value, logger).metaEntityColumn }.toList()
         map
     }
 
 
-    val  metaEntity = MetaEntity(
+    val metaEntity = MetaEntity(
         designPoetClassName = designPoetClassName,
         flowEntityType = flowEntityType,
         comment = comment,
         foreignKeysAnnotations = foreignKeysAnnotations,
-        uniqueKeysAnnotations = uniqueKeysAnnotations,
         pkColumns = pkColumns,
         uniqueKeysFields = uniqueKeysFields,
         fields = fields,
