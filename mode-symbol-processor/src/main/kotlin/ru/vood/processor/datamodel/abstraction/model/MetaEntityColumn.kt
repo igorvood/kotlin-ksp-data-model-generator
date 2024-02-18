@@ -5,11 +5,12 @@ import com.google.devtools.ksp.getAnnotationsByType
 import com.google.devtools.ksp.processing.KSPLogger
 import com.google.devtools.ksp.symbol.KSPropertyDeclaration
 import com.google.devtools.ksp.symbol.Nullability
+import com.squareup.kotlinpoet.TypeName
 import ru.vood.dmgen.annotation.Comment
 import ru.vood.dmgen.annotation.Pk
 import ru.vood.dmgen.dto.SimpleColumnName
 
-class MetaEntityColumn(
+class MetaEntityColumnCollector(
     val position: Int,
     val element: KSPropertyDeclaration,
     val logger: KSPLogger,
@@ -17,13 +18,6 @@ class MetaEntityColumn(
     val name = SimpleColumnName(element.simpleName.asString())
 
     val isNullable: Boolean = element.type.resolve().nullability == Nullability.NULLABLE
-
-    @Deprecated("не нужен")
-    val question = if (isNullable) {
-        "?"
-    } else {
-        ""
-    }
 
     val type = with(element.type.resolve().declaration) { packageName.asString() + "." + simpleName.asString() }
 
@@ -44,6 +38,16 @@ class MetaEntityColumn(
     @OptIn(KspExperimental::class)
     val inPk: Boolean = element.getAnnotationsByType(Pk::class).toList().isNotEmpty()
 
+    val metaEntityColumn = MetaEntityColumn(
+        name,
+        inPk,
+        isNullable,
+        type,
+        typePoetClassName,
+        position,
+        comment
+    )
+
     override fun toString(): String {
         return """MetaEntityColumn(
             |name=$name,
@@ -53,5 +57,23 @@ class MetaEntityColumn(
             |comment=$comment
             |inPk=$inPk
             |)""".trimMargin()
+    }
+}
+
+data class MetaEntityColumn(
+    val name: SimpleColumnName,
+    val inPk: Boolean,
+    val isNullable: Boolean,
+    val type: String,
+    val typePoetClassName: TypeName,
+    val position: Int,
+    val comment: String,
+
+    ) {
+    @Deprecated("не нужен")
+    val question = if (isNullable) {
+        "?"
+    } else {
+        ""
     }
 }

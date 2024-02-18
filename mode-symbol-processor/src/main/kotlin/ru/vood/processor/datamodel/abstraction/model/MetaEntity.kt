@@ -14,7 +14,7 @@ import ru.vood.processor.datamodel.abstraction.model.dto.UkDto
 
 
 @OptIn(KspExperimental::class)
-data class MetaEntity(val ksAnnotated: KSClassDeclaration, val logger: KSPLogger) {
+class MetaEntityCollector(val ksAnnotated: KSClassDeclaration, val logger: KSPLogger) {
 
 
     val sealedChildren = ksAnnotated.getSealedSubclasses().map { ModelClassName(it.simpleName.asString()) }.toSet()
@@ -108,13 +108,22 @@ data class MetaEntity(val ksAnnotated: KSClassDeclaration, val logger: KSPLogger
 
     val fields: List<MetaEntityColumn> by lazy {
         val map =
-            ksAnnotated.getAllProperties().withIndex().map { MetaEntityColumn(it.index, it.value, logger) }.toList()
-        map.forEach {
-            logger.warn("field -> ${it.name.value}", it.element)
-        }
+            ksAnnotated.getAllProperties().withIndex().map { MetaEntityColumnCollector(it.index, it.value, logger).metaEntityColumn }.toList()
         map
     }
 
+
+    val  metaEntity = MetaEntity(
+        designPoetClassName = designPoetClassName,
+        flowEntityType = flowEntityType,
+        comment = comment,
+        foreignKeysAnnotations = foreignKeysAnnotations,
+        uniqueKeysAnnotations = uniqueKeysAnnotations,
+        pkColumns = pkColumns,
+        uniqueKeysFields = uniqueKeysFields,
+        fields = fields,
+        ksAnnotated = ksAnnotated
+    )
 
     override fun toString(): String {
         return """MetaEntity(flowEntityType=$flowEntityType,

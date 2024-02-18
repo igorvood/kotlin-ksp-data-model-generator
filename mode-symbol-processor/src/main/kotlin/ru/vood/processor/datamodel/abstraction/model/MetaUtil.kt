@@ -126,7 +126,8 @@ tailrec fun collectMetaForeignKey(
                         .joinToString(",")
                 error("Найден дубль имени внешнего ключа ${foreignKey.name}, повторяется у сущностей ${dublicateFKNAmeInEntities}")
             } else {
-                collector.plus(element)
+                val element1 = element
+                collector.plus(element1)
             }
 
             val elementsAnnotatedWith1 = elementsAnnotatedWith.drop(1)
@@ -162,7 +163,7 @@ fun metaInformation(
     //Вытаскиваю все классы аннотированые
     val elementsAnnotatedWithFlowEntity = annotatedDataClasses
         .filterIsInstance<KSClassDeclaration>()
-        .map { MetaEntity(it, logger) }
+        .map { MetaEntityCollector(it, logger).metaEntity }
 //    Собираю сущности
     val entities = elementsAnnotatedWithFlowEntity.map { it.designClassFullClassName to it }.toMap()
 

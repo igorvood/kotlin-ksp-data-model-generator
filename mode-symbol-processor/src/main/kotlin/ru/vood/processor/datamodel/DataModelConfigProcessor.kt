@@ -81,12 +81,6 @@ class DataModelConfigProcessor(
 
         val metaInformation = metaInformation(symbols, logger, false)
 
-        metaInformation.entities.values
-            .forEach { metaEntity ->
-                logger.warn("read MetaEntity ${metaEntity}", metaEntity.ksAnnotated)
-            }
-
-
         val rootPackage = PackageName(commonPackage(metaInformation.entities.values.toSet()))
         CommonClassNames.setRootPackage(rootPackage)
         return Triple(symbols, metaInformation, rootPackage)
