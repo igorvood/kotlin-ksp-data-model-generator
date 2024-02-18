@@ -28,6 +28,7 @@ import java.util.*
 import java.util.concurrent.CopyOnWriteArrayList
 import javax.annotation.processing.Generated
 
+@Deprecated("Подлежит удалению")
 class ColumnEntityMapGenerator(
     codeGenerator: CodeGenerator,
     rootPackage: PackageName,
