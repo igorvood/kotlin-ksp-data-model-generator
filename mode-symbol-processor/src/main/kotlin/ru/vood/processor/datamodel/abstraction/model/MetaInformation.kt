@@ -5,7 +5,6 @@ import ru.vood.model.generator.ksp.common.CommonClassNames.setRootPackage
 import ru.vood.model.generator.ksp.common.dto.PackageName
 import ru.vood.processor.datamodel.NewDataModelConfigProcessor.Companion.commonPackage
 import ru.vood.processor.datamodel.abstraction.model.dto.ModelClassName
-import ru.vood.processor.datamodel.gen.syntheticFieldInfos
 
 
 data class MetaInformation(
@@ -71,15 +70,6 @@ data class MetaInformation(
 
 }
 
-data class Dependency(
-    val metaEntity: MetaEntity,
-    val children: Set<Dependency>,
-    val parent: MetaEntity?,
-    val metaForeignKeys: Set<MetaForeignKey>,
-) {
 
-    val syntheticFieldsInfo by lazy { syntheticFieldInfos(children.map { it.metaEntity }, metaForeignKeys, metaEntity) }
-
-}
 
 
