@@ -176,7 +176,7 @@ ${synthetic.import()}
 ${syntheticSet.import()}
 import kotlin.reflect.KProperty1
 ${metaInfo.allEntityPackagesImport}
-
+/*
 @${Generated::class.simpleName}("${this.javaClass.canonicalName}", date = "${LocalDateTime.now()}")
 @${MetaColumns::class.simpleName}
 enum class ${fullColumnEnumName}{
@@ -192,7 +192,7 @@ ${simpleColumn.joinToString(",\n") { it.second }}
 }
 
 }
-
+*/
 """
                 logger.info("Create $nameClass")
                 setOf(GeneratedFile(FileName("$nameClass"), GeneratedCode(trimIndent), packageName))

@@ -42,6 +42,8 @@ object CommonClassNames {
     val modelEntityDetail = ModelEntityDetail::class.asClassName()
     val modelEntityContext = ModelEntityContext::class.asClassName()
     val metaEntities = MetaEntities ::class.asClassName()
+    val metaColumns = MetaColumns ::class.asClassName()
+
 
 
 

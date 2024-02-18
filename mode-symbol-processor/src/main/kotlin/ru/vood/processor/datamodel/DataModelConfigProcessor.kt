@@ -35,7 +35,7 @@ class DataModelConfigProcessor(
 
             val listOf = listOf(
 //                async { EntityMapGenerator(codeGenerator, rootPackage, logger).createFiles(metaInformation) },
-                async { InterfaceGenerator(codeGenerator, rootPackage, logger).createFiles(metaInformation) },
+//                async { InterfaceGenerator(codeGenerator, rootPackage, logger).createFiles(metaInformation) },
                 async { ColumnEntityMapGenerator(codeGenerator, rootPackage, logger).createFiles(metaInformation) },
                 async { UniqueKeyMapGenerator(codeGenerator, rootPackage, logger).createFiles(metaInformation) },
                 async { ForeignKeyMapGenerator(codeGenerator, rootPackage, logger).createFiles(metaInformation) },

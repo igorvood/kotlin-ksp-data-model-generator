@@ -18,6 +18,7 @@ class MetaEntityColumn(
 
     val isNullable: Boolean = element.type.resolve().nullability == Nullability.NULLABLE
 
+    @Deprecated("не нужен")
     val question = if (isNullable) {
         "?"
     } else {
@@ -31,7 +32,7 @@ class MetaEntityColumn(
             packageName.asString(),
             simpleName.asString()
         )
-    }
+    }.copy(nullable = isNullable)
 
     @OptIn(KspExperimental::class)
 //    val comment: String? = element.getAnnotationsByType(Comment::class).firstOrNull()?.comment

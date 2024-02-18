@@ -1,17 +1,17 @@
 @startuml
 digraph dfd{
 	node[shape=record]
-Deal [label="{<f0> Deal|<f1> id: ru.vood.dmgen.datamodel.valueClasses.DealId\ns: kotlin.String\nsn: kotlin.String?\nb: kotlin.Boolean\nbn: kotlin.Boolean?\ndealParamOneToOne: DealParamOneToOne\ndealParamOneToOneOptional: DealParamOneToOneOptional?\ndealParamSet: DealParamSet }" shape=Mrecord color=Red];
+Deal [label="{<f0> Deal|<f1> id: ru.vood.dmgen.datamodel.valueClasses.DealId\ns: kotlin.String\nsn: kotlin.String??\nb: kotlin.Boolean\nbn: kotlin.Boolean??\ndealParamOneToOne: DealParamOneToOne\ndealParamOneToOneOptional: DealParamOneToOneOptional?\ndealParamSet: DealParamSet }" shape=Mrecord color=Red];
 DealExtendData [label="{<f0> DealExtendData|<f1> dealId: ru.vood.dmgen.datamodel.valueClasses.DealId\nextendData: kotlin.String }" shape=Mrecord color=Red];
-DealOneData [label="{<f0> DealOneData|<f1> dealId: ru.vood.dmgen.datamodel.valueClasses.DealId\none: kotlin.String? }" shape=Mrecord color=Green];
+DealOneData [label="{<f0> DealOneData|<f1> dealId: ru.vood.dmgen.datamodel.valueClasses.DealId\none: kotlin.String?? }" shape=Mrecord color=Green];
 DealOneOfData [label="{<f0> DealOneOfData|<f1> dealId: ru.vood.dmgen.datamodel.valueClasses.DealId }" shape=Mrecord color=Yellow];
 DealParamOneToOne [label="{<f0> DealParamOneToOne|<f1> dealId: ru.vood.dmgen.datamodel.valueClasses.DealId\nparamDate: kotlin.String\ninnerToDealParamOneToOne: InnerToDealParamOneToOne }" shape=Mrecord color=Green];
 DealParamOneToOneOptional [label="{<f0> DealParamOneToOneOptional|<f1> dealId: ru.vood.dmgen.datamodel.valueClasses.DealId\nparamDate: kotlin.String }" shape=Mrecord color=Green];
 DealParamSet [label="{<f0> DealParamSet|<f1> dealId: ru.vood.dmgen.datamodel.valueClasses.DealId\nid: kotlin.Int\nparamDate: kotlin.String }" shape=Mrecord color=Green];
-DealTwoData [label="{<f0> DealTwoData|<f1> dealId: ru.vood.dmgen.datamodel.valueClasses.DealId\ntwo: kotlin.String? }" shape=Mrecord color=Green];
+DealTwoData [label="{<f0> DealTwoData|<f1> dealId: ru.vood.dmgen.datamodel.valueClasses.DealId\ntwo: kotlin.String?? }" shape=Mrecord color=Green];
 InnerToDealParamOneToOne [label="{<f0> InnerToDealParamOneToOne|<f1> dealId: ru.vood.dmgen.datamodel.valueClasses.DealId\nparamDate: kotlin.String }" shape=Mrecord color=Green];
 OneOfDto [label="{<f0> OneOfDto|<f1> dealId: ru.vood.dmgen.datamodel.valueClasses.DealId\nparamDate: kotlin.String\ndealOneOfData: DealOneOfData }" shape=Mrecord color=Red];
-Product [label="{<f0> Product|<f1> id: kotlin.String\ndealId: ru.vood.dmgen.datamodel.valueClasses.DealId\notherSystemProductId: kotlin.String\nproductName: kotlin.String\ninn: kotlin.Int?\nln: kotlin.Long?\ndn: kotlin.Double?\nfn: kotlin.Float?\nbn: kotlin.Boolean?\nisdsdd: kotlin.String?\nl: kotlin.Long\nd: kotlin.Double\nf: kotlin.Float\nb: kotlin.Boolean }" shape=Mrecord color=Red];
+Product [label="{<f0> Product|<f1> id: kotlin.String\ndealId: ru.vood.dmgen.datamodel.valueClasses.DealId\notherSystemProductId: kotlin.String\nproductName: kotlin.String\ninn: kotlin.Int??\nln: kotlin.Long??\ndn: kotlin.Double??\nfn: kotlin.Float??\nbn: kotlin.Boolean??\nisdsdd: kotlin.String??\nl: kotlin.Long\nd: kotlin.Double\nf: kotlin.Float\nb: kotlin.Boolean }" shape=Mrecord color=Red];
 ProductPayments [label="{<f0> ProductPayments|<f1> productId: kotlin.String\ndealId: ru.vood.dmgen.datamodel.valueClasses.DealId\nid: kotlin.String\nsumma: kotlin.Long\nnoRelationData: ru.vood.dmgen.datamodel.noRelation.NoRelationData }" shape=Mrecord color=Red];
 
 DealExtendData -> Deal[ color=Red];
