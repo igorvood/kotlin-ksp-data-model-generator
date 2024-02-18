@@ -29,7 +29,6 @@ class NewDataModelConfigProcessor(
 
 
     private lateinit var metaInformation: MetaInformation
-//    private var rootPackage: PackageName? = null
 
     override fun processRound(resolver: Resolver): List<KSAnnotated> {
 
