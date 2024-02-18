@@ -27,7 +27,9 @@ import ru.vood.processor.datamodel.gen.meta.ForeignKeyMapGenerator
 import java.io.OutputStream
 import kotlin.properties.Delegates
 
-class JsonSchemeConfigProcessor(val codeGenerator: CodeGenerator, val logger: KSPLogger) : SymbolProcessor {
+class JsonSchemeConfigProcessor(
+    val codeGenerator: CodeGenerator,
+    val logger: KSPLogger) : SymbolProcessor {
 
     private var file by Delegates.notNull<OutputStream>()
 

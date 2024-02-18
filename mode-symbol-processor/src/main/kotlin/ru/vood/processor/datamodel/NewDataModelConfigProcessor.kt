@@ -17,6 +17,7 @@ import ru.vood.processor.datamodel.newG.ContextDataClassesGenerator
 import ru.vood.processor.datamodel.newG.OriginEntityDataClassesGenerator
 import ru.vood.processor.datamodel.newG.SyntheticEntityGenerator
 import ru.vood.processor.datamodel.newG.common.*
+import ru.vood.processor.datamodel.newG.fileMeta.PumlGenerator
 import ru.vood.processor.datamodel.newG.meta.ColumnEntityMapGenerator
 import ru.vood.processor.datamodel.newG.meta.EntityMapGenerator
 
@@ -78,6 +79,7 @@ class NewDataModelConfigProcessor(
             ContextDataClassesGenerator(metaInformation, kspLogger),
             EntityMapGenerator(rootPackageCommon, metaInformation),
             ColumnEntityMapGenerator(rootPackageCommon, metaInformation),
+            PumlGenerator(environment.codeGenerator, metaInformation)
         )
         runBlocking {
             listOf
