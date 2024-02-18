@@ -7,7 +7,7 @@ import ru.vood.processor.datamodel.abstraction.model.dto.ModelClassName
 import ru.vood.processor.datamodel.abstraction.model.dto.UkDto
 
 
- class MetaEntity(
+ data class MetaEntity(
     val designPoetClassName: ClassName,
     val flowEntityType: FlowEntityType,
     val comment: String,
