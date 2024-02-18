@@ -29,7 +29,8 @@ import kotlin.properties.Delegates
 
 class JsonSchemeConfigProcessor(
     val codeGenerator: CodeGenerator,
-    val logger: KSPLogger) : SymbolProcessor {
+    val logger: KSPLogger,
+) : SymbolProcessor {
 
     private var file by Delegates.notNull<OutputStream>()
 

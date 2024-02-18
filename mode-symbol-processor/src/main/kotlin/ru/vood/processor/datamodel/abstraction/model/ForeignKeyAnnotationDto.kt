@@ -7,7 +7,7 @@ data class ForeignKeyAnnotationDto(
     val kClass: ClassName,
     val name: String,
     val cols: List<ForeignKeyColumnsDto>,
-    val foreignKeyType: ForeignKeyType
+    val foreignKeyType: ForeignKeyType,
 )
 
 data class ForeignKeyColumnsDto(

@@ -2,12 +2,12 @@ package ru.vood.processor.datamodel.abstraction.model
 
 import com.google.devtools.ksp.symbol.KSClassDeclaration
 import com.squareup.kotlinpoet.ClassName
-import ru.vood.dmgen.annotation.*
+import ru.vood.dmgen.annotation.FlowEntityType
 import ru.vood.processor.datamodel.abstraction.model.dto.ModelClassName
 import ru.vood.processor.datamodel.abstraction.model.dto.UkDto
 
 
- data class MetaEntity(
+data class MetaEntity(
     val designPoetClassName: ClassName,
     val flowEntityType: FlowEntityType,
     val comment: String,
@@ -16,7 +16,7 @@ import ru.vood.processor.datamodel.abstraction.model.dto.UkDto
     val uniqueKeysFields: Map<UkDto, List<MetaEntityColumn>>,
     val fields: List<MetaEntityColumn>,
 
-    val ksAnnotated: KSClassDeclaration
+    val ksAnnotated: KSClassDeclaration,
 ) {
 
     val designClassShortName: String = designPoetClassName.simpleName
@@ -27,7 +27,6 @@ import ru.vood.processor.datamodel.abstraction.model.dto.UkDto
 
     val entityFieldName =
         designPoetClassName.simpleName[0].lowercaseChar() + designPoetClassName.simpleName.substring(1)
-
 
 
 }

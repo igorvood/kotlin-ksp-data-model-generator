@@ -25,7 +25,7 @@ class EntityMapGenerator(
 ) : AbstractSingleFileGenerator(
     rootPackage,
 //    PackageName("metaEnumP"),//
-     CommonClassNames.subPackageAbstractDataDictionaryGenerator,
+    CommonClassNames.subPackageAbstractDataDictionaryGenerator,
     entityEnum
 ) {
 
@@ -109,7 +109,7 @@ class EntityMapGenerator(
                         .indent()
                         .indent()
                         .indent()
-                    distinct.forEach {cn ->
+                    distinct.forEach { cn ->
                         cb.addStatement("%T.%L,", entityEnum, cn.simpleName)
                     }
                     cb.addStatement(")")

@@ -160,7 +160,7 @@ class ColumnEntityMapGenerator(
                                 entityClassName(it.metaEntity.designPoetClassName),
                                 it.metaEntity.entityFieldName
 
-                                )
+                            )
                         }
                         cb.addStatement("""),""")
 

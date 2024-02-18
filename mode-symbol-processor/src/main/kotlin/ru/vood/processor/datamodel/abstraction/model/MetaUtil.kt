@@ -3,7 +3,6 @@ package ru.vood.processor.datamodel.abstraction.model
 import com.google.devtools.ksp.processing.KSPLogger
 import com.google.devtools.ksp.symbol.KSAnnotated
 import com.google.devtools.ksp.symbol.KSClassDeclaration
-import ru.vood.dmgen.annotation.ForeignKey
 import ru.vood.dmgen.annotation.ForeignKeyType
 import ru.vood.dmgen.dto.RelationType
 import ru.vood.processor.datamodel.abstraction.model.dto.ModelClassName
