@@ -2,7 +2,6 @@ package ru.vood.processor.datamodel.gen
 
 import com.squareup.kotlinpoet.ClassName
 import ru.vood.dmgen.dto.UkName
-import ru.vood.processor.datamodel.abstraction.model.MetaEntity
 
 object CollectName {
 
