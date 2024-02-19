@@ -21,7 +21,7 @@ data class MetaEntity(
     val fields: List<MetaEntityColumn>,
 
     @kotlinx.serialization.Transient
-    val ksAnnotated: KSClassDeclaration?=null,
+    val ksAnnotated: KSClassDeclaration? = null,
 ) {
 
     @kotlinx.serialization.Transient

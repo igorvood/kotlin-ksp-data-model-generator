@@ -13,7 +13,7 @@ data class MetaInformation(
     val entities: Map<ModelClassName, MetaEntity>,
     val nullableProbSetDefaultNull: Boolean,
     @kotlinx.serialization.Transient
-    val logger: KSPLogger?=null,
+    val logger: KSPLogger? = null,
 ) {
     val rootPackage by lazy { PackageName(commonPackage(entities.values.toSet())) }
 
