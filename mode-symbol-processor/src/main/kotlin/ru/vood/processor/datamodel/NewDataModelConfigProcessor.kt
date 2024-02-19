@@ -84,8 +84,7 @@ class NewDataModelConfigProcessor(
         runBlocking {
             listOf
                 .asFlow()
-                .map { q -> q.files().asFlow() }
-                .flatMapConcat { it }
+                .flatMapConcat { q -> q.files().asFlow() }
                 .collect { fs ->
                     kotlin.runCatching {
                         fs.writeTo(codeGenerator = codeGenerator, aggregating = true)
