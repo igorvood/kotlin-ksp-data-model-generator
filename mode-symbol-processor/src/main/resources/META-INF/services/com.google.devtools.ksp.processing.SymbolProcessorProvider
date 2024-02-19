@@ -1,3 +1,1 @@
-ru.vood.processor.datamodel.DataModelConfigProcessorProvider
 ru.vood.processor.datamodel.NewDataModelConfigProcessorProvider
-ru.vood.processor.json.JsonSchemeProcessorProvider
