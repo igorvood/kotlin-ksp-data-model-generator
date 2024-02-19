@@ -3,7 +3,6 @@ package ru.vood.processor.datamodel
 import com.google.devtools.ksp.processing.*
 import com.google.devtools.ksp.symbol.KSAnnotated
 import kotlinx.coroutines.Deferred
-import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.runBlocking
 import ru.vood.dmgen.annotation.FlowEntity
@@ -13,9 +12,6 @@ import ru.vood.processor.datamodel.abstraction.model.MetaEntity
 import ru.vood.processor.datamodel.abstraction.model.MetaInformation
 import ru.vood.processor.datamodel.abstraction.model.metaInformation
 import ru.vood.processor.datamodel.gen.appendText
-import ru.vood.processor.datamodel.gen.meta.ColumnEntityMapGenerator
-import ru.vood.processor.datamodel.gen.meta.ForeignKeyMapGenerator
-import ru.vood.processor.datamodel.gen.meta.UniqueKeyMapGenerator
 
 class DataModelConfigProcessor(
     val codeGenerator: CodeGenerator,

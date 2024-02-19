@@ -16,7 +16,6 @@ import ru.vood.model.generator.ksp.common.dto.PackageName
 import ru.vood.processor.datamodel.abstraction.model.MetaInformation
 import ru.vood.processor.datamodel.gen.CollectName
 import ru.vood.processor.datamodel.newG.abstraction.AbstractSingleFileGenerator
-import java.util.*
 
 class ForeignKeyMapGenerator(
     rootPackage: PackageName,
@@ -197,15 +196,17 @@ class ForeignKeyMapGenerator(
 
     private fun getFkPropertySpec(): FunSpec {
         val cbFromToFkMap = CodeBlock.builder()
-            .addStatement("""return (fromToFkMap[fromEntity] ?: 
+            .addStatement(
+                """return (fromToFkMap[fromEntity] ?: 
                 |error(""${'"'}Not found any foreign key from entity ${'$'}fromEntity""${'"'}))[toEntity]?: 
-                |error(""${'"'}Not found any foreign key from entity ${'$'}fromEntity to entity ${'$'}toEntity""${'"'})""".trimMargin())
+                |error(""${'"'}Not found any foreign key from entity ${'$'}fromEntity to entity ${'$'}toEntity""${'"'})""".trimMargin()
+            )
 
         val fromToFkMapPropertySpec =
             FunSpec.builder("getFk")
                 .addModifiers(KModifier.PUBLIC)
-                .addParameter(ParameterSpec("fromEntity",entityEnum))
-                .addParameter(ParameterSpec("toEntity",entityEnum))
+                .addParameter(ParameterSpec("fromEntity", entityEnum))
+                .addParameter(ParameterSpec("toEntity", entityEnum))
                 .addCode(cbFromToFkMap.build())
                 .build()
         return fromToFkMapPropertySpec

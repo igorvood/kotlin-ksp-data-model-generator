@@ -91,7 +91,7 @@ class UniqueKeyMapGenerator(
                             .addStatement(")")
                             .addStatement("},")
 
-                        cb.addStatement("typeUk = %T.%L" ,typeUk, ukDto.typeUk.name)
+                        cb.addStatement("typeUk = %T.%L", typeUk, ukDto.typeUk.name)
 
 //typeUk = PK
 
