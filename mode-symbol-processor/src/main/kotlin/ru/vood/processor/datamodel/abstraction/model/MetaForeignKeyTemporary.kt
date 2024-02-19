@@ -38,5 +38,5 @@ data class MetaForeignKey(
 }
 
 @JvmInline
-@kotlinx.serialization.Serializable
+@Serializable
 value class ForeignKeyName(val value: String)

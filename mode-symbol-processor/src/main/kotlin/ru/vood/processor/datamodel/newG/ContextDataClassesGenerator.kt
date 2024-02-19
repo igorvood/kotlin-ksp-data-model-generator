@@ -47,7 +47,7 @@ class ContextDataClassesGenerator(
                     .generated(this::class)
                     .addAnnotation(CommonClassNames.serializable)
                     .addAnnotation(CommonClassNames.modelEntityContext)
-                    .addKdoc(metaEntity.comment ?: "Empty comment")
+                    .addKdoc(metaEntity.comment)
                     .addSuperinterface(CommonClassNames.iContextOf.plusParameter(entityClassName))
                     .addModifiers(KModifier.DATA)
                 //надо добавить все свойства в конструктор

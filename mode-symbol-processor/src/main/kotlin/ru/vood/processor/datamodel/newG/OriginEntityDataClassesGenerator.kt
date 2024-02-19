@@ -76,7 +76,7 @@ class OriginEntityDataClassesGenerator(
             .generated(this::class)
             .addAnnotation(serializable)
             .addAnnotation(modelEntity)
-            .addKdoc(metaEntity.comment ?: "Empty comment")
+            .addKdoc(metaEntity.comment)
             .addModifiers(KModifier.SEALED)
             .addSuperinterface(metaEntity.designPoetClassName)
             .addSuperinterface(iEntityOrigin)
@@ -98,7 +98,7 @@ class OriginEntityDataClassesGenerator(
             .generated(this::class)
             .addAnnotation(serializable)
             .addAnnotation(modelEntity)
-            .addKdoc(metaEntity.comment ?: "Empty comment")
+            .addKdoc(metaEntity.comment)
             .addModifiers(KModifier.DATA)
 
         // Определить есть ли форены на sealed сущность
@@ -135,7 +135,7 @@ class OriginEntityDataClassesGenerator(
             .map { col ->
                 PropertySpec.builder(col.name.value, col.typePoetClassName.copy(nullable = col.isNullable))
                     .initializer("%N", col.name.value)
-                    .addKdoc(col.comment ?: "Empty comment")
+                    .addKdoc(col.comment)
                     .addModifiers(KModifier.OVERRIDE)
                     .mutable(false)
                     .build()

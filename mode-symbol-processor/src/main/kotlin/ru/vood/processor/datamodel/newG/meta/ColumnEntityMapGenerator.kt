@@ -30,7 +30,7 @@ class ColumnEntityMapGenerator(
     rootPackage,
 //    PackageName("metaEnumP"),//
     CommonClassNames.subPackageAbstractDataDictionaryGenerator,
-    CommonClassNames.fullColumnNameEnum
+    fullColumnNameEnum
 ) {
 
     override fun files(): List<FileSpec> {
@@ -177,7 +177,7 @@ class ColumnEntityMapGenerator(
             }
 
 
-        val typeEnumMap = CommonClassNames.enumMap.plusParameter(CommonClassNames.fullColumnNameEnum).plusParameter(
+        val typeEnumMap = CommonClassNames.enumMap.plusParameter(fullColumnNameEnum).plusParameter(
             CommonClassNames.columnEntityData
         )
 

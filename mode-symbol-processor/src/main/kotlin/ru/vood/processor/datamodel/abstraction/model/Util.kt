@@ -4,7 +4,7 @@ import com.google.devtools.ksp.processing.KSPLogger
 import com.google.devtools.ksp.symbol.KSNode
 
 
-public inline fun KSPLogger.kspError(message: String, symbol: KSNode? = null): Nothing {
+inline fun KSPLogger.kspError(message: String, symbol: KSNode? = null): Nothing {
     this.error(message, symbol)
     throw java.lang.IllegalStateException(message)
 }

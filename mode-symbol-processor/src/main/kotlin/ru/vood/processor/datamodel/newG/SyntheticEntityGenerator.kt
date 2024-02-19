@@ -56,7 +56,7 @@ class SyntheticEntityGenerator(
             .generated(this::class)
             .addAnnotation(CommonClassNames.serializable)
             .addAnnotation(CommonClassNames.modelEntityDetail)
-            .addKdoc(metaEntity.comment ?: "Empty comment")
+            .addKdoc(metaEntity.comment)
             .addModifiers(KModifier.DATA)
             .addSuperinterface(CommonClassNames.iEntityDetail.plusParameter(entityClassName))
 

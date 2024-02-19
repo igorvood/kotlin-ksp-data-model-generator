@@ -36,12 +36,12 @@ class ForeignKeyMapGenerator(
                 classBuilder.addEnumConstant(it.name.value)
             }
 
-        val typeEnumMap = CommonClassNames.enumMap.plusParameter(CommonClassNames.fkNameEnum).plusParameter(
-            CommonClassNames.fKMetaData.plusParameter(WildcardTypeName.producerOf(iEntityOrigin))
+        val typeEnumMap = enumMap.plusParameter(CommonClassNames.fkNameEnum).plusParameter(
+            fKMetaData.plusParameter(WildcardTypeName.producerOf(iEntityOrigin))
         )
 
         val cb = CodeBlock.builder()
-            .addStatement("""%T(""", CommonClassNames.enumMap)
+            .addStatement("""%T(""", enumMap)
             .indent()
             .addStatement("mapOf(")
             .indent()
@@ -55,7 +55,7 @@ class ForeignKeyMapGenerator(
                     "%T.%L to %T(",
                     CommonClassNames.fkNameEnum,
                     mf.name.value,
-                    CommonClassNames.fKMetaData,
+                    fKMetaData,
                 )
                     .addStatement(
                         "fromEntity = %T.%L,",

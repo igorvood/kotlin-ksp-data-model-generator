@@ -24,7 +24,7 @@ class UniqueKeyMapGenerator(
     rootPackage,
 //    PackageName("metaEnumP"),//
     CommonClassNames.subPackageAbstractDataDictionaryGenerator,
-    CommonClassNames.uniqueKeyEnum
+    uniqueKeyEnum
 ) {
 
     override fun files(): List<FileSpec> {
@@ -106,8 +106,8 @@ class UniqueKeyMapGenerator(
 
 //        EnumMap<UniqueKeyEnum, UKEntityData<out IEntityOrigin>>
 
-        val typeEnumMap = CommonClassNames.enumMap.plusParameter(CommonClassNames.uniqueKeyEnum).plusParameter(
-            CommonClassNames.uKEntityData.plusParameter(WildcardTypeName.producerOf(iEntityOrigin))
+        val typeEnumMap = enumMap.plusParameter(uniqueKeyEnum).plusParameter(
+            uKEntityData.plusParameter(WildcardTypeName.producerOf(iEntityOrigin))
         )
 
         val companionObjectBuilder = TypeSpec.companionObjectBuilder()
