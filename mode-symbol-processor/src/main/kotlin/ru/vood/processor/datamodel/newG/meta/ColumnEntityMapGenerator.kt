@@ -34,7 +34,7 @@ class ColumnEntityMapGenerator(
 ) {
 
     override fun files(): List<FileSpec> {
-        val classBuilder = TypeSpec.enumBuilder(CommonClassNames.fullColumnNameEnum)
+        val classBuilder = TypeSpec.enumBuilder(moduleName)
             .generated(this::class)
             .addAnnotation(CommonClassNames.metaColumns)
 
@@ -186,14 +186,14 @@ class ColumnEntityMapGenerator(
         cb.addStatement(""")""")
         cb.addStatement(""")""")
 
-        val entityDataMapPropertySpec =
+        val columnEntityDataMapPropertySpec =
             PropertySpec.builder("columnEntityDataMap", typeEnumMap)
                 .addModifiers(KModifier.PRIVATE)
                 .initializer(cb.build())
                 .build()
 
         val companionObjectBuilder = TypeSpec.companionObjectBuilder()
-            .addProperty(entityDataMapPropertySpec)
+            .addProperty(columnEntityDataMapPropertySpec)
             .build()
 
         classBuilder
@@ -203,7 +203,7 @@ class ColumnEntityMapGenerator(
 //                    .returns(CommonClassNames.iEntityData)
                     .addCode(
                         CodeBlock.builder()
-                            .addStatement("return %L[this]!!", entityDataMapPropertySpec.name)
+                            .addStatement("return %L[this]!!", columnEntityDataMapPropertySpec.name)
                             .build()
                     )
                     .build()

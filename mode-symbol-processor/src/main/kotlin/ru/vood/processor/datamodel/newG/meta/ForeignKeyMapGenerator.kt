@@ -1,0 +1,164 @@
+package ru.vood.processor.datamodel.newG.meta
+
+import com.squareup.kotlinpoet.*
+import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.plusParameter
+import ru.vood.model.generator.ksp.common.CommonClassNames
+import ru.vood.model.generator.ksp.common.CommonClassNames.entityEnum
+import ru.vood.model.generator.ksp.common.CommonClassNames.enumMap
+import ru.vood.model.generator.ksp.common.CommonClassNames.fKMetaData
+import ru.vood.model.generator.ksp.common.CommonClassNames.fkPair
+import ru.vood.model.generator.ksp.common.CommonClassNames.fullColumnNameEnum
+import ru.vood.model.generator.ksp.common.CommonClassNames.iEntityOrigin
+import ru.vood.model.generator.ksp.common.CommonClassNames.relationType
+import ru.vood.model.generator.ksp.common.CommonClassNames.uniqueKeyEnum
+import ru.vood.model.generator.ksp.common.KspCommonUtils.generated
+import ru.vood.model.generator.ksp.common.dto.PackageName
+import ru.vood.processor.datamodel.abstraction.model.MetaInformation
+import ru.vood.processor.datamodel.gen.CollectName
+import ru.vood.processor.datamodel.newG.abstraction.AbstractSingleFileGenerator
+import java.util.*
+
+class ForeignKeyMapGenerator(
+    rootPackage: PackageName,
+    private val metaInformation: MetaInformation,
+) : AbstractSingleFileGenerator(
+    rootPackage,
+    PackageName("metaEnumP"),//
+//    CommonClassNames.subPackageAbstractDataDictionaryGenerator,
+    CommonClassNames.fkNameEnum
+) {
+    override fun files(): List<FileSpec> {
+        val classBuilder = TypeSpec.enumBuilder(moduleName)
+            .generated(this::class)
+            .addAnnotation(CommonClassNames.metaFKs)
+
+        metaInformation.metaForeignKeys
+            .map {
+                classBuilder.addEnumConstant(it.name.value)
+            }
+
+        val typeEnumMap = CommonClassNames.enumMap.plusParameter(CommonClassNames.fkNameEnum).plusParameter(
+            CommonClassNames.fKMetaData.plusParameter(WildcardTypeName.producerOf(iEntityOrigin))
+        )
+
+        val cb = CodeBlock.builder()
+            .addStatement("""%T(""", CommonClassNames.enumMap)
+            .indent()
+            .addStatement("mapOf(")
+            .indent()
+            .indent()
+            .indent()
+
+        metaInformation.metaForeignKeys
+            .sortedBy { it.fromEntity.designPoetClassName }
+            .forEach { mf ->
+                cb.addStatement(
+                    "%T.%L to %T(",
+                    CommonClassNames.fkNameEnum,
+                    mf.name.value,
+                    CommonClassNames.fKMetaData,
+                )
+                    .addStatement(
+                        "fromEntity = %T.%L,",
+                        entityEnum,
+                        mf.fromEntity.designPoetClassName.simpleName
+                    )
+                    .addStatement(
+                        "toEntity = %T.%L,",
+                        entityEnum,
+                        mf.toEntity.designPoetClassName.simpleName
+                    )
+                    .addStatement(
+                        "uk = %T.%L,",
+                        uniqueKeyEnum,
+                        mf.uk.name.value
+                    )
+                    .addStatement(
+                        "relationType = %T.%L,",
+                        relationType,
+                        mf.relationType.name
+                    )
+                cb.addStatement(
+                    "fkCols = setOf(",
+                )
+
+                mf.fkCols
+                    .forEach { fcol ->
+                        cb.addStatement(
+                            "%T(%T.%L_%L, %T.%L_%L),",
+                            fkPair,
+                            fullColumnNameEnum,
+                            mf.fromEntity.designPoetClassName.simpleName,
+                            fcol.from.name.value,
+                            fullColumnNameEnum,
+                            mf.toEntity.designPoetClassName.simpleName,
+                            fcol.to.name.value
+                        )
+                    }
+
+                cb.addStatement("),")
+                cb.addStatement(
+                    "сontextExtractor = {data: %T -> %T(",
+                    CollectName.entityClassName(mf.fromEntity.designPoetClassName),
+                    CollectName.ukClassName(mf.toEntity.designPoetClassName, mf.uk.name)
+                )
+
+                mf.fkCols.forEach { fkCol ->
+                    cb.addStatement(
+                        "data.%L,",
+                        fkCol.from.name.value
+                    )
+
+                }
+
+                cb.addStatement(") }")
+                    .addStatement("),")
+
+            }
+
+        cb.addStatement(""")""")
+        cb.addStatement(""")""")
+
+
+
+        val columnEntityDataMapPropertySpec =
+            PropertySpec.builder("foreignKeyMap", typeEnumMap)
+                .addModifiers(KModifier.PRIVATE)
+                .initializer(cb.build())
+                .build()
+
+        val cbFromToFkMap = CodeBlock.builder()
+            .addStatement("%T(",enumMap )
+            .addStatement("""foreignKeyMap.values
+                .map { fk ->
+                    fk.fromEntity to %T(foreignKeyMap.values.filter { it.fromEntity == fk.fromEntity }
+                        .map { fk2 -> fk2.toEntity to fk2 }.toMap())
+                }.toMap()""",enumMap )
+            .addStatement(")")
+
+        val typeEnumMapfromToFkMap = enumMap.plusParameter(entityEnum).plusParameter(
+            enumMap.plusParameter(entityEnum).plusParameter(fKMetaData.plusParameter( WildcardTypeName.producerOf(iEntityOrigin)))
+        )
+
+        val fromToFkMapPropertySpec =
+            PropertySpec.builder("fromToFkMap", typeEnumMapfromToFkMap)
+                .addKdoc("В качестве ключа первой мапки выступает идентификатор сущности от которой идет FK. В качестве ключа второй, вложенной мапки, выступает идентификатор сущности в которую идет FK")
+                .addModifiers(KModifier.PUBLIC)
+                .initializer(cbFromToFkMap.build())
+                .build()
+
+
+        val companionObjectBuilder = TypeSpec.companionObjectBuilder()
+            .addProperty(columnEntityDataMapPropertySpec)
+            .addProperty(fromToFkMapPropertySpec)
+            .build()
+
+
+        classBuilder
+            .addType(companionObjectBuilder)
+
+        // надо добавить только что сгенерированный класс к его потомкам
+        return listOf(fileSpec.addType(classBuilder.build()).build())
+
+    }
+}

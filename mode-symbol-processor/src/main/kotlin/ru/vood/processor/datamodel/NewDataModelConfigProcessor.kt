@@ -11,7 +11,6 @@ import kotlinx.coroutines.runBlocking
 import ru.vood.dmgen.annotation.FlowEntity
 import ru.vood.model.generator.ksp.common.BaseSymbolProcessor
 import ru.vood.processor.datamodel.abstraction.model.MetaCollector.collectMetaInformation
-import ru.vood.processor.datamodel.abstraction.model.MetaEntity
 import ru.vood.processor.datamodel.abstraction.model.MetaInformation
 import ru.vood.processor.datamodel.newG.ContextDataClassesGenerator
 import ru.vood.processor.datamodel.newG.OriginEntityDataClassesGenerator
@@ -20,6 +19,7 @@ import ru.vood.processor.datamodel.newG.common.*
 import ru.vood.processor.datamodel.newG.fileMeta.PumlGenerator
 import ru.vood.processor.datamodel.newG.meta.ColumnEntityMapGenerator
 import ru.vood.processor.datamodel.newG.meta.EntityMapGenerator
+import ru.vood.processor.datamodel.newG.meta.ForeignKeyMapGenerator
 
 class NewDataModelConfigProcessor(
     environment: SymbolProcessorEnvironment,
@@ -74,7 +74,8 @@ class NewDataModelConfigProcessor(
             ContextDataClassesGenerator(metaInformation, kspLogger),
             EntityMapGenerator(rootPackageCommon, metaInformation),
             ColumnEntityMapGenerator(rootPackageCommon, metaInformation),
-            PumlGenerator(environment.codeGenerator, metaInformation)
+            PumlGenerator(environment.codeGenerator, metaInformation),
+            ForeignKeyMapGenerator(rootPackageCommon, metaInformation),
         )
         runBlocking {
             listOf

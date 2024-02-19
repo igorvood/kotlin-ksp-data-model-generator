@@ -31,7 +31,7 @@ class EntityMapGenerator(
 
     override fun files(): List<FileSpec> {
 
-        val classBuilder = TypeSpec.enumBuilder(entityEnum)
+        val classBuilder = TypeSpec.enumBuilder(moduleName)
             .generated(this::class)
             .addAnnotation(CommonClassNames.metaEntities)
 
