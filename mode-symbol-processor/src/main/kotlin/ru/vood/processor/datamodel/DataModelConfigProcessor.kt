@@ -6,7 +6,6 @@ import com.google.devtools.ksp.symbol.KSAnnotated
 import com.squareup.kotlinpoet.ksp.writeTo
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.flatMapConcat
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.runBlocking
 import ru.vood.dmgen.annotation.FlowEntity
 import ru.vood.model.generator.ksp.common.BaseSymbolProcessor
@@ -23,7 +22,7 @@ import ru.vood.processor.datamodel.newG.meta.EntityMapGenerator
 import ru.vood.processor.datamodel.newG.meta.ForeignKeyMapGenerator
 import ru.vood.processor.datamodel.newG.meta.UniqueKeyMapGenerator
 
-class NewDataModelConfigProcessor(
+class DataModelConfigProcessor(
     environment: SymbolProcessorEnvironment,
 ) : BaseSymbolProcessor(environment) {
 

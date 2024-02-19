@@ -21,13 +21,7 @@ data class MetaInformation(
         setRootPackage(rootPackage)
     }
 
-    @Deprecated("Позже удалить")
-    val allEntityPackagesImport =
-        entities.values.distinctBy { it.designClassPackageName }.map { "import ${it.designClassPackageName}.*" }
-            .joinToString("\n")
-
     val aggregateInnerDep by lazy { aggregateInnerDepFun() }
-
 
     private fun aggregateInnerDepFun(): Dependency {
 

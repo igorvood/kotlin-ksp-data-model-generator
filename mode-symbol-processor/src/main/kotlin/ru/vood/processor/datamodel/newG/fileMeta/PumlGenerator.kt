@@ -26,13 +26,8 @@ class PumlGenerator(
                 }
                 val culumns = en.fields
                     .map { col ->
-                        val question = if (col.isNullable) {
-                            "?"
-                        } else {
-                            ""
-                        }
                         val typeCol = col.name.value
-                        "${col.name.value}: $typeCol$question"
+                        "${col.name.value}: $typeCol${col.question}"
                     }.joinToString("\\n")
 
                 """${en.designPoetClassName.simpleName} [label="{<f0> ${en.designPoetClassName.simpleName}|<f1> $culumns }" shape=Mrecord color=$colourName];"""

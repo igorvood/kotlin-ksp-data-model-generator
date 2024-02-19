@@ -47,15 +47,5 @@ class MetaEntityColumnCollector(
         comment
     )
 
-    override fun toString(): String {
-        return """MetaEntityColumn(
-            |name=$name,
-            |position=$position,
-            |isNullable=$isNullable,
-            |type=$type
-            |comment=$comment
-            |inPk=$inPk
-            |)""".trimMargin()
-    }
 }
 

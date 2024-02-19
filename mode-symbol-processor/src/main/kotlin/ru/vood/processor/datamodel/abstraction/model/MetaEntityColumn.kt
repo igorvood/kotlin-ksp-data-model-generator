@@ -18,7 +18,6 @@ data class MetaEntityColumn(
 
     ) {
     @kotlinx.serialization.Transient
-    @Deprecated("не нужен")
     val question = if (isNullable) {
         "?"
     } else {
