@@ -36,7 +36,7 @@ class DataModelConfigProcessor(
 //                async { InterfaceGenerator(codeGenerator, rootPackage, logger).createFiles(metaInformation) },
                 async { ColumnEntityMapGenerator(codeGenerator, rootPackage, logger).createFiles(metaInformation) },
                 async { UniqueKeyMapGenerator(codeGenerator, rootPackage, logger).createFiles(metaInformation) },
-                async { ForeignKeyMapGenerator(codeGenerator, rootPackage, logger).createFiles(metaInformation) },
+//                async { ForeignKeyMapGenerator(codeGenerator, rootPackage, logger).createFiles(metaInformation) },
 //                async { ContextDataClassesGenerator(codeGenerator, rootPackage, logger).createFiles(metaInformation) },
 //                async {
 //                    SyntheticFieldExtractorsGenerator(codeGenerator, rootPackage, logger).createFiles(

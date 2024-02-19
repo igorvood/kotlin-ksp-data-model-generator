@@ -23,8 +23,8 @@ class ForeignKeyMapGenerator(
     private val metaInformation: MetaInformation,
 ) : AbstractSingleFileGenerator(
     rootPackage,
-    PackageName("metaEnumP"),//
-//    CommonClassNames.subPackageAbstractDataDictionaryGenerator,
+//    PackageName("metaEnumP"),//
+    CommonClassNames.subPackageAbstractDataDictionaryGenerator,
     CommonClassNames.fkNameEnum
 ) {
     override fun files(): List<FileSpec> {
@@ -121,7 +121,7 @@ class ForeignKeyMapGenerator(
 
         val columnEntityDataMapPropertySpec =
             PropertySpec.builder("foreignKeyMap", typeEnumMap)
-                .addModifiers(KModifier.PRIVATE)
+//                .addModifiers(KModifier.PRIVATE)
                 .initializer(cb.build())
                 .build()
 
@@ -197,7 +197,7 @@ class ForeignKeyMapGenerator(
 
     private fun getFkPropertySpec(): FunSpec {
         val cbFromToFkMap = CodeBlock.builder()
-            .addStatement("""(fromToFkMap[fromEntity] ?: error(""${'"'}Not found any foreign key from entity ${'$'}fromEntity""${'"'}))[toEntity]?: error(""${'"'}Not found any foreign key from entity ${'$'}fromEntity to entity ${'$'}toEntity""${'"'})""")
+            .addStatement("""return (fromToFkMap[fromEntity] ?: error(""${'"'}Not found any foreign key from entity ${'$'}fromEntity""${'"'}))[toEntity]?: error(""${'"'}Not found any foreign key from entity ${'$'}fromEntity to entity ${'$'}toEntity""${'"'})""")
         val typeEnumMapfromToFkMap = enumMap.plusParameter(entityEnum).plusParameter(
             CommonClassNames.set.plusParameter(fKMetaData.plusParameter(WildcardTypeName.producerOf(iEntityOrigin)))
 
