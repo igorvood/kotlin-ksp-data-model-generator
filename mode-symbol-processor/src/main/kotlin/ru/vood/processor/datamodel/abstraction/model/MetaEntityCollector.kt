@@ -62,7 +62,7 @@ class MetaEntityCollector(val ksAnnotated: KSClassDeclaration, val logger: KSPLo
     val uniqueKeysAnnotations = ksAnnotated.getAnnotationsByType(Uk::class).toList()
 
     val pkColumns by lazy {
-        val pkCols = fields.filter { it.inPk }.map { it.name }.toSet()
+        val pkCols = fields.filter { it.inPk }.sortedBy { it.position }.map { it.name }
         val notNullPkCols = fields.filter { it.inPk && !it.isNullable }.map { it.name }.toSet()
 
         val minus = pkCols.minus(notNullPkCols.toSet())
@@ -79,7 +79,7 @@ class MetaEntityCollector(val ksAnnotated: KSClassDeclaration, val logger: KSPLo
     val uniqueKeysFields: Map<UkDto, List<MetaEntityColumn>> by lazy {
         val allUk = uniqueKeysAnnotations
             .map { anno ->
-                UkDto(UkName(anno.name), anno.cols.map { SimpleColumnName(it) }.toSet(), TypeUk.UK) to anno.cols
+                UkDto(UkName(anno.name), anno.cols.map { SimpleColumnName(it) }, TypeUk.UK) to anno.cols
                     .map { annoColName ->
                         annoColName to fields.filter { f -> f.name.value == annoColName }
                             .map { metaCol -> metaCol }

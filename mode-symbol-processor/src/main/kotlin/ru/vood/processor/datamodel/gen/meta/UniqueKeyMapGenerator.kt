@@ -38,7 +38,8 @@ class UniqueKeyMapGenerator(
                                     ukDto.cols.map { columnName -> """${SimpleColumnName::class.simpleName}("${metaEnt.designClassShortName}_${columnName.value}")""" }
                                         .sorted()
                                         .joinToString(",")
-                                val constructorParams = ukDto.cols.map { columnName -> """data.${columnName.value}""" }
+                                val constructorParams = ukDto.cols
+                                    .map { columnName -> """data.${columnName.value}""" }
                                     .sorted()
                                     .joinToString(",")
 

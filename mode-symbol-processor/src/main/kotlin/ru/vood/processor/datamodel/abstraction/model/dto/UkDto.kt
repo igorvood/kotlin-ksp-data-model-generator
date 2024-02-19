@@ -7,7 +7,7 @@ import ru.vood.dmgen.dto.UkName
 
 data class UkDto(
     val name: UkName,
-    val cols: Set<SimpleColumnName>,
+    val cols: List<SimpleColumnName>,
     val typeUk: TypeUk,
 )
 

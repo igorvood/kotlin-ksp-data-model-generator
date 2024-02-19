@@ -20,6 +20,7 @@ import ru.vood.processor.datamodel.newG.fileMeta.PumlGenerator
 import ru.vood.processor.datamodel.newG.meta.ColumnEntityMapGenerator
 import ru.vood.processor.datamodel.newG.meta.EntityMapGenerator
 import ru.vood.processor.datamodel.newG.meta.ForeignKeyMapGenerator
+import ru.vood.processor.datamodel.newG.meta.UniqueKeyMapGenerator
 
 class NewDataModelConfigProcessor(
     environment: SymbolProcessorEnvironment,
@@ -76,6 +77,7 @@ class NewDataModelConfigProcessor(
             ColumnEntityMapGenerator(rootPackageCommon, metaInformation),
             PumlGenerator(environment.codeGenerator, metaInformation),
             ForeignKeyMapGenerator(rootPackageCommon, metaInformation),
+            UniqueKeyMapGenerator(rootPackageCommon, metaInformation),
         )
         runBlocking {
             listOf

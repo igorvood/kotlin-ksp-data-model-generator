@@ -64,9 +64,7 @@ class ContextDataClassesGenerator(
                         val parameterSpec = ParameterSpec.builder(ps.name, ps.type)
                             .addKdoc(ps.kdoc)
                         // надо добавить параметры в конструктор
-                        constructor.addParameter(
-                            parameterSpec.build()
-                        )
+                        constructor.addParameter(parameterSpec.build())
                         // и также надо добавить эти же св-ва в класс
                         classBuilder.addProperty(ps)
                     }

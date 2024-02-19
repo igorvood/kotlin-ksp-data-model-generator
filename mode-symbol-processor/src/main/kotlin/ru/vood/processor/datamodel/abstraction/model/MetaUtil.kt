@@ -290,7 +290,7 @@ private fun fieldsFk(
 
 }
 
-private inline fun <reified E> Set<E>.equalsAnyOrder(set: Set<E>): Boolean {
+private inline fun <reified E> Collection<E>.equalsAnyOrder(set: Set<E>): Boolean {
     return this.minus(set).isEmpty() && set.minus(this).isEmpty()
 }
 

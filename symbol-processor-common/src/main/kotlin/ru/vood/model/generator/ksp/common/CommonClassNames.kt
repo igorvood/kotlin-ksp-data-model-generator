@@ -45,7 +45,7 @@ object CommonClassNames {
     val metaEntities = MetaEntities ::class.asClassName()
     val metaColumns = MetaColumns ::class.asClassName()
     val metaFKs = MetaFKs ::class.asClassName()
-
+    val metaUKs = MetaUKs ::class.asClassName()
 
 
 
