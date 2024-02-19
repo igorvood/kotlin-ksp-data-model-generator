@@ -12,7 +12,8 @@ data class MetaInformation(
     val metaForeignKeys: Set<MetaForeignKey>,
     val entities: Map<ModelClassName, MetaEntity>,
     val nullableProbSetDefaultNull: Boolean,
-    val logger: KSPLogger,
+    @kotlinx.serialization.Transient
+    val logger: KSPLogger?=null,
 ) {
     val rootPackage by lazy { PackageName(commonPackage(entities.values.toSet())) }
 
@@ -33,8 +34,8 @@ data class MetaInformation(
         val filter =
             entities.filter { metaForeignKeys.filter { fk -> fk.fromEntity == it.value }.isEmpty() }
         when {
-            filter.isEmpty() -> logger.kspError("Not found root entity, without ForeignKey from it")
-            filter.size > 1 -> logger.kspError(
+            filter.isEmpty() -> logger?.kspError("Not found root entity, without ForeignKey from it")
+            filter.size > 1 -> logger?.kspError(
                 "Found ${filter.size} root entity, must be only one, without ForeignKey from it: ${
                     filter.keys.joinToString(", ") { it.value }
                 }"

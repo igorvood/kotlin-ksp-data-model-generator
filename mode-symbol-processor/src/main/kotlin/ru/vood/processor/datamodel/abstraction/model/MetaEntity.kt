@@ -20,7 +20,8 @@ data class MetaEntity(
     val uniqueKeysFields: Map<UkDto, List<MetaEntityColumn>>,
     val fields: List<MetaEntityColumn>,
 
-    val ksAnnotated: KSClassDeclaration,
+    @kotlinx.serialization.Transient
+    val ksAnnotated: KSClassDeclaration?=null,
 ) {
 
     @kotlinx.serialization.Transient
