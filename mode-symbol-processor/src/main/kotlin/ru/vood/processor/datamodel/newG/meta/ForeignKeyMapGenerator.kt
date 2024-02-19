@@ -197,18 +197,15 @@ class ForeignKeyMapGenerator(
 
     private fun getFkPropertySpec(): FunSpec {
         val cbFromToFkMap = CodeBlock.builder()
-            .addStatement("""return (fromToFkMap[fromEntity] ?: error(""${'"'}Not found any foreign key from entity ${'$'}fromEntity""${'"'}))[toEntity]?: error(""${'"'}Not found any foreign key from entity ${'$'}fromEntity to entity ${'$'}toEntity""${'"'})""")
-        val typeEnumMapfromToFkMap = enumMap.plusParameter(entityEnum).plusParameter(
-            CommonClassNames.set.plusParameter(fKMetaData.plusParameter(WildcardTypeName.producerOf(iEntityOrigin)))
-
-        )
+            .addStatement("""return (fromToFkMap[fromEntity] ?: 
+                |error(""${'"'}Not found any foreign key from entity ${'$'}fromEntity""${'"'}))[toEntity]?: 
+                |error(""${'"'}Not found any foreign key from entity ${'$'}fromEntity to entity ${'$'}toEntity""${'"'})""".trimMargin())
 
         val fromToFkMapPropertySpec =
             FunSpec.builder("getFk")
                 .addModifiers(KModifier.PUBLIC)
                 .addParameter(ParameterSpec("fromEntity",entityEnum))
                 .addParameter(ParameterSpec("toEntity",entityEnum))
-//        (fromEntity: EntityEnum, toEntity: EntityEnum)
                 .addCode(cbFromToFkMap.build())
                 .build()
         return fromToFkMapPropertySpec
