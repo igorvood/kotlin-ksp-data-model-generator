@@ -16,7 +16,6 @@ import ru.vood.model.generator.ksp.common.dto.PackageName
 import ru.vood.processor.datamodel.abstraction.model.MetaInformation
 import ru.vood.processor.datamodel.gen.CollectName
 import ru.vood.processor.datamodel.newG.abstraction.AbstractSingleFileGenerator
-import java.util.*
 
 class ForeignKeyMapGenerator(
     rootPackage: PackageName,
@@ -119,38 +118,16 @@ class ForeignKeyMapGenerator(
         cb.addStatement(""")""")
         cb.addStatement(""")""")
 
-
-
         val columnEntityDataMapPropertySpec =
             PropertySpec.builder("foreignKeyMap", typeEnumMap)
                 .addModifiers(KModifier.PRIVATE)
                 .initializer(cb.build())
                 .build()
 
-        val cbFromToFkMap = CodeBlock.builder()
-            .addStatement("%T(",enumMap )
-            .addStatement("""foreignKeyMap.values
-                .map { fk ->
-                    fk.fromEntity to %T(foreignKeyMap.values.filter { it.fromEntity == fk.fromEntity }
-                        .map { fk2 -> fk2.toEntity to fk2 }.toMap())
-                }.toMap()""",enumMap )
-            .addStatement(")")
-
-        val typeEnumMapfromToFkMap = enumMap.plusParameter(entityEnum).plusParameter(
-            enumMap.plusParameter(entityEnum).plusParameter(fKMetaData.plusParameter( WildcardTypeName.producerOf(iEntityOrigin)))
-        )
-
-        val fromToFkMapPropertySpec =
-            PropertySpec.builder("fromToFkMap", typeEnumMapfromToFkMap)
-                .addKdoc("В качестве ключа первой мапки выступает идентификатор сущности от которой идет FK. В качестве ключа второй, вложенной мапки, выступает идентификатор сущности в которую идет FK")
-                .addModifiers(KModifier.PUBLIC)
-                .initializer(cbFromToFkMap.build())
-                .build()
-
 
         val companionObjectBuilder = TypeSpec.companionObjectBuilder()
             .addProperty(columnEntityDataMapPropertySpec)
-            .addProperty(fromToFkMapPropertySpec)
+            .addProperty(fromToFkMapPropertySpec())
             .build()
 
 
@@ -160,5 +137,31 @@ class ForeignKeyMapGenerator(
         // надо добавить только что сгенерированный класс к его потомкам
         return listOf(fileSpec.addType(classBuilder.build()).build())
 
+    }
+
+    private fun fromToFkMapPropertySpec(): PropertySpec {
+        val cbFromToFkMap = CodeBlock.builder()
+            .addStatement("%T(", enumMap)
+            .addStatement(
+                """foreignKeyMap.values
+                    .map { fk ->
+                        fk.fromEntity to %T(foreignKeyMap.values.filter { it.fromEntity == fk.fromEntity }
+                            .map { fk2 -> fk2.toEntity to fk2 }.toMap())
+                    }.toMap()""", enumMap
+            )
+            .addStatement(")")
+
+        val typeEnumMapfromToFkMap = enumMap.plusParameter(entityEnum).plusParameter(
+            enumMap.plusParameter(entityEnum)
+                .plusParameter(fKMetaData.plusParameter(WildcardTypeName.producerOf(iEntityOrigin)))
+        )
+
+        val fromToFkMapPropertySpec =
+            PropertySpec.builder("fromToFkMap", typeEnumMapfromToFkMap)
+                .addKdoc("В качестве ключа первой мапки выступает идентификатор сущности от которой идет FK. В качестве ключа второй, вложенной мапки, выступает идентификатор сущности в которую идет FK")
+                .addModifiers(KModifier.PUBLIC)
+                .initializer(cbFromToFkMap.build())
+                .build()
+        return fromToFkMapPropertySpec
     }
 }
