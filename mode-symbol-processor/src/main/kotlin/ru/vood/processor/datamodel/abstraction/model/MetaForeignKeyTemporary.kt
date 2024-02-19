@@ -1,5 +1,6 @@
 package ru.vood.processor.datamodel.abstraction.model
 
+import kotlinx.serialization.Serializable
 import ru.vood.dmgen.annotation.ForeignKeyType
 import ru.vood.dmgen.dto.RelationType
 import ru.vood.processor.datamodel.abstraction.model.dto.UkDto
@@ -13,6 +14,7 @@ data class MetaForeignKeyTemporary(
     val foreignKeyType: ForeignKeyType,
 )
 
+@Serializable
 data class MetaForeignKey(
     val name: ForeignKeyName,
     val fromEntity: MetaEntity,

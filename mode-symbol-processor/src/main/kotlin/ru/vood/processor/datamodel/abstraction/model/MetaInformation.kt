@@ -1,11 +1,13 @@
 package ru.vood.processor.datamodel.abstraction.model
 
 import com.google.devtools.ksp.processing.KSPLogger
+import kotlinx.serialization.Serializable
 import ru.vood.model.generator.ksp.common.CommonClassNames.setRootPackage
 import ru.vood.model.generator.ksp.common.dto.PackageName
 import ru.vood.processor.datamodel.abstraction.model.dto.ModelClassName
 
 
+@Serializable
 data class MetaInformation(
     val metaForeignKeys: Set<MetaForeignKey>,
     val entities: Map<ModelClassName, MetaEntity>,
