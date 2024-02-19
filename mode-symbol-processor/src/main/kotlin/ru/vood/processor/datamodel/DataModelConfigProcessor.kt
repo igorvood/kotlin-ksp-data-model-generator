@@ -11,16 +11,16 @@ import ru.vood.dmgen.annotation.FlowEntity
 import ru.vood.model.generator.ksp.common.BaseSymbolProcessor
 import ru.vood.processor.datamodel.abstraction.model.MetaCollector.collectMetaInformation
 import ru.vood.processor.datamodel.abstraction.model.MetaInformation
-import ru.vood.processor.datamodel.newG.ContextDataClassesGenerator
-import ru.vood.processor.datamodel.newG.OriginEntityDataClassesGenerator
-import ru.vood.processor.datamodel.newG.SyntheticEntityGenerator
-import ru.vood.processor.datamodel.newG.common.*
-import ru.vood.processor.datamodel.newG.fileMeta.MetaInformationJsonGenerator
-import ru.vood.processor.datamodel.newG.fileMeta.PumlGenerator
-import ru.vood.processor.datamodel.newG.meta.ColumnEntityMapGenerator
-import ru.vood.processor.datamodel.newG.meta.EntityMapGenerator
-import ru.vood.processor.datamodel.newG.meta.ForeignKeyMapGenerator
-import ru.vood.processor.datamodel.newG.meta.UniqueKeyMapGenerator
+import ru.vood.processor.datamodel.generator.ContextDataClassesGenerator
+import ru.vood.processor.datamodel.generator.OriginEntityDataClassesGenerator
+import ru.vood.processor.datamodel.generator.SyntheticEntityGenerator
+import ru.vood.processor.datamodel.generator.common.*
+import ru.vood.processor.datamodel.generator.fileMeta.MetaInformationJsonGenerator
+import ru.vood.processor.datamodel.generator.fileMeta.PumlGenerator
+import ru.vood.processor.datamodel.generator.meta.ColumnEntityMapGenerator
+import ru.vood.processor.datamodel.generator.meta.EntityMapGenerator
+import ru.vood.processor.datamodel.generator.meta.ForeignKeyMapGenerator
+import ru.vood.processor.datamodel.generator.meta.UniqueKeyMapGenerator
 
 class DataModelConfigProcessor(
     environment: SymbolProcessorEnvironment,
