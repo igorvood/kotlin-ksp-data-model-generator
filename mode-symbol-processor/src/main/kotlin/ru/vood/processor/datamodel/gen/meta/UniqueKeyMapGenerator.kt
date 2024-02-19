@@ -15,6 +15,7 @@ import java.time.LocalDateTime
 import java.util.*
 import javax.annotation.processing.Generated
 
+@Deprecated("Подлежит удалению")
 class UniqueKeyMapGenerator(
     codeGenerator: CodeGenerator,
     rootPackage: PackageName,

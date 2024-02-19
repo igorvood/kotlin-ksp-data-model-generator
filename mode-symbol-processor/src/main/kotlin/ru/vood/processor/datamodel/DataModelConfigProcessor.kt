@@ -2,6 +2,7 @@ package ru.vood.processor.datamodel
 
 import com.google.devtools.ksp.processing.*
 import com.google.devtools.ksp.symbol.KSAnnotated
+import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.runBlocking
@@ -31,11 +32,11 @@ class DataModelConfigProcessor(
 
         runBlocking {
 
-            val listOf = listOf(
+            val listOf: List<Deferred<Unit>> = listOf(
 //                async { EntityMapGenerator(codeGenerator, rootPackage, logger).createFiles(metaInformation) },
 //                async { InterfaceGenerator(codeGenerator, rootPackage, logger).createFiles(metaInformation) },
-                async { ColumnEntityMapGenerator(codeGenerator, rootPackage, logger).createFiles(metaInformation) },
-                async { UniqueKeyMapGenerator(codeGenerator, rootPackage, logger).createFiles(metaInformation) },
+//                async { ColumnEntityMapGenerator(codeGenerator, rootPackage, logger).createFiles(metaInformation) },
+//                async { UniqueKeyMapGenerator(codeGenerator, rootPackage, logger).createFiles(metaInformation) },
 //                async { ForeignKeyMapGenerator(codeGenerator, rootPackage, logger).createFiles(metaInformation) },
 //                async { ContextDataClassesGenerator(codeGenerator, rootPackage, logger).createFiles(metaInformation) },
 //                async {

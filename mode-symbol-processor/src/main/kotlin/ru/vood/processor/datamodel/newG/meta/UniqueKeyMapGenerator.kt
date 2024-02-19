@@ -22,8 +22,8 @@ class UniqueKeyMapGenerator(
     private val metaInformation: MetaInformation,
 ) : AbstractSingleFileGenerator(
     rootPackage,
-    PackageName("metaEnumP"),//
-//    CommonClassNames.subPackageAbstractDataDictionaryGenerator,
+//    PackageName("metaEnumP"),//
+    CommonClassNames.subPackageAbstractDataDictionaryGenerator,
     CommonClassNames.uniqueKeyEnum
 ) {
 

@@ -25,6 +25,7 @@ import java.util.*
 import java.util.concurrent.CopyOnWriteArrayList
 import javax.annotation.processing.Generated
 
+@Deprecated("Подлежит удалению")
 class ForeignKeyMapGenerator(
     codeGenerator: CodeGenerator,
     rootPackage: PackageName,
