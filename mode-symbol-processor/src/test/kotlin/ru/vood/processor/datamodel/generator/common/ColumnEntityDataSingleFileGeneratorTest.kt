@@ -19,12 +19,24 @@ internal class ColumnEntityDataSingleFileGeneratorTest : AbstractGeneratorTest("
 
         val fileSpec = files[0]
 
-        assertTrue(fileSpec.toJavaFileObject().getCharContent(false).contains(s))
+        assertEquals(s, fileSpec.toJavaFileObject().getCharContent(false))
 
     }
 
     companion object {
-        val s = """
+        val s = """package test.intf
+
+import javax.`annotation`.processing.Generated
+import kotlin.Boolean
+import kotlin.String
+import ru.vood.dmgen.datamodel.sealedData.metaEnum.EntityEnum
+import ru.vood.dmgen.dto.SimpleColumnName
+
+/**
+ * Мета данные по реквизиту сущности
+ */
+@Generated(value =
+    ["ru.vood.processor.datamodel.generator.common.ColumnEntityDataSingleFileGenerator"])
 public sealed interface ColumnEntityData {
   /**
    * имя сущности
