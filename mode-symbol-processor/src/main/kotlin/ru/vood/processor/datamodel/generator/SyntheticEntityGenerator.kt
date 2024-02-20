@@ -1,6 +1,5 @@
 package ru.vood.processor.datamodel.generator
 
-import com.google.devtools.ksp.processing.KSPLogger
 import com.squareup.kotlinpoet.*
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.plusParameter
 import ru.vood.dmgen.annotation.FlowEntityType
@@ -23,7 +22,6 @@ import ru.vood.processor.datamodel.generator.common.IEntityDetailSingleFileGener
 
 class SyntheticEntityGenerator(
     private val metaInfo: MetaInformation,
-    private val kspLogger: KSPLogger,
 ) : AbstractGenerator() {
     override fun files(): List<FileSpec> {
         return collectEntityFile(metaInfo.metaForeignKeys, metaInfo.aggregateInnerDep)

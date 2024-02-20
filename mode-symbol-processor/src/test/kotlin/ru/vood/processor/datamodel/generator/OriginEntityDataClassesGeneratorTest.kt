@@ -28,7 +28,7 @@ internal class OriginEntityDataClassesGeneratorTest : AbstractGeneratorTest("Dat
         val generatedNames = generatedFiles.map { it.name }.sorted()
         val testcaseData = testData.map { it.expectedClassFile }.sorted()
 
-        assertEquals(generatedNames, testcaseData)
+        assertEquals( testcaseData, generatedNames)
     }
 
 

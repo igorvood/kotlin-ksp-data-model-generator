@@ -71,7 +71,7 @@ class DataModelConfigProcessor(
             UKEntityDataSingleFileGenerator(rootPackageCommon),
             IndexesMetaDtoSingleFileGenerator(rootPackageCommon),
             OriginEntityDataClassesGenerator(metaInformation, kspLogger),
-            SyntheticEntityGenerator(metaInformation, kspLogger),
+            SyntheticEntityGenerator(metaInformation),
             ContextDataClassesGenerator(metaInformation),
             EntityMapGenerator(rootPackageCommon, metaInformation),
             ColumnEntityMapGenerator(rootPackageCommon, metaInformation),
