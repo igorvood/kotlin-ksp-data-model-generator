@@ -1,0 +1,28 @@
+package ru.vood.dmgen.datamodel.sealedData
+
+import javax.`annotation`.processing.Generated
+import kotlinx.serialization.Serializable
+import ru.vood.dmgen.`annotation`.ModelEntity
+import ru.vood.dmgen.datamodel.sealedData.intf.IEntityOrigin
+import ru.vood.dmgen.datamodel.sealedData.metaEnum.EntityEnum
+import ru.vood.dmgen.datamodel.valueClasses.DealId
+
+/**
+ * Это сущность Сделка
+ */
+@Generated(value = ["ru.vood.processor.datamodel.generator.OriginEntityDataClassesGenerator"])
+@Serializable
+@ModelEntity
+public data class DealEntity(
+  /**
+   * Это ее идентификатор
+   */
+  public override val id: DealId,
+) : Deal, IEntityOrigin {
+  /**
+   * Мета информация по сущности
+   */
+  public override val designEntityName: EntityEnum
+    get() = EntityEnum.Deal
+}
+

@@ -20,6 +20,7 @@ dependencies {
     implementation("com.squareup:kotlinpoet-ksp:1.12.0")
     implementation("org.junit.jupiter:junit-jupiter:5.8.1")
     testImplementation("org.junit.jupiter:junit-jupiter:5.9.2")
+    testImplementation("io.mockk:mockk:1.12.1")
 //    testImplementation()
 
 }
