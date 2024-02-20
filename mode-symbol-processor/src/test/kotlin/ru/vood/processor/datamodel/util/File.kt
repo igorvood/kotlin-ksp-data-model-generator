@@ -1,4 +1,4 @@
-package ru.vood.processor.datamodel.generator.util
+package ru.vood.processor.datamodel.util
 
 import java.io.File
 import java.util.Optional

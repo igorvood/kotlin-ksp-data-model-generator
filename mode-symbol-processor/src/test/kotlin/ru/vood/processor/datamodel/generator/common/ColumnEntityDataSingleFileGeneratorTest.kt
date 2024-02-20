@@ -8,7 +8,7 @@ import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
 import ru.vood.model.generator.ksp.common.dto.PackageName
 import ru.vood.processor.datamodel.abstraction.AbstractGeneratorTest
-import ru.vood.processor.datamodel.generator.util.readFile
+import ru.vood.processor.datamodel.util.readFile
 
 internal class ColumnEntityDataSingleFileGeneratorTest : AbstractGeneratorTest("DataModel.json") {
 
@@ -23,16 +23,10 @@ internal class ColumnEntityDataSingleFileGeneratorTest : AbstractGeneratorTest("
     @ParameterizedTest
     @MethodSource("ru.vood.processor.datamodel.generator.common.ColumnEntityDataSingleFileGeneratorTest#testCaseData")
     fun textFileTest(testCase: TestCase) {
-        val files: List<FileSpec> = generatedFiles
-            .filter { it.name == testCase.expectedClassFile }
-
-        assertEquals(1, files.size)
-
-        val fileSpec = files[0]
-
-        assertEquals(testCase.getText(), fileSpec.toJavaFileObject().getCharContent(false))
-
+        compareTextFile(generatedFiles, testCase.expectedClassFile, testCase.getText())
     }
+
+
 
     companion object {
         private val testData = listOf(TestCase("ColumnEntityData"))

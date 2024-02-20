@@ -1,39 +1,27 @@
 package ru.vood.processor.datamodel.generator
 
 import com.squareup.kotlinpoet.FileSpec
-import org.junit.jupiter.api.Assertions
-import org.junit.jupiter.api.Test
-
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
 import ru.vood.processor.datamodel.abstraction.AbstractGeneratorTest
-import ru.vood.processor.datamodel.generator.common.ColumnEntityDataSingleFileGeneratorTest
-import ru.vood.processor.datamodel.generator.util.readFile
+import ru.vood.processor.datamodel.util.readFile
 
-internal class ContextDataClassesGeneratorTest: AbstractGeneratorTest("DataModel.json") {
+internal class ContextDataClassesGeneratorTest : AbstractGeneratorTest("DataModel.json") {
 
     lateinit var generatedFiles: List<FileSpec>
 
     @BeforeAll
     fun beforeAllT() {
-        val generator = ContextDataClassesGenerator(metaInformation, )
+        val generator = ContextDataClassesGenerator(metaInformation)
         generatedFiles = generator.files()
     }
 
     @ParameterizedTest
     @MethodSource("ru.vood.processor.datamodel.generator.ContextDataClassesGeneratorTest#testCaseData")
     fun textFileTest(testCase: TestCase) {
-        val files: List<FileSpec> = generatedFiles
-            .filter { it.name == testCase.expectedClassFile }
-
-        Assertions.assertEquals(1, files.size)
-
-        val fileSpec = files[0]
-
-        Assertions.assertEquals(testCase.getText(), fileSpec.toJavaFileObject().getCharContent(false))
-
+        compareTextFile(generatedFiles, testCase.expectedClassFile, testCase.getText())
     }
 
     companion object {
