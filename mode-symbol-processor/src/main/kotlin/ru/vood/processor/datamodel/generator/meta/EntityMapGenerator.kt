@@ -90,27 +90,32 @@ class EntityMapGenerator(
                             me.designPoetClassName,
                         )
                         .addStatement(
-                            """runtimeClass = %T::class,""",  entityClassName(me.designPoetClassName),)
+                            """runtimeClass = %T::class,""", entityClassName(me.designPoetClassName),
+                        )
                         .addStatement(
-                            """runtimeSyntheticClass = %T::class,""", syntheticClassName(me.designPoetClassName),)
+                            """runtimeSyntheticClass = %T::class,""", syntheticClassName(me.designPoetClassName),
+                        )
                         .addStatement(
-                            """serializer = %T.serializer(),""", entityClassName(me.designPoetClassName),)
+                            """serializer = %T.serializer(),""", entityClassName(me.designPoetClassName),
+                        )
                         .addStatement(
-                            """serializerSynthetic = %T.serializer(),""", syntheticClassName(me.designPoetClassName),)
+                            """serializerSynthetic = %T.serializer(),""", syntheticClassName(me.designPoetClassName),
+                        )
                         .addStatement(
-                            """
-                 |entityName = %T.%L, 
-                 |comment = %S,
-                 |entityType = %T.%L,
-                 |children = setOf(""".trimMargin(),
-
-
-
+                            """entityName = %T.%L,""",
                             entityEnum,
                             me.designPoetClassName.simpleName,
-                            me.comment,
+                        )
+                        .addStatement(
+                            """comment = %S,""", me.comment,
+                        )
+                        .addStatement(
+                            """entityType = %T.%L,""",
                             flowEntityType,
                             me.flowEntityType.name,
+                        )
+                        .addStatement(
+                            """children = setOf("""
                         )
                     cb
                         .indent()

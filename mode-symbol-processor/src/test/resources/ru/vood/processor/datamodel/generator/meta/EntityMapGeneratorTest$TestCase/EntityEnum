@@ -56,15 +56,15 @@ public enum class EntityEnum {
                 entityType = FlowEntityType.INNER
                 ),
             ru.vood.dmgen.datamodel.sealedData.metaEnum.EntityEnum.OneOfDto to SealedEntityData(
-                designClass = ru.vood.dmgen.datamodel.sealedData.oneOf.OneOfDto::class,
-                runtimeClass = OneOfDtoEntity::class,
-                runtimeSyntheticClass = OneOfDtoDetail::class,
-                serializer = OneOfDtoEntity.serializer(),
-                serializerSynthetic = OneOfDtoDetail.serializer(),
-                entityName = ru.vood.dmgen.datamodel.sealedData.metaEnum.EntityEnum.OneOfDto,
-                comment = "Параметр сделки, отношение к сделке один к одному",
-                entityType = FlowEntityType.ONE_OF,
-                children = setOf(
+            designClass = ru.vood.dmgen.datamodel.sealedData.oneOf.OneOfDto::class,
+            runtimeClass = OneOfDtoEntity::class,
+            runtimeSyntheticClass = OneOfDtoDetail::class,
+            serializer = OneOfDtoEntity.serializer(),
+            serializerSynthetic = OneOfDtoDetail.serializer(),
+            entityName = ru.vood.dmgen.datamodel.sealedData.metaEnum.EntityEnum.OneOfDto,
+            comment = "Параметр сделки, отношение к сделке один к одному",
+            entityType = FlowEntityType.ONE_OF,
+            children = setOf(
                   ru.vood.dmgen.datamodel.sealedData.metaEnum.EntityEnum.DealOneData,
                   ru.vood.dmgen.datamodel.sealedData.metaEnum.EntityEnum.DealTwoData,
                   )

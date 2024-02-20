@@ -30,7 +30,7 @@ internal class EntityMapGeneratorTest: AbstractGeneratorTest("DataModel.json") {
         assertEquals( testcaseData, generatedNames)
     }
 
-    @Disabled
+//    @Disabled
     @ParameterizedTest
     @MethodSource("ru.vood.processor.datamodel.generator.meta.EntityMapGeneratorTest#testCaseData")
     fun textFileTest(testCase: TestCase) {
