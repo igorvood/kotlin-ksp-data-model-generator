@@ -1,7 +1,9 @@
 package ru.vood.processor.datamodel.generator
 
 import com.squareup.kotlinpoet.FileSpec
+import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeAll
+import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
@@ -17,6 +19,16 @@ internal class ContextDataClassesGeneratorTest : AbstractGeneratorTest("DataMode
         val generator = ContextDataClassesGenerator(metaInformation)
         generatedFiles = generator.files()
     }
+
+
+    @Test
+    fun compareTestedFiles(){
+        val generatedNames = generatedFiles.map { it.name }.sorted()
+        val testcaseData = testData.map { it.expectedClassFile }.sorted()
+
+        Assertions.assertEquals(generatedNames, testcaseData)
+    }
+
 
     @ParameterizedTest
     @MethodSource("ru.vood.processor.datamodel.generator.ContextDataClassesGeneratorTest#testCaseData")
