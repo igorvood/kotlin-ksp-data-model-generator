@@ -1,0 +1,1193 @@
+{
+  "metaForeignKeys": [
+    {
+      "name": "NoFKAndUk_FK",
+      "fromEntity": {
+        "designPoetClassName": {
+          "packageName": "ru.vood.dmgen.datamodel.sealedData",
+          "simpleName": "NoFKAndUk"
+        },
+        "flowEntityType": "INNER",
+        "comment": "Параметр сделки, отношение к сделке один к одному",
+        "foreignKeysAnnotations": [
+          {
+            "kClass": {
+              "packageName": "ru.vood.dmgen.datamodel.sealedData",
+              "simpleName": "Deal"
+            },
+            "name": "NoFKAndUk_FK",
+            "cols": [
+              {
+                "currentColName": "dealId",
+                "outColName": "id"
+              }
+            ],
+            "foreignKeyType": "MANDATORY"
+          }
+        ],
+        "pkColumns": {
+          "first": {
+            "name": "NoFKAndUk_PK",
+            "cols": [
+            ],
+            "typeUk": "PK"
+          },
+          "second": [
+          ]
+        },
+        "uniqueKeysFields": [
+        ],
+        "fields": [
+          {
+            "name": "dealId",
+            "inPk": false,
+            "isNullable": false,
+            "type": "ru.vood.dmgen.datamodel.valueClasses.DealId",
+            "typePoetClassName": {
+              "packageName": "ru.vood.dmgen.datamodel.valueClasses",
+              "simpleName": "DealId"
+            },
+            "position": 0,
+            "comment": "Параметр сделки, отношение к сделке один к одному"
+          }
+        ]
+      },
+      "toEntity": {
+        "designPoetClassName": {
+          "packageName": "ru.vood.dmgen.datamodel.sealedData",
+          "simpleName": "Deal"
+        },
+        "flowEntityType": "AGGREGATE",
+        "comment": "Это сущность Сделка",
+        "foreignKeysAnnotations": [
+        ],
+        "pkColumns": {
+          "first": {
+            "name": "Deal_PK",
+            "cols": [
+              "id"
+            ],
+            "typeUk": "PK"
+          },
+          "second": [
+            {
+              "name": "id",
+              "inPk": true,
+              "isNullable": false,
+              "type": "ru.vood.dmgen.datamodel.valueClasses.DealId",
+              "typePoetClassName": {
+                "packageName": "ru.vood.dmgen.datamodel.valueClasses",
+                "simpleName": "DealId"
+              },
+              "position": 0,
+              "comment": "Это ее идентификатор"
+            }
+          ]
+        },
+        "uniqueKeysFields": [
+          {
+            "name": "Deal_PK",
+            "cols": [
+              "id"
+            ],
+            "typeUk": "PK"
+          },
+          [
+            {
+              "name": "id",
+              "inPk": true,
+              "isNullable": false,
+              "type": "ru.vood.dmgen.datamodel.valueClasses.DealId",
+              "typePoetClassName": {
+                "packageName": "ru.vood.dmgen.datamodel.valueClasses",
+                "simpleName": "DealId"
+              },
+              "position": 0,
+              "comment": "Это ее идентификатор"
+            }
+          ]
+        ],
+        "fields": [
+          {
+            "name": "id",
+            "inPk": true,
+            "isNullable": false,
+            "type": "ru.vood.dmgen.datamodel.valueClasses.DealId",
+            "typePoetClassName": {
+              "packageName": "ru.vood.dmgen.datamodel.valueClasses",
+              "simpleName": "DealId"
+            },
+            "position": 0,
+            "comment": "Это ее идентификатор"
+          }
+        ]
+      },
+      "fkCols": [
+        {
+          "from": {
+            "name": "dealId",
+            "inPk": false,
+            "isNullable": false,
+            "type": "ru.vood.dmgen.datamodel.valueClasses.DealId",
+            "typePoetClassName": {
+              "packageName": "ru.vood.dmgen.datamodel.valueClasses",
+              "simpleName": "DealId"
+            },
+            "position": 0,
+            "comment": "Параметр сделки, отношение к сделке один к одному"
+          },
+          "to": {
+            "name": "id",
+            "inPk": true,
+            "isNullable": false,
+            "type": "ru.vood.dmgen.datamodel.valueClasses.DealId",
+            "typePoetClassName": {
+              "packageName": "ru.vood.dmgen.datamodel.valueClasses",
+              "simpleName": "DealId"
+            },
+            "position": 0,
+            "comment": "Это ее идентификатор"
+          }
+        }
+      ],
+      "uk": {
+        "name": "Deal_PK",
+        "cols": [
+          "id"
+        ],
+        "typeUk": "PK"
+      },
+      "relationType": "MANY_TO_ONE"
+    },
+    {
+      "name": "OneOfDto_FK",
+      "fromEntity": {
+        "designPoetClassName": {
+          "packageName": "ru.vood.dmgen.datamodel.sealedData.oneOf",
+          "simpleName": "OneOfDto"
+        },
+        "flowEntityType": "ONE_OF",
+        "comment": "Параметр сделки, отношение к сделке один к одному",
+        "foreignKeysAnnotations": [
+          {
+            "kClass": {
+              "packageName": "ru.vood.dmgen.datamodel.sealedData",
+              "simpleName": "Deal"
+            },
+            "name": "OneOfDto_FK",
+            "cols": [
+              {
+                "currentColName": "dealId",
+                "outColName": "id"
+              }
+            ],
+            "foreignKeyType": "MANDATORY"
+          }
+        ],
+        "pkColumns": {
+          "first": {
+            "name": "OneOfDto_PK",
+            "cols": [
+              "dealId"
+            ],
+            "typeUk": "PK"
+          },
+          "second": [
+            {
+              "name": "dealId",
+              "inPk": true,
+              "isNullable": false,
+              "type": "ru.vood.dmgen.datamodel.valueClasses.DealId",
+              "typePoetClassName": {
+                "packageName": "ru.vood.dmgen.datamodel.valueClasses",
+                "simpleName": "DealId"
+              },
+              "position": 0,
+              "comment": "Параметр сделки, отношение к сделке один к одному"
+            }
+          ]
+        },
+        "uniqueKeysFields": [
+          {
+            "name": "OneOfDto_PK",
+            "cols": [
+              "dealId"
+            ],
+            "typeUk": "PK"
+          },
+          [
+            {
+              "name": "dealId",
+              "inPk": true,
+              "isNullable": false,
+              "type": "ru.vood.dmgen.datamodel.valueClasses.DealId",
+              "typePoetClassName": {
+                "packageName": "ru.vood.dmgen.datamodel.valueClasses",
+                "simpleName": "DealId"
+              },
+              "position": 0,
+              "comment": "Параметр сделки, отношение к сделке один к одному"
+            }
+          ]
+        ],
+        "fields": [
+          {
+            "name": "dealId",
+            "inPk": true,
+            "isNullable": false,
+            "type": "ru.vood.dmgen.datamodel.valueClasses.DealId",
+            "typePoetClassName": {
+              "packageName": "ru.vood.dmgen.datamodel.valueClasses",
+              "simpleName": "DealId"
+            },
+            "position": 0,
+            "comment": "Параметр сделки, отношение к сделке один к одному"
+          }
+        ]
+      },
+      "toEntity": {
+        "designPoetClassName": {
+          "packageName": "ru.vood.dmgen.datamodel.sealedData",
+          "simpleName": "Deal"
+        },
+        "flowEntityType": "AGGREGATE",
+        "comment": "Это сущность Сделка",
+        "foreignKeysAnnotations": [
+        ],
+        "pkColumns": {
+          "first": {
+            "name": "Deal_PK",
+            "cols": [
+              "id"
+            ],
+            "typeUk": "PK"
+          },
+          "second": [
+            {
+              "name": "id",
+              "inPk": true,
+              "isNullable": false,
+              "type": "ru.vood.dmgen.datamodel.valueClasses.DealId",
+              "typePoetClassName": {
+                "packageName": "ru.vood.dmgen.datamodel.valueClasses",
+                "simpleName": "DealId"
+              },
+              "position": 0,
+              "comment": "Это ее идентификатор"
+            }
+          ]
+        },
+        "uniqueKeysFields": [
+          {
+            "name": "Deal_PK",
+            "cols": [
+              "id"
+            ],
+            "typeUk": "PK"
+          },
+          [
+            {
+              "name": "id",
+              "inPk": true,
+              "isNullable": false,
+              "type": "ru.vood.dmgen.datamodel.valueClasses.DealId",
+              "typePoetClassName": {
+                "packageName": "ru.vood.dmgen.datamodel.valueClasses",
+                "simpleName": "DealId"
+              },
+              "position": 0,
+              "comment": "Это ее идентификатор"
+            }
+          ]
+        ],
+        "fields": [
+          {
+            "name": "id",
+            "inPk": true,
+            "isNullable": false,
+            "type": "ru.vood.dmgen.datamodel.valueClasses.DealId",
+            "typePoetClassName": {
+              "packageName": "ru.vood.dmgen.datamodel.valueClasses",
+              "simpleName": "DealId"
+            },
+            "position": 0,
+            "comment": "Это ее идентификатор"
+          }
+        ]
+      },
+      "fkCols": [
+        {
+          "from": {
+            "name": "dealId",
+            "inPk": true,
+            "isNullable": false,
+            "type": "ru.vood.dmgen.datamodel.valueClasses.DealId",
+            "typePoetClassName": {
+              "packageName": "ru.vood.dmgen.datamodel.valueClasses",
+              "simpleName": "DealId"
+            },
+            "position": 0,
+            "comment": "Параметр сделки, отношение к сделке один к одному"
+          },
+          "to": {
+            "name": "id",
+            "inPk": true,
+            "isNullable": false,
+            "type": "ru.vood.dmgen.datamodel.valueClasses.DealId",
+            "typePoetClassName": {
+              "packageName": "ru.vood.dmgen.datamodel.valueClasses",
+              "simpleName": "DealId"
+            },
+            "position": 0,
+            "comment": "Это ее идентификатор"
+          }
+        }
+      ],
+      "uk": {
+        "name": "Deal_PK",
+        "cols": [
+          "id"
+        ],
+        "typeUk": "PK"
+      },
+      "relationType": "ONE_TO_ONE_MANDATORY"
+    },
+    {
+      "name": "DealOneData_FK",
+      "fromEntity": {
+        "designPoetClassName": {
+          "packageName": "ru.vood.dmgen.datamodel.sealedData.oneOf",
+          "simpleName": "DealOneData"
+        },
+        "flowEntityType": "INNER",
+        "comment": "Параметр сделки, отношение к сделке один к одному",
+        "foreignKeysAnnotations": [
+          {
+            "kClass": {
+              "packageName": "ru.vood.dmgen.datamodel.sealedData.oneOf",
+              "simpleName": "OneOfDto"
+            },
+            "name": "DealOneData_FK",
+            "cols": [
+              {
+                "currentColName": "dealId",
+                "outColName": "dealId"
+              }
+            ],
+            "foreignKeyType": "MANDATORY"
+          }
+        ],
+        "pkColumns": {
+          "first": {
+            "name": "DealOneData_PK",
+            "cols": [
+              "dealId"
+            ],
+            "typeUk": "PK"
+          },
+          "second": [
+            {
+              "name": "dealId",
+              "inPk": true,
+              "isNullable": false,
+              "type": "ru.vood.dmgen.datamodel.valueClasses.DealId",
+              "typePoetClassName": {
+                "packageName": "ru.vood.dmgen.datamodel.valueClasses",
+                "simpleName": "DealId"
+              },
+              "position": 0,
+              "comment": "Это ее идентификатор"
+            }
+          ]
+        },
+        "uniqueKeysFields": [
+          {
+            "name": "DealOneData_PK",
+            "cols": [
+              "dealId"
+            ],
+            "typeUk": "PK"
+          },
+          [
+            {
+              "name": "dealId",
+              "inPk": true,
+              "isNullable": false,
+              "type": "ru.vood.dmgen.datamodel.valueClasses.DealId",
+              "typePoetClassName": {
+                "packageName": "ru.vood.dmgen.datamodel.valueClasses",
+                "simpleName": "DealId"
+              },
+              "position": 0,
+              "comment": "Это ее идентификатор"
+            }
+          ]
+        ],
+        "fields": [
+          {
+            "name": "dealId",
+            "inPk": true,
+            "isNullable": false,
+            "type": "ru.vood.dmgen.datamodel.valueClasses.DealId",
+            "typePoetClassName": {
+              "packageName": "ru.vood.dmgen.datamodel.valueClasses",
+              "simpleName": "DealId"
+            },
+            "position": 0,
+            "comment": "Это ее идентификатор"
+          },
+          {
+            "name": "one",
+            "inPk": false,
+            "isNullable": false,
+            "type": "kotlin.String",
+            "typePoetClassName": {
+              "packageName": "kotlin",
+              "simpleName": "String"
+            },
+            "position": 1,
+            "comment": "Параметр сделки, отношение к сделке один к одному"
+          }
+        ]
+      },
+      "toEntity": {
+        "designPoetClassName": {
+          "packageName": "ru.vood.dmgen.datamodel.sealedData.oneOf",
+          "simpleName": "OneOfDto"
+        },
+        "flowEntityType": "ONE_OF",
+        "comment": "Параметр сделки, отношение к сделке один к одному",
+        "foreignKeysAnnotations": [
+          {
+            "kClass": {
+              "packageName": "ru.vood.dmgen.datamodel.sealedData",
+              "simpleName": "Deal"
+            },
+            "name": "OneOfDto_FK",
+            "cols": [
+              {
+                "currentColName": "dealId",
+                "outColName": "id"
+              }
+            ],
+            "foreignKeyType": "MANDATORY"
+          }
+        ],
+        "pkColumns": {
+          "first": {
+            "name": "OneOfDto_PK",
+            "cols": [
+              "dealId"
+            ],
+            "typeUk": "PK"
+          },
+          "second": [
+            {
+              "name": "dealId",
+              "inPk": true,
+              "isNullable": false,
+              "type": "ru.vood.dmgen.datamodel.valueClasses.DealId",
+              "typePoetClassName": {
+                "packageName": "ru.vood.dmgen.datamodel.valueClasses",
+                "simpleName": "DealId"
+              },
+              "position": 0,
+              "comment": "Параметр сделки, отношение к сделке один к одному"
+            }
+          ]
+        },
+        "uniqueKeysFields": [
+          {
+            "name": "OneOfDto_PK",
+            "cols": [
+              "dealId"
+            ],
+            "typeUk": "PK"
+          },
+          [
+            {
+              "name": "dealId",
+              "inPk": true,
+              "isNullable": false,
+              "type": "ru.vood.dmgen.datamodel.valueClasses.DealId",
+              "typePoetClassName": {
+                "packageName": "ru.vood.dmgen.datamodel.valueClasses",
+                "simpleName": "DealId"
+              },
+              "position": 0,
+              "comment": "Параметр сделки, отношение к сделке один к одному"
+            }
+          ]
+        ],
+        "fields": [
+          {
+            "name": "dealId",
+            "inPk": true,
+            "isNullable": false,
+            "type": "ru.vood.dmgen.datamodel.valueClasses.DealId",
+            "typePoetClassName": {
+              "packageName": "ru.vood.dmgen.datamodel.valueClasses",
+              "simpleName": "DealId"
+            },
+            "position": 0,
+            "comment": "Параметр сделки, отношение к сделке один к одному"
+          }
+        ]
+      },
+      "fkCols": [
+        {
+          "from": {
+            "name": "dealId",
+            "inPk": true,
+            "isNullable": false,
+            "type": "ru.vood.dmgen.datamodel.valueClasses.DealId",
+            "typePoetClassName": {
+              "packageName": "ru.vood.dmgen.datamodel.valueClasses",
+              "simpleName": "DealId"
+            },
+            "position": 0,
+            "comment": "Это ее идентификатор"
+          },
+          "to": {
+            "name": "dealId",
+            "inPk": true,
+            "isNullable": false,
+            "type": "ru.vood.dmgen.datamodel.valueClasses.DealId",
+            "typePoetClassName": {
+              "packageName": "ru.vood.dmgen.datamodel.valueClasses",
+              "simpleName": "DealId"
+            },
+            "position": 0,
+            "comment": "Параметр сделки, отношение к сделке один к одному"
+          }
+        }
+      ],
+      "uk": {
+        "name": "OneOfDto_PK",
+        "cols": [
+          "dealId"
+        ],
+        "typeUk": "PK"
+      },
+      "relationType": "ONE_TO_ONE_MANDATORY"
+    },
+    {
+      "name": "DealTwoData_FK",
+      "fromEntity": {
+        "designPoetClassName": {
+          "packageName": "ru.vood.dmgen.datamodel.sealedData.oneOf",
+          "simpleName": "DealTwoData"
+        },
+        "flowEntityType": "INNER",
+        "comment": "Параметр сделки, отношение к сделке один к одному",
+        "foreignKeysAnnotations": [
+          {
+            "kClass": {
+              "packageName": "ru.vood.dmgen.datamodel.sealedData.oneOf",
+              "simpleName": "OneOfDto"
+            },
+            "name": "DealTwoData_FK",
+            "cols": [
+              {
+                "currentColName": "dealId",
+                "outColName": "dealId"
+              }
+            ],
+            "foreignKeyType": "MANDATORY"
+          }
+        ],
+        "pkColumns": {
+          "first": {
+            "name": "DealTwoData_PK",
+            "cols": [
+              "dealId"
+            ],
+            "typeUk": "PK"
+          },
+          "second": [
+            {
+              "name": "dealId",
+              "inPk": true,
+              "isNullable": false,
+              "type": "ru.vood.dmgen.datamodel.valueClasses.DealId",
+              "typePoetClassName": {
+                "packageName": "ru.vood.dmgen.datamodel.valueClasses",
+                "simpleName": "DealId"
+              },
+              "position": 0,
+              "comment": "Это ее идентификатор"
+            }
+          ]
+        },
+        "uniqueKeysFields": [
+          {
+            "name": "DealTwoData_PK",
+            "cols": [
+              "dealId"
+            ],
+            "typeUk": "PK"
+          },
+          [
+            {
+              "name": "dealId",
+              "inPk": true,
+              "isNullable": false,
+              "type": "ru.vood.dmgen.datamodel.valueClasses.DealId",
+              "typePoetClassName": {
+                "packageName": "ru.vood.dmgen.datamodel.valueClasses",
+                "simpleName": "DealId"
+              },
+              "position": 0,
+              "comment": "Это ее идентификатор"
+            }
+          ]
+        ],
+        "fields": [
+          {
+            "name": "dealId",
+            "inPk": true,
+            "isNullable": false,
+            "type": "ru.vood.dmgen.datamodel.valueClasses.DealId",
+            "typePoetClassName": {
+              "packageName": "ru.vood.dmgen.datamodel.valueClasses",
+              "simpleName": "DealId"
+            },
+            "position": 0,
+            "comment": "Это ее идентификатор"
+          },
+          {
+            "name": "two",
+            "inPk": false,
+            "isNullable": true,
+            "type": "kotlin.String",
+            "typePoetClassName": {
+              "packageName": "kotlin",
+              "simpleName": "String"
+            },
+            "position": 1,
+            "comment": "Параметр сделки, отношение к сделке один к одному"
+          }
+        ]
+      },
+      "toEntity": {
+        "designPoetClassName": {
+          "packageName": "ru.vood.dmgen.datamodel.sealedData.oneOf",
+          "simpleName": "OneOfDto"
+        },
+        "flowEntityType": "ONE_OF",
+        "comment": "Параметр сделки, отношение к сделке один к одному",
+        "foreignKeysAnnotations": [
+          {
+            "kClass": {
+              "packageName": "ru.vood.dmgen.datamodel.sealedData",
+              "simpleName": "Deal"
+            },
+            "name": "OneOfDto_FK",
+            "cols": [
+              {
+                "currentColName": "dealId",
+                "outColName": "id"
+              }
+            ],
+            "foreignKeyType": "MANDATORY"
+          }
+        ],
+        "pkColumns": {
+          "first": {
+            "name": "OneOfDto_PK",
+            "cols": [
+              "dealId"
+            ],
+            "typeUk": "PK"
+          },
+          "second": [
+            {
+              "name": "dealId",
+              "inPk": true,
+              "isNullable": false,
+              "type": "ru.vood.dmgen.datamodel.valueClasses.DealId",
+              "typePoetClassName": {
+                "packageName": "ru.vood.dmgen.datamodel.valueClasses",
+                "simpleName": "DealId"
+              },
+              "position": 0,
+              "comment": "Параметр сделки, отношение к сделке один к одному"
+            }
+          ]
+        },
+        "uniqueKeysFields": [
+          {
+            "name": "OneOfDto_PK",
+            "cols": [
+              "dealId"
+            ],
+            "typeUk": "PK"
+          },
+          [
+            {
+              "name": "dealId",
+              "inPk": true,
+              "isNullable": false,
+              "type": "ru.vood.dmgen.datamodel.valueClasses.DealId",
+              "typePoetClassName": {
+                "packageName": "ru.vood.dmgen.datamodel.valueClasses",
+                "simpleName": "DealId"
+              },
+              "position": 0,
+              "comment": "Параметр сделки, отношение к сделке один к одному"
+            }
+          ]
+        ],
+        "fields": [
+          {
+            "name": "dealId",
+            "inPk": true,
+            "isNullable": false,
+            "type": "ru.vood.dmgen.datamodel.valueClasses.DealId",
+            "typePoetClassName": {
+              "packageName": "ru.vood.dmgen.datamodel.valueClasses",
+              "simpleName": "DealId"
+            },
+            "position": 0,
+            "comment": "Параметр сделки, отношение к сделке один к одному"
+          }
+        ]
+      },
+      "fkCols": [
+        {
+          "from": {
+            "name": "dealId",
+            "inPk": true,
+            "isNullable": false,
+            "type": "ru.vood.dmgen.datamodel.valueClasses.DealId",
+            "typePoetClassName": {
+              "packageName": "ru.vood.dmgen.datamodel.valueClasses",
+              "simpleName": "DealId"
+            },
+            "position": 0,
+            "comment": "Это ее идентификатор"
+          },
+          "to": {
+            "name": "dealId",
+            "inPk": true,
+            "isNullable": false,
+            "type": "ru.vood.dmgen.datamodel.valueClasses.DealId",
+            "typePoetClassName": {
+              "packageName": "ru.vood.dmgen.datamodel.valueClasses",
+              "simpleName": "DealId"
+            },
+            "position": 0,
+            "comment": "Параметр сделки, отношение к сделке один к одному"
+          }
+        }
+      ],
+      "uk": {
+        "name": "OneOfDto_PK",
+        "cols": [
+          "dealId"
+        ],
+        "typeUk": "PK"
+      },
+      "relationType": "ONE_TO_ONE_MANDATORY"
+    }
+  ],
+  "entities": {
+    "ru.vood.dmgen.datamodel.sealedData.Deal": {
+      "designPoetClassName": {
+        "packageName": "ru.vood.dmgen.datamodel.sealedData",
+        "simpleName": "Deal"
+      },
+      "flowEntityType": "AGGREGATE",
+      "comment": "Это сущность Сделка",
+      "foreignKeysAnnotations": [
+      ],
+      "pkColumns": {
+        "first": {
+          "name": "Deal_PK",
+          "cols": [
+            "id"
+          ],
+          "typeUk": "PK"
+        },
+        "second": [
+          {
+            "name": "id",
+            "inPk": true,
+            "isNullable": false,
+            "type": "ru.vood.dmgen.datamodel.valueClasses.DealId",
+            "typePoetClassName": {
+              "packageName": "ru.vood.dmgen.datamodel.valueClasses",
+              "simpleName": "DealId"
+            },
+            "position": 0,
+            "comment": "Это ее идентификатор"
+          }
+        ]
+      },
+      "uniqueKeysFields": [
+        {
+          "name": "Deal_PK",
+          "cols": [
+            "id"
+          ],
+          "typeUk": "PK"
+        },
+        [
+          {
+            "name": "id",
+            "inPk": true,
+            "isNullable": false,
+            "type": "ru.vood.dmgen.datamodel.valueClasses.DealId",
+            "typePoetClassName": {
+              "packageName": "ru.vood.dmgen.datamodel.valueClasses",
+              "simpleName": "DealId"
+            },
+            "position": 0,
+            "comment": "Это ее идентификатор"
+          }
+        ]
+      ],
+      "fields": [
+        {
+          "name": "id",
+          "inPk": true,
+          "isNullable": false,
+          "type": "ru.vood.dmgen.datamodel.valueClasses.DealId",
+          "typePoetClassName": {
+            "packageName": "ru.vood.dmgen.datamodel.valueClasses",
+            "simpleName": "DealId"
+          },
+          "position": 0,
+          "comment": "Это ее идентификатор"
+        }
+      ]
+    },
+    "ru.vood.dmgen.datamodel.sealedData.NoFKAndUk": {
+      "designPoetClassName": {
+        "packageName": "ru.vood.dmgen.datamodel.sealedData",
+        "simpleName": "NoFKAndUk"
+      },
+      "flowEntityType": "INNER",
+      "comment": "Параметр сделки, отношение к сделке один к одному",
+      "foreignKeysAnnotations": [
+        {
+          "kClass": {
+            "packageName": "ru.vood.dmgen.datamodel.sealedData",
+            "simpleName": "Deal"
+          },
+          "name": "NoFKAndUk_FK",
+          "cols": [
+            {
+              "currentColName": "dealId",
+              "outColName": "id"
+            }
+          ],
+          "foreignKeyType": "MANDATORY"
+        }
+      ],
+      "pkColumns": {
+        "first": {
+          "name": "NoFKAndUk_PK",
+          "cols": [
+          ],
+          "typeUk": "PK"
+        },
+        "second": [
+        ]
+      },
+      "uniqueKeysFields": [
+      ],
+      "fields": [
+        {
+          "name": "dealId",
+          "inPk": false,
+          "isNullable": false,
+          "type": "ru.vood.dmgen.datamodel.valueClasses.DealId",
+          "typePoetClassName": {
+            "packageName": "ru.vood.dmgen.datamodel.valueClasses",
+            "simpleName": "DealId"
+          },
+          "position": 0,
+          "comment": "Параметр сделки, отношение к сделке один к одному"
+        }
+      ]
+    },
+    "ru.vood.dmgen.datamodel.sealedData.oneOf.OneOfDto": {
+      "designPoetClassName": {
+        "packageName": "ru.vood.dmgen.datamodel.sealedData.oneOf",
+        "simpleName": "OneOfDto"
+      },
+      "flowEntityType": "ONE_OF",
+      "comment": "Параметр сделки, отношение к сделке один к одному",
+      "foreignKeysAnnotations": [
+        {
+          "kClass": {
+            "packageName": "ru.vood.dmgen.datamodel.sealedData",
+            "simpleName": "Deal"
+          },
+          "name": "OneOfDto_FK",
+          "cols": [
+            {
+              "currentColName": "dealId",
+              "outColName": "id"
+            }
+          ],
+          "foreignKeyType": "MANDATORY"
+        }
+      ],
+      "pkColumns": {
+        "first": {
+          "name": "OneOfDto_PK",
+          "cols": [
+            "dealId"
+          ],
+          "typeUk": "PK"
+        },
+        "second": [
+          {
+            "name": "dealId",
+            "inPk": true,
+            "isNullable": false,
+            "type": "ru.vood.dmgen.datamodel.valueClasses.DealId",
+            "typePoetClassName": {
+              "packageName": "ru.vood.dmgen.datamodel.valueClasses",
+              "simpleName": "DealId"
+            },
+            "position": 0,
+            "comment": "Параметр сделки, отношение к сделке один к одному"
+          }
+        ]
+      },
+      "uniqueKeysFields": [
+        {
+          "name": "OneOfDto_PK",
+          "cols": [
+            "dealId"
+          ],
+          "typeUk": "PK"
+        },
+        [
+          {
+            "name": "dealId",
+            "inPk": true,
+            "isNullable": false,
+            "type": "ru.vood.dmgen.datamodel.valueClasses.DealId",
+            "typePoetClassName": {
+              "packageName": "ru.vood.dmgen.datamodel.valueClasses",
+              "simpleName": "DealId"
+            },
+            "position": 0,
+            "comment": "Параметр сделки, отношение к сделке один к одному"
+          }
+        ]
+      ],
+      "fields": [
+        {
+          "name": "dealId",
+          "inPk": true,
+          "isNullable": false,
+          "type": "ru.vood.dmgen.datamodel.valueClasses.DealId",
+          "typePoetClassName": {
+            "packageName": "ru.vood.dmgen.datamodel.valueClasses",
+            "simpleName": "DealId"
+          },
+          "position": 0,
+          "comment": "Параметр сделки, отношение к сделке один к одному"
+        }
+      ]
+    },
+    "ru.vood.dmgen.datamodel.sealedData.oneOf.DealOneData": {
+      "designPoetClassName": {
+        "packageName": "ru.vood.dmgen.datamodel.sealedData.oneOf",
+        "simpleName": "DealOneData"
+      },
+      "flowEntityType": "INNER",
+      "comment": "Параметр сделки, отношение к сделке один к одному",
+      "foreignKeysAnnotations": [
+        {
+          "kClass": {
+            "packageName": "ru.vood.dmgen.datamodel.sealedData.oneOf",
+            "simpleName": "OneOfDto"
+          },
+          "name": "DealOneData_FK",
+          "cols": [
+            {
+              "currentColName": "dealId",
+              "outColName": "dealId"
+            }
+          ],
+          "foreignKeyType": "MANDATORY"
+        }
+      ],
+      "pkColumns": {
+        "first": {
+          "name": "DealOneData_PK",
+          "cols": [
+            "dealId"
+          ],
+          "typeUk": "PK"
+        },
+        "second": [
+          {
+            "name": "dealId",
+            "inPk": true,
+            "isNullable": false,
+            "type": "ru.vood.dmgen.datamodel.valueClasses.DealId",
+            "typePoetClassName": {
+              "packageName": "ru.vood.dmgen.datamodel.valueClasses",
+              "simpleName": "DealId"
+            },
+            "position": 0,
+            "comment": "Это ее идентификатор"
+          }
+        ]
+      },
+      "uniqueKeysFields": [
+        {
+          "name": "DealOneData_PK",
+          "cols": [
+            "dealId"
+          ],
+          "typeUk": "PK"
+        },
+        [
+          {
+            "name": "dealId",
+            "inPk": true,
+            "isNullable": false,
+            "type": "ru.vood.dmgen.datamodel.valueClasses.DealId",
+            "typePoetClassName": {
+              "packageName": "ru.vood.dmgen.datamodel.valueClasses",
+              "simpleName": "DealId"
+            },
+            "position": 0,
+            "comment": "Это ее идентификатор"
+          }
+        ]
+      ],
+      "fields": [
+        {
+          "name": "dealId",
+          "inPk": true,
+          "isNullable": false,
+          "type": "ru.vood.dmgen.datamodel.valueClasses.DealId",
+          "typePoetClassName": {
+            "packageName": "ru.vood.dmgen.datamodel.valueClasses",
+            "simpleName": "DealId"
+          },
+          "position": 0,
+          "comment": "Это ее идентификатор"
+        },
+        {
+          "name": "one",
+          "inPk": false,
+          "isNullable": false,
+          "type": "kotlin.String",
+          "typePoetClassName": {
+            "packageName": "kotlin",
+            "simpleName": "String"
+          },
+          "position": 1,
+          "comment": "Параметр сделки, отношение к сделке один к одному"
+        }
+      ]
+    },
+    "ru.vood.dmgen.datamodel.sealedData.oneOf.DealTwoData": {
+      "designPoetClassName": {
+        "packageName": "ru.vood.dmgen.datamodel.sealedData.oneOf",
+        "simpleName": "DealTwoData"
+      },
+      "flowEntityType": "INNER",
+      "comment": "Параметр сделки, отношение к сделке один к одному",
+      "foreignKeysAnnotations": [
+        {
+          "kClass": {
+            "packageName": "ru.vood.dmgen.datamodel.sealedData.oneOf",
+            "simpleName": "OneOfDto"
+          },
+          "name": "DealTwoData_FK",
+          "cols": [
+            {
+              "currentColName": "dealId",
+              "outColName": "dealId"
+            }
+          ],
+          "foreignKeyType": "MANDATORY"
+        }
+      ],
+      "pkColumns": {
+        "first": {
+          "name": "DealTwoData_PK",
+          "cols": [
+            "dealId"
+          ],
+          "typeUk": "PK"
+        },
+        "second": [
+          {
+            "name": "dealId",
+            "inPk": true,
+            "isNullable": false,
+            "type": "ru.vood.dmgen.datamodel.valueClasses.DealId",
+            "typePoetClassName": {
+              "packageName": "ru.vood.dmgen.datamodel.valueClasses",
+              "simpleName": "DealId"
+            },
+            "position": 0,
+            "comment": "Это ее идентификатор"
+          }
+        ]
+      },
+      "uniqueKeysFields": [
+        {
+          "name": "DealTwoData_PK",
+          "cols": [
+            "dealId"
+          ],
+          "typeUk": "PK"
+        },
+        [
+          {
+            "name": "dealId",
+            "inPk": true,
+            "isNullable": false,
+            "type": "ru.vood.dmgen.datamodel.valueClasses.DealId",
+            "typePoetClassName": {
+              "packageName": "ru.vood.dmgen.datamodel.valueClasses",
+              "simpleName": "DealId"
+            },
+            "position": 0,
+            "comment": "Это ее идентификатор"
+          }
+        ]
+      ],
+      "fields": [
+        {
+          "name": "dealId",
+          "inPk": true,
+          "isNullable": false,
+          "type": "ru.vood.dmgen.datamodel.valueClasses.DealId",
+          "typePoetClassName": {
+            "packageName": "ru.vood.dmgen.datamodel.valueClasses",
+            "simpleName": "DealId"
+          },
+          "position": 0,
+          "comment": "Это ее идентификатор"
+        },
+        {
+          "name": "two",
+          "inPk": false,
+          "isNullable": true,
+          "type": "kotlin.String",
+          "typePoetClassName": {
+            "packageName": "kotlin",
+            "simpleName": "String"
+          },
+          "position": 1,
+          "comment": "Параметр сделки, отношение к сделке один к одному"
+        }
+      ]
+    }
+  },
+  "nullableProbSetDefaultNull": true
+}

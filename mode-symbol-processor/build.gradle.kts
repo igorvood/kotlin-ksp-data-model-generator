@@ -18,5 +18,29 @@ dependencies {
     implementation("com.charleskorn.kaml:kaml:0.52.0")
     implementation("com.squareup:kotlinpoet:1.12.0")
     implementation("com.squareup:kotlinpoet-ksp:1.12.0")
+    implementation("org.junit.jupiter:junit-jupiter:5.8.1")
+    testImplementation("org.junit.jupiter:junit-jupiter:5.9.2")
+//    testImplementation()
 
 }
+
+tasks.withType<Test> {
+    useJUnitPlatform()
+}
+
+kotlin {
+    sourceSets.main {
+        kotlin.srcDir("build/generated/ksp/main/kotlin")
+    }
+    sourceSets.test{
+        kotlin.srcDir("src/test/kotlin")
+    }
+}
+
+//sourceSets {
+//    test {
+//        kotlin {
+//            srcDirs("test/kotlin")
+//        }
+//    }
+//}

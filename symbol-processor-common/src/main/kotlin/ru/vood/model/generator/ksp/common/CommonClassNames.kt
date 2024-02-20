@@ -17,7 +17,7 @@ object CommonClassNames {
 
     private val rootPackageAtomicReference = AtomicReference<PackageName?>(null)
 
-    private val rootPackage by lazy { rootPackageAtomicReference.get()!! }
+    private val rootPackage by lazy { rootPackageAtomicReference.get()?: error("Необходимо создать объект Типа MetaInformation ") }
 
     @Synchronized
     fun setRootPackage(rootPackage: PackageName) {
