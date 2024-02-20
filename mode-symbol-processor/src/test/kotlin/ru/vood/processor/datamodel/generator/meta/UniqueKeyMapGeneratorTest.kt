@@ -29,7 +29,6 @@ internal class UniqueKeyMapGeneratorTest: AbstractGeneratorTest("DataModel.json"
         assertEquals(testcaseData, generatedNames)
     }
 
-    //    @Disabled
     @ParameterizedTest
     @MethodSource("ru.vood.processor.datamodel.generator.meta.UniqueKeyMapGeneratorTest#testCaseData")
     fun textFileTest(testCase: TestCase) {
