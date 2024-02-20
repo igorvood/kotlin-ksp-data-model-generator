@@ -1,0 +1,129 @@
+package test.metaEnum
+
+import java.util.EnumMap
+import javax.`annotation`.processing.Generated
+import kotlin.String
+import ru.vood.dmgen.`annotation`.MetaColumns
+import ru.vood.dmgen.datamodel.sealedData.Deal
+import ru.vood.dmgen.datamodel.sealedData.DealDetail
+import ru.vood.dmgen.datamodel.sealedData.DealEntity
+import ru.vood.dmgen.datamodel.sealedData.NoFKAndUk
+import ru.vood.dmgen.datamodel.sealedData.NoFKAndUkEntity
+import ru.vood.dmgen.datamodel.sealedData.intf.ColumnEntityData
+import ru.vood.dmgen.datamodel.sealedData.intf.SimpleColExtractFunction
+import ru.vood.dmgen.datamodel.sealedData.intf.SimpleColumnEntityData
+import ru.vood.dmgen.datamodel.sealedData.intf.Synthetic
+import ru.vood.dmgen.datamodel.sealedData.intf.SyntheticColumnEntityData
+import ru.vood.dmgen.datamodel.sealedData.intf.SyntheticSet
+import ru.vood.dmgen.datamodel.sealedData.metaEnum.EntityEnum
+import ru.vood.dmgen.datamodel.sealedData.oneOf.DealOneData
+import ru.vood.dmgen.datamodel.sealedData.oneOf.DealTwoData
+import ru.vood.dmgen.datamodel.sealedData.oneOf.OneOfDto
+import ru.vood.dmgen.datamodel.sealedData.oneOf.OneOfDtoEntity
+import ru.vood.dmgen.datamodel.valueClasses.DealId
+import ru.vood.dmgen.dto.SimpleColumnName
+import ru.vood.dmgen.dto.SimpleColumnType
+
+@Generated(value = ["ru.vood.processor.datamodel.generator.meta.ColumnEntityMapGenerator"])
+@MetaColumns
+public enum class FullColumnNameEnum {
+  Deal_id,
+  Deal_noFKAndUk,
+  Deal_oneOfDto,
+  DealOneData_dealId,
+  DealOneData_one,
+  DealTwoData_dealId,
+  DealTwoData_two,
+  NoFKAndUk_dealId,
+  OneOfDto_dealId,
+  ;
+
+  public fun columnData() = columnEntityDataMap[this]!!
+
+  public companion object {
+    private val columnEntityDataMap:
+        EnumMap<ru.vood.dmgen.datamodel.sealedData.metaEnum.FullColumnNameEnum, ColumnEntityData> =
+        EnumMap(
+      mapOf(
+            ru.vood.dmgen.datamodel.sealedData.metaEnum.FullColumnNameEnum.Deal_id to
+                SimpleColumnEntityData(
+                entity = EntityEnum.Deal,
+                simpleColumnName = SimpleColumnName("id"),
+                isOptional = false,
+                comment = "Это ее идентификатор",
+                iColExtractFunction = SimpleColExtractFunction<Deal, DealId> { it.id },
+                simpleColumnType = SimpleColumnType("ru.vood.dmgen.datamodel.valueClasses.DealId")),
+            ru.vood.dmgen.datamodel.sealedData.metaEnum.FullColumnNameEnum.Deal_noFKAndUk to
+                SyntheticColumnEntityData(
+            entity = EntityEnum.Deal,
+            outEntity = EntityEnum.NoFKAndUk,
+            simpleColumnName = SimpleColumnName("noFKAndUk"),
+            isOptional = false,
+            comment = "Параметр сделки, отношение к сделке один к одному",
+            iColExtractFunction = SyntheticSet<DealEntity, DealDetail,
+                NoFKAndUkEntity>{it.noFKAndUk},
+            ),
+            ru.vood.dmgen.datamodel.sealedData.metaEnum.FullColumnNameEnum.Deal_oneOfDto to
+                SyntheticColumnEntityData(
+            entity = EntityEnum.Deal,
+            outEntity = EntityEnum.OneOfDto,
+            simpleColumnName = SimpleColumnName("oneOfDto"),
+            isOptional = false,
+            comment = "Параметр сделки, отношение к сделке один к одному",
+            iColExtractFunction = Synthetic<DealEntity, DealDetail, OneOfDtoEntity>
+                {setOf(it.oneOfDto)},
+            ),
+            ru.vood.dmgen.datamodel.sealedData.metaEnum.FullColumnNameEnum.DealOneData_dealId to
+                SimpleColumnEntityData(
+                entity = EntityEnum.DealOneData,
+                simpleColumnName = SimpleColumnName("dealId"),
+                isOptional = false,
+                comment = "Это ее идентификатор",
+                iColExtractFunction = SimpleColExtractFunction<DealOneData, DealId> { it.dealId },
+                simpleColumnType = SimpleColumnType("ru.vood.dmgen.datamodel.valueClasses.DealId")),
+            ru.vood.dmgen.datamodel.sealedData.metaEnum.FullColumnNameEnum.DealOneData_one to
+                SimpleColumnEntityData(
+                entity = EntityEnum.DealOneData,
+                simpleColumnName = SimpleColumnName("one"),
+                isOptional = false,
+                comment = "Параметр сделки, отношение к сделке один к одному",
+                iColExtractFunction = SimpleColExtractFunction<DealOneData, String> { it.one },
+                simpleColumnType = SimpleColumnType("kotlin.String")),
+            ru.vood.dmgen.datamodel.sealedData.metaEnum.FullColumnNameEnum.DealTwoData_dealId to
+                SimpleColumnEntityData(
+                entity = EntityEnum.DealTwoData,
+                simpleColumnName = SimpleColumnName("dealId"),
+                isOptional = false,
+                comment = "Это ее идентификатор",
+                iColExtractFunction = SimpleColExtractFunction<DealTwoData, DealId> { it.dealId },
+                simpleColumnType = SimpleColumnType("ru.vood.dmgen.datamodel.valueClasses.DealId")),
+            ru.vood.dmgen.datamodel.sealedData.metaEnum.FullColumnNameEnum.DealTwoData_two to
+                SimpleColumnEntityData(
+                entity = EntityEnum.DealTwoData,
+                simpleColumnName = SimpleColumnName("two"),
+                isOptional = true,
+                comment = "Параметр сделки, отношение к сделке один к одному",
+                iColExtractFunction = SimpleColExtractFunction<DealTwoData, String> { it.two },
+                simpleColumnType = SimpleColumnType("kotlin.String")),
+            ru.vood.dmgen.datamodel.sealedData.metaEnum.FullColumnNameEnum.NoFKAndUk_dealId to
+                SimpleColumnEntityData(
+                entity = EntityEnum.NoFKAndUk,
+                simpleColumnName = SimpleColumnName("dealId"),
+                isOptional = false,
+                comment = "Параметр сделки, отношение к сделке один к одному",
+                iColExtractFunction = SimpleColExtractFunction<NoFKAndUk, DealId> { it.dealId },
+                simpleColumnType = SimpleColumnType("ru.vood.dmgen.datamodel.valueClasses.DealId")),
+            ru.vood.dmgen.datamodel.sealedData.metaEnum.FullColumnNameEnum.OneOfDto_dealId to
+                SimpleColumnEntityData(
+                entity = EntityEnum.OneOfDto,
+                simpleColumnName = SimpleColumnName("dealId"),
+                isOptional = false,
+                comment = "Параметр сделки, отношение к сделке один к одному",
+                iColExtractFunction = SimpleColExtractFunction<OneOfDto, DealId> { it.dealId },
+                simpleColumnType = SimpleColumnType("ru.vood.dmgen.datamodel.valueClasses.DealId")),
+            )
+            )
+
+          }
+        }
+
