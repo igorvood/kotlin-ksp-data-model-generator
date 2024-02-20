@@ -19,41 +19,41 @@ import java.util.*
 abstract class AbstractSymbolProcessorTest {
     protected lateinit var testInfo: TestInfo
     protected lateinit var compileResult: CompileResult
-//
-//    @BeforeEach
-//    fun beforeEach(testInfo: TestInfo) {
-//        this.testInfo = testInfo
-//        val testClass: Class<*> = this.testInfo.getTestClass().get()
-//        val testMethod: Method = this.testInfo.getTestMethod().get()
-//        val sources = Paths.get(".", "build", "in-test-generated-ksp", "sources")
-////        sources.toFile().deleteRecursively()
-//        val path = sources
-//            .resolve(testClass.getPackage().name.replace('.', '/'))
-//            .resolve("packageFor" + testClass.simpleName)
-//            .resolve(testMethod.name)
-//        path.toFile().deleteRecursively()
-//        Files.createDirectories(path)
-//    }
-//
-//    @AfterEach
-//    fun afterEach() {
-//        if (this::compileResult.isInitialized) {
-//            compileResult.classLoader.close()
-//        }
-//        val oldRoot = Path.of(".", "build", "in-test-generated-ksp", "ksp", "sources", "kotlin")
-//        val newRoot = Path.of(".", "build", "in-test-generated-ksp", "sources")
-//        Files.walk(oldRoot).forEach { oldPath ->
-//            if (Files.isDirectory(oldPath)) {
-//                return@forEach
-//            }
-//            val newPath = newRoot.resolve(oldRoot.relativize(oldPath))
-//            Files.createDirectories(newPath.parent)
-//            Files.move(oldPath, newPath, StandardCopyOption.REPLACE_EXISTING)
-//        }
-//    }
-//
-//    protected fun loadClass(className: String) = this.compileResult.loadClass(className)
-//
+
+    @BeforeEach
+    fun beforeEach(testInfo: TestInfo) {
+        this.testInfo = testInfo
+        val testClass: Class<*> = this.testInfo.getTestClass().get()
+        val testMethod: Method = this.testInfo.getTestMethod().get()
+        val sources = Paths.get(".", "build", "in-test-generated-ksp", "sources")
+//        sources.toFile().deleteRecursively()
+        val path = sources
+            .resolve(testClass.getPackage().name.replace('.', '/'))
+            .resolve("packageFor" + testClass.simpleName)
+            .resolve(testMethod.name)
+        path.toFile().deleteRecursively()
+        Files.createDirectories(path)
+    }
+
+    @AfterEach
+    fun afterEach() {
+        if (this::compileResult.isInitialized) {
+            compileResult.classLoader.close()
+        }
+        val oldRoot = Path.of(".", "build", "in-test-generated-ksp", "ksp", "sources", "kotlin")
+        val newRoot = Path.of(".", "build", "in-test-generated-ksp", "sources")
+        Files.walk(oldRoot).forEach { oldPath ->
+            if (Files.isDirectory(oldPath)) {
+                return@forEach
+            }
+            val newPath = newRoot.resolve(oldRoot.relativize(oldPath))
+            Files.createDirectories(newPath.parent)
+            Files.move(oldPath, newPath, StandardCopyOption.REPLACE_EXISTING)
+        }
+    }
+
+    protected fun loadClass(className: String) = this.compileResult.loadClass(className)
+
     protected fun testPackage(): String {
         val testClass: Class<*> = testInfo.testClass.get()
         val testMethod: Method = testInfo.testMethod.get()
@@ -171,9 +171,9 @@ abstract class AbstractSymbolProcessorTest {
             workingDir = Path.of("build/in-test-generated-ksp").toAbsolutePath().toFile()
             sources = srcFiles
             symbolProcessorProviders = annotationProcessorProviders
-            inheritClassPath = true
-            verbose = false
-            reportPerformance = true
+//            inheritClassPath = true
+//            verbose = false
+//            reportPerformance = true
         }
         val result = compilation.compile()
         val messages = result.messages.split("\n")
