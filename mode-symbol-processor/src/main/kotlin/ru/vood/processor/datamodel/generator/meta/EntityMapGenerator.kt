@@ -92,19 +92,20 @@ class EntityMapGenerator(
                         .addStatement(
                             """runtimeClass = %T::class,""",  entityClassName(me.designPoetClassName),)
                         .addStatement(
+                            """runtimeSyntheticClass = %T::class,""", syntheticClassName(me.designPoetClassName),)
+                        .addStatement(
+                            """serializer = %T.serializer(),""", entityClassName(me.designPoetClassName),)
+                        .addStatement(
+                            """serializerSynthetic = %T.serializer(),""", syntheticClassName(me.designPoetClassName),)
+                        .addStatement(
                             """
-                 |runtimeSyntheticClass = %T::class,
-                 |serializer = %T.serializer(),
-                 |serializerSynthetic = %T.serializer(),
                  |entityName = %T.%L, 
                  |comment = %S,
                  |entityType = %T.%L,
                  |children = setOf(""".trimMargin(),
 
 
-                            syntheticClassName(me.designPoetClassName),
-                            entityClassName(me.designPoetClassName),
-                            syntheticClassName(me.designPoetClassName),
+
                             entityEnum,
                             me.designPoetClassName.simpleName,
                             me.comment,
