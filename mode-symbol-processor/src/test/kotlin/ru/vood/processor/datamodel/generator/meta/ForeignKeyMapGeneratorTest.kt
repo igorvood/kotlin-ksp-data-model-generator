@@ -30,7 +30,6 @@ internal class ForeignKeyMapGeneratorTest : AbstractGeneratorTest("DataModel.jso
         assertEquals(testcaseData, generatedNames)
     }
 
-//    @Disabled
     @ParameterizedTest
     @MethodSource("ru.vood.processor.datamodel.generator.meta.ForeignKeyMapGeneratorTest#testCaseData")
     fun textFileTest(testCase: TestCase) {
