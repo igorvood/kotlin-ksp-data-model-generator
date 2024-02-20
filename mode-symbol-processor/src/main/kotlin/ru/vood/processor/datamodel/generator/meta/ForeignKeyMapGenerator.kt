@@ -197,8 +197,8 @@ class ForeignKeyMapGenerator(
     private fun getFkPropertySpec(): FunSpec {
         val cbFromToFkMap = CodeBlock.builder()
             .addStatement(
-                """return (fromToFkMap[fromEntity] ?: 
-                |error(""${'"'}Not found any foreign key from entity ${'$'}fromEntity""${'"'}))[toEntity]?: 
+                """return (fromToFkMap[fromEntity] ?:
+                |error(""${'"'}Not found any foreign key from entity ${'$'}fromEntity""${'"'}))[toEntity]?:
                 |error(""${'"'}Not found any foreign key from entity ${'$'}fromEntity to entity ${'$'}toEntity""${'"'})""".trimMargin()
             )
 
