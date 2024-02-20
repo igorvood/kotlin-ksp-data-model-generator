@@ -1,0 +1,110 @@
+package test.metaEnum
+
+import java.util.EnumMap
+import javax.`annotation`.processing.Generated
+import kotlin.String
+import ru.vood.dmgen.`annotation`.FlowEntityType
+import ru.vood.dmgen.`annotation`.MetaEntities
+import ru.vood.dmgen.datamodel.sealedData.DealDetail
+import ru.vood.dmgen.datamodel.sealedData.DealEntity
+import ru.vood.dmgen.datamodel.sealedData.NoFKAndUkDetail
+import ru.vood.dmgen.datamodel.sealedData.NoFKAndUkEntity
+import ru.vood.dmgen.datamodel.sealedData.intf.EntityData
+import ru.vood.dmgen.datamodel.sealedData.intf.IEntityData
+import ru.vood.dmgen.datamodel.sealedData.intf.SealedEntityData
+import ru.vood.dmgen.datamodel.sealedData.oneOf.DealOneDataDetail
+import ru.vood.dmgen.datamodel.sealedData.oneOf.DealOneDataEntity
+import ru.vood.dmgen.datamodel.sealedData.oneOf.DealTwoDataDetail
+import ru.vood.dmgen.datamodel.sealedData.oneOf.DealTwoDataEntity
+import ru.vood.dmgen.datamodel.sealedData.oneOf.OneOfDtoDetail
+import ru.vood.dmgen.datamodel.sealedData.oneOf.OneOfDtoEntity
+
+@Generated(value = ["ru.vood.processor.datamodel.generator.meta.EntityMapGenerator"])
+@MetaEntities
+public enum class EntityEnum {
+  Deal,
+  DealOneData,
+  DealTwoData,
+  NoFKAndUk,
+  OneOfDto,
+  ;
+
+  public fun entityData(): IEntityData = entityDataMap[this]!!
+
+  public companion object {
+    private val entityDataMap:
+        EnumMap<ru.vood.dmgen.datamodel.sealedData.metaEnum.EntityEnum, IEntityData> = EnumMap(
+      mapOf(
+            ru.vood.dmgen.datamodel.sealedData.metaEnum.EntityEnum.Deal to EntityData(
+                designClass =  ru.vood.dmgen.datamodel.sealedData.Deal::class,
+                runtimeClass = DealEntity::class,
+                runtimeSyntheticClass = DealDetail::class,
+                serializer = DealEntity.serializer(),
+                serializerSynthetic = DealDetail.serializer(),
+                entityName = ru.vood.dmgen.datamodel.sealedData.metaEnum.EntityEnum.Deal,
+                comment = "Это сущность Сделка",
+                entityType = FlowEntityType.AGGREGATE
+                ),
+            ru.vood.dmgen.datamodel.sealedData.metaEnum.EntityEnum.NoFKAndUk to EntityData(
+                designClass =  ru.vood.dmgen.datamodel.sealedData.NoFKAndUk::class,
+                runtimeClass = NoFKAndUkEntity::class,
+                runtimeSyntheticClass = NoFKAndUkDetail::class,
+                serializer = NoFKAndUkEntity.serializer(),
+                serializerSynthetic = NoFKAndUkDetail.serializer(),
+                entityName = ru.vood.dmgen.datamodel.sealedData.metaEnum.EntityEnum.NoFKAndUk,
+                comment = "Параметр сделки, отношение к сделке один к одному",
+                entityType = FlowEntityType.INNER
+                ),
+            ru.vood.dmgen.datamodel.sealedData.metaEnum.EntityEnum.OneOfDto to SealedEntityData(
+                designClass =  ru.vood.dmgen.datamodel.sealedData.oneOf.OneOfDto::class,
+                runtimeClass = OneOfDtoEntity::class,
+                runtimeSyntheticClass = OneOfDtoDetail::class,
+                serializer = OneOfDtoEntity.serializer(),
+                serializerSynthetic = OneOfDtoDetail.serializer(),
+                entityName = ru.vood.dmgen.datamodel.sealedData.metaEnum.EntityEnum.OneOfDto,
+                comment = "Параметр сделки, отношение к сделке один к одному",
+                entityType = FlowEntityType.ONE_OF,
+                children = setOf(
+                  ru.vood.dmgen.datamodel.sealedData.metaEnum.EntityEnum.DealOneData,
+                  ru.vood.dmgen.datamodel.sealedData.metaEnum.EntityEnum.DealTwoData,
+                  )
+                  ),
+                  ru.vood.dmgen.datamodel.sealedData.metaEnum.EntityEnum.DealOneData to EntityData(
+                      designClass =  ru.vood.dmgen.datamodel.sealedData.oneOf.DealOneData::class,
+                      runtimeClass = DealOneDataEntity::class,
+                      runtimeSyntheticClass = DealOneDataDetail::class,
+                      serializer = DealOneDataEntity.serializer(),
+                      serializerSynthetic = DealOneDataDetail.serializer(),
+                      entityName =
+                          ru.vood.dmgen.datamodel.sealedData.metaEnum.EntityEnum.DealOneData,
+                      comment = "Параметр сделки, отношение к сделке один к одному",
+                      entityType = FlowEntityType.INNER
+                      ),
+                  ru.vood.dmgen.datamodel.sealedData.metaEnum.EntityEnum.DealTwoData to EntityData(
+                      designClass =  ru.vood.dmgen.datamodel.sealedData.oneOf.DealTwoData::class,
+                      runtimeClass = DealTwoDataEntity::class,
+                      runtimeSyntheticClass = DealTwoDataDetail::class,
+                      serializer = DealTwoDataEntity.serializer(),
+                      serializerSynthetic = DealTwoDataDetail.serializer(),
+                      entityName =
+                          ru.vood.dmgen.datamodel.sealedData.metaEnum.EntityEnum.DealTwoData,
+                      comment = "Параметр сделки, отношение к сделке один к одному",
+                      entityType = FlowEntityType.INNER
+                      ),
+                  ))
+
+                  public fun entityMetaByStr(`value`: String):
+                      ru.vood.dmgen.datamodel.sealedData.metaEnum.EntityEnum = when(value) {
+                    "Deal" -> ru.vood.dmgen.datamodel.sealedData.metaEnum.EntityEnum.Deal
+                    "NoFKAndUk" -> ru.vood.dmgen.datamodel.sealedData.metaEnum.EntityEnum.NoFKAndUk
+                    "OneOfDto" -> ru.vood.dmgen.datamodel.sealedData.metaEnum.EntityEnum.OneOfDto
+                    "DealOneData" ->
+                        ru.vood.dmgen.datamodel.sealedData.metaEnum.EntityEnum.DealOneData
+                    "DealTwoData" ->
+                        ru.vood.dmgen.datamodel.sealedData.metaEnum.EntityEnum.DealTwoData
+                    else -> error("""In ${EntityEnum::class.java.simpleName} not found enum with
+                        name $value""")
+                  }
+                }
+              }
+
