@@ -19,41 +19,41 @@ import java.util.*
 abstract class AbstractSymbolProcessorTest {
     protected lateinit var testInfo: TestInfo
     protected lateinit var compileResult: CompileResult
-
-    @BeforeEach
-    fun beforeEach(testInfo: TestInfo) {
-        this.testInfo = testInfo
-        val testClass: Class<*> = this.testInfo.getTestClass().get()
-        val testMethod: Method = this.testInfo.getTestMethod().get()
-        val sources = Paths.get(".", "build", "in-test-generated-ksp", "sources")
-//        sources.toFile().deleteRecursively()
-        val path = sources
-            .resolve(testClass.getPackage().name.replace('.', '/'))
-            .resolve("packageFor" + testClass.simpleName)
-            .resolve(testMethod.name)
-        path.toFile().deleteRecursively()
-        Files.createDirectories(path)
-    }
-
-    @AfterEach
-    fun afterEach() {
-        if (this::compileResult.isInitialized) {
-            compileResult.classLoader.close()
-        }
-        val oldRoot = Path.of(".", "build", "in-test-generated-ksp", "ksp", "sources", "kotlin")
-        val newRoot = Path.of(".", "build", "in-test-generated-ksp", "sources")
-        Files.walk(oldRoot).forEach { oldPath ->
-            if (Files.isDirectory(oldPath)) {
-                return@forEach
-            }
-            val newPath = newRoot.resolve(oldRoot.relativize(oldPath))
-            Files.createDirectories(newPath.parent)
-            Files.move(oldPath, newPath, StandardCopyOption.REPLACE_EXISTING)
-        }
-    }
-
-    protected fun loadClass(className: String) = this.compileResult.loadClass(className)
-
+//
+//    @BeforeEach
+//    fun beforeEach(testInfo: TestInfo) {
+//        this.testInfo = testInfo
+//        val testClass: Class<*> = this.testInfo.getTestClass().get()
+//        val testMethod: Method = this.testInfo.getTestMethod().get()
+//        val sources = Paths.get(".", "build", "in-test-generated-ksp", "sources")
+////        sources.toFile().deleteRecursively()
+//        val path = sources
+//            .resolve(testClass.getPackage().name.replace('.', '/'))
+//            .resolve("packageFor" + testClass.simpleName)
+//            .resolve(testMethod.name)
+//        path.toFile().deleteRecursively()
+//        Files.createDirectories(path)
+//    }
+//
+//    @AfterEach
+//    fun afterEach() {
+//        if (this::compileResult.isInitialized) {
+//            compileResult.classLoader.close()
+//        }
+//        val oldRoot = Path.of(".", "build", "in-test-generated-ksp", "ksp", "sources", "kotlin")
+//        val newRoot = Path.of(".", "build", "in-test-generated-ksp", "sources")
+//        Files.walk(oldRoot).forEach { oldPath ->
+//            if (Files.isDirectory(oldPath)) {
+//                return@forEach
+//            }
+//            val newPath = newRoot.resolve(oldRoot.relativize(oldPath))
+//            Files.createDirectories(newPath.parent)
+//            Files.move(oldPath, newPath, StandardCopyOption.REPLACE_EXISTING)
+//        }
+//    }
+//
+//    protected fun loadClass(className: String) = this.compileResult.loadClass(className)
+//
     protected fun testPackage(): String {
         val testClass: Class<*> = testInfo.testClass.get()
         val testMethod: Method = testInfo.testMethod.get()
@@ -65,55 +65,55 @@ abstract class AbstractSymbolProcessorTest {
             import ru.tinkoff.kora.common.annotation.*;
             import ru.tinkoff.kora.common.*;
             import javax.annotation.Nullable;
-            
+
             """.trimIndent()
     }
-
-    protected fun compile(
-        processors: List<SymbolProcessorProvider>,
-        @Language("kotlin") vararg sources: String,
-    ): CompileResult {
-        val testPackage = testPackage()
-        val testClass: Class<*> = testInfo.testClass.get()
-        val testMethod: Method = testInfo.testMethod.get()
-        val commonImports = commonImports()
-        val sourceList: List<SourceFile> =
-            Arrays.stream(sources).map { s: String ->
-                "package %s;\n%s\n/**\n* @see %s.%s \n*/\n".formatted(
-                    testPackage,
-                    commonImports,
-                    testClass.canonicalName,
-                    testMethod.name
-                ) + s
-            }
-                .map { s ->
-                    val firstClass = s.indexOf("class ") to "class ".length
-                    val firstInterface = s.indexOf("interface ") to "interface ".length
-                    val classNameLocation = sequenceOf(firstClass, firstInterface)
-                        .filter { it.first >= 0 }
-                        .map { it.first + it.second }
-                        .flatMap {
-                            sequenceOf(
-                                s.indexOf(" ", it + 1),
-                                s.indexOf("(", it + 1),
-                                s.indexOf("{", it + 1),
-                                s.indexOf(":", it + 1),
-                            )
-                                .map { it1 -> it to it1 }
-                        }
-                        .filter { it.second >= 0 }
-                        .minBy { it.second }
-                    val className = s.substring(classNameLocation.first - 1, classNameLocation.second)
-                    val fileName = "build/in-test-generated-ksp/sources/${testPackage.replace('.', '/')}/$className.kt"
-                    Files.createDirectories(File(fileName).toPath().parent)
-                    Files.deleteIfExists(Paths.get(fileName))
-                    Files.writeString(Paths.get(fileName), s, StandardCharsets.UTF_8, StandardOpenOption.CREATE_NEW)
-                    SourceFile.kotlin(fileName.replace("build/in-test-generated-ksp/sources/", ""), s)
-                }
-                .toList()
-        return this.symbolProcessFiles(sourceList, processors)
-    }
-
+//
+//    protected fun compile(
+//        processors: List<SymbolProcessorProvider>,
+//        @Language("kotlin") vararg sources: String,
+//    ): CompileResult {
+//        val testPackage = testPackage()
+//        val testClass: Class<*> = testInfo.testClass.get()
+//        val testMethod: Method = testInfo.testMethod.get()
+//        val commonImports = commonImports()
+//        val sourceList: List<SourceFile> =
+//            Arrays.stream(sources).map { s: String ->
+//                "package %s;\n%s\n/**\n* @see %s.%s \n*/\n".formatted(
+//                    testPackage,
+//                    commonImports,
+//                    testClass.canonicalName,
+//                    testMethod.name
+//                ) + s
+//            }
+//                .map { s ->
+//                    val firstClass = s.indexOf("class ") to "class ".length
+//                    val firstInterface = s.indexOf("interface ") to "interface ".length
+//                    val classNameLocation = sequenceOf(firstClass, firstInterface)
+//                        .filter { it.first >= 0 }
+//                        .map { it.first + it.second }
+//                        .flatMap {
+//                            sequenceOf(
+//                                s.indexOf(" ", it + 1),
+//                                s.indexOf("(", it + 1),
+//                                s.indexOf("{", it + 1),
+//                                s.indexOf(":", it + 1),
+//                            )
+//                                .map { it1 -> it to it1 }
+//                        }
+//                        .filter { it.second >= 0 }
+//                        .minBy { it.second }
+//                    val className = s.substring(classNameLocation.first - 1, classNameLocation.second)
+//                    val fileName = "build/in-test-generated-ksp/sources/${testPackage.replace('.', '/')}/$className.kt"
+//                    Files.createDirectories(File(fileName).toPath().parent)
+//                    Files.deleteIfExists(Paths.get(fileName))
+//                    Files.writeString(Paths.get(fileName), s, StandardCharsets.UTF_8, StandardOpenOption.CREATE_NEW)
+//                    SourceFile.kotlin(fileName.replace("build/in-test-generated-ksp/sources/", ""), s)
+//                }
+//                .toList()
+//        return this.symbolProcessFiles(sourceList, processors)
+//    }
+//
     data class CompileResult(
         val testPackage: String,
         val exitCode: KotlinCompilation.ExitCode,
