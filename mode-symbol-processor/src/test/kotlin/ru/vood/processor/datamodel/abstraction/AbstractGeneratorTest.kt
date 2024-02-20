@@ -14,7 +14,7 @@ abstract class AbstractGeneratorTest(val modelFileName: String) {
 
     @BeforeAll
     fun  beforeAll(){
-        val readFile = this::class.java.readFile(modelFileName)
+        val readFile = AbstractGeneratorTest::class.java.readFile(modelFileName)
         metaInformation = jsonSerializer.decodeFromString<MetaInformation>(readFile)
 
     }

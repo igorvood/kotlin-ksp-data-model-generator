@@ -1,6 +1,5 @@
 package ru.vood.processor.datamodel.generator
 
-import com.google.devtools.ksp.processing.KSPLogger
 import com.squareup.kotlinpoet.*
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.plusParameter
 import ru.vood.dmgen.dto.UkName
@@ -18,8 +17,6 @@ import ru.vood.processor.datamodel.generator.common.IContextOfSingleFileGenerato
 
 class ContextDataClassesGenerator(
     private val metaInformation: MetaInformation,
-    private val kspLogger: KSPLogger,
-
     ) : AbstractGenerator() {
     override fun files(): List<FileSpec> {
         val generatedClassData = metaInformation.entities.values.toSet()

@@ -1,0 +1,48 @@
+package ru.vood.dmgen.datamodel.sealedData
+
+import javax.`annotation`.processing.Generated
+import kotlinx.serialization.KSerializer
+import kotlinx.serialization.Serializable
+import ru.vood.dmgen.`annotation`.ModelEntityContext
+import ru.vood.dmgen.datamodel.sealedData.intf.IContextOf
+import ru.vood.dmgen.datamodel.sealedData.metaEnum.EntityEnum
+import ru.vood.dmgen.datamodel.sealedData.metaEnum.UniqueKeyEnum
+import ru.vood.dmgen.datamodel.valueClasses.DealId
+
+/**
+ * Это сущность Сделка
+ */
+@Generated(value = ["ru.vood.processor.datamodel.generator.ContextDataClassesGenerator"])
+@Serializable
+@ModelEntityContext
+public data class Deal_PKContext(
+  /**
+   * Это ее идентификатор
+   */
+  public val id: DealId,
+) : IContextOf<DealEntity> {
+  /**
+   * Мета информация по уникальному ключу
+   */
+  public override val ukName: UniqueKeyEnum
+    get() = UniqueKeyEnum.Deal_PK
+
+  /**
+   * Мета информация по сущности
+   */
+  public override val designEntityName: EntityEnum
+    get() = EntityEnum.Deal
+
+  /**
+   * Сериализатор оригинальной сущности
+   */
+  public override val ktEntitySerializer: KSerializer<DealEntity>
+    get() = DealEntity.serializer()
+
+  /**
+   * Сериализатор детальной(аггрегированной) сущности
+   */
+  public override val ktSyntheticEntitySerializer: KSerializer<DealDetail>
+    get() = DealDetail.serializer()
+}
+
