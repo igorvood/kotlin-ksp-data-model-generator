@@ -32,3 +32,4 @@ public sealed interface ColumnEntityData {
    */
   public val comment: String
 }
+

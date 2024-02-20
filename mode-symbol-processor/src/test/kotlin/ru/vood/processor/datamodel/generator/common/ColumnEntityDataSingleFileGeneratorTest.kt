@@ -15,7 +15,7 @@ internal class ColumnEntityDataSingleFileGeneratorTest : AbstractGeneratorTest("
     lateinit var generatedFiles: List<FileSpec>
 
     @BeforeAll
-    fun asd(){
+    fun asd() {
         val columnEntityDataSingleFileGenerator = ColumnEntityDataSingleFileGenerator(PackageName("test"))
         generatedFiles = columnEntityDataSingleFileGenerator.files()
     }
@@ -40,44 +40,7 @@ internal class ColumnEntityDataSingleFileGeneratorTest : AbstractGeneratorTest("
         private val testData = listOf(TestCase("ColumnEntityData"))
 
         @JvmStatic
-        private fun testCaseData() = testData.map{Arguments.of(it)}
-
-
-        val s = """package test.intf
-
-import javax.`annotation`.processing.Generated
-import kotlin.Boolean
-import kotlin.String
-import ru.vood.dmgen.datamodel.sealedData.metaEnum.EntityEnum
-import ru.vood.dmgen.dto.SimpleColumnName
-
-/**
- * Мета данные по реквизиту сущности
- */
-@Generated(value =
-    ["ru.vood.processor.datamodel.generator.common.ColumnEntityDataSingleFileGenerator"])
-public sealed interface ColumnEntityData {
-  /**
-   * имя сущности
-   */
-  public val entity: EntityEnum
-
-  /**
-   * имя колонки
-   */
-  public val simpleColumnName: SimpleColumnName
-
-  /**
-   * признак опциональности колонки
-   */
-  public val isOptional: Boolean
-
-  /**
-   * коментарий колонки
-   */
-  public val comment: String
-}
-"""
+        private fun testCaseData() = testData.map { Arguments.of(it) }
 
     }
 
