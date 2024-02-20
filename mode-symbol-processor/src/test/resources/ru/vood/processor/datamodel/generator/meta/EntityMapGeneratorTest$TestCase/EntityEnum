@@ -36,7 +36,7 @@ public enum class EntityEnum {
         EnumMap<ru.vood.dmgen.datamodel.sealedData.metaEnum.EntityEnum, IEntityData> = EnumMap(
       mapOf(
             ru.vood.dmgen.datamodel.sealedData.metaEnum.EntityEnum.Deal to EntityData(
-                designClass =  ru.vood.dmgen.datamodel.sealedData.Deal::class,
+                designClass = ru.vood.dmgen.datamodel.sealedData.Deal::class,
                 runtimeClass = DealEntity::class,
                 runtimeSyntheticClass = DealDetail::class,
                 serializer = DealEntity.serializer(),
@@ -46,7 +46,7 @@ public enum class EntityEnum {
                 entityType = FlowEntityType.AGGREGATE
                 ),
             ru.vood.dmgen.datamodel.sealedData.metaEnum.EntityEnum.NoFKAndUk to EntityData(
-                designClass =  ru.vood.dmgen.datamodel.sealedData.NoFKAndUk::class,
+                designClass = ru.vood.dmgen.datamodel.sealedData.NoFKAndUk::class,
                 runtimeClass = NoFKAndUkEntity::class,
                 runtimeSyntheticClass = NoFKAndUkDetail::class,
                 serializer = NoFKAndUkEntity.serializer(),
@@ -56,7 +56,7 @@ public enum class EntityEnum {
                 entityType = FlowEntityType.INNER
                 ),
             ru.vood.dmgen.datamodel.sealedData.metaEnum.EntityEnum.OneOfDto to SealedEntityData(
-                designClass =  ru.vood.dmgen.datamodel.sealedData.oneOf.OneOfDto::class,
+                designClass = ru.vood.dmgen.datamodel.sealedData.oneOf.OneOfDto::class,
                 runtimeClass = OneOfDtoEntity::class,
                 runtimeSyntheticClass = OneOfDtoDetail::class,
                 serializer = OneOfDtoEntity.serializer(),
@@ -70,7 +70,7 @@ public enum class EntityEnum {
                   )
                   ),
                   ru.vood.dmgen.datamodel.sealedData.metaEnum.EntityEnum.DealOneData to EntityData(
-                      designClass =  ru.vood.dmgen.datamodel.sealedData.oneOf.DealOneData::class,
+                      designClass = ru.vood.dmgen.datamodel.sealedData.oneOf.DealOneData::class,
                       runtimeClass = DealOneDataEntity::class,
                       runtimeSyntheticClass = DealOneDataDetail::class,
                       serializer = DealOneDataEntity.serializer(),
@@ -81,7 +81,7 @@ public enum class EntityEnum {
                       entityType = FlowEntityType.INNER
                       ),
                   ru.vood.dmgen.datamodel.sealedData.metaEnum.EntityEnum.DealTwoData to EntityData(
-                      designClass =  ru.vood.dmgen.datamodel.sealedData.oneOf.DealTwoData::class,
+                      designClass = ru.vood.dmgen.datamodel.sealedData.oneOf.DealTwoData::class,
                       runtimeClass = DealTwoDataEntity::class,
                       runtimeSyntheticClass = DealTwoDataDetail::class,
                       serializer = DealTwoDataEntity.serializer(),
