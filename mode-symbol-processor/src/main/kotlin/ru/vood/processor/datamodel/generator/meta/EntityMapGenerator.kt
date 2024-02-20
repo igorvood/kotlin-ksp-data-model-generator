@@ -81,9 +81,18 @@ class EntityMapGenerator(
                         .toSet()
 
                     cb.addStatement(
-                        """%T.%L to %T(
-                 |designClass = %T::class, 
-                 |runtimeClass = %T::class,
+                        """%T.%L to %T(""", entityEnum,
+                        me.designPoetClassName.simpleName,
+                        sealedEntityData,
+                    )
+                        .addStatement(
+                            """designClass = %T::class,""",
+                            me.designPoetClassName,
+                        )
+                        .addStatement(
+                            """runtimeClass = %T::class,""",  entityClassName(me.designPoetClassName),)
+                        .addStatement(
+                            """
                  |runtimeSyntheticClass = %T::class,
                  |serializer = %T.serializer(),
                  |serializerSynthetic = %T.serializer(),
@@ -91,20 +100,17 @@ class EntityMapGenerator(
                  |comment = %S,
                  |entityType = %T.%L,
                  |children = setOf(""".trimMargin(),
-                        entityEnum,
-                        me.designPoetClassName.simpleName,
-                        sealedEntityData,
-                        me.designPoetClassName,
-                        entityClassName(me.designPoetClassName),
-                        syntheticClassName(me.designPoetClassName),
-                        entityClassName(me.designPoetClassName),
-                        syntheticClassName(me.designPoetClassName),
-                        entityEnum,
-                        me.designPoetClassName.simpleName,
-                        me.comment,
-                        flowEntityType,
-                        me.flowEntityType.name,
-                    )
+
+
+                            syntheticClassName(me.designPoetClassName),
+                            entityClassName(me.designPoetClassName),
+                            syntheticClassName(me.designPoetClassName),
+                            entityEnum,
+                            me.designPoetClassName.simpleName,
+                            me.comment,
+                            flowEntityType,
+                            me.flowEntityType.name,
+                        )
                     cb
                         .indent()
                         .indent()
