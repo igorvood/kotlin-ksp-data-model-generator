@@ -130,12 +130,12 @@ class EntityMapGenerator(
                 FlowEntityType.INNER, FlowEntityType.AGGREGATE -> {
                     cb.addStatement(
                         """%T.%L to %T(
-                 |designClass = %T::class, 
+                 |designClass = %T::class,
                  |runtimeClass = %T::class,
                  |runtimeSyntheticClass = %T::class,
                  |serializer = %T.serializer(),
                  |serializerSynthetic = %T.serializer(),
-                 |entityName = %T.%L, 
+                 |entityName = %T.%L,
                  |comment = %S,
                  |entityType = %T.%L
                  |),""".trimMargin(),
