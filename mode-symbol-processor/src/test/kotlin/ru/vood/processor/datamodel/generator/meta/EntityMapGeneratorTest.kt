@@ -34,6 +34,8 @@ internal class EntityMapGeneratorTest: AbstractGeneratorTest("DataModel.json") {
     @MethodSource("ru.vood.processor.datamodel.generator.meta.EntityMapGeneratorTest#testCaseData")
     fun textFileTest(testCase: TestCase) {
         compareTextFile(generatedFiles, testCase.expectedClassFile, testCase.getText())
+        val entityDependency = metaInformation.entityDependency
+        println(1)
     }
 
 

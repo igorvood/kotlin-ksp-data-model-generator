@@ -1,6 +1,7 @@
 package ru.vood.processor.datamodel.abstraction.model
 
 import com.google.devtools.ksp.processing.KSPLogger
+import com.squareup.kotlinpoet.ClassName
 import kotlinx.serialization.Serializable
 import ru.vood.model.generator.ksp.common.CommonClassNames.setRootPackage
 import ru.vood.model.generator.ksp.common.dto.PackageName
@@ -22,6 +23,25 @@ data class MetaInformation(
     }
 
     val aggregateInnerDep by lazy { aggregateInnerDepFun() }
+
+    val entityDependency by lazy { entityDependencyFun() }
+
+    private fun entityDependencyFun(): Map<ClassName, Dependency>{
+
+        fun collect(metaEntity: MetaEntity, children: Set<Dependency>): Map<ClassName, Dependency>{
+            val map = children
+                .map { metaEntity.designPoetClassName to it }
+
+
+            val map1 = children
+                .map { it -> collect(it.metaEntity, it.children) }
+                .fold(mapOf<ClassName, Dependency>()) { acc, cur -> acc.plus(cur) }
+            return map1.plus(map)
+        }
+
+
+        return collect(aggregateInnerDep.metaEntity, aggregateInnerDep.children)
+    }
 
     private fun aggregateInnerDepFun(): Dependency {
 

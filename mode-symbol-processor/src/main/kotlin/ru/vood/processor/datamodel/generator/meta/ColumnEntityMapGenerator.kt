@@ -105,7 +105,10 @@ class ColumnEntityMapGenerator(
 
                 }
 
-                val syntheticFieldInfos = syntheticFieldInfos(filter, metaInformation.metaForeignKeys, me)
+
+                val syntheticFieldInfos =
+                    syntheticFieldInfos(filter, metaInformation.metaForeignKeys, me)
+//                    (metaInformation.entityDependency[me.designPoetClassName]?.childrenSyntheticFieldsInfo ?: listOf())
                     .filterIsInstance<SyntheticFieldInfo>()
                     .map {
                         cb.addStatement(
