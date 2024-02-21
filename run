@@ -5,3 +5,6 @@
 ./gradlew build
 
 java -jar ./workload/build/libs/workload.jar
+
+cp -f ./dataModel/build/generated/ksp/main/resources/Meta/meta.json dataModel_meta.json
+cp -f ./dataModelSealed/build/generated/ksp/main/resources/Meta/meta.json dataModelSealed_meta.json
