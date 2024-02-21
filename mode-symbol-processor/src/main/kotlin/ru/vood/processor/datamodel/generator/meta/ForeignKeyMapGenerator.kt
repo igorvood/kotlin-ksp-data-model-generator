@@ -156,7 +156,8 @@ class ForeignKeyMapGenerator(
             .addStatement(
                 """foreignKeyMap.values
                     .map { fk ->
-                        fk.fromEntity to %T(foreignKeyMap.values.filter { it.fromEntity == fk.fromEntity }
+                        fk.fromEntity to %T(foreignKeyMap.values
+                            .filter { it.fromEntity == fk.fromEntity }
                             .map { fk2 -> fk2.toEntity to fk2 }.toMap())
                     }.toMap()""", enumMap
             )

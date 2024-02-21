@@ -106,8 +106,8 @@ public enum class FkNameEnum {
         = EnumMap(
     foreignKeyMap.values
                             .map { fk ->
-                                fk.fromEntity to EnumMap(foreignKeyMap.values.filter { it.fromEntity
-            == fk.fromEntity }
+                                fk.fromEntity to EnumMap(foreignKeyMap.values
+                                    .filter { it.fromEntity == fk.fromEntity }
                                     .map { fk2 -> fk2.toEntity to fk2 }.toMap())
                             }.toMap()
     )
