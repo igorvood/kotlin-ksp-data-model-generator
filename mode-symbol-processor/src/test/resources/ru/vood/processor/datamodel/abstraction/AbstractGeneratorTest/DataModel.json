@@ -209,6 +209,27 @@
         },
         "uniqueKeysFields": [
           {
+            "name": "OptionalDealParam_UK",
+            "cols": [
+              "paramId"
+            ],
+            "typeUk": "UK"
+          },
+          [
+            {
+              "name": "paramId",
+              "inPk": false,
+              "isNullable": false,
+              "type": "kotlin.Int",
+              "typePoetClassName": {
+                "packageName": "kotlin",
+                "simpleName": "Int"
+              },
+              "position": 1,
+              "comment": "Идентификатор параметра"
+            }
+          ],
+          {
             "name": "OptionalDealParam_PK",
             "cols": [
               "dealId"
@@ -1164,6 +1185,27 @@
         ]
       },
       "uniqueKeysFields": [
+        {
+          "name": "OptionalDealParam_UK",
+          "cols": [
+            "paramId"
+          ],
+          "typeUk": "UK"
+        },
+        [
+          {
+            "name": "paramId",
+            "inPk": false,
+            "isNullable": false,
+            "type": "kotlin.Int",
+            "typePoetClassName": {
+              "packageName": "kotlin",
+              "simpleName": "Int"
+            },
+            "position": 1,
+            "comment": "Идентификатор параметра"
+          }
+        ],
         {
           "name": "OptionalDealParam_PK",
           "cols": [
