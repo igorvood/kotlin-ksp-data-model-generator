@@ -34,67 +34,66 @@ public enum class FkNameEnum {
         EnumMap<ru.vood.dmgen.datamodel.sealedData.metaEnum.FkNameEnum, FKMetaData<out IEntityOrigin>>
         = EnumMap(
           mapOf(
-                ru.vood.dmgen.datamodel.sealedData.metaEnum.FkNameEnum.NoFKAndUk_FK to FKMetaData(
-                fromEntity = EntityEnum.NoFKAndUk,
-                toEntity = EntityEnum.Deal,
-                uk = UniqueKeyEnum.Deal_PK,
-                relationType = RelationType.MANY_TO_ONE,
-                fkCols = setOf(
-                FkPair(FullColumnNameEnum.NoFKAndUk_dealId, FullColumnNameEnum.Deal_id),
-                ),
-                сontextExtractor = {data: NoFKAndUkEntity -> Deal_PKContext(
-                data.dealId,
-                ) }
-                ),
-                ru.vood.dmgen.datamodel.sealedData.metaEnum.FkNameEnum.OptionalDealParam_FK to
-                    FKMetaData(
-                fromEntity = EntityEnum.OptionalDealParam,
-                toEntity = EntityEnum.Deal,
-                uk = UniqueKeyEnum.Deal_PK,
-                relationType = RelationType.ONE_TO_ONE_OPTIONAL,
-                fkCols = setOf(
-                FkPair(FullColumnNameEnum.OptionalDealParam_dealId, FullColumnNameEnum.Deal_id),
-                ),
-                сontextExtractor = {data: OptionalDealParamEntity -> Deal_PKContext(
-                data.dealId,
-                ) }
-                ),
-                ru.vood.dmgen.datamodel.sealedData.metaEnum.FkNameEnum.DealOneData_FK to FKMetaData(
-                fromEntity = EntityEnum.DealOneData,
-                toEntity = EntityEnum.OneOfDto,
-                uk = UniqueKeyEnum.OneOfDto_PK,
-                relationType = RelationType.ONE_TO_ONE_MANDATORY,
-                fkCols = setOf(
-                FkPair(FullColumnNameEnum.DealOneData_dealId, FullColumnNameEnum.OneOfDto_dealId),
-                ),
-                сontextExtractor = {data: DealOneDataEntity -> OneOfDto_PKContext(
-                data.dealId,
-                ) }
-                ),
-                ru.vood.dmgen.datamodel.sealedData.metaEnum.FkNameEnum.DealTwoData_FK to FKMetaData(
-                fromEntity = EntityEnum.DealTwoData,
-                toEntity = EntityEnum.OneOfDto,
-                uk = UniqueKeyEnum.OneOfDto_PK,
-                relationType = RelationType.ONE_TO_ONE_MANDATORY,
-                fkCols = setOf(
-                FkPair(FullColumnNameEnum.DealTwoData_dealId, FullColumnNameEnum.OneOfDto_dealId),
-                ),
-                сontextExtractor = {data: DealTwoDataEntity -> OneOfDto_PKContext(
-                data.dealId,
-                ) }
-                ),
-                ru.vood.dmgen.datamodel.sealedData.metaEnum.FkNameEnum.OneOfDto_FK to FKMetaData(
-                fromEntity = EntityEnum.OneOfDto,
-                toEntity = EntityEnum.Deal,
-                uk = UniqueKeyEnum.Deal_PK,
-                relationType = RelationType.ONE_TO_ONE_MANDATORY,
-                fkCols = setOf(
-                FkPair(FullColumnNameEnum.OneOfDto_dealId, FullColumnNameEnum.Deal_id),
-                ),
-                сontextExtractor = {data: OneOfDtoEntity -> Deal_PKContext(
-                data.dealId,
-                ) }
-                ),
+                NoFKAndUk_FK to FKMetaData(
+                  fromEntity = EntityEnum.NoFKAndUk,
+                  toEntity = EntityEnum.Deal,
+                  uk = UniqueKeyEnum.Deal_PK,
+                  relationType = RelationType.MANY_TO_ONE,
+                  fkCols = setOf(
+                  FkPair(FullColumnNameEnum.NoFKAndUk_dealId, FullColumnNameEnum.Deal_id),
+                  ),
+                  сontextExtractor = {data: NoFKAndUkEntity -> Deal_PKContext(
+                  data.dealId,
+                  ) }
+                  ),
+                OptionalDealParam_FK to FKMetaData(
+                  fromEntity = EntityEnum.OptionalDealParam,
+                  toEntity = EntityEnum.Deal,
+                  uk = UniqueKeyEnum.Deal_PK,
+                  relationType = RelationType.ONE_TO_ONE_OPTIONAL,
+                  fkCols = setOf(
+                  FkPair(FullColumnNameEnum.OptionalDealParam_dealId, FullColumnNameEnum.Deal_id),
+                  ),
+                  сontextExtractor = {data: OptionalDealParamEntity -> Deal_PKContext(
+                  data.dealId,
+                  ) }
+                  ),
+                DealOneData_FK to FKMetaData(
+                  fromEntity = EntityEnum.DealOneData,
+                  toEntity = EntityEnum.OneOfDto,
+                  uk = UniqueKeyEnum.OneOfDto_PK,
+                  relationType = RelationType.ONE_TO_ONE_MANDATORY,
+                  fkCols = setOf(
+                  FkPair(FullColumnNameEnum.DealOneData_dealId, FullColumnNameEnum.OneOfDto_dealId),
+                  ),
+                  сontextExtractor = {data: DealOneDataEntity -> OneOfDto_PKContext(
+                  data.dealId,
+                  ) }
+                  ),
+                DealTwoData_FK to FKMetaData(
+                  fromEntity = EntityEnum.DealTwoData,
+                  toEntity = EntityEnum.OneOfDto,
+                  uk = UniqueKeyEnum.OneOfDto_PK,
+                  relationType = RelationType.ONE_TO_ONE_MANDATORY,
+                  fkCols = setOf(
+                  FkPair(FullColumnNameEnum.DealTwoData_dealId, FullColumnNameEnum.OneOfDto_dealId),
+                  ),
+                  сontextExtractor = {data: DealTwoDataEntity -> OneOfDto_PKContext(
+                  data.dealId,
+                  ) }
+                  ),
+                OneOfDto_FK to FKMetaData(
+                  fromEntity = EntityEnum.OneOfDto,
+                  toEntity = EntityEnum.Deal,
+                  uk = UniqueKeyEnum.Deal_PK,
+                  relationType = RelationType.ONE_TO_ONE_MANDATORY,
+                  fkCols = setOf(
+                  FkPair(FullColumnNameEnum.OneOfDto_dealId, FullColumnNameEnum.Deal_id),
+                  ),
+                  сontextExtractor = {data: OneOfDtoEntity -> Deal_PKContext(
+                  data.dealId,
+                  ) }
+                  ),
                 )
                 )
 

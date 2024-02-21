@@ -54,11 +54,12 @@ class ForeignKeyMapGenerator(
             .sortedBy { it.fromEntity.designPoetClassName }
             .forEach { mf ->
                 cb.addStatement(
-                    "%T.%L to %T(",
-                    CommonClassNames.fkNameEnum,
+                    "%L to %T(",
+//                    CommonClassNames.fkNameEnum,
                     mf.name.value,
                     fKMetaData,
                 )
+                    .indent()
                     .addStatement(
                         "fromEntity = %T.%L,",
                         entityEnum,
@@ -114,6 +115,7 @@ class ForeignKeyMapGenerator(
 
                 cb.addStatement(") }")
                     .addStatement("),")
+                    .unindent()
 
             }
 
