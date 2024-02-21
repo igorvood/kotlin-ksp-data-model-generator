@@ -1,0 +1,48 @@
+package ru.vood.dmgen.datamodel.sealedData
+
+import javax.`annotation`.processing.Generated
+import kotlin.Int
+import kotlinx.serialization.KSerializer
+import kotlinx.serialization.Serializable
+import ru.vood.dmgen.`annotation`.ModelEntityContext
+import ru.vood.dmgen.datamodel.sealedData.intf.IContextOf
+import ru.vood.dmgen.datamodel.sealedData.metaEnum.EntityEnum
+import ru.vood.dmgen.datamodel.sealedData.metaEnum.UniqueKeyEnum
+
+/**
+ * Параметр сделки, отношение к сделке один к одному, опциональный
+ */
+@Generated(value = ["ru.vood.processor.datamodel.generator.ContextDataClassesGenerator"])
+@Serializable
+@ModelEntityContext
+public data class OptionalDealParam_UKContext(
+  /**
+   * Идентификатор параметра
+   */
+  public val paramId: Int,
+) : IContextOf<OptionalDealParamEntity> {
+  /**
+   * Мета информация по уникальному ключу
+   */
+  public override val ukName: UniqueKeyEnum
+    get() = UniqueKeyEnum.OptionalDealParam_UK
+
+  /**
+   * Мета информация по сущности
+   */
+  public override val designEntityName: EntityEnum
+    get() = EntityEnum.OptionalDealParam
+
+  /**
+   * Сериализатор оригинальной сущности
+   */
+  public override val ktEntitySerializer: KSerializer<OptionalDealParamEntity>
+    get() = OptionalDealParamEntity.serializer()
+
+  /**
+   * Сериализатор детальной(аггрегированной) сущности
+   */
+  public override val ktSyntheticEntitySerializer: KSerializer<OptionalDealParamDetail>
+    get() = OptionalDealParamDetail.serializer()
+}
+
