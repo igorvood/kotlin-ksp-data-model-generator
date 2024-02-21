@@ -2,6 +2,7 @@ package test.metaEnum
 
 import java.util.EnumMap
 import javax.`annotation`.processing.Generated
+import kotlin.Int
 import kotlin.String
 import ru.vood.dmgen.`annotation`.MetaColumns
 import ru.vood.dmgen.datamodel.sealedData.Deal
@@ -9,6 +10,8 @@ import ru.vood.dmgen.datamodel.sealedData.DealDetail
 import ru.vood.dmgen.datamodel.sealedData.DealEntity
 import ru.vood.dmgen.datamodel.sealedData.NoFKAndUk
 import ru.vood.dmgen.datamodel.sealedData.NoFKAndUkEntity
+import ru.vood.dmgen.datamodel.sealedData.OptionalDealParam
+import ru.vood.dmgen.datamodel.sealedData.OptionalDealParamEntity
 import ru.vood.dmgen.datamodel.sealedData.intf.ColumnEntityData
 import ru.vood.dmgen.datamodel.sealedData.intf.SimpleColExtractFunction
 import ru.vood.dmgen.datamodel.sealedData.intf.SimpleColumnEntityData
@@ -29,6 +32,7 @@ import ru.vood.dmgen.dto.SimpleColumnType
 public enum class FullColumnNameEnum {
   Deal_id,
   Deal_noFKAndUk,
+  Deal_optionalDealParam,
   Deal_oneOfDto,
   DealOneData_dealId,
   DealOneData_one,
@@ -36,6 +40,8 @@ public enum class FullColumnNameEnum {
   DealTwoData_two,
   NoFKAndUk_dealId,
   OneOfDto_dealId,
+  OptionalDealParam_dealId,
+  OptionalDealParam_paramId,
   ;
 
   public fun columnData() = columnEntityDataMap[this]!!
@@ -62,6 +68,16 @@ public enum class FullColumnNameEnum {
             comment = "Параметр сделки, отношение к сделке один к одному",
             iColExtractFunction = SyntheticSet<DealEntity, DealDetail,
                 NoFKAndUkEntity>{it.noFKAndUk},
+            ),
+            ru.vood.dmgen.datamodel.sealedData.metaEnum.FullColumnNameEnum.Deal_optionalDealParam to
+                SyntheticColumnEntityData(
+            entity = EntityEnum.Deal,
+            outEntity = EntityEnum.OptionalDealParam,
+            simpleColumnName = SimpleColumnName("optionalDealParam"),
+            isOptional = true,
+            comment = "Параметр сделки, отношение к сделке один к одному, опциональный",
+            iColExtractFunction = Synthetic<DealEntity, DealDetail,
+                OptionalDealParamEntity>{it.optionalDealParam?.let{q->setOf(q)}?:setOf()},
             ),
             ru.vood.dmgen.datamodel.sealedData.metaEnum.FullColumnNameEnum.Deal_oneOfDto to
                 SyntheticColumnEntityData(
@@ -121,6 +137,24 @@ public enum class FullColumnNameEnum {
                 comment = "Параметр сделки, отношение к сделке один к одному",
                 iColExtractFunction = SimpleColExtractFunction<OneOfDto, DealId> { it.dealId },
                 simpleColumnType = SimpleColumnType("ru.vood.dmgen.datamodel.valueClasses.DealId")),
+            ru.vood.dmgen.datamodel.sealedData.metaEnum.FullColumnNameEnum.OptionalDealParam_dealId
+                to SimpleColumnEntityData(
+                entity = EntityEnum.OptionalDealParam,
+                simpleColumnName = SimpleColumnName("dealId"),
+                isOptional = false,
+                comment = "Идентификатор сделки",
+                iColExtractFunction = SimpleColExtractFunction<OptionalDealParam, DealId> {
+                    it.dealId },
+                simpleColumnType = SimpleColumnType("ru.vood.dmgen.datamodel.valueClasses.DealId")),
+            ru.vood.dmgen.datamodel.sealedData.metaEnum.FullColumnNameEnum.OptionalDealParam_paramId
+                to SimpleColumnEntityData(
+                entity = EntityEnum.OptionalDealParam,
+                simpleColumnName = SimpleColumnName("paramId"),
+                isOptional = false,
+                comment = "Идентификатор параметра",
+                iColExtractFunction = SimpleColExtractFunction<OptionalDealParam, Int> { it.paramId
+                    },
+                simpleColumnType = SimpleColumnType("kotlin.Int")),
             )
             )
 
