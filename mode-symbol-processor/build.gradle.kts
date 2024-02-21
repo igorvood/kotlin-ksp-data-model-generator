@@ -23,6 +23,7 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter:5.9.2")
     testImplementation("io.mockk:mockk:1.12.1")
     testImplementation("com.github.tschuchortdev:kotlin-compile-testing:1.4.9")
+    testImplementation("org.jetbrains.kotlin:kotlin-compiler-embeddable:1.7.21")
 //    testImplementation()
 
 }

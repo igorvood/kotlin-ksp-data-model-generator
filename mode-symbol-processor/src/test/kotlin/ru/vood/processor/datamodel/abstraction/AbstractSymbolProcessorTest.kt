@@ -60,14 +60,14 @@ abstract class AbstractSymbolProcessorTest {
         return testClass.packageName + ".packageFor" + testClass.simpleName + "." + testMethod.name
     }
 
-    protected open fun commonImports(): String {
-        return """
-            import ru.tinkoff.kora.common.annotation.*;
-            import ru.tinkoff.kora.common.*;
-            import javax.annotation.Nullable;
-
-            """.trimIndent()
-    }
+//    protected open fun commonImports(): String {
+//        return """
+//            import ru.tinkoff.kora.common.annotation.*;
+//            import ru.tinkoff.kora.common.*;
+//            import javax.annotation.Nullable;
+//
+//            """.trimIndent()
+//    }
 
     protected fun compile(
         processors: List<SymbolProcessorProvider>,
@@ -76,12 +76,12 @@ abstract class AbstractSymbolProcessorTest {
         val testPackage = testPackage()
         val testClass: Class<*> = testInfo.testClass.get()
         val testMethod: Method = testInfo.testMethod.get()
-        val commonImports = commonImports()
+//        val commonImports = commonImports()
         val sourceList: List<SourceFile> =
             Arrays.stream(sources).map { s: String ->
-                "package %s;\n%s\n/**\n* @see %s.%s \n*/\n".formatted(
+                "package %s;\n\n/**\n* @see %s.%s \n*/\n".formatted(
                     testPackage,
-                    commonImports,
+//                    commonImports,
                     testClass.canonicalName,
                     testMethod.name
                 ) + s
@@ -103,7 +103,7 @@ abstract class AbstractSymbolProcessorTest {
                         }
                         .filter { it.second >= 0 }
                         .minBy { it.second }
-                    val className = s.substring(classNameLocation.first - 1, classNameLocation.second)
+                    val className = s.substring(classNameLocation.first - 1, classNameLocation.second).trim()
                     val fileName = "build/in-test-generated-ksp/sources/${testPackage.replace('.', '/')}/$className.kt"
                     Files.createDirectories(File(fileName).toPath().parent)
                     Files.deleteIfExists(Paths.get(fileName))
@@ -171,9 +171,9 @@ abstract class AbstractSymbolProcessorTest {
             workingDir = Path.of("build/in-test-generated-ksp").toAbsolutePath().toFile()
             sources = srcFiles
             symbolProcessorProviders = annotationProcessorProviders
-//            inheritClassPath = true
-//            verbose = false
-//            reportPerformance = true
+            inheritClassPath = true
+            verbose = false
+            reportPerformance = true
         }
         val result = compilation.compile()
         val messages = result.messages.split("\n")

@@ -10,9 +10,9 @@ import ru.vood.processor.datamodel.abstraction.AbstractKoraAppProcessorTest
 internal class DataModelConfigProcessorProviderTest: AbstractKoraAppProcessorTest() {
 
     @Test
-    fun create() {
+    open fun create() {
         val draw = compile(
-            """package ru.vood.a
+            """
 
 import ru.vood.dmgen.annotation.*
 
