@@ -39,7 +39,10 @@ class ColumnEntityMapGenerator(
             .addAnnotation(CommonClassNames.metaColumns)
 
         val cb = CodeBlock.builder()
+            .indent()
             .addStatement("""%T(""", CommonClassNames.enumMap)
+            .indent()
+            .indent()
             .indent()
             .addStatement("mapOf(")
             .indent()
