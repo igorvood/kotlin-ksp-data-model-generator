@@ -3,6 +3,7 @@ package ru.vood.processor.datamodel.generator.fileMeta
 import com.google.devtools.ksp.processing.CodeGenerator
 import com.google.devtools.ksp.processing.Dependencies
 import com.squareup.kotlinpoet.FileSpec
+import ru.vood.processor.datamodel.abstraction.model.Dependency
 import ru.vood.processor.datamodel.abstraction.model.MetaInformation
 import ru.vood.processor.datamodel.gen.appendText
 import ru.vood.processor.datamodel.generator.abstraction.AbstractGenerator
@@ -27,6 +28,18 @@ class MetaInformationJsonGenerator(
             file.appendText(jsonSerializer.encodeToString(MetaInformation.serializer(), metaInformation))
             file.close()
         }
+
+        kotlin.runCatching {
+            val file = codeGenerator.createNewFile(
+                Dependencies.ALL_FILES,
+                "Meta",
+                "Dependency", "json"
+            )
+
+            file.appendText(jsonSerializer.encodeToString(Dependency.serializer(), metaInformation.aggregateInnerDep))
+            file.close()
+        }
+
         return listOf()
 
     }

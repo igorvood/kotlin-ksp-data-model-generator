@@ -2,6 +2,7 @@ package ru.vood.processor.datamodel.abstraction.model
 
 import ru.vood.processor.datamodel.gen.syntheticFieldInfos
 
+@kotlinx.serialization.Serializable
 data class Dependency(
     val metaEntity: MetaEntity,
     val children: Set<Dependency>,
