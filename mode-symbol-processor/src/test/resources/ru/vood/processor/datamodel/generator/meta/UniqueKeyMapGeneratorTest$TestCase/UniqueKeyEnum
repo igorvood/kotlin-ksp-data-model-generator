@@ -5,6 +5,8 @@ import javax.`annotation`.processing.Generated
 import ru.vood.dmgen.`annotation`.MetaUKs
 import ru.vood.dmgen.datamodel.sealedData.DealEntity
 import ru.vood.dmgen.datamodel.sealedData.Deal_PKContext
+import ru.vood.dmgen.datamodel.sealedData.OptionalDealParamEntity
+import ru.vood.dmgen.datamodel.sealedData.OptionalDealParam_PKContext
 import ru.vood.dmgen.datamodel.sealedData.intf.IEntityOrigin
 import ru.vood.dmgen.datamodel.sealedData.intf.UKEntityData
 import ru.vood.dmgen.datamodel.sealedData.metaEnum.EntityEnum
@@ -21,6 +23,7 @@ import ru.vood.dmgen.dto.TypeUk
 @MetaUKs
 public enum class UniqueKeyEnum {
   Deal_PK,
+  OptionalDealParam_PK,
   OneOfDto_PK,
   DealOneData_PK,
   DealTwoData_PK,
@@ -41,6 +44,20 @@ public enum class UniqueKeyEnum {
     entity = EntityEnum.Deal,
     extractContext = {data: DealEntity -> Deal_PKContext(
     data.id,
+    )
+    },
+    typeUk = TypeUk.PK
+    ),
+    ru.vood.dmgen.datamodel.sealedData.metaEnum.UniqueKeyEnum.OptionalDealParam_PK to UKEntityData(
+    ukName = ru.vood.dmgen.datamodel.sealedData.metaEnum.UniqueKeyEnum.OptionalDealParam_PK,
+    columns = listOf(
+    SimpleColumnName("dealId"),
+    ),
+    serializer = OptionalDealParam_PKContext.serializer(),
+    ukClass = OptionalDealParam_PKContext::class,
+    entity = EntityEnum.OptionalDealParam,
+    extractContext = {data: OptionalDealParamEntity -> OptionalDealParam_PKContext(
+    data.dealId,
     )
     },
     typeUk = TypeUk.PK

@@ -6,6 +6,7 @@ import kotlin.collections.Set
 import ru.vood.dmgen.`annotation`.MetaFKs
 import ru.vood.dmgen.datamodel.sealedData.Deal_PKContext
 import ru.vood.dmgen.datamodel.sealedData.NoFKAndUkEntity
+import ru.vood.dmgen.datamodel.sealedData.OptionalDealParamEntity
 import ru.vood.dmgen.datamodel.sealedData.intf.FKMetaData
 import ru.vood.dmgen.datamodel.sealedData.intf.FkPair
 import ru.vood.dmgen.datamodel.sealedData.intf.IEntityOrigin
@@ -22,6 +23,7 @@ import ru.vood.dmgen.dto.RelationType
 @MetaFKs
 public enum class FkNameEnum {
   NoFKAndUk_FK,
+  OptionalDealParam_FK,
   OneOfDto_FK,
   DealOneData_FK,
   DealTwoData_FK,
@@ -41,6 +43,19 @@ public enum class FkNameEnum {
             FkPair(FullColumnNameEnum.NoFKAndUk_dealId, FullColumnNameEnum.Deal_id),
             ),
             сontextExtractor = {data: NoFKAndUkEntity -> Deal_PKContext(
+            data.dealId,
+            ) }
+            ),
+            ru.vood.dmgen.datamodel.sealedData.metaEnum.FkNameEnum.OptionalDealParam_FK to
+                FKMetaData(
+            fromEntity = EntityEnum.OptionalDealParam,
+            toEntity = EntityEnum.Deal,
+            uk = UniqueKeyEnum.Deal_PK,
+            relationType = RelationType.ONE_TO_ONE_OPTIONAL,
+            fkCols = setOf(
+            FkPair(FullColumnNameEnum.OptionalDealParam_dealId, FullColumnNameEnum.Deal_id),
+            ),
+            сontextExtractor = {data: OptionalDealParamEntity -> Deal_PKContext(
             data.dealId,
             ) }
             ),
