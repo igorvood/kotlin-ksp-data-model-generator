@@ -1,0 +1,33 @@
+package ru.vood.dmgen.datamodel.sealedData
+
+import javax.`annotation`.processing.Generated
+import kotlin.Int
+import kotlinx.serialization.Serializable
+import ru.vood.dmgen.`annotation`.ModelEntity
+import ru.vood.dmgen.datamodel.sealedData.intf.IEntityOrigin
+import ru.vood.dmgen.datamodel.sealedData.metaEnum.EntityEnum
+import ru.vood.dmgen.datamodel.valueClasses.DealId
+
+/**
+ * Параметр сделки, отношение к сделке один к одному, опциональный
+ */
+@Generated(value = ["ru.vood.processor.datamodel.generator.OriginEntityDataClassesGenerator"])
+@Serializable
+@ModelEntity
+public data class OptionalDealParamEntity(
+  /**
+   * Идентификатор сделки
+   */
+  public override val dealId: DealId,
+  /**
+   * Идентификатор параметра
+   */
+  public override val paramId: Int,
+) : OptionalDealParam, IEntityOrigin {
+  /**
+   * Мета информация по сущности
+   */
+  public override val designEntityName: EntityEnum
+    get() = EntityEnum.OptionalDealParam
+}
+

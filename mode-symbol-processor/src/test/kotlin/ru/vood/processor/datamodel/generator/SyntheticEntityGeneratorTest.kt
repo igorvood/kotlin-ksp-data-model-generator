@@ -45,6 +45,8 @@ internal class SyntheticEntityGeneratorTest : AbstractGeneratorTest("DataModel.j
             TestCase("DealTwoDataDetail"),
             TestCase("NoFKAndUkDetail"),
             TestCase("OneOfDtoDetail"),
+            TestCase("OptionalDealParamDetail"),
+
         )
 
         @JvmStatic

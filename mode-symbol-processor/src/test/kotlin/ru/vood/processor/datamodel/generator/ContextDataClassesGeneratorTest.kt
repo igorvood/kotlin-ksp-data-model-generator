@@ -42,6 +42,7 @@ internal class ContextDataClassesGeneratorTest : AbstractGeneratorTest("DataMode
             TestCase("OneOfDto_PKContext"),
             TestCase("DealOneData_PKContext"),
             TestCase("DealTwoData_PKContext"),
+            TestCase("OptionalDealParam_PKContext"),
         )
 
         @JvmStatic

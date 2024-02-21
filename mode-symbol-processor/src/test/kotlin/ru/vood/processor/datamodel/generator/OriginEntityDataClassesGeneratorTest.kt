@@ -45,6 +45,7 @@ internal class OriginEntityDataClassesGeneratorTest : AbstractGeneratorTest("Dat
             TestCase("DealTwoDataEntity"),
             TestCase("NoFKAndUkEntity"),
             TestCase("OneOfDtoEntity"),
+            TestCase("OptionalDealParamEntity"),
         )
         @JvmStatic
         private fun testCaseData() = testData.map { Arguments.of(it) }

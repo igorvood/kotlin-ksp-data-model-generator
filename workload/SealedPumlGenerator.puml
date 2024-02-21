@@ -1,16 +1,18 @@
 @startuml
 digraph dfd{
 	node[shape=record]
-Deal [label="{<f0> Deal|<f1> id: ru.vood.dmgen.datamodel.valueClasses.DealId\nnoFKAndUk: NoFKAndUk\noneOfDto: OneOfDto }" shape=Mrecord color=Red];
+Deal [label="{<f0> Deal|<f1> id: ru.vood.dmgen.datamodel.valueClasses.DealId\nnoFKAndUk: NoFKAndUk\noptionalDealParam: OptionalDealParam?\noneOfDto: OneOfDto }" shape=Mrecord color=Red];
 DealOneData [label="{<f0> DealOneData|<f1> dealId: ru.vood.dmgen.datamodel.valueClasses.DealId\none: kotlin.String }" shape=Mrecord color=Green];
 DealTwoData [label="{<f0> DealTwoData|<f1> dealId: ru.vood.dmgen.datamodel.valueClasses.DealId\ntwo: kotlin.String?? }" shape=Mrecord color=Green];
 NoFKAndUk [label="{<f0> NoFKAndUk|<f1> dealId: ru.vood.dmgen.datamodel.valueClasses.DealId }" shape=Mrecord color=Green];
 OneOfDto [label="{<f0> OneOfDto|<f1> dealId: ru.vood.dmgen.datamodel.valueClasses.DealId }" shape=Mrecord color=Yellow];
+OptionalDealParam [label="{<f0> OptionalDealParam|<f1> dealId: ru.vood.dmgen.datamodel.valueClasses.DealId\nparamId: kotlin.Int }" shape=Mrecord color=Green];
 
 DealOneData -> OneOfDto[ color=Red];
 DealTwoData -> OneOfDto[ color=Red];
 NoFKAndUk -> Deal[ color=Indigo];
 OneOfDto -> Deal[ color=Red];
+OptionalDealParam -> Deal[ color=Green];
 
 }
 @enduml

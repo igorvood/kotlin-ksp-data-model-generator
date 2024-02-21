@@ -7,44 +7,30 @@ import ru.vood.dmgen.`annotation`.ModelEntityDetail
 import ru.vood.dmgen.datamodel.sealedData.intf.IEntityDetail
 import ru.vood.dmgen.datamodel.sealedData.intf.IEntityOrigin
 import ru.vood.dmgen.datamodel.sealedData.metaEnum.EntityEnum
-import ru.vood.dmgen.datamodel.sealedData.oneOf.OneOfDtoDetail
 
 /**
- * Это сущность Сделка
+ * Параметр сделки, отношение к сделке один к одному, опциональный
  */
 @Generated(value = ["ru.vood.processor.datamodel.generator.SyntheticEntityGenerator"])
 @Serializable
 @ModelEntityDetail
-public data class DealDetail(
+public data class OptionalDealParamDetail(
   /**
    * Детальная сущность, с иными сущностями имеющими на текущую внешний ключ
    */
-  public override val origin: DealEntity,
-  /**
-   * Параметр сделки, отношение к сделке один к одному
-   */
-  public val noFKAndUk: Set<NoFKAndUkDetail>,
-  /**
-   * Параметр сделки, отношение к сделке один к одному, опциональный
-   */
-  public val optionalDealParam: OptionalDealParamDetail?,
-  /**
-   * Параметр сделки, отношение к сделке один к одному
-   */
-  public val oneOfDto: OneOfDtoDetail,
-) : IEntityDetail<DealEntity> {
+  public override val origin: OptionalDealParamEntity,
+) : IEntityDetail<OptionalDealParamEntity> {
   /**
    * Мета информация по сущности
    */
   public override val designEntityName: EntityEnum
-    get() = EntityEnum.Deal
+    get() = EntityEnum.OptionalDealParam
 
   /**
    * Для опциональных сущностей. По имени сущности имеющей fk на текущую возвращает ее экземляр.
    */
   public override fun syntheticFieldOptional(entityName: EntityEnum):
       IEntityDetail<out IEntityOrigin>? = when(entityName) {
-    EntityEnum.OptionalDealParam -> optionalDealParam
     else -> error("""In Entity ${designEntityName} Not found optional synthetic field for entity
         ${entityName}""")
   }
@@ -54,7 +40,6 @@ public data class DealDetail(
    */
   public override fun syntheticFieldMandatory(entityName: EntityEnum):
       IEntityDetail<out IEntityOrigin> = when(entityName) {
-    EntityEnum.OneOfDto -> oneOfDto
     else -> error("""In Entity ${designEntityName} Not found mandatory synthetic field for entity
         ${entityName}""")
   }
@@ -65,7 +50,6 @@ public data class DealDetail(
    */
   public override fun syntheticFieldSet(entityName: EntityEnum):
       Set<IEntityDetail<out IEntityOrigin>> = when(entityName) {
-    EntityEnum.NoFKAndUk -> noFKAndUk
     else -> error("""In Entity ${designEntityName} Not found mandatory Set synthetic field for
         entity ${entityName}""")
   }
