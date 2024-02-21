@@ -98,39 +98,36 @@ public enum class FkNameEnum {
                 )
 
 
-                /**
-                 * В качестве ключа первой мапки выступает идентификатор сущности от которой идет
-                 * FK. В качестве ключа второй, вложенной мапки, выступает идентификатор сущности в
-                 * которую идет FK
-                 */
-                public val fromToFkMap:
-                    EnumMap<EntityEnum, EnumMap<EntityEnum, FKMetaData<out IEntityOrigin>>> =
-                    EnumMap(
-                foreignKeyMap.values
-                                        .map { fk ->
-                                            fk.fromEntity to EnumMap(foreignKeyMap.values.filter {
-                        it.fromEntity == fk.fromEntity }
-                                                .map { fk2 -> fk2.toEntity to fk2 }.toMap())
-                                        }.toMap()
-                )
+    /**
+     * В качестве ключа первой мапки выступает идентификатор сущности от которой идет FK. В качестве
+     * ключа второй, вложенной мапки, выступает идентификатор сущности в которую идет FK
+     */
+    public val fromToFkMap: EnumMap<EntityEnum, EnumMap<EntityEnum, FKMetaData<out IEntityOrigin>>>
+        = EnumMap(
+    foreignKeyMap.values
+                            .map { fk ->
+                                fk.fromEntity to EnumMap(foreignKeyMap.values.filter { it.fromEntity
+            == fk.fromEntity }
+                                    .map { fk2 -> fk2.toEntity to fk2 }.toMap())
+                            }.toMap()
+    )
 
 
-                public val foreignKeyMapFromEntity:
-                    EnumMap<EntityEnum, Set<FKMetaData<out IEntityOrigin>>> = EnumMap(
-                foreignKeyMap.values
-                            .map {fkMetaData->
-                                fkMetaData.fromEntity to fkMetaData
-                            }
-                            .groupBy { it.first }
-                            .map { it.key to it.value.map { q -> q.second }.toSet() }
-                            .toMap()
-                )
+    public val foreignKeyMapFromEntity: EnumMap<EntityEnum, Set<FKMetaData<out IEntityOrigin>>> =
+        EnumMap(
+    foreignKeyMap.values
+                .map {fkMetaData->
+                    fkMetaData.fromEntity to fkMetaData
+                }
+                .groupBy { it.first }
+                .map { it.key to it.value.map { q -> q.second }.toSet() }
+                .toMap()
+    )
 
 
-                public fun getFk(fromEntity: EntityEnum, toEntity: EntityEnum) =
-                    (fromToFkMap[fromEntity] ?:
-                error("""Not found any foreign key from entity $fromEntity"""))[toEntity]?:
-                error("""Not found any foreign key from entity $fromEntity to entity $toEntity""")
-              }
-            }
+    public fun getFk(fromEntity: EntityEnum, toEntity: EntityEnum) = (fromToFkMap[fromEntity] ?:
+    error("""Not found any foreign key from entity $fromEntity"""))[toEntity]?:
+    error("""Not found any foreign key from entity $fromEntity to entity $toEntity""")
+  }
+}
 

@@ -121,10 +121,15 @@ class ForeignKeyMapGenerator(
 
         cb.addStatement(""")""")
         cb.addStatement(""")""")
+            .unindent()
+            .unindent()
+            .unindent()
+            .unindent()
+            .unindent()
+            .unindent()
 
         val columnEntityDataMapPropertySpec =
             PropertySpec.builder("foreignKeyMap", typeEnumMap)
-//                .addModifiers(KModifier.PRIVATE)
                 .initializer(cb.build())
                 .build()
 
