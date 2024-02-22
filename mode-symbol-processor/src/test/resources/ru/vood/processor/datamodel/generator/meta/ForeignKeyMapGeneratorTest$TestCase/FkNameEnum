@@ -4,6 +4,7 @@ import java.util.EnumMap
 import javax.`annotation`.processing.Generated
 import kotlin.collections.Set
 import ru.vood.dmgen.`annotation`.MetaFKs
+import ru.vood.dmgen.datamodel.sealedData.DealParamaggregateEntity
 import ru.vood.dmgen.datamodel.sealedData.Deal_PKContext
 import ru.vood.dmgen.datamodel.sealedData.NoFKAndUkEntity
 import ru.vood.dmgen.datamodel.sealedData.OptionalDealParamEntity
@@ -22,6 +23,7 @@ import ru.vood.dmgen.dto.RelationType
 @Generated(value = ["ru.vood.processor.datamodel.generator.meta.ForeignKeyMapGenerator"])
 @MetaFKs
 public enum class FkNameEnum {
+  DealParamaggregate_FK,
   NoFKAndUk_FK,
   OptionalDealParam_FK,
   OneOfDto_FK,
@@ -34,6 +36,18 @@ public enum class FkNameEnum {
         EnumMap<ru.vood.dmgen.datamodel.sealedData.metaEnum.FkNameEnum, FKMetaData<out IEntityOrigin>>
         = EnumMap(
           mapOf(
+                DealParamaggregate_FK to FKMetaData(
+                  fromEntity = EntityEnum.DealParamaggregate,
+                  toEntity = EntityEnum.Deal,
+                  uk = UniqueKeyEnum.Deal_PK,
+                  relationType = RelationType.ONE_TO_ONE_OPTIONAL,
+                  fkCols = setOf(
+                  FkPair(FullColumnNameEnum.DealParamaggregate_dealId, FullColumnNameEnum.Deal_id),
+                  ),
+                  сontextExtractor = {data: DealParamaggregateEntity -> Deal_PKContext(
+                  data.dealId,
+                  ) }
+                  ),
                 NoFKAndUk_FK to FKMetaData(
                   fromEntity = EntityEnum.NoFKAndUk,
                   toEntity = EntityEnum.Deal,
