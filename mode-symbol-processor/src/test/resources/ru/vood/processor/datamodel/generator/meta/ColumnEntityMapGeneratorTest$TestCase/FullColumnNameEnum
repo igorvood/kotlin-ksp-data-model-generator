@@ -8,6 +8,7 @@ import ru.vood.dmgen.`annotation`.MetaColumns
 import ru.vood.dmgen.datamodel.sealedData.Deal
 import ru.vood.dmgen.datamodel.sealedData.DealDetail
 import ru.vood.dmgen.datamodel.sealedData.DealEntity
+import ru.vood.dmgen.datamodel.sealedData.DealParamaggregate
 import ru.vood.dmgen.datamodel.sealedData.NoFKAndUk
 import ru.vood.dmgen.datamodel.sealedData.NoFKAndUkEntity
 import ru.vood.dmgen.datamodel.sealedData.OptionalDealParam
@@ -36,6 +37,7 @@ public enum class FullColumnNameEnum {
   Deal_oneOfDto,
   DealOneData_dealId,
   DealOneData_one,
+  DealParamaggregate_dealId,
   DealTwoData_dealId,
   DealTwoData_two,
   NoFKAndUk_dealId,
@@ -109,6 +111,16 @@ public enum class FullColumnNameEnum {
                       iColExtractFunction = SimpleColExtractFunction<DealOneData, String> { it.one
                           },
                       simpleColumnType = SimpleColumnType("kotlin.String")),
+                  ru.vood.dmgen.datamodel.sealedData.metaEnum.FullColumnNameEnum.DealParamaggregate_dealId
+                      to SimpleColumnEntityData(
+                      entity = EntityEnum.DealParamaggregate,
+                      simpleColumnName = SimpleColumnName("dealId"),
+                      isOptional = false,
+                      comment = "Идентификатор сделки",
+                      iColExtractFunction = SimpleColExtractFunction<DealParamaggregate, DealId> {
+                          it.dealId },
+                      simpleColumnType =
+                          SimpleColumnType("ru.vood.dmgen.datamodel.valueClasses.DealId")),
                   ru.vood.dmgen.datamodel.sealedData.metaEnum.FullColumnNameEnum.DealTwoData_dealId
                       to SimpleColumnEntityData(
                       entity = EntityEnum.DealTwoData,
@@ -172,4 +184,3 @@ public enum class FullColumnNameEnum {
 
                 }
               }
-
