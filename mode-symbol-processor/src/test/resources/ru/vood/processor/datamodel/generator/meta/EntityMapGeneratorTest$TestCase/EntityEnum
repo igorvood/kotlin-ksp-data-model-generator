@@ -95,44 +95,42 @@ public enum class EntityEnum {
             children = setOf(
                   DealOneData,
                   DealTwoData,
-                  )
-                  ),
-                  DealOneData to EntityData(
-                      designClass = ru.vood.dmgen.datamodel.sealedData.oneOf.DealOneData::class,
-                      runtimeClass = DealOneDataEntity::class,
-                      runtimeSyntheticClass = DealOneDataDetail::class,
-                      serializer = DealOneDataEntity.serializer(),
-                      serializerSynthetic = DealOneDataDetail.serializer(),
-                      entityName =
-                          ru.vood.dmgen.datamodel.sealedData.metaEnum.EntityEnum.DealOneData,
-                      comment = "Параметр сделки, отношение к сделке один к одному",
-                      entityType = FlowEntityType.INNER
-                      ),
-                  DealTwoData to EntityData(
-                      designClass = ru.vood.dmgen.datamodel.sealedData.oneOf.DealTwoData::class,
-                      runtimeClass = DealTwoDataEntity::class,
-                      runtimeSyntheticClass = DealTwoDataDetail::class,
-                      serializer = DealTwoDataEntity.serializer(),
-                      serializerSynthetic = DealTwoDataDetail.serializer(),
-                      entityName =
-                          ru.vood.dmgen.datamodel.sealedData.metaEnum.EntityEnum.DealTwoData,
-                      comment = "Параметр сделки, отношение к сделке один к одному",
-                      entityType = FlowEntityType.INNER
-                      ),
-                  ))
+            )
+            ),
+            DealOneData to EntityData(
+                designClass = ru.vood.dmgen.datamodel.sealedData.oneOf.DealOneData::class,
+                runtimeClass = DealOneDataEntity::class,
+                runtimeSyntheticClass = DealOneDataDetail::class,
+                serializer = DealOneDataEntity.serializer(),
+                serializerSynthetic = DealOneDataDetail.serializer(),
+                entityName = ru.vood.dmgen.datamodel.sealedData.metaEnum.EntityEnum.DealOneData,
+                comment = "Параметр сделки, отношение к сделке один к одному",
+                entityType = FlowEntityType.INNER
+                ),
+            DealTwoData to EntityData(
+                designClass = ru.vood.dmgen.datamodel.sealedData.oneOf.DealTwoData::class,
+                runtimeClass = DealTwoDataEntity::class,
+                runtimeSyntheticClass = DealTwoDataDetail::class,
+                serializer = DealTwoDataEntity.serializer(),
+                serializerSynthetic = DealTwoDataDetail.serializer(),
+                entityName = ru.vood.dmgen.datamodel.sealedData.metaEnum.EntityEnum.DealTwoData,
+                comment = "Параметр сделки, отношение к сделке один к одному",
+                entityType = FlowEntityType.INNER
+                ),
+            ))
 
-                  public fun entityMetaByStr(`value`: String):
-                      ru.vood.dmgen.datamodel.sealedData.metaEnum.EntityEnum = when(value) {
-                    "Deal" -> Deal
-                    "DealParamaggregate" -> DealParamaggregate
-                    "NoFKAndUk" -> NoFKAndUk
-                    "OptionalDealParam" -> OptionalDealParam
-                    "OneOfDto" -> OneOfDto
-                    "DealOneData" -> DealOneData
-                    "DealTwoData" -> DealTwoData
-                    else -> error("""In ${EntityEnum::class.java.simpleName} not found enum with
-                        name $value""")
-                  }
-                }
-              }
+            public fun entityMetaByStr(`value`: String):
+                ru.vood.dmgen.datamodel.sealedData.metaEnum.EntityEnum = when(value) {
+              "Deal" -> Deal
+              "DealParamaggregate" -> DealParamaggregate
+              "NoFKAndUk" -> NoFKAndUk
+              "OptionalDealParam" -> OptionalDealParam
+              "OneOfDto" -> OneOfDto
+              "DealOneData" -> DealOneData
+              "DealTwoData" -> DealTwoData
+              else -> error("""In ${EntityEnum::class.java.simpleName} not found enum with name
+                  $value""")
+            }
+          }
+        }
 
