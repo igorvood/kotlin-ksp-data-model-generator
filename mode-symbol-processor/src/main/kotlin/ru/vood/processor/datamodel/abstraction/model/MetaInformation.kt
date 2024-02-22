@@ -26,21 +26,18 @@ data class MetaInformation(
 
     val entityDependency by lazy { entityDependencyFun() }
 
-    private fun entityDependencyFun(): Map<ClassName, Dependency>{
+    private fun entityDependencyFun(): Map<ClassName, Dependency> {
 
-        fun collect(metaEntity: MetaEntity, children: Set<Dependency>): Map<ClassName, Dependency>{
-            val map = children
-                .map { metaEntity.designPoetClassName to it }
+        fun collect(dependency: Dependency): Map<ClassName, Dependency> {
+            val pair = dependency.metaEntity.designPoetClassName to dependency
 
-
-            val map1 = children
-                .map { it -> collect(it.metaEntity, it.children) }
+            val map1 = dependency.children
+                .map { it -> collect(it) }
                 .fold(mapOf<ClassName, Dependency>()) { acc, cur -> acc.plus(cur) }
-            return map1.plus(map)
+            return map1.plus(pair)
         }
 
-
-        return collect(aggregateInnerDep.metaEntity, aggregateInnerDep.children)
+        return collect(aggregateInnerDep)
     }
 
     private fun aggregateInnerDepFun(): Dependency {
@@ -71,9 +68,9 @@ data class MetaInformation(
         metaForeignKeys: Set<MetaForeignKey>,
     ): Set<Dependency> {
         return this.metaForeignKeys
-            .filter { it.toEntity.designClassFullClassName == parentModelClassName.designClassFullClassName }
+            .filter { it.toEntity == parentModelClassName }
             .map {
-                val collectInnerDependency = collectInnerDependency(it.fromEntity, root, this.metaForeignKeys)
+                val collectInnerDependency = collectInnerDependency(it.fromEntity, root, metaForeignKeys)
                 Dependency(
                     metaEntity = it.fromEntity,
                     children = collectInnerDependency,
