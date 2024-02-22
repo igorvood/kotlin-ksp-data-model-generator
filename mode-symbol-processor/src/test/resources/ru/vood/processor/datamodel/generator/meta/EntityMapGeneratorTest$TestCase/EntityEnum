@@ -7,6 +7,8 @@ import ru.vood.dmgen.`annotation`.FlowEntityType
 import ru.vood.dmgen.`annotation`.MetaEntities
 import ru.vood.dmgen.datamodel.sealedData.DealDetail
 import ru.vood.dmgen.datamodel.sealedData.DealEntity
+import ru.vood.dmgen.datamodel.sealedData.DealParamaggregateDetail
+import ru.vood.dmgen.datamodel.sealedData.DealParamaggregateEntity
 import ru.vood.dmgen.datamodel.sealedData.NoFKAndUkDetail
 import ru.vood.dmgen.datamodel.sealedData.NoFKAndUkEntity
 import ru.vood.dmgen.datamodel.sealedData.OptionalDealParamDetail
@@ -26,6 +28,7 @@ import ru.vood.dmgen.datamodel.sealedData.oneOf.OneOfDtoEntity
 public enum class EntityEnum {
   Deal,
   DealOneData,
+  DealParamaggregate,
   DealTwoData,
   NoFKAndUk,
   OneOfDto,
@@ -46,6 +49,17 @@ public enum class EntityEnum {
                 serializerSynthetic = DealDetail.serializer(),
                 entityName = ru.vood.dmgen.datamodel.sealedData.metaEnum.EntityEnum.Deal,
                 comment = "Это сущность Сделка",
+                entityType = FlowEntityType.AGGREGATE
+                ),
+            ru.vood.dmgen.datamodel.sealedData.metaEnum.EntityEnum.DealParamaggregate to EntityData(
+                designClass = ru.vood.dmgen.datamodel.sealedData.DealParamaggregate::class,
+                runtimeClass = DealParamaggregateEntity::class,
+                runtimeSyntheticClass = DealParamaggregateDetail::class,
+                serializer = DealParamaggregateEntity.serializer(),
+                serializerSynthetic = DealParamaggregateDetail.serializer(),
+                entityName =
+                    ru.vood.dmgen.datamodel.sealedData.metaEnum.EntityEnum.DealParamaggregate,
+                comment = "Параметр сделки, Агрегат",
                 entityType = FlowEntityType.AGGREGATE
                 ),
             ru.vood.dmgen.datamodel.sealedData.metaEnum.EntityEnum.NoFKAndUk to EntityData(
@@ -110,6 +124,8 @@ public enum class EntityEnum {
                   public fun entityMetaByStr(`value`: String):
                       ru.vood.dmgen.datamodel.sealedData.metaEnum.EntityEnum = when(value) {
                     "Deal" -> ru.vood.dmgen.datamodel.sealedData.metaEnum.EntityEnum.Deal
+                    "DealParamaggregate" ->
+                        ru.vood.dmgen.datamodel.sealedData.metaEnum.EntityEnum.DealParamaggregate
                     "NoFKAndUk" -> ru.vood.dmgen.datamodel.sealedData.metaEnum.EntityEnum.NoFKAndUk
                     "OptionalDealParam" ->
                         ru.vood.dmgen.datamodel.sealedData.metaEnum.EntityEnum.OptionalDealParam
