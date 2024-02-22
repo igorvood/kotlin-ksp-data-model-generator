@@ -39,8 +39,8 @@ public enum class UniqueKeyEnum {
         EnumMap<ru.vood.dmgen.datamodel.sealedData.metaEnum.UniqueKeyEnum, UKEntityData<out IEntityOrigin>>
         = EnumMap(
     mapOf(
-    ru.vood.dmgen.datamodel.sealedData.metaEnum.UniqueKeyEnum.Deal_PK to UKEntityData(
-    ukName = ru.vood.dmgen.datamodel.sealedData.metaEnum.UniqueKeyEnum.Deal_PK,
+    Deal_PK to UKEntityData(
+    ukName = Deal_PK,
     columns = listOf(
     SimpleColumnName("id"),
     ),
@@ -53,8 +53,8 @@ public enum class UniqueKeyEnum {
     },
     typeUk = TypeUk.PK
     ),
-    ru.vood.dmgen.datamodel.sealedData.metaEnum.UniqueKeyEnum.DealParamaggregate_PK to UKEntityData(
-    ukName = ru.vood.dmgen.datamodel.sealedData.metaEnum.UniqueKeyEnum.DealParamaggregate_PK,
+    DealParamaggregate_PK to UKEntityData(
+    ukName = DealParamaggregate_PK,
     columns = listOf(
     SimpleColumnName("dealId"),
     ),
@@ -67,8 +67,8 @@ public enum class UniqueKeyEnum {
     },
     typeUk = TypeUk.PK
     ),
-    ru.vood.dmgen.datamodel.sealedData.metaEnum.UniqueKeyEnum.OptionalDealParam_UK to UKEntityData(
-    ukName = ru.vood.dmgen.datamodel.sealedData.metaEnum.UniqueKeyEnum.OptionalDealParam_UK,
+    OptionalDealParam_UK to UKEntityData(
+    ukName = OptionalDealParam_UK,
     columns = listOf(
     SimpleColumnName("paramId"),
     ),
@@ -81,8 +81,8 @@ public enum class UniqueKeyEnum {
     },
     typeUk = TypeUk.UK
     ),
-    ru.vood.dmgen.datamodel.sealedData.metaEnum.UniqueKeyEnum.OptionalDealParam_PK to UKEntityData(
-    ukName = ru.vood.dmgen.datamodel.sealedData.metaEnum.UniqueKeyEnum.OptionalDealParam_PK,
+    OptionalDealParam_PK to UKEntityData(
+    ukName = OptionalDealParam_PK,
     columns = listOf(
     SimpleColumnName("dealId"),
     ),
@@ -95,8 +95,8 @@ public enum class UniqueKeyEnum {
     },
     typeUk = TypeUk.PK
     ),
-    ru.vood.dmgen.datamodel.sealedData.metaEnum.UniqueKeyEnum.OneOfDto_PK to UKEntityData(
-    ukName = ru.vood.dmgen.datamodel.sealedData.metaEnum.UniqueKeyEnum.OneOfDto_PK,
+    OneOfDto_PK to UKEntityData(
+    ukName = OneOfDto_PK,
     columns = listOf(
     SimpleColumnName("dealId"),
     ),
@@ -109,8 +109,8 @@ public enum class UniqueKeyEnum {
     },
     typeUk = TypeUk.PK
     ),
-    ru.vood.dmgen.datamodel.sealedData.metaEnum.UniqueKeyEnum.DealOneData_PK to UKEntityData(
-    ukName = ru.vood.dmgen.datamodel.sealedData.metaEnum.UniqueKeyEnum.DealOneData_PK,
+    DealOneData_PK to UKEntityData(
+    ukName = DealOneData_PK,
     columns = listOf(
     SimpleColumnName("dealId"),
     ),
@@ -123,8 +123,8 @@ public enum class UniqueKeyEnum {
     },
     typeUk = TypeUk.PK
     ),
-    ru.vood.dmgen.datamodel.sealedData.metaEnum.UniqueKeyEnum.DealTwoData_PK to UKEntityData(
-    ukName = ru.vood.dmgen.datamodel.sealedData.metaEnum.UniqueKeyEnum.DealTwoData_PK,
+    DealTwoData_PK to UKEntityData(
+    ukName = DealTwoData_PK,
     columns = listOf(
     SimpleColumnName("dealId"),
     ),

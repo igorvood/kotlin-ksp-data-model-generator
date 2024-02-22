@@ -45,14 +45,12 @@ class UniqueKeyMapGenerator(
                         classBuilder.addEnumConstant(ukDto.name.value)
 
                         cb.addStatement(
-                            "%T.%L to %T(",
-                            uniqueKeyEnum,
+                            "%L to %T(",
                             ukDto.name.value,
                             uKEntityData
                         )
                             .addStatement(
-                                "ukName = %T.%L,",
-                                uniqueKeyEnum,
+                                "ukName = %L,",
                                 ukDto.name.value,
                             )
 
@@ -92,10 +90,6 @@ class UniqueKeyMapGenerator(
                             .addStatement("},")
 
                         cb.addStatement("typeUk = %T.%L", typeUk, ukDto.typeUk.name)
-
-//typeUk = PK
-
-
                         cb.addStatement("),")
 
                     }
@@ -103,8 +97,6 @@ class UniqueKeyMapGenerator(
 
         cb.addStatement(")")
             .addStatement(")")
-
-//        EnumMap<UniqueKeyEnum, UKEntityData<out IEntityOrigin>>
 
         val typeEnumMap = enumMap.plusParameter(uniqueKeyEnum).plusParameter(
             uKEntityData.plusParameter(WildcardTypeName.producerOf(iEntityOrigin))
