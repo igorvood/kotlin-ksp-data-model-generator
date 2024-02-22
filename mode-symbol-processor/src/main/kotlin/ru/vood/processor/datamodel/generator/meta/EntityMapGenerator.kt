@@ -81,7 +81,7 @@ class EntityMapGenerator(
                         .toSet()
 
                     cb.addStatement(
-                        """%T.%L to %T(""", entityEnum,
+                        """%L to %T(""",
                         me.designPoetClassName.simpleName,
                         sealedEntityData,
                     )
@@ -129,7 +129,7 @@ class EntityMapGenerator(
                 }
                 FlowEntityType.INNER, FlowEntityType.AGGREGATE -> {
                     cb.addStatement(
-                        """%T.%L to %T(
+                        """%L to %T(
                  |designClass = %T::class,
                  |runtimeClass = %T::class,
                  |runtimeSyntheticClass = %T::class,
@@ -139,7 +139,6 @@ class EntityMapGenerator(
                  |comment = %S,
                  |entityType = %T.%L
                  |),""".trimMargin(),
-                        entityEnum,
                         me.designPoetClassName.simpleName,
                         entityData,
                         me.designPoetClassName,
