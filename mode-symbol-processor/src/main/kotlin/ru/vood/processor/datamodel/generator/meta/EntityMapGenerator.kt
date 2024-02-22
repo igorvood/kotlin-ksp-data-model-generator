@@ -123,7 +123,10 @@ class EntityMapGenerator(
                     distinct.forEach { cn ->
                         cb.addStatement("%L,", cn.simpleName)
                     }
-                    cb.addStatement(")")
+                    cb.unindent()
+                        .unindent()
+                        .unindent()
+                        .addStatement(")")
                         .addStatement("),")
                 }
                 FlowEntityType.INNER, FlowEntityType.AGGREGATE -> {

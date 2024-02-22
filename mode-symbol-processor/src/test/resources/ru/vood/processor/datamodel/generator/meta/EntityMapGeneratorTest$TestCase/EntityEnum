@@ -93,8 +93,8 @@ public enum class EntityEnum {
             comment = "Параметр сделки, отношение к сделке один к одному",
             entityType = FlowEntityType.ONE_OF,
             children = setOf(
-                  ru.vood.dmgen.datamodel.sealedData.metaEnum.EntityEnum.DealOneData,
-                  ru.vood.dmgen.datamodel.sealedData.metaEnum.EntityEnum.DealTwoData,
+                  DealOneData,
+                  DealTwoData,
                   )
                   ),
                   DealOneData to EntityData(
