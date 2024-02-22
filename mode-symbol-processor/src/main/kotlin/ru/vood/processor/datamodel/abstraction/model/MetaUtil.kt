@@ -123,7 +123,8 @@ tailrec fun collectMetaForeignKey(
                 val dublicateFKNAmeInEntities =
                     filter.map { it.fromEntity.designClassShortName }.plus(element.fromEntity.designClassShortName)
                         .joinToString(",")
-                error("Найден дубль имени внешнего ключа ${foreignKey.name}, повторяется у сущностей ${dublicateFKNAmeInEntities}")
+                logger.kspError("Найден дубль имени внешнего ключа ${foreignKey.name}, повторяется у сущностей ${dublicateFKNAmeInEntities}", entities[fromMetaEntityClassName]?.ksAnnotated)
+
             } else {
                 val element1 = element
                 collector.plus(element1)
