@@ -20,7 +20,6 @@ import ru.vood.processor.datamodel.abstraction.model.MetaInformation
 import ru.vood.processor.datamodel.abstraction.model.dto.SyntheticFieldInfo
 import ru.vood.processor.datamodel.gen.CollectName.entityClassName
 import ru.vood.processor.datamodel.gen.CollectName.syntheticClassName
-import ru.vood.processor.datamodel.gen.syntheticFieldInfos
 import ru.vood.processor.datamodel.generator.abstraction.AbstractSingleFileGenerator
 
 class ColumnEntityMapGenerator(
@@ -108,72 +107,71 @@ class ColumnEntityMapGenerator(
 
                 val iSyntheticFieldInfos =
                     metaInformation.entityDependency[me.designPoetClassName]?.childrenSyntheticFieldsInfo ?: listOf()
-//                syntheticFieldInfos(filter, metaInformation.metaForeignKeys, me)
                 val syntheticFieldInfos =
                     iSyntheticFieldInfos
-                    .filterIsInstance<SyntheticFieldInfo>()
-                    .map {
-                        cb.addStatement(
-                            "%T.%L_%L to %T(",
-                            fullColumnNameEnum,
-                            me.designPoetClassName.simpleName,
-                            it.metaEntity.entityFieldName,
-                            syntheticColumnEntityData,
-                        )
-                            .addStatement(
-                                "entity = %T.%L,",
-                                entityEnum,
+                        .filterIsInstance<SyntheticFieldInfo>()
+                        .map {
+                            cb.addStatement(
+                                "%T.%L_%L to %T(",
+                                fullColumnNameEnum,
                                 me.designPoetClassName.simpleName,
-                            )
-                            .addStatement(
-                                "outEntity = %T.%L,",
-                                entityEnum,
-                                it.metaEntity.designPoetClassName.simpleName,
-                            )
-                            .addStatement(
-                                "simpleColumnName = %T(%S),",
-                                simpleColumnName,
                                 it.metaEntity.entityFieldName,
+                                syntheticColumnEntityData,
                             )
-                            .addStatement(
-                                "isOptional = %L,",
-                                it.relationType == RelationType.ONE_TO_ONE_OPTIONAL,
-                            )
-                            .addStatement("""comment = %S,""", it.metaEntity.comment)
+                                .addStatement(
+                                    "entity = %T.%L,",
+                                    entityEnum,
+                                    me.designPoetClassName.simpleName,
+                                )
+                                .addStatement(
+                                    "outEntity = %T.%L,",
+                                    entityEnum,
+                                    it.metaEntity.designPoetClassName.simpleName,
+                                )
+                                .addStatement(
+                                    "simpleColumnName = %T(%S),",
+                                    simpleColumnName,
+                                    it.metaEntity.entityFieldName,
+                                )
+                                .addStatement(
+                                    "isOptional = %L,",
+                                    it.relationType == RelationType.ONE_TO_ONE_OPTIONAL,
+                                )
+                                .addStatement("""comment = %S,""", it.metaEntity.comment)
 
-                        when (it.relationType) {
-                            RelationType.ONE_TO_ONE_MANDATORY ->
-                                cb.addStatement(
-                                    "iColExtractFunction = %T<%T, %T, %T> {setOf(it.%L)},",
-                                    synthetic,
+                            when (it.relationType) {
+                                RelationType.ONE_TO_ONE_MANDATORY ->
+                                    cb.addStatement(
+                                        "iColExtractFunction = %T<%T, %T, %T> {setOf(it.%L)},",
+                                        synthetic,
+                                        entityClassName(me.designPoetClassName),
+                                        syntheticClassName(me.designPoetClassName),
+                                        entityClassName(it.metaEntity.designPoetClassName),
+                                        it.metaEntity.entityFieldName
+                                    )
+                                RelationType.ONE_TO_ONE_OPTIONAL ->
+                                    cb.addStatement(
+                                        "iColExtractFunction = %T<%T, %T, %T>{it.%L?.let{q->setOf(q)}?:setOf()},",
+                                        synthetic,
+                                        entityClassName(me.designPoetClassName),
+                                        syntheticClassName(me.designPoetClassName),
+                                        entityClassName(it.metaEntity.designPoetClassName),
+                                        it.metaEntity.entityFieldName
+                                    )
+                                RelationType.MANY_TO_ONE -> cb.addStatement(
+                                    "iColExtractFunction = %T<%T, %T, %T>{it.%L},",
+                                    syntheticSet,
                                     entityClassName(me.designPoetClassName),
                                     syntheticClassName(me.designPoetClassName),
                                     entityClassName(it.metaEntity.designPoetClassName),
                                     it.metaEntity.entityFieldName
-                                )
-                            RelationType.ONE_TO_ONE_OPTIONAL ->
-                                cb.addStatement(
-                                    "iColExtractFunction = %T<%T, %T, %T>{it.%L?.let{q->setOf(q)}?:setOf()},",
-                                    synthetic,
-                                    entityClassName(me.designPoetClassName),
-                                    syntheticClassName(me.designPoetClassName),
-                                    entityClassName(it.metaEntity.designPoetClassName),
-                                    it.metaEntity.entityFieldName
-                                )
-                            RelationType.MANY_TO_ONE -> cb.addStatement(
-                                "iColExtractFunction = %T<%T, %T, %T>{it.%L},",
-                                syntheticSet,
-                                entityClassName(me.designPoetClassName),
-                                syntheticClassName(me.designPoetClassName),
-                                entityClassName(it.metaEntity.designPoetClassName),
-                                it.metaEntity.entityFieldName
 
-                            )
+                                )
+                            }
+                            cb.addStatement("""),""")
+
+                            me to it.metaEntity.entityFieldName
                         }
-                        cb.addStatement("""),""")
-
-                        me to it.metaEntity.entityFieldName
-                    }
 
 
                 simpleCols.plus(syntheticFieldInfos)
