@@ -101,8 +101,7 @@ class EntityMapGenerator(
                             """serializerSynthetic = %T.serializer(),""", syntheticClassName(me.designPoetClassName),
                         )
                         .addStatement(
-                            """entityName = %T.%L,""",
-                            entityEnum,
+                            """entityName = %L,""",
                             me.designPoetClassName.simpleName,
                         )
                         .addStatement(
@@ -137,7 +136,7 @@ class EntityMapGenerator(
                  |runtimeSyntheticClass = %T::class,
                  |serializer = %T.serializer(),
                  |serializerSynthetic = %T.serializer(),
-                 |entityName = %T.%L,
+                 |entityName = %L,
                  |comment = %S,
                  |entityType = %T.%L
                  |),""".trimMargin(),
@@ -148,7 +147,6 @@ class EntityMapGenerator(
                         syntheticClassName(me.designPoetClassName),
                         entityClassName(me.designPoetClassName),
                         syntheticClassName(me.designPoetClassName),
-                        entityEnum,
                         me.designPoetClassName.simpleName,
                         me.comment,
                         flowEntityType,

@@ -47,7 +47,7 @@ public enum class EntityEnum {
                 runtimeSyntheticClass = DealDetail::class,
                 serializer = DealEntity.serializer(),
                 serializerSynthetic = DealDetail.serializer(),
-                entityName = ru.vood.dmgen.datamodel.sealedData.metaEnum.EntityEnum.Deal,
+                entityName = Deal,
                 comment = "Это сущность Сделка",
                 entityType = FlowEntityType.AGGREGATE
                 ),
@@ -57,8 +57,7 @@ public enum class EntityEnum {
                 runtimeSyntheticClass = DealParamaggregateDetail::class,
                 serializer = DealParamaggregateEntity.serializer(),
                 serializerSynthetic = DealParamaggregateDetail.serializer(),
-                entityName =
-                    ru.vood.dmgen.datamodel.sealedData.metaEnum.EntityEnum.DealParamaggregate,
+                entityName = DealParamaggregate,
                 comment = "Параметр сделки, Агрегат",
                 entityType = FlowEntityType.AGGREGATE
                 ),
@@ -68,7 +67,7 @@ public enum class EntityEnum {
                 runtimeSyntheticClass = NoFKAndUkDetail::class,
                 serializer = NoFKAndUkEntity.serializer(),
                 serializerSynthetic = NoFKAndUkDetail.serializer(),
-                entityName = ru.vood.dmgen.datamodel.sealedData.metaEnum.EntityEnum.NoFKAndUk,
+                entityName = NoFKAndUk,
                 comment = "Параметр сделки, отношение к сделке один к одному",
                 entityType = FlowEntityType.INNER
                 ),
@@ -78,8 +77,7 @@ public enum class EntityEnum {
                 runtimeSyntheticClass = OptionalDealParamDetail::class,
                 serializer = OptionalDealParamEntity.serializer(),
                 serializerSynthetic = OptionalDealParamDetail.serializer(),
-                entityName =
-                    ru.vood.dmgen.datamodel.sealedData.metaEnum.EntityEnum.OptionalDealParam,
+                entityName = OptionalDealParam,
                 comment = "Параметр сделки, отношение к сделке один к одному, опциональный",
                 entityType = FlowEntityType.INNER
                 ),
@@ -89,7 +87,7 @@ public enum class EntityEnum {
             runtimeSyntheticClass = OneOfDtoDetail::class,
             serializer = OneOfDtoEntity.serializer(),
             serializerSynthetic = OneOfDtoDetail.serializer(),
-            entityName = ru.vood.dmgen.datamodel.sealedData.metaEnum.EntityEnum.OneOfDto,
+            entityName = OneOfDto,
             comment = "Параметр сделки, отношение к сделке один к одному",
             entityType = FlowEntityType.ONE_OF,
             children = setOf(
@@ -103,7 +101,7 @@ public enum class EntityEnum {
                 runtimeSyntheticClass = DealOneDataDetail::class,
                 serializer = DealOneDataEntity.serializer(),
                 serializerSynthetic = DealOneDataDetail.serializer(),
-                entityName = ru.vood.dmgen.datamodel.sealedData.metaEnum.EntityEnum.DealOneData,
+                entityName = DealOneData,
                 comment = "Параметр сделки, отношение к сделке один к одному",
                 entityType = FlowEntityType.INNER
                 ),
@@ -113,7 +111,7 @@ public enum class EntityEnum {
                 runtimeSyntheticClass = DealTwoDataDetail::class,
                 serializer = DealTwoDataEntity.serializer(),
                 serializerSynthetic = DealTwoDataDetail.serializer(),
-                entityName = ru.vood.dmgen.datamodel.sealedData.metaEnum.EntityEnum.DealTwoData,
+                entityName = DealTwoData,
                 comment = "Параметр сделки, отношение к сделке один к одному",
                 entityType = FlowEntityType.INNER
                 ),
