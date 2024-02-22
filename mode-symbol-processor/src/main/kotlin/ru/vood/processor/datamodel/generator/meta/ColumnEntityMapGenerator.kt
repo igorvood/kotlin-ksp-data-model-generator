@@ -105,6 +105,7 @@ class ColumnEntityMapGenerator(
                 val syntheticFieldInfos =
                     iSyntheticFieldInfos
                         .filterIsInstance<SyntheticFieldInfo>()
+                        .filter { it.metaEntity.flowEntityType !=FlowEntityType.AGGREGATE }
                         .map {
                             cb.addStatement(
                                 "%L_%L to %T(",

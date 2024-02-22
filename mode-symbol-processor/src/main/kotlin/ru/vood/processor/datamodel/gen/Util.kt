@@ -19,8 +19,8 @@ fun syntheticFieldInfos(
         FlowEntityType.AGGREGATE, FlowEntityType.INNER -> childrenEntities
             .map { childrenMetaEntity ->
                 when (val fet = childrenMetaEntity.flowEntityType) {
-                    FlowEntityType.AGGREGATE -> Optional.empty<SyntheticFieldInfo>()
-                    FlowEntityType.INNER,
+//                    FlowEntityType.AGGREGATE -> Optional.empty<SyntheticFieldInfo>()
+                    FlowEntityType.AGGREGATE, FlowEntityType.INNER,
                     -> {
                         val metaForeignKey =
                             getMetaForeignKey(metaForeignKeys, metaEntity, childrenMetaEntity)

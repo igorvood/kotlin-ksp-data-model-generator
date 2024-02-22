@@ -35,6 +35,7 @@ class SyntheticEntityGenerator(
         val metaEntity = aggregateInnerDep.metaEntity
 
         val syntheticFieldInfos = aggregateInnerDep.childrenSyntheticFieldsInfo.filterIsInstance<SyntheticFieldInfo>()
+            .filter { it.metaEntity.flowEntityType != FlowEntityType.AGGREGATE }
 
 
         // Имя создаваемого класса

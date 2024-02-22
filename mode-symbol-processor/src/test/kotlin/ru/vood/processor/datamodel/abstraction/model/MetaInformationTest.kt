@@ -22,7 +22,7 @@ internal class MetaInformationTest: AbstractGeneratorTest("DataModel.json") {
         metaInformation.entities.values
             .forEach {me ->
                 val filter = metaInformation.metaForeignKeys
-                    .filter { fk -> fk.fromEntity.flowEntityType != FlowEntityType.AGGREGATE }
+//                    .filter { fk -> fk.fromEntity.flowEntityType != FlowEntityType.AGGREGATE }
                     .filter { fk -> fk.toEntity == me }
                     .map { it.fromEntity }
 
