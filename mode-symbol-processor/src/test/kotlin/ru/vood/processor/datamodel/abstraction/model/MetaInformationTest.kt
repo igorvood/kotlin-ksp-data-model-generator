@@ -5,7 +5,8 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions.*
 import ru.vood.dmgen.annotation.FlowEntityType
 import ru.vood.processor.datamodel.abstraction.AbstractGeneratorTest
-import ru.vood.processor.datamodel.gen.syntheticFieldInfos
+import ru.vood.processor.datamodel.abstraction.model.Dependency.Companion.syntheticFieldInfos
+
 
 internal class MetaInformationTest: AbstractGeneratorTest("DataModel.json") {
 
