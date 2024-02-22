@@ -1,0 +1,57 @@
+package ru.vood.dmgen.datamodel.sealedData
+
+import javax.`annotation`.processing.Generated
+import kotlin.collections.Set
+import kotlinx.serialization.Serializable
+import ru.vood.dmgen.`annotation`.ModelEntityDetail
+import ru.vood.dmgen.datamodel.sealedData.intf.IEntityDetail
+import ru.vood.dmgen.datamodel.sealedData.intf.IEntityOrigin
+import ru.vood.dmgen.datamodel.sealedData.metaEnum.EntityEnum
+
+/**
+ * Параметр сделки, Агрегат
+ */
+@Generated(value = ["ru.vood.processor.datamodel.generator.SyntheticEntityGenerator"])
+@Serializable
+@ModelEntityDetail
+public data class DealParamaggregateDetail(
+  /**
+   * Детальная сущность, с иными сущностями имеющими на текущую внешний ключ
+   */
+  public override val origin: DealParamaggregateEntity,
+) : IEntityDetail<DealParamaggregateEntity> {
+  /**
+   * Мета информация по сущности
+   */
+  public override val designEntityName: EntityEnum
+    get() = EntityEnum.DealParamaggregate
+
+  /**
+   * Для опциональных сущностей. По имени сущности имеющей fk на текущую возвращает ее экземляр.
+   */
+  public override fun syntheticFieldOptional(entityName: EntityEnum):
+      IEntityDetail<out IEntityOrigin>? = when(entityName) {
+    else -> error("""In Entity ${designEntityName} Not found optional synthetic field for entity
+        ${entityName}""")
+  }
+
+  /**
+   * Для обязательных сущностей. По имени сущности имеющей fk на текущую возвращает ее экземляр.
+   */
+  public override fun syntheticFieldMandatory(entityName: EntityEnum):
+      IEntityDetail<out IEntityOrigin> = when(entityName) {
+    else -> error("""In Entity ${designEntityName} Not found mandatory synthetic field for entity
+        ${entityName}""")
+  }
+
+  /**
+   * Для сущностей имеющих связь, много к одному к текущей. По имени сущности имеющей fk на текущую
+   * возвращает ее экземляр.
+   */
+  public override fun syntheticFieldSet(entityName: EntityEnum):
+      Set<IEntityDetail<out IEntityOrigin>> = when(entityName) {
+    else -> error("""In Entity ${designEntityName} Not found mandatory Set synthetic field for
+        entity ${entityName}""")
+  }
+}
+
