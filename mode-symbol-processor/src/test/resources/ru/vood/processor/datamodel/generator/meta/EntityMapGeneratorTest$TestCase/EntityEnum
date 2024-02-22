@@ -123,17 +123,13 @@ public enum class EntityEnum {
 
                   public fun entityMetaByStr(`value`: String):
                       ru.vood.dmgen.datamodel.sealedData.metaEnum.EntityEnum = when(value) {
-                    "Deal" -> ru.vood.dmgen.datamodel.sealedData.metaEnum.EntityEnum.Deal
-                    "DealParamaggregate" ->
-                        ru.vood.dmgen.datamodel.sealedData.metaEnum.EntityEnum.DealParamaggregate
-                    "NoFKAndUk" -> ru.vood.dmgen.datamodel.sealedData.metaEnum.EntityEnum.NoFKAndUk
-                    "OptionalDealParam" ->
-                        ru.vood.dmgen.datamodel.sealedData.metaEnum.EntityEnum.OptionalDealParam
-                    "OneOfDto" -> ru.vood.dmgen.datamodel.sealedData.metaEnum.EntityEnum.OneOfDto
-                    "DealOneData" ->
-                        ru.vood.dmgen.datamodel.sealedData.metaEnum.EntityEnum.DealOneData
-                    "DealTwoData" ->
-                        ru.vood.dmgen.datamodel.sealedData.metaEnum.EntityEnum.DealTwoData
+                    "Deal" -> Deal
+                    "DealParamaggregate" -> DealParamaggregate
+                    "NoFKAndUk" -> NoFKAndUk
+                    "OptionalDealParam" -> OptionalDealParam
+                    "OneOfDto" -> OneOfDto
+                    "DealOneData" -> DealOneData
+                    "DealTwoData" -> DealTwoData
                     else -> error("""In ${EntityEnum::class.java.simpleName} not found enum with
                         name $value""")
                   }

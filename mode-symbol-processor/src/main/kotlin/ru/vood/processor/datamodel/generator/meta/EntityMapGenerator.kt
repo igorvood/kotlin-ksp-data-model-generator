@@ -52,9 +52,8 @@ class EntityMapGenerator(
                         metaInformation.entities.values
                             .forEach { me ->
                                 addStatement(
-                                    "%S -> %T.%L",
+                                    "%S -> %L",
                                     me.designPoetClassName.simpleName,
-                                    entityEnum,
                                     me.designPoetClassName.simpleName
                                 )
                             }
@@ -122,7 +121,7 @@ class EntityMapGenerator(
                         .indent()
                         .indent()
                     distinct.forEach { cn ->
-                        cb.addStatement("%T.%L,", entityEnum, cn.simpleName)
+                        cb.addStatement("%L,", cn.simpleName)
                     }
                     cb.addStatement(")")
                         .addStatement("),")
