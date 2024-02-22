@@ -4,6 +4,8 @@ import java.util.EnumMap
 import javax.`annotation`.processing.Generated
 import ru.vood.dmgen.`annotation`.MetaUKs
 import ru.vood.dmgen.datamodel.sealedData.DealEntity
+import ru.vood.dmgen.datamodel.sealedData.DealParamaggregateEntity
+import ru.vood.dmgen.datamodel.sealedData.DealParamaggregate_PKContext
 import ru.vood.dmgen.datamodel.sealedData.Deal_PKContext
 import ru.vood.dmgen.datamodel.sealedData.OptionalDealParamEntity
 import ru.vood.dmgen.datamodel.sealedData.OptionalDealParam_PKContext
@@ -24,6 +26,7 @@ import ru.vood.dmgen.dto.TypeUk
 @MetaUKs
 public enum class UniqueKeyEnum {
   Deal_PK,
+  DealParamaggregate_PK,
   OptionalDealParam_UK,
   OptionalDealParam_PK,
   OneOfDto_PK,
@@ -46,6 +49,20 @@ public enum class UniqueKeyEnum {
     entity = EntityEnum.Deal,
     extractContext = {data: DealEntity -> Deal_PKContext(
     data.id,
+    )
+    },
+    typeUk = TypeUk.PK
+    ),
+    ru.vood.dmgen.datamodel.sealedData.metaEnum.UniqueKeyEnum.DealParamaggregate_PK to UKEntityData(
+    ukName = ru.vood.dmgen.datamodel.sealedData.metaEnum.UniqueKeyEnum.DealParamaggregate_PK,
+    columns = listOf(
+    SimpleColumnName("dealId"),
+    ),
+    serializer = DealParamaggregate_PKContext.serializer(),
+    ukClass = DealParamaggregate_PKContext::class,
+    entity = EntityEnum.DealParamaggregate,
+    extractContext = {data: DealParamaggregateEntity -> DealParamaggregate_PKContext(
+    data.dealId,
     )
     },
     typeUk = TypeUk.PK
