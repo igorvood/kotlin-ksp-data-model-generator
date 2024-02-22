@@ -54,15 +54,10 @@ class ColumnEntityMapGenerator(
             .flatMap { me ->
                 val sortedBy = me.fields.sortedBy { ec -> ec.position }
                 val simpleCols = sortedBy.map { col -> me to col.name.value }
-                val filter = metaInformation.metaForeignKeys
-                    .filter { fk -> fk.fromEntity.flowEntityType != FlowEntityType.AGGREGATE }
-                    .filter { fk -> fk.toEntity == me }
-                    .map { it.fromEntity }
 
                 sortedBy.forEach { mcol ->
                     cb.addStatement(
-                        "%T.%L_%L to %T(",
-                        fullColumnNameEnum,
+                        "%L_%L to %T(",
                         me.designPoetClassName.simpleName,
                         mcol.name.value,
                         simpleColumnEntityData,
@@ -112,8 +107,7 @@ class ColumnEntityMapGenerator(
                         .filterIsInstance<SyntheticFieldInfo>()
                         .map {
                             cb.addStatement(
-                                "%T.%L_%L to %T(",
-                                fullColumnNameEnum,
+                                "%L_%L to %T(",
                                 me.designPoetClassName.simpleName,
                                 it.metaEntity.entityFieldName,
                                 syntheticColumnEntityData,
