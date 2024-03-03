@@ -25,6 +25,8 @@ abstract class AbstractKoraAppProcessorTest(
 //        val appClass = compileResult.loadClass("ExampleApplicationGraph")
 //        val `object` = appClass.getConstructor().newInstance() as Supplier<ApplicationGraphDraw>
 //        return `object`.get()
+
+        println(1)
     }
 
 }

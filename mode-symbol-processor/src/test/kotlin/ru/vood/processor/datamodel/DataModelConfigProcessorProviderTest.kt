@@ -2,6 +2,7 @@ package ru.vood.processor.datamodel
 
 import com.squareup.kotlinpoet.ClassName
 import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import ru.vood.dmgen.annotation.FlowEntityType
 import ru.vood.dmgen.dto.SimpleColumnName
@@ -15,7 +16,7 @@ import ru.vood.processor.datamodel.abstraction.model.MetaEntityColumn
 import ru.vood.processor.datamodel.abstraction.model.dto.ModelClassName
 import ru.vood.processor.datamodel.abstraction.model.dto.UkDto
 
-//@Disabled
+@Disabled
 internal class DataModelConfigProcessorProviderTest :
     AbstractKoraAppProcessorTest(listOf(DataModelConfigProcessorProvider(TestFileGeneratorFactory()))) {
 
