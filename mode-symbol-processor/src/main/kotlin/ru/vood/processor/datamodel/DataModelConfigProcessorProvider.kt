@@ -9,7 +9,10 @@ import ru.vood.processor.datamodel.factory.IFileGeneratorFactory
 class DataModelConfigProcessorProvider(
     private val fileGeneratorFactory: IFileGeneratorFactory = FileGeneratorFactory()
 ) : SymbolProcessorProvider {
+
+    internal lateinit var dataModelConfigProcessor : DataModelConfigProcessor
     override fun create(environment: SymbolProcessorEnvironment): SymbolProcessor {
-        return DataModelConfigProcessor(environment, fileGeneratorFactory)
+        dataModelConfigProcessor = DataModelConfigProcessor(environment, fileGeneratorFactory)
+        return dataModelConfigProcessor
     }
 }

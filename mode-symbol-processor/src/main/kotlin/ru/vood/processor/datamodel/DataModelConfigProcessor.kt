@@ -23,7 +23,7 @@ class DataModelConfigProcessor(
     private val codeGenerator = environment.codeGenerator
 
 
-    private lateinit var metaInformation: MetaInformation
+    lateinit var metaInformation: MetaInformation
 
     override fun processRound(resolver: Resolver): List<KSAnnotated> {
 
