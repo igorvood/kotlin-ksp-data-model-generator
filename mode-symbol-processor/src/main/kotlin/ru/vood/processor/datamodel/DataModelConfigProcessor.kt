@@ -11,19 +11,13 @@ import ru.vood.dmgen.annotation.FlowEntity
 import ru.vood.model.generator.ksp.common.BaseSymbolProcessor
 import ru.vood.processor.datamodel.abstraction.model.MetaCollector.collectMetaInformation
 import ru.vood.processor.datamodel.abstraction.model.MetaInformation
-import ru.vood.processor.datamodel.generator.ContextDataClassesGenerator
-import ru.vood.processor.datamodel.generator.OriginEntityDataClassesGenerator
-import ru.vood.processor.datamodel.generator.SyntheticEntityGenerator
-import ru.vood.processor.datamodel.generator.common.*
-import ru.vood.processor.datamodel.generator.fileMeta.MetaInformationJsonGenerator
-import ru.vood.processor.datamodel.generator.fileMeta.PumlGenerator
-import ru.vood.processor.datamodel.generator.meta.ColumnEntityMapGenerator
-import ru.vood.processor.datamodel.generator.meta.EntityMapGenerator
-import ru.vood.processor.datamodel.generator.meta.ForeignKeyMapGenerator
-import ru.vood.processor.datamodel.generator.meta.UniqueKeyMapGenerator
+import ru.vood.processor.datamodel.factory.FileGeneratorFactory
+import ru.vood.processor.datamodel.factory.IFileGeneratorFactory
+import ru.vood.processor.datamodel.generator.abstraction.AbstractGenerator
 
 class DataModelConfigProcessor(
     environment: SymbolProcessorEnvironment,
+    private val fileGeneratorFactory: IFileGeneratorFactory
 ) : BaseSymbolProcessor(environment) {
 
     private val codeGenerator = environment.codeGenerator
@@ -48,38 +42,39 @@ class DataModelConfigProcessor(
     }
 
     override fun finish() {
-        val rootPackageCommon = metaInformation.rootPackage
-        val listOf = listOf(
-            SerializableEntitySingleFileGenerator(rootPackageCommon),
-            IEntityOriginSingleFileGenerator(rootPackageCommon),
-            IEntityDetailSingleFileGenerator(rootPackageCommon),
-            IContextOfSingleFileGenerator(rootPackageCommon),
-            ColumnEntityDataSingleFileGenerator(rootPackageCommon),
-            SimpleColumnEntityDataSingleFileGenerator(rootPackageCommon),
-            SyntheticColumnEntityDataSingleFileGenerator(rootPackageCommon),
-            SealedSyntheticColumnEntityDataSingleFileGenerator(rootPackageCommon),
-            IColExtractFunctionSingleFileGenerator(rootPackageCommon),
-            ISyntheticColExtractFunctionSingleFileGenerator(rootPackageCommon),
-            SimpleColExtractFunctionSingleFileGenerator(rootPackageCommon),
-            SyntheticSingleFileGenerator(rootPackageCommon),
-            SyntheticSetSingleFileGenerator(rootPackageCommon),
-            IEntityDataSingleFileGenerator(rootPackageCommon),
-            EntityDataSingleFileGenerator(rootPackageCommon),
-            SealedEntityDataSingleFileGenerator(rootPackageCommon),
-            FkPairSingleFileGenerator(rootPackageCommon),
-            FKMetaDataSingleFileGenerator(rootPackageCommon),
-            UKEntityDataSingleFileGenerator(rootPackageCommon),
-            IndexesMetaDtoSingleFileGenerator(rootPackageCommon),
-            OriginEntityDataClassesGenerator(metaInformation, kspLogger),
-            SyntheticEntityGenerator(metaInformation),
-            ContextDataClassesGenerator(metaInformation),
-            EntityMapGenerator(rootPackageCommon, metaInformation),
-            ColumnEntityMapGenerator(rootPackageCommon, metaInformation),
-            PumlGenerator(environment.codeGenerator, metaInformation),
-            MetaInformationJsonGenerator(environment.codeGenerator, metaInformation),
-            ForeignKeyMapGenerator(rootPackageCommon, metaInformation),
-            UniqueKeyMapGenerator(rootPackageCommon, metaInformation),
-        )
+        val listOf: List<AbstractGenerator> =        fileGeneratorFactory.generators(metaInformation, kspLogger, environment)
+//        val rootPackageCommon = metaInformation.rootPackage
+//        val listOf: List<AbstractGenerator> = listOf(
+//            SerializableEntitySingleFileGenerator(rootPackageCommon),
+//            IEntityOriginSingleFileGenerator(rootPackageCommon),
+//            IEntityDetailSingleFileGenerator(rootPackageCommon),
+//            IContextOfSingleFileGenerator(rootPackageCommon),
+//            ColumnEntityDataSingleFileGenerator(rootPackageCommon),
+//            SimpleColumnEntityDataSingleFileGenerator(rootPackageCommon),
+//            SyntheticColumnEntityDataSingleFileGenerator(rootPackageCommon),
+//            SealedSyntheticColumnEntityDataSingleFileGenerator(rootPackageCommon),
+//            IColExtractFunctionSingleFileGenerator(rootPackageCommon),
+//            ISyntheticColExtractFunctionSingleFileGenerator(rootPackageCommon),
+//            SimpleColExtractFunctionSingleFileGenerator(rootPackageCommon),
+//            SyntheticSingleFileGenerator(rootPackageCommon),
+//            SyntheticSetSingleFileGenerator(rootPackageCommon),
+//            IEntityDataSingleFileGenerator(rootPackageCommon),
+//            EntityDataSingleFileGenerator(rootPackageCommon),
+//            SealedEntityDataSingleFileGenerator(rootPackageCommon),
+//            FkPairSingleFileGenerator(rootPackageCommon),
+//            FKMetaDataSingleFileGenerator(rootPackageCommon),
+//            UKEntityDataSingleFileGenerator(rootPackageCommon),
+//            IndexesMetaDtoSingleFileGenerator(rootPackageCommon),
+//            OriginEntityDataClassesGenerator(metaInformation, kspLogger),
+//            SyntheticEntityGenerator(metaInformation),
+//            ContextDataClassesGenerator(metaInformation),
+//            EntityMapGenerator(rootPackageCommon, metaInformation),
+//            ColumnEntityMapGenerator(rootPackageCommon, metaInformation),
+//            PumlGenerator(environment.codeGenerator, metaInformation),
+//            MetaInformationJsonGenerator(environment.codeGenerator, metaInformation),
+//            ForeignKeyMapGenerator(rootPackageCommon, metaInformation),
+//            UniqueKeyMapGenerator(rootPackageCommon, metaInformation),
+//        )
         runBlocking {
             listOf
                 .asFlow()

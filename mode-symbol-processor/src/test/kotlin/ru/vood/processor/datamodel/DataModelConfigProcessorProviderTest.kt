@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Disabled
 import ru.vood.processor.datamodel.abstraction.AbstractKoraAppProcessorTest
 
-@Disabled
+//@Disabled
 internal class DataModelConfigProcessorProviderTest: AbstractKoraAppProcessorTest() {
 
     @Test
