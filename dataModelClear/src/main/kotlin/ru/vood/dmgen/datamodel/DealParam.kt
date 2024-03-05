@@ -1,8 +1,6 @@
 package ru.vood.dmgen.datamodel
 
 import ru.vood.dmgen.annotation.*
-import ru.vood.dmgen.datamodel.deal.Deal
-import ru.vood.dmgen.datamodel.valueClasses.DealId
 
 @FlowEntity(FlowEntityType.INNER)
 @ForeignKey(
@@ -20,32 +18,11 @@ import ru.vood.dmgen.datamodel.valueClasses.DealId
 interface DealParamOneToOne {
     @Pk
     @Comment("Параметр сделки, отношение к сделке один к одному")
-    val dealId: DealId
+    val dealId: Int
+
     @Comment("Параметр сделки, отношение к сделке один к одному")
     val paramDate: String
 }
-
-@FlowEntity(FlowEntityType.INNER)
-@ForeignKey(
-//    value = DealParamOneToOne::class,
-    kClass = "ru.vood.dmgen.datamodel.DealParamOneToOne",
-    name = "InnerToDealParamOneToOne_DealParamOneToOne_FK",
-    cols = [ForeignKeyColumns("dealId", "dealId")],
-    foreignKeyType = ForeignKeyType.MANDATORY
-)
-@Uk(
-    "DealParamOneToOne_UK2",
-    ["dealId", "paramDate"]
-)
-@Comment("Параметр сделки, отношение к сделке один к одному")
-interface InnerToDealParamOneToOne {
-    @Pk
-    @Comment("Параметр сделки, отношение к сделке один к одному")
-    val dealId: DealId
-    @Comment("Параметр сделки, отношение к сделке один к одному")
-    val paramDate: String
-}
-
 
 @FlowEntity
 @ForeignKey(
@@ -59,7 +36,8 @@ interface InnerToDealParamOneToOne {
 interface DealParamOneToOneOptional {
     @Pk
     @Comment("Параметр сделки, отношение к сделке один к одному")
-    val dealId: DealId
+    val dealId: Int
+
     @Comment("Параметр сделки, отношение к сделке один к одному")
     val paramDate: String
 }
@@ -76,7 +54,7 @@ interface DealParamOneToOneOptional {
 interface DealParamSet {
     @Pk
     @Comment("Параметр сделки, отношение к сделке один к одному")
-    val dealId: DealId
+    val dealId: Int
 
     @Pk
     @Comment("Параметр сделки, отношение к сделке один к одному")

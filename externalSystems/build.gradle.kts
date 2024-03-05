@@ -14,7 +14,7 @@ repositories {
 val googleProtobufVersion = "3.19.3"
 dependencies {
     implementation(project(":core"))
-    implementation(project(":dataModel"))
+    implementation(project(":dataModelClear"))
     implementation(project(":grpc-common-client-server"))
 //    implementation("org.springframework.boot:spring-boot")
     implementation("org.springframework.boot:spring-boot-starter-webflux")

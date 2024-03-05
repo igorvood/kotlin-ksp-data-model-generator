@@ -12,7 +12,7 @@ class ReplyRunnerImpl(
 ) : IReplyRunner {
     override fun generateReply(sync: IIntegrationType, request: IProtoRequest): IProtoResponse {
 
-        val asdfds =  replyGenerator.generate(request.payloadClass, request.uk)
+        val asdfds =  replyGenerator.generate(1, request.payloadClass, request.uk)
 
         return when(sync){
             IIntegrationType.SYNC -> asdfds[0]

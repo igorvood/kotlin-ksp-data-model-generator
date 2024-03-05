@@ -13,7 +13,7 @@ internal class ReplyGeneratorImplTest {
     fun generate() {
 
 
-        replyGeneratorImpl.generate(UniqueKeyEnum.Deal_PK.name, mapOf("id" to "1") )
+        replyGeneratorImpl.generate(1, UniqueKeyEnum.Deal_PK.name, mapOf("id" to "1") )
 
     }
 }

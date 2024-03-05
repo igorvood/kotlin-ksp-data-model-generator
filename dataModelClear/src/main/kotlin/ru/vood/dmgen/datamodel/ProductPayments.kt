@@ -1,10 +1,6 @@
 package ru.vood.dmgen.datamodel
 
 import ru.vood.dmgen.annotation.*
-import ru.vood.dmgen.datamodel.deal.Deal
-import ru.vood.dmgen.datamodel.c.Product
-import ru.vood.dmgen.datamodel.noRelation.NoRelationData
-import ru.vood.dmgen.datamodel.valueClasses.DealId
 
 @FlowEntity(FlowEntityType.AGGREGATE)
 @ForeignKey(
@@ -32,7 +28,7 @@ interface ProductPayments {
 
     @Pk
     @Comment("Параметр сделки, отношение к сделке один к одному")
-    val dealId: DealId
+    val dealId: Int
 
     //    @Pk
     @Comment("Параметр сделки, отношение к сделке один к одному")
@@ -41,7 +37,5 @@ interface ProductPayments {
     @Comment("Параметр сделки, отношение к сделке один к одному")
     val summa: Long
 
-    @Comment("Параметр сделки, отношение к сделке один к одному")
-    val noRelationData: NoRelationData
 
 }

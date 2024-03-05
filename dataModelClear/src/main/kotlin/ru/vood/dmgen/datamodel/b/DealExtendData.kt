@@ -1,8 +1,6 @@
 package ru.vood.dmgen.datamodel.b
 
 import ru.vood.dmgen.annotation.*
-import ru.vood.dmgen.datamodel.deal.Deal
-import ru.vood.dmgen.datamodel.valueClasses.DealId
 
 @FlowEntity(FlowEntityType.AGGREGATE)
 @ForeignKey(
@@ -16,7 +14,7 @@ import ru.vood.dmgen.datamodel.valueClasses.DealId
 interface DealExtendData {
     @Pk
     @Comment("Это ее идентификатор")
-    val dealId: DealId
+    val dealId: Int
 
     @Comment("Параметр сделки, отношение к сделке один к одному")
     val extendData: String
