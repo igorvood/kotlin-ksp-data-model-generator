@@ -50,12 +50,20 @@ class FKMetaDataSingleFileGenerator(rootPackage: PackageName) : AbstractDataClas
             .addKdoc("Сущность к которой идет внешний ключ")
             .build()
 
-        val uk = PropertySpec.builder(
+        val ukTo = PropertySpec.builder(
             name = "ukTo",
             type = uniqueKeyEnum
         )
             .addKdoc("Имя уникального индекса из toEntity на которой нацелен внешний ключ")
             .build()
+        val ukFrom = PropertySpec.builder(
+            name = "ukFrom",
+            type = uniqueKeyEnum.copy(true)
+        )
+            .addKdoc("Имя уникального индекса из FromEntity из идет внешний ключ")
+            .build()
+
+
         val relationType = PropertySpec.builder(
             name = "relationType",
             type = CommonClassNames.relationType
@@ -77,7 +85,7 @@ class FKMetaDataSingleFileGenerator(rootPackage: PackageName) : AbstractDataClas
             .build()
 
 
-        val fkPairGeneratorPropertySpec = listOf(fromEntity, toEntity, uk, relationType, fkCols, сontextExtractor)
+        val fkPairGeneratorPropertySpec = listOf(fromEntity, toEntity, ukTo, ukFrom, relationType, fkCols, сontextExtractor)
 
         private val fkPairGeneratorPropertySpecCons = fkPairGeneratorPropertySpec
             .map { ps ->

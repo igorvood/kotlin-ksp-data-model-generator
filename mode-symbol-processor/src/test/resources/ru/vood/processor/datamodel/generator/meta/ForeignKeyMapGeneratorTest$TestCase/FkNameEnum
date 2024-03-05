@@ -40,6 +40,7 @@ public enum class FkNameEnum {
                   fromEntity = EntityEnum.DealParamaggregate,
                   toEntity = EntityEnum.Deal,
                   ukTo = UniqueKeyEnum.Deal_PK,
+                  ukFrom = null,
                   relationType = RelationType.ONE_TO_ONE_OPTIONAL,
                   fkCols = setOf(
                   FkPair(FullColumnNameEnum.DealParamaggregate_dealId, FullColumnNameEnum.Deal_id),
@@ -52,6 +53,7 @@ public enum class FkNameEnum {
                   fromEntity = EntityEnum.NoFKAndUk,
                   toEntity = EntityEnum.Deal,
                   ukTo = UniqueKeyEnum.Deal_PK,
+                  ukFrom = null,
                   relationType = RelationType.MANY_TO_ONE,
                   fkCols = setOf(
                   FkPair(FullColumnNameEnum.NoFKAndUk_dealId, FullColumnNameEnum.Deal_id),
@@ -64,6 +66,7 @@ public enum class FkNameEnum {
                   fromEntity = EntityEnum.OptionalDealParam,
                   toEntity = EntityEnum.Deal,
                   ukTo = UniqueKeyEnum.Deal_PK,
+                  ukFrom = null,
                   relationType = RelationType.ONE_TO_ONE_OPTIONAL,
                   fkCols = setOf(
                   FkPair(FullColumnNameEnum.OptionalDealParam_dealId, FullColumnNameEnum.Deal_id),
@@ -76,6 +79,7 @@ public enum class FkNameEnum {
                   fromEntity = EntityEnum.DealOneData,
                   toEntity = EntityEnum.OneOfDto,
                   ukTo = UniqueKeyEnum.OneOfDto_PK,
+                  ukFrom = null,
                   relationType = RelationType.ONE_TO_ONE_MANDATORY,
                   fkCols = setOf(
                   FkPair(FullColumnNameEnum.DealOneData_dealId, FullColumnNameEnum.OneOfDto_dealId),
@@ -88,6 +92,7 @@ public enum class FkNameEnum {
                   fromEntity = EntityEnum.DealTwoData,
                   toEntity = EntityEnum.OneOfDto,
                   ukTo = UniqueKeyEnum.OneOfDto_PK,
+                  ukFrom = null,
                   relationType = RelationType.ONE_TO_ONE_MANDATORY,
                   fkCols = setOf(
                   FkPair(FullColumnNameEnum.DealTwoData_dealId, FullColumnNameEnum.OneOfDto_dealId),
@@ -100,6 +105,7 @@ public enum class FkNameEnum {
                   fromEntity = EntityEnum.OneOfDto,
                   toEntity = EntityEnum.Deal,
                   ukTo = UniqueKeyEnum.Deal_PK,
+                  ukFrom = null,
                   relationType = RelationType.ONE_TO_ONE_MANDATORY,
                   fkCols = setOf(
                   FkPair(FullColumnNameEnum.OneOfDto_dealId, FullColumnNameEnum.Deal_id),

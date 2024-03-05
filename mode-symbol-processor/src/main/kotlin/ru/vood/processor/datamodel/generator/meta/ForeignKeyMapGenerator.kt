@@ -19,7 +19,8 @@ import ru.vood.processor.datamodel.generator.abstraction.AbstractSingleFileGener
 import ru.vood.processor.datamodel.generator.common.FKMetaDataSingleFileGenerator.Companion.fkCols
 import ru.vood.processor.datamodel.generator.common.FKMetaDataSingleFileGenerator.Companion.fromEntity
 import ru.vood.processor.datamodel.generator.common.FKMetaDataSingleFileGenerator.Companion.toEntity
-import ru.vood.processor.datamodel.generator.common.FKMetaDataSingleFileGenerator.Companion.uk
+import ru.vood.processor.datamodel.generator.common.FKMetaDataSingleFileGenerator.Companion.ukFrom
+import ru.vood.processor.datamodel.generator.common.FKMetaDataSingleFileGenerator.Companion.ukTo
 import ru.vood.processor.datamodel.generator.common.FKMetaDataSingleFileGenerator.Companion.сontextExtractor
 
 class ForeignKeyMapGenerator(
@@ -76,9 +77,14 @@ class ForeignKeyMapGenerator(
                         mf.toEntity.designPoetClassName.simpleName
                     )
                     .addStatement(
-                        "${uk.name} = %T.%L,",
+                        "${ukTo.name} = %T.%L,",
                         uniqueKeyEnum,
                         mf.uk.name.value
+                    )
+                    .addStatement(
+                        "${ukFrom.name} = null,",
+//                        uniqueKeyEnum,
+//                        mf.uk.name.value
                     )
                     .addStatement(
                         "${ru.vood.processor.datamodel.generator.common.FKMetaDataSingleFileGenerator.relationType.name} = %T.%L,",
