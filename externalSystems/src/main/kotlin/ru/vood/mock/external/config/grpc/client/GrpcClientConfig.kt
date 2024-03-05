@@ -16,7 +16,6 @@ class GrpcClientConfig(
 
     @Bean
     fun grpcManagedChannel(): ManagedChannel {
-
         return ManagedChannelBuilder
             .forAddress(grpcClientProp.host, grpcClientProp.port)
             .usePlaintext()
