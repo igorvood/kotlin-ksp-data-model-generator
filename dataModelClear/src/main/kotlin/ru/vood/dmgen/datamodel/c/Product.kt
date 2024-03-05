@@ -1,7 +1,7 @@
 package ru.vood.dmgen.datamodel.c
 
 import ru.vood.dmgen.annotation.*
-import ru.vood.dmgen.datamodel.a.Deal
+import ru.vood.dmgen.datamodel.deal.Deal
 import ru.vood.dmgen.datamodel.oneOf.DealOneOfData
 import ru.vood.dmgen.datamodel.valueClasses.DealId
 
@@ -9,7 +9,7 @@ import ru.vood.dmgen.datamodel.valueClasses.DealId
 @ForeignKey(
 
 //    value = Deal::class,
-    kClass = "ru.vood.dmgen.datamodel.a.Deal",
+    kClass = "ru.vood.dmgen.datamodel.deal.Deal",
     name = "Product_FK_1",
     cols = [ForeignKeyColumns("dealId", "id")],
     foreignKeyType = ForeignKeyType.OPTIONAL
