@@ -36,40 +36,40 @@ class FKMetaDataSingleFileGenerator(rootPackage: PackageName) : AbstractDataClas
 
 
     companion object {
-        private val fromEntity = PropertySpec.builder(
+        val fromEntity = PropertySpec.builder(
             name = "fromEntity",
             type = entityEnum
         )
             .addKdoc("Сущность из которой идет внешний ключ")
             .build()
 
-        private val toEntity = PropertySpec.builder(
+        val toEntity = PropertySpec.builder(
             name = "toEntity",
             type = entityEnum
         )
             .addKdoc("Сущность к которой идет внешний ключ")
             .build()
 
-        private val uk = PropertySpec.builder(
-            name = "uk",
+        val uk = PropertySpec.builder(
+            name = "ukTo",
             type = uniqueKeyEnum
         )
             .addKdoc("Имя уникального индекса из toEntity на которой нацелен внешний ключ")
             .build()
-        private val relationType = PropertySpec.builder(
+        val relationType = PropertySpec.builder(
             name = "relationType",
             type = CommonClassNames.relationType
         )
             .addKdoc("Тип связи TODO по идеи величина вычисляемая, сейчас задается разработчиком")
             .build()
-        private val fkCols = PropertySpec.builder(
+        val fkCols = PropertySpec.builder(
             name = "fkCols",
             type = SET.plusParameter(CommonClassNames.fkPair)
         )
             .addKdoc("Коллекция колонок входящих во внешний ключ ")
             .build()
 
-        private val сontextExtractor = PropertySpec.builder(
+        val сontextExtractor = PropertySpec.builder(
             name = "сontextExtractor",
             type = typeVariableFConOfIEntityOrigin
         )

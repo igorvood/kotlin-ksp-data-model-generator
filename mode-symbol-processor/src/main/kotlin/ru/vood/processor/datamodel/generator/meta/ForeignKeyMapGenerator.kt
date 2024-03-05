@@ -16,6 +16,11 @@ import ru.vood.model.generator.ksp.common.dto.PackageName
 import ru.vood.processor.datamodel.abstraction.model.MetaInformation
 import ru.vood.processor.datamodel.gen.CollectName
 import ru.vood.processor.datamodel.generator.abstraction.AbstractSingleFileGenerator
+import ru.vood.processor.datamodel.generator.common.FKMetaDataSingleFileGenerator.Companion.fkCols
+import ru.vood.processor.datamodel.generator.common.FKMetaDataSingleFileGenerator.Companion.fromEntity
+import ru.vood.processor.datamodel.generator.common.FKMetaDataSingleFileGenerator.Companion.toEntity
+import ru.vood.processor.datamodel.generator.common.FKMetaDataSingleFileGenerator.Companion.uk
+import ru.vood.processor.datamodel.generator.common.FKMetaDataSingleFileGenerator.Companion.сontextExtractor
 
 class ForeignKeyMapGenerator(
     rootPackage: PackageName,
@@ -61,27 +66,27 @@ class ForeignKeyMapGenerator(
                 )
                     .indent()
                     .addStatement(
-                        "fromEntity = %T.%L,",
+                        "${fromEntity.name} = %T.%L,",
                         entityEnum,
                         mf.fromEntity.designPoetClassName.simpleName
                     )
                     .addStatement(
-                        "toEntity = %T.%L,",
+                        "${toEntity.name} = %T.%L,",
                         entityEnum,
                         mf.toEntity.designPoetClassName.simpleName
                     )
                     .addStatement(
-                        "uk = %T.%L,",
+                        "${uk.name} = %T.%L,",
                         uniqueKeyEnum,
                         mf.uk.name.value
                     )
                     .addStatement(
-                        "relationType = %T.%L,",
+                        "${ru.vood.processor.datamodel.generator.common.FKMetaDataSingleFileGenerator.relationType.name} = %T.%L,",
                         relationType,
                         mf.relationType.name
                     )
                 cb.addStatement(
-                    "fkCols = setOf(",
+                    "${fkCols.name} = setOf(",
                 )
 
                 mf.fkCols
@@ -100,7 +105,7 @@ class ForeignKeyMapGenerator(
 
                 cb.addStatement("),")
                 cb.addStatement(
-                    "сontextExtractor = {data: %T -> %T(",
+                    "${сontextExtractor.name} = {data: %T -> %T(",
                     CollectName.entityClassName(mf.fromEntity.designPoetClassName),
                     CollectName.ukClassName(mf.toEntity.designPoetClassName, mf.uk.name)
                 )

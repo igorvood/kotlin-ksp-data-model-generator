@@ -63,7 +63,7 @@ class ReplyGeneratorImpl : IReplyGenerator {
                             }
                                 .toMap()
 
-                            genRecursive(1, fkMetaData.uk.name, newUk)
+                            genRecursive(1, fkMetaData.ukTo.name, newUk)
                         }
                         RelationType.MANY_TO_ONE, RelationType.ONE_TO_ONE_OPTIONAL -> error("relation type ${fkMetaData.relationType} not supported for column ${sced.simpleColumnName.value}")
                     }

@@ -251,7 +251,7 @@ class EntityDaoController(
                 val ukSerializer = ukEntityData.serializer as KSerializer<Any>
                 val encodeToString =
                     UKJsonVal(serializer.modelJsonSerializer.encodeToString(ukSerializer, parentContextValue))
-                entityUkDao.existUk(fkEntityData.uk, encodeToString.value)
+                entityUkDao.existUk(fkEntityData.ukTo, encodeToString.value)
             }
     }
 
