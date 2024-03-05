@@ -1,4 +1,5 @@
 {
+{
     "metaEntity": {
         "designPoetClassName": {
             "packageName": "ru.vood.dmgen.datamodel.a",
@@ -46821,7 +46822,6 @@
             ]
         }
     ],
-    "parent": null,
     "metaForeignKeys": [
         {
             "name": "DealParamOneToOne_Deal_FK",

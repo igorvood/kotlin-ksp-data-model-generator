@@ -11,6 +11,7 @@ data class MetaForeignKeyTemporary(
     val toEntity: MetaEntity,
     val fkCols: Set<FkCol>,
     val uk: UkDto,
+    val ukFrom: UkDto?,
     val foreignKeyType: ForeignKeyType,
 )
 
@@ -21,6 +22,7 @@ data class MetaForeignKey(
     val toEntity: MetaEntity,
     val fkCols: Set<FkCol>,
     val uk: UkDto,
+    val ukFrom: UkDto?,
     val relationType: RelationType,
 ) {
     constructor(
@@ -32,6 +34,7 @@ data class MetaForeignKey(
         metaForeignKeyTemporary.toEntity,
         metaForeignKeyTemporary.fkCols,
         metaForeignKeyTemporary.uk,
+        metaForeignKeyTemporary.ukFrom,
         relationType
     )
 

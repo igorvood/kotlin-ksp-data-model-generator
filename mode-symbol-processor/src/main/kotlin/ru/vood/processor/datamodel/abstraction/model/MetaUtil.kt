@@ -6,6 +6,7 @@ import com.google.devtools.ksp.symbol.KSClassDeclaration
 import ru.vood.dmgen.annotation.ForeignKeyType
 import ru.vood.dmgen.dto.RelationType
 import ru.vood.processor.datamodel.abstraction.model.dto.ModelClassName
+import ru.vood.processor.datamodel.abstraction.model.dto.UkDto
 
 /**Собирает мету по колонкам */
 fun metaEntityColumns(
@@ -100,7 +101,7 @@ tailrec fun collectMetaForeignKey(
                     список подходящих ключей-> ${uks.map { it.key.name.value }}"""
                 )
             } else {
-                uks.entries.first().key
+                UkToFrom(uks.entries.first().key, null)
             }
 
             val fkCols = fromCols.withIndex()
@@ -114,7 +115,8 @@ tailrec fun collectMetaForeignKey(
                     fromEntity = entities[fromMetaEntityClassName]!!,
                     toEntity = foreignMetaEntity,
                     fkCols = fkCols,
-                    uk = ukDto,
+                    uk = ukDto.to,
+                    ukFrom = null,
                     foreignKeyType = foreignKey.foreignKeyType
                 )
 
@@ -135,6 +137,8 @@ tailrec fun collectMetaForeignKey(
         }
     }
 }
+
+data class UkToFrom(val to: UkDto, val from: UkDto?)
 
 private fun fkAssert(
     fromCols: List<MetaEntityColumn>,

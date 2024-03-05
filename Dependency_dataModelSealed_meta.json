@@ -8336,7 +8336,6 @@
             ]
         }
     ],
-    "parent": null,
     "metaForeignKeys": [
         {
             "name": "DealParamaggregate_FK",
