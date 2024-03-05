@@ -59,6 +59,7 @@ tailrec fun collectMetaForeignKey(
             val fromMetaEntityClassName = head.second
             val toMetaEntityClassName = ModelClassName(foreignKey.kClass.canonicalName)
 
+
             //вы таскиваю мету по колонкам сущности из которой форен идет
             val colsFromAnnotation = foreignKey.cols
                 .map { a -> a.currentColName }.toTypedArray()
@@ -84,8 +85,8 @@ tailrec fun collectMetaForeignKey(
             fkAssert(fromCols, toCols, foreignKey)
 
             // поиск уникального ключа по которому указывает форен
-            val foreignMetaEntity = entities[toMetaEntityClassName]!!
-            val uks = foreignMetaEntity.uniqueKeysFields
+            val toForeignMetaEntity = entities[toMetaEntityClassName]!!
+            val uks = toForeignMetaEntity.uniqueKeysFields
                 .filter { uksEntry ->
 
                     val ukCols = uksEntry.value.map { it.name }
@@ -93,15 +94,30 @@ tailrec fun collectMetaForeignKey(
                     val b = ukCols.minus(fkCols).isEmpty() && fkCols.minus(ukCols).isEmpty()
                     b
                 }
+            val fromMetaEntity = entities[fromMetaEntityClassName]!!
             val ukDto = if (uks.size != 1) {
-                error(
+                logger.kspError(
                     """У сущности ${fromMetaEntityClassName.value} 
                     для внешнего ключа $foreignKey 
                     во внешней таблице должен быть строго один уникальный ключ
-                    список подходящих ключей-> ${uks.map { it.key.name.value }}"""
+                    список подходящих ключей-> ${uks.map { it.key.name.value }}""",
+                    fromMetaEntity.ksAnnotated
                 )
             } else {
-                UkToFrom(uks.entries.first().key, null)
+
+                val fromUks = fromMetaEntity.uniqueKeysFields
+                    .filter { qwe ->
+                        qwe.value
+
+                        false
+                    }
+                val toUk = uks.entries.first().key
+
+                val fromUk = if (fromUks.values.size == 1) {
+                    fromUks.keys.first()
+                } else null
+
+                UkToFrom(toUk, fromUk)
             }
 
             val fkCols = fromCols.withIndex()
@@ -112,11 +128,11 @@ tailrec fun collectMetaForeignKey(
             val element =
                 MetaForeignKeyTemporary(
                     name = ForeignKeyName(value = foreignKey.name),
-                    fromEntity = entities[fromMetaEntityClassName]!!,
-                    toEntity = foreignMetaEntity,
+                    fromEntity = fromMetaEntity,
+                    toEntity = toForeignMetaEntity,
                     fkCols = fkCols,
                     uk = ukDto.to,
-                    ukFrom = null,
+                    ukFrom = ukDto.from,
                     foreignKeyType = foreignKey.foreignKeyType
                 )
 
