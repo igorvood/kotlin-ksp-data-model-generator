@@ -1,6 +1,8 @@
 package ru.vood.mock.external.reply
 
 import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.JsonObject
+import kotlinx.serialization.json.JsonObjectBuilder
 import org.springframework.stereotype.Service
 import ru.vood.dmgen.datamodel.metaEnum.EntityEnum
 import ru.vood.dmgen.datamodel.metaEnum.FullColumnNameEnum
@@ -15,6 +17,11 @@ class ReplyGeneratorImpl : IReplyGenerator {
         val entityEnum = uniqueKeyMap[UniqueKeyEnum.valueOf(payloadClass)]!!.entity
 
         val map = FullColumnNameEnum.values().filter { it.columnData().entity == entityEnum }.map { it.columnData() }
+
+        val jsonObject = JsonObject
+        map.forEach {cd ->
+
+        }
 
 
         Json {  }

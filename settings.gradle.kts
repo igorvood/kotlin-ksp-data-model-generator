@@ -26,6 +26,7 @@ include(":mode-symbol-processor")
 
 include(":dataModelSealed")
 include(":dataModel")
+include(":dataModelClear")
 
 include(":workload")
 include(":grpc-common-client-server")
