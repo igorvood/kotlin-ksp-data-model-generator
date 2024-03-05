@@ -1,13 +1,16 @@
 syntax = "proto3";
 option java_multiple_files = true;
 package ru.vood.grpc.example.v1;
+import "google/protobuf/empty.proto";
 
-message ProtoDto {
+
+message ProtoRequest {
   string payloadClass = 1;
-  string payload = 2;
+  map<string, string> uk = 2;
+  string payload = 3;
 }
 
-message ProtoDtoRs {
+message ProtoResponse {
   string payloadClass = 1;
   oneof data {
     string payload = 2;
@@ -15,9 +18,30 @@ message ProtoDtoRs {
   }
 }
 
-service GrpcService{
-  rpc executeOneRqOneRs(ProtoDto) returns (ProtoDtoRs);
+message AsyncProtoRequest {
+  string rqId = 1;
+  string payloadClass = 2;
+  map<string, string> uk = 3;
+  string payload = 4;
+}
 
-  rpc executeOneRqManyRs(ProtoDto) returns (stream ProtoDtoRs);
+message AsyncProtoResponse {
+  string rqId = 1;
+  string payloadClass = 2;
+  oneof data {
+    string payload = 3;
+    string payloadErr = 4;
+  }
+}
+
+
+service GrpcService{
+  rpc executeOneRqOneRs(ProtoRequest) returns (ProtoResponse);
+
+  rpc executeOneRqManyRs(ProtoRequest) returns (stream ProtoResponse);
+
+  rpc asyncRequest(AsyncProtoRequest) returns (google.protobuf.Empty);
+
+  rpc asyncResponse(AsyncProtoResponse) returns (google.protobuf.Empty);
 
 }

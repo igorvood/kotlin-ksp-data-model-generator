@@ -8,10 +8,11 @@ repositories {
 
 plugins {
     kotlin("jvm")
-    kotlin("plugin.serialization")
     id("com.google.protobuf") version "0.9.4"
 }
-
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+}
 
 val protobufVersion = "3.10.0"
 val grpcVersion = "1.60.1"

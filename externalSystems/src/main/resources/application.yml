@@ -1,0 +1,6 @@
+grpc:
+  client:
+    host: localhost
+    port: 50551
+  server:
+    port: 50552

@@ -28,7 +28,9 @@ include(":dataModelSealed")
 include(":dataModel")
 
 include(":workload")
-//include(":grpc-common-client-server")
+include(":grpc-common-client-server")
+include(":externalSystems")
+
 
 
 
