@@ -32,7 +32,6 @@ internal class DataModelConfigProcessorProviderTest :
         val symbolProcessorProvider = symbolProcessors[0] as DataModelConfigProcessorProvider
         val metaInformation = symbolProcessorProvider.dataModelConfigProcessor.metaInformation
 
-
         assertFks(metaInformation.metaForeignKeys)
 
         Assertions.assertEquals(
