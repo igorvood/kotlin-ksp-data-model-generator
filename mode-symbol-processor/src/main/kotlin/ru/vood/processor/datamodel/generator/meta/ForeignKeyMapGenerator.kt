@@ -81,12 +81,18 @@ class ForeignKeyMapGenerator(
                         uniqueKeyEnum,
                         mf.uk.name.value
                     )
+
+                mf.ukFrom?.name?.value?.let { qww -> cb
+                    .addStatement(
+                        "${ukFrom.name} = %T.%L,",
+                        uniqueKeyEnum,
+                        qww
+                    ) }?: cb
                     .addStatement(
                         "${ukFrom.name} = null,",
-//                        uniqueKeyEnum,
-//                        mf.uk.name.value
                     )
-                    .addStatement(
+
+                cb.addStatement(
                         "${ru.vood.processor.datamodel.generator.common.FKMetaDataSingleFileGenerator.relationType.name} = %T.%L,",
                         relationType,
                         mf.relationType.name

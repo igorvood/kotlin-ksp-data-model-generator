@@ -105,19 +105,27 @@ tailrec fun collectMetaForeignKey(
                 )
             } else {
 
-                val fromUks = fromMetaEntity.uniqueKeysFields
-                    .filter { qwe ->
-                        qwe.value
+                val fromUksOneToOne = fromMetaEntity.uniqueKeysFields
+                    .filter { entry ->
+                        val ukCols = entry.value.map { mc -> mc.name.value }.sorted()
+                        val fkCols = foreignKey.cols.map { acol -> acol.currentColName }.sorted()
 
-                        false
+                        ukCols.minus(fkCols).isEmpty() && fkCols.minus(ukCols).isEmpty()
                     }
+
+                val fromUksManyToOne = fromMetaEntity.uniqueKeysFields
+                    .filter { entry ->
+                        val ukCols = entry.value.map { mc -> mc.name.value }.sorted()
+                        val fkCols = foreignKey.cols.map { acol -> acol.currentColName }.sorted()
+
+                        ukCols.minus(fkCols).isNotEmpty() && fkCols.minus(ukCols).isEmpty()
+                    }
+
                 val toUk = uks.entries.first().key
 
-                val fromUk = if (fromUks.values.size == 1) {
-                    fromUks.keys.first()
-                } else null
 
-                UkToFrom(toUk, fromUk)
+
+                UkToFrom(toUk, onlyOneOrNull(fromUksOneToOne)?: onlyOneOrNull(fromUksManyToOne))
             }
 
             val fkCols = fromCols.withIndex()
@@ -152,6 +160,13 @@ tailrec fun collectMetaForeignKey(
             collectMetaForeignKey(elementsAnnotatedWith1, entities, plus, logger)
         }
     }
+}
+
+private fun onlyOneOrNull(fromUksOneToOne: Map<UkDto, List<MetaEntityColumn>>): UkDto? {
+    val fromUkOneToOne = if (fromUksOneToOne.values.size == 1) {
+        fromUksOneToOne.keys.first()
+    } else null
+    return fromUkOneToOne
 }
 
 data class UkToFrom(val to: UkDto, val from: UkDto?)

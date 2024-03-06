@@ -799,6 +799,13 @@
                                 ],
                                 "typeUk": "PK"
                             },
+                            "ukFrom": {
+                                "name": "DealParamOneToOne_PK",
+                                "cols": [
+                                    "dealId"
+                                ],
+                                "typeUk": "PK"
+                            },
                             "relationType": "ONE_TO_ONE_MANDATORY"
                         },
                         {
@@ -1098,6 +1105,13 @@
                                 ],
                                 "typeUk": "PK"
                             },
+                            "ukFrom": {
+                                "name": "InnerToDealParamOneToOne_PK",
+                                "cols": [
+                                    "dealId"
+                                ],
+                                "typeUk": "PK"
+                            },
                             "relationType": "ONE_TO_ONE_MANDATORY"
                         },
                         {
@@ -1348,6 +1362,13 @@
                                 "name": "Deal_PK",
                                 "cols": [
                                     "id"
+                                ],
+                                "typeUk": "PK"
+                            },
+                            "ukFrom": {
+                                "name": "DealParamOneToOneOptional_PK",
+                                "cols": [
+                                    "dealId"
                                 ],
                                 "typeUk": "PK"
                             },
@@ -1638,6 +1659,14 @@
                             "uk": {
                                 "name": "Deal_PK",
                                 "cols": [
+                                    "id"
+                                ],
+                                "typeUk": "PK"
+                            },
+                            "ukFrom": {
+                                "name": "DealParamSet_PK",
+                                "cols": [
+                                    "dealId",
                                     "id"
                                 ],
                                 "typeUk": "PK"
@@ -1972,6 +2001,14 @@
                                 "name": "Deal_PK",
                                 "cols": [
                                     "id"
+                                ],
+                                "typeUk": "PK"
+                            },
+                            "ukFrom": {
+                                "name": "ProductPayments_PK",
+                                "cols": [
+                                    "productId",
+                                    "dealId"
                                 ],
                                 "typeUk": "PK"
                             },
@@ -2517,6 +2554,14 @@
                                 ],
                                 "typeUk": "PK"
                             },
+                            "ukFrom": {
+                                "name": "ProductPayments_PK",
+                                "cols": [
+                                    "productId",
+                                    "dealId"
+                                ],
+                                "typeUk": "PK"
+                            },
                             "relationType": "ONE_TO_ONE_OPTIONAL"
                         },
                         {
@@ -2767,6 +2812,13 @@
                                 "name": "Deal_PK",
                                 "cols": [
                                     "id"
+                                ],
+                                "typeUk": "PK"
+                            },
+                            "ukFrom": {
+                                "name": "DealExtendData_PK",
+                                "cols": [
+                                    "dealId"
                                 ],
                                 "typeUk": "PK"
                             },
@@ -3480,6 +3532,13 @@
                                 ],
                                 "typeUk": "PK"
                             },
+                            "ukFrom": {
+                                "name": "OneOfDto_PK",
+                                "cols": [
+                                    "dealId"
+                                ],
+                                "typeUk": "PK"
+                            },
                             "relationType": "ONE_TO_ONE_OPTIONAL"
                         },
                         {
@@ -3694,6 +3753,13 @@
                             ],
                             "uk": {
                                 "name": "OneOfDto_PK",
+                                "cols": [
+                                    "dealId"
+                                ],
+                                "typeUk": "PK"
+                            },
+                            "ukFrom": {
+                                "name": "DealOneOfData_PK",
                                 "cols": [
                                     "dealId"
                                 ],
@@ -3918,6 +3984,13 @@
                                 ],
                                 "typeUk": "PK"
                             },
+                            "ukFrom": {
+                                "name": "DealOneData_PK",
+                                "cols": [
+                                    "dealId"
+                                ],
+                                "typeUk": "PK"
+                            },
                             "relationType": "ONE_TO_ONE_MANDATORY"
                         },
                         {
@@ -4132,6 +4205,13 @@
                             ],
                             "uk": {
                                 "name": "DealOneOfData_PK",
+                                "cols": [
+                                    "dealId"
+                                ],
+                                "typeUk": "PK"
+                            },
+                            "ukFrom": {
+                                "name": "DealTwoData_PK",
                                 "cols": [
                                     "dealId"
                                 ],
@@ -4546,6 +4626,13 @@
                         ],
                         "typeUk": "PK"
                     },
+                    "ukFrom": {
+                        "name": "DealParamOneToOne_PK",
+                        "cols": [
+                            "dealId"
+                        ],
+                        "typeUk": "PK"
+                    },
                     "relationType": "ONE_TO_ONE_MANDATORY"
                 },
                 {
@@ -4845,6 +4932,13 @@
                         ],
                         "typeUk": "PK"
                     },
+                    "ukFrom": {
+                        "name": "InnerToDealParamOneToOne_PK",
+                        "cols": [
+                            "dealId"
+                        ],
+                        "typeUk": "PK"
+                    },
                     "relationType": "ONE_TO_ONE_MANDATORY"
                 },
                 {
@@ -5095,6 +5189,13 @@
                         "name": "Deal_PK",
                         "cols": [
                             "id"
+                        ],
+                        "typeUk": "PK"
+                    },
+                    "ukFrom": {
+                        "name": "DealParamOneToOneOptional_PK",
+                        "cols": [
+                            "dealId"
                         ],
                         "typeUk": "PK"
                     },
@@ -5385,6 +5486,14 @@
                     "uk": {
                         "name": "Deal_PK",
                         "cols": [
+                            "id"
+                        ],
+                        "typeUk": "PK"
+                    },
+                    "ukFrom": {
+                        "name": "DealParamSet_PK",
+                        "cols": [
+                            "dealId",
                             "id"
                         ],
                         "typeUk": "PK"
@@ -5719,6 +5828,14 @@
                         "name": "Deal_PK",
                         "cols": [
                             "id"
+                        ],
+                        "typeUk": "PK"
+                    },
+                    "ukFrom": {
+                        "name": "ProductPayments_PK",
+                        "cols": [
+                            "productId",
+                            "dealId"
                         ],
                         "typeUk": "PK"
                     },
@@ -6264,6 +6381,14 @@
                         ],
                         "typeUk": "PK"
                     },
+                    "ukFrom": {
+                        "name": "ProductPayments_PK",
+                        "cols": [
+                            "productId",
+                            "dealId"
+                        ],
+                        "typeUk": "PK"
+                    },
                     "relationType": "ONE_TO_ONE_OPTIONAL"
                 },
                 {
@@ -6514,6 +6639,13 @@
                         "name": "Deal_PK",
                         "cols": [
                             "id"
+                        ],
+                        "typeUk": "PK"
+                    },
+                    "ukFrom": {
+                        "name": "DealExtendData_PK",
+                        "cols": [
+                            "dealId"
                         ],
                         "typeUk": "PK"
                     },
@@ -7227,6 +7359,13 @@
                         ],
                         "typeUk": "PK"
                     },
+                    "ukFrom": {
+                        "name": "OneOfDto_PK",
+                        "cols": [
+                            "dealId"
+                        ],
+                        "typeUk": "PK"
+                    },
                     "relationType": "ONE_TO_ONE_OPTIONAL"
                 },
                 {
@@ -7441,6 +7580,13 @@
                     ],
                     "uk": {
                         "name": "OneOfDto_PK",
+                        "cols": [
+                            "dealId"
+                        ],
+                        "typeUk": "PK"
+                    },
+                    "ukFrom": {
+                        "name": "DealOneOfData_PK",
                         "cols": [
                             "dealId"
                         ],
@@ -7665,6 +7811,13 @@
                         ],
                         "typeUk": "PK"
                     },
+                    "ukFrom": {
+                        "name": "DealOneData_PK",
+                        "cols": [
+                            "dealId"
+                        ],
+                        "typeUk": "PK"
+                    },
                     "relationType": "ONE_TO_ONE_MANDATORY"
                 },
                 {
@@ -7879,6 +8032,13 @@
                     ],
                     "uk": {
                         "name": "DealOneOfData_PK",
+                        "cols": [
+                            "dealId"
+                        ],
+                        "typeUk": "PK"
+                    },
+                    "ukFrom": {
+                        "name": "DealTwoData_PK",
                         "cols": [
                             "dealId"
                         ],
@@ -8391,6 +8551,13 @@
                         ],
                         "typeUk": "PK"
                     },
+                    "ukFrom": {
+                        "name": "DealParamOneToOne_PK",
+                        "cols": [
+                            "dealId"
+                        ],
+                        "typeUk": "PK"
+                    },
                     "relationType": "ONE_TO_ONE_MANDATORY"
                 },
                 {
@@ -8690,6 +8857,13 @@
                         ],
                         "typeUk": "PK"
                     },
+                    "ukFrom": {
+                        "name": "InnerToDealParamOneToOne_PK",
+                        "cols": [
+                            "dealId"
+                        ],
+                        "typeUk": "PK"
+                    },
                     "relationType": "ONE_TO_ONE_MANDATORY"
                 },
                 {
@@ -8940,6 +9114,13 @@
                         "name": "Deal_PK",
                         "cols": [
                             "id"
+                        ],
+                        "typeUk": "PK"
+                    },
+                    "ukFrom": {
+                        "name": "DealParamOneToOneOptional_PK",
+                        "cols": [
+                            "dealId"
                         ],
                         "typeUk": "PK"
                     },
@@ -9230,6 +9411,14 @@
                     "uk": {
                         "name": "Deal_PK",
                         "cols": [
+                            "id"
+                        ],
+                        "typeUk": "PK"
+                    },
+                    "ukFrom": {
+                        "name": "DealParamSet_PK",
+                        "cols": [
+                            "dealId",
                             "id"
                         ],
                         "typeUk": "PK"
@@ -9564,6 +9753,14 @@
                         "name": "Deal_PK",
                         "cols": [
                             "id"
+                        ],
+                        "typeUk": "PK"
+                    },
+                    "ukFrom": {
+                        "name": "ProductPayments_PK",
+                        "cols": [
+                            "productId",
+                            "dealId"
                         ],
                         "typeUk": "PK"
                     },
@@ -10109,6 +10306,14 @@
                         ],
                         "typeUk": "PK"
                     },
+                    "ukFrom": {
+                        "name": "ProductPayments_PK",
+                        "cols": [
+                            "productId",
+                            "dealId"
+                        ],
+                        "typeUk": "PK"
+                    },
                     "relationType": "ONE_TO_ONE_OPTIONAL"
                 },
                 {
@@ -10359,6 +10564,13 @@
                         "name": "Deal_PK",
                         "cols": [
                             "id"
+                        ],
+                        "typeUk": "PK"
+                    },
+                    "ukFrom": {
+                        "name": "DealExtendData_PK",
+                        "cols": [
+                            "dealId"
                         ],
                         "typeUk": "PK"
                     },
@@ -11072,6 +11284,13 @@
                         ],
                         "typeUk": "PK"
                     },
+                    "ukFrom": {
+                        "name": "OneOfDto_PK",
+                        "cols": [
+                            "dealId"
+                        ],
+                        "typeUk": "PK"
+                    },
                     "relationType": "ONE_TO_ONE_OPTIONAL"
                 },
                 {
@@ -11286,6 +11505,13 @@
                     ],
                     "uk": {
                         "name": "OneOfDto_PK",
+                        "cols": [
+                            "dealId"
+                        ],
+                        "typeUk": "PK"
+                    },
+                    "ukFrom": {
+                        "name": "DealOneOfData_PK",
                         "cols": [
                             "dealId"
                         ],
@@ -11510,6 +11736,13 @@
                         ],
                         "typeUk": "PK"
                     },
+                    "ukFrom": {
+                        "name": "DealOneData_PK",
+                        "cols": [
+                            "dealId"
+                        ],
+                        "typeUk": "PK"
+                    },
                     "relationType": "ONE_TO_ONE_MANDATORY"
                 },
                 {
@@ -11724,6 +11957,13 @@
                     ],
                     "uk": {
                         "name": "DealOneOfData_PK",
+                        "cols": [
+                            "dealId"
+                        ],
+                        "typeUk": "PK"
+                    },
+                    "ukFrom": {
+                        "name": "DealTwoData_PK",
                         "cols": [
                             "dealId"
                         ],
@@ -12274,6 +12514,13 @@
                         ],
                         "typeUk": "PK"
                     },
+                    "ukFrom": {
+                        "name": "DealParamOneToOne_PK",
+                        "cols": [
+                            "dealId"
+                        ],
+                        "typeUk": "PK"
+                    },
                     "relationType": "ONE_TO_ONE_MANDATORY"
                 },
                 {
@@ -12573,6 +12820,13 @@
                         ],
                         "typeUk": "PK"
                     },
+                    "ukFrom": {
+                        "name": "InnerToDealParamOneToOne_PK",
+                        "cols": [
+                            "dealId"
+                        ],
+                        "typeUk": "PK"
+                    },
                     "relationType": "ONE_TO_ONE_MANDATORY"
                 },
                 {
@@ -12823,6 +13077,13 @@
                         "name": "Deal_PK",
                         "cols": [
                             "id"
+                        ],
+                        "typeUk": "PK"
+                    },
+                    "ukFrom": {
+                        "name": "DealParamOneToOneOptional_PK",
+                        "cols": [
+                            "dealId"
                         ],
                         "typeUk": "PK"
                     },
@@ -13113,6 +13374,14 @@
                     "uk": {
                         "name": "Deal_PK",
                         "cols": [
+                            "id"
+                        ],
+                        "typeUk": "PK"
+                    },
+                    "ukFrom": {
+                        "name": "DealParamSet_PK",
+                        "cols": [
+                            "dealId",
                             "id"
                         ],
                         "typeUk": "PK"
@@ -13447,6 +13716,14 @@
                         "name": "Deal_PK",
                         "cols": [
                             "id"
+                        ],
+                        "typeUk": "PK"
+                    },
+                    "ukFrom": {
+                        "name": "ProductPayments_PK",
+                        "cols": [
+                            "productId",
+                            "dealId"
                         ],
                         "typeUk": "PK"
                     },
@@ -13992,6 +14269,14 @@
                         ],
                         "typeUk": "PK"
                     },
+                    "ukFrom": {
+                        "name": "ProductPayments_PK",
+                        "cols": [
+                            "productId",
+                            "dealId"
+                        ],
+                        "typeUk": "PK"
+                    },
                     "relationType": "ONE_TO_ONE_OPTIONAL"
                 },
                 {
@@ -14242,6 +14527,13 @@
                         "name": "Deal_PK",
                         "cols": [
                             "id"
+                        ],
+                        "typeUk": "PK"
+                    },
+                    "ukFrom": {
+                        "name": "DealExtendData_PK",
+                        "cols": [
+                            "dealId"
                         ],
                         "typeUk": "PK"
                     },
@@ -14955,6 +15247,13 @@
                         ],
                         "typeUk": "PK"
                     },
+                    "ukFrom": {
+                        "name": "OneOfDto_PK",
+                        "cols": [
+                            "dealId"
+                        ],
+                        "typeUk": "PK"
+                    },
                     "relationType": "ONE_TO_ONE_OPTIONAL"
                 },
                 {
@@ -15169,6 +15468,13 @@
                     ],
                     "uk": {
                         "name": "OneOfDto_PK",
+                        "cols": [
+                            "dealId"
+                        ],
+                        "typeUk": "PK"
+                    },
+                    "ukFrom": {
+                        "name": "DealOneOfData_PK",
                         "cols": [
                             "dealId"
                         ],
@@ -15393,6 +15699,13 @@
                         ],
                         "typeUk": "PK"
                     },
+                    "ukFrom": {
+                        "name": "DealOneData_PK",
+                        "cols": [
+                            "dealId"
+                        ],
+                        "typeUk": "PK"
+                    },
                     "relationType": "ONE_TO_ONE_MANDATORY"
                 },
                 {
@@ -15607,6 +15920,13 @@
                     ],
                     "uk": {
                         "name": "DealOneOfData_PK",
+                        "cols": [
+                            "dealId"
+                        ],
+                        "typeUk": "PK"
+                    },
+                    "ukFrom": {
+                        "name": "DealTwoData_PK",
                         "cols": [
                             "dealId"
                         ],
@@ -16199,6 +16519,13 @@
                         ],
                         "typeUk": "PK"
                     },
+                    "ukFrom": {
+                        "name": "DealParamOneToOne_PK",
+                        "cols": [
+                            "dealId"
+                        ],
+                        "typeUk": "PK"
+                    },
                     "relationType": "ONE_TO_ONE_MANDATORY"
                 },
                 {
@@ -16498,6 +16825,13 @@
                         ],
                         "typeUk": "PK"
                     },
+                    "ukFrom": {
+                        "name": "InnerToDealParamOneToOne_PK",
+                        "cols": [
+                            "dealId"
+                        ],
+                        "typeUk": "PK"
+                    },
                     "relationType": "ONE_TO_ONE_MANDATORY"
                 },
                 {
@@ -16748,6 +17082,13 @@
                         "name": "Deal_PK",
                         "cols": [
                             "id"
+                        ],
+                        "typeUk": "PK"
+                    },
+                    "ukFrom": {
+                        "name": "DealParamOneToOneOptional_PK",
+                        "cols": [
+                            "dealId"
                         ],
                         "typeUk": "PK"
                     },
@@ -17038,6 +17379,14 @@
                     "uk": {
                         "name": "Deal_PK",
                         "cols": [
+                            "id"
+                        ],
+                        "typeUk": "PK"
+                    },
+                    "ukFrom": {
+                        "name": "DealParamSet_PK",
+                        "cols": [
+                            "dealId",
                             "id"
                         ],
                         "typeUk": "PK"
@@ -17372,6 +17721,14 @@
                         "name": "Deal_PK",
                         "cols": [
                             "id"
+                        ],
+                        "typeUk": "PK"
+                    },
+                    "ukFrom": {
+                        "name": "ProductPayments_PK",
+                        "cols": [
+                            "productId",
+                            "dealId"
                         ],
                         "typeUk": "PK"
                     },
@@ -17917,6 +18274,14 @@
                         ],
                         "typeUk": "PK"
                     },
+                    "ukFrom": {
+                        "name": "ProductPayments_PK",
+                        "cols": [
+                            "productId",
+                            "dealId"
+                        ],
+                        "typeUk": "PK"
+                    },
                     "relationType": "ONE_TO_ONE_OPTIONAL"
                 },
                 {
@@ -18167,6 +18532,13 @@
                         "name": "Deal_PK",
                         "cols": [
                             "id"
+                        ],
+                        "typeUk": "PK"
+                    },
+                    "ukFrom": {
+                        "name": "DealExtendData_PK",
+                        "cols": [
+                            "dealId"
                         ],
                         "typeUk": "PK"
                     },
@@ -18880,6 +19252,13 @@
                         ],
                         "typeUk": "PK"
                     },
+                    "ukFrom": {
+                        "name": "OneOfDto_PK",
+                        "cols": [
+                            "dealId"
+                        ],
+                        "typeUk": "PK"
+                    },
                     "relationType": "ONE_TO_ONE_OPTIONAL"
                 },
                 {
@@ -19094,6 +19473,13 @@
                     ],
                     "uk": {
                         "name": "OneOfDto_PK",
+                        "cols": [
+                            "dealId"
+                        ],
+                        "typeUk": "PK"
+                    },
+                    "ukFrom": {
+                        "name": "DealOneOfData_PK",
                         "cols": [
                             "dealId"
                         ],
@@ -19318,6 +19704,13 @@
                         ],
                         "typeUk": "PK"
                     },
+                    "ukFrom": {
+                        "name": "DealOneData_PK",
+                        "cols": [
+                            "dealId"
+                        ],
+                        "typeUk": "PK"
+                    },
                     "relationType": "ONE_TO_ONE_MANDATORY"
                 },
                 {
@@ -19532,6 +19925,13 @@
                     ],
                     "uk": {
                         "name": "DealOneOfData_PK",
+                        "cols": [
+                            "dealId"
+                        ],
+                        "typeUk": "PK"
+                    },
+                    "ukFrom": {
+                        "name": "DealTwoData_PK",
                         "cols": [
                             "dealId"
                         ],
@@ -20044,6 +20444,13 @@
                         ],
                         "typeUk": "PK"
                     },
+                    "ukFrom": {
+                        "name": "DealParamOneToOne_PK",
+                        "cols": [
+                            "dealId"
+                        ],
+                        "typeUk": "PK"
+                    },
                     "relationType": "ONE_TO_ONE_MANDATORY"
                 },
                 {
@@ -20343,6 +20750,13 @@
                         ],
                         "typeUk": "PK"
                     },
+                    "ukFrom": {
+                        "name": "InnerToDealParamOneToOne_PK",
+                        "cols": [
+                            "dealId"
+                        ],
+                        "typeUk": "PK"
+                    },
                     "relationType": "ONE_TO_ONE_MANDATORY"
                 },
                 {
@@ -20593,6 +21007,13 @@
                         "name": "Deal_PK",
                         "cols": [
                             "id"
+                        ],
+                        "typeUk": "PK"
+                    },
+                    "ukFrom": {
+                        "name": "DealParamOneToOneOptional_PK",
+                        "cols": [
+                            "dealId"
                         ],
                         "typeUk": "PK"
                     },
@@ -20883,6 +21304,14 @@
                     "uk": {
                         "name": "Deal_PK",
                         "cols": [
+                            "id"
+                        ],
+                        "typeUk": "PK"
+                    },
+                    "ukFrom": {
+                        "name": "DealParamSet_PK",
+                        "cols": [
+                            "dealId",
                             "id"
                         ],
                         "typeUk": "PK"
@@ -21217,6 +21646,14 @@
                         "name": "Deal_PK",
                         "cols": [
                             "id"
+                        ],
+                        "typeUk": "PK"
+                    },
+                    "ukFrom": {
+                        "name": "ProductPayments_PK",
+                        "cols": [
+                            "productId",
+                            "dealId"
                         ],
                         "typeUk": "PK"
                     },
@@ -21762,6 +22199,14 @@
                         ],
                         "typeUk": "PK"
                     },
+                    "ukFrom": {
+                        "name": "ProductPayments_PK",
+                        "cols": [
+                            "productId",
+                            "dealId"
+                        ],
+                        "typeUk": "PK"
+                    },
                     "relationType": "ONE_TO_ONE_OPTIONAL"
                 },
                 {
@@ -22012,6 +22457,13 @@
                         "name": "Deal_PK",
                         "cols": [
                             "id"
+                        ],
+                        "typeUk": "PK"
+                    },
+                    "ukFrom": {
+                        "name": "DealExtendData_PK",
+                        "cols": [
+                            "dealId"
                         ],
                         "typeUk": "PK"
                     },
@@ -22725,6 +23177,13 @@
                         ],
                         "typeUk": "PK"
                     },
+                    "ukFrom": {
+                        "name": "OneOfDto_PK",
+                        "cols": [
+                            "dealId"
+                        ],
+                        "typeUk": "PK"
+                    },
                     "relationType": "ONE_TO_ONE_OPTIONAL"
                 },
                 {
@@ -22939,6 +23398,13 @@
                     ],
                     "uk": {
                         "name": "OneOfDto_PK",
+                        "cols": [
+                            "dealId"
+                        ],
+                        "typeUk": "PK"
+                    },
+                    "ukFrom": {
+                        "name": "DealOneOfData_PK",
                         "cols": [
                             "dealId"
                         ],
@@ -23163,6 +23629,13 @@
                         ],
                         "typeUk": "PK"
                     },
+                    "ukFrom": {
+                        "name": "DealOneData_PK",
+                        "cols": [
+                            "dealId"
+                        ],
+                        "typeUk": "PK"
+                    },
                     "relationType": "ONE_TO_ONE_MANDATORY"
                 },
                 {
@@ -23377,6 +23850,13 @@
                     ],
                     "uk": {
                         "name": "DealOneOfData_PK",
+                        "cols": [
+                            "dealId"
+                        ],
+                        "typeUk": "PK"
+                    },
+                    "ukFrom": {
+                        "name": "DealTwoData_PK",
                         "cols": [
                             "dealId"
                         ],
@@ -24453,6 +24933,13 @@
                                 ],
                                 "typeUk": "PK"
                             },
+                            "ukFrom": {
+                                "name": "DealParamOneToOne_PK",
+                                "cols": [
+                                    "dealId"
+                                ],
+                                "typeUk": "PK"
+                            },
                             "relationType": "ONE_TO_ONE_MANDATORY"
                         },
                         {
@@ -24752,6 +25239,13 @@
                                 ],
                                 "typeUk": "PK"
                             },
+                            "ukFrom": {
+                                "name": "InnerToDealParamOneToOne_PK",
+                                "cols": [
+                                    "dealId"
+                                ],
+                                "typeUk": "PK"
+                            },
                             "relationType": "ONE_TO_ONE_MANDATORY"
                         },
                         {
@@ -25002,6 +25496,13 @@
                                 "name": "Deal_PK",
                                 "cols": [
                                     "id"
+                                ],
+                                "typeUk": "PK"
+                            },
+                            "ukFrom": {
+                                "name": "DealParamOneToOneOptional_PK",
+                                "cols": [
+                                    "dealId"
                                 ],
                                 "typeUk": "PK"
                             },
@@ -25292,6 +25793,14 @@
                             "uk": {
                                 "name": "Deal_PK",
                                 "cols": [
+                                    "id"
+                                ],
+                                "typeUk": "PK"
+                            },
+                            "ukFrom": {
+                                "name": "DealParamSet_PK",
+                                "cols": [
+                                    "dealId",
                                     "id"
                                 ],
                                 "typeUk": "PK"
@@ -25626,6 +26135,14 @@
                                 "name": "Deal_PK",
                                 "cols": [
                                     "id"
+                                ],
+                                "typeUk": "PK"
+                            },
+                            "ukFrom": {
+                                "name": "ProductPayments_PK",
+                                "cols": [
+                                    "productId",
+                                    "dealId"
                                 ],
                                 "typeUk": "PK"
                             },
@@ -26171,6 +26688,14 @@
                                 ],
                                 "typeUk": "PK"
                             },
+                            "ukFrom": {
+                                "name": "ProductPayments_PK",
+                                "cols": [
+                                    "productId",
+                                    "dealId"
+                                ],
+                                "typeUk": "PK"
+                            },
                             "relationType": "ONE_TO_ONE_OPTIONAL"
                         },
                         {
@@ -26421,6 +26946,13 @@
                                 "name": "Deal_PK",
                                 "cols": [
                                     "id"
+                                ],
+                                "typeUk": "PK"
+                            },
+                            "ukFrom": {
+                                "name": "DealExtendData_PK",
+                                "cols": [
+                                    "dealId"
                                 ],
                                 "typeUk": "PK"
                             },
@@ -27134,6 +27666,13 @@
                                 ],
                                 "typeUk": "PK"
                             },
+                            "ukFrom": {
+                                "name": "OneOfDto_PK",
+                                "cols": [
+                                    "dealId"
+                                ],
+                                "typeUk": "PK"
+                            },
                             "relationType": "ONE_TO_ONE_OPTIONAL"
                         },
                         {
@@ -27348,6 +27887,13 @@
                             ],
                             "uk": {
                                 "name": "OneOfDto_PK",
+                                "cols": [
+                                    "dealId"
+                                ],
+                                "typeUk": "PK"
+                            },
+                            "ukFrom": {
+                                "name": "DealOneOfData_PK",
                                 "cols": [
                                     "dealId"
                                 ],
@@ -27572,6 +28118,13 @@
                                 ],
                                 "typeUk": "PK"
                             },
+                            "ukFrom": {
+                                "name": "DealOneData_PK",
+                                "cols": [
+                                    "dealId"
+                                ],
+                                "typeUk": "PK"
+                            },
                             "relationType": "ONE_TO_ONE_MANDATORY"
                         },
                         {
@@ -27786,6 +28339,13 @@
                             ],
                             "uk": {
                                 "name": "DealOneOfData_PK",
+                                "cols": [
+                                    "dealId"
+                                ],
+                                "typeUk": "PK"
+                            },
+                            "ukFrom": {
+                                "name": "DealTwoData_PK",
                                 "cols": [
                                     "dealId"
                                 ],
@@ -28200,6 +28760,13 @@
                         ],
                         "typeUk": "PK"
                     },
+                    "ukFrom": {
+                        "name": "DealParamOneToOne_PK",
+                        "cols": [
+                            "dealId"
+                        ],
+                        "typeUk": "PK"
+                    },
                     "relationType": "ONE_TO_ONE_MANDATORY"
                 },
                 {
@@ -28499,6 +29066,13 @@
                         ],
                         "typeUk": "PK"
                     },
+                    "ukFrom": {
+                        "name": "InnerToDealParamOneToOne_PK",
+                        "cols": [
+                            "dealId"
+                        ],
+                        "typeUk": "PK"
+                    },
                     "relationType": "ONE_TO_ONE_MANDATORY"
                 },
                 {
@@ -28749,6 +29323,13 @@
                         "name": "Deal_PK",
                         "cols": [
                             "id"
+                        ],
+                        "typeUk": "PK"
+                    },
+                    "ukFrom": {
+                        "name": "DealParamOneToOneOptional_PK",
+                        "cols": [
+                            "dealId"
                         ],
                         "typeUk": "PK"
                     },
@@ -29039,6 +29620,14 @@
                     "uk": {
                         "name": "Deal_PK",
                         "cols": [
+                            "id"
+                        ],
+                        "typeUk": "PK"
+                    },
+                    "ukFrom": {
+                        "name": "DealParamSet_PK",
+                        "cols": [
+                            "dealId",
                             "id"
                         ],
                         "typeUk": "PK"
@@ -29373,6 +29962,14 @@
                         "name": "Deal_PK",
                         "cols": [
                             "id"
+                        ],
+                        "typeUk": "PK"
+                    },
+                    "ukFrom": {
+                        "name": "ProductPayments_PK",
+                        "cols": [
+                            "productId",
+                            "dealId"
                         ],
                         "typeUk": "PK"
                     },
@@ -29918,6 +30515,14 @@
                         ],
                         "typeUk": "PK"
                     },
+                    "ukFrom": {
+                        "name": "ProductPayments_PK",
+                        "cols": [
+                            "productId",
+                            "dealId"
+                        ],
+                        "typeUk": "PK"
+                    },
                     "relationType": "ONE_TO_ONE_OPTIONAL"
                 },
                 {
@@ -30168,6 +30773,13 @@
                         "name": "Deal_PK",
                         "cols": [
                             "id"
+                        ],
+                        "typeUk": "PK"
+                    },
+                    "ukFrom": {
+                        "name": "DealExtendData_PK",
+                        "cols": [
+                            "dealId"
                         ],
                         "typeUk": "PK"
                     },
@@ -30881,6 +31493,13 @@
                         ],
                         "typeUk": "PK"
                     },
+                    "ukFrom": {
+                        "name": "OneOfDto_PK",
+                        "cols": [
+                            "dealId"
+                        ],
+                        "typeUk": "PK"
+                    },
                     "relationType": "ONE_TO_ONE_OPTIONAL"
                 },
                 {
@@ -31095,6 +31714,13 @@
                     ],
                     "uk": {
                         "name": "OneOfDto_PK",
+                        "cols": [
+                            "dealId"
+                        ],
+                        "typeUk": "PK"
+                    },
+                    "ukFrom": {
+                        "name": "DealOneOfData_PK",
                         "cols": [
                             "dealId"
                         ],
@@ -31319,6 +31945,13 @@
                         ],
                         "typeUk": "PK"
                     },
+                    "ukFrom": {
+                        "name": "DealOneData_PK",
+                        "cols": [
+                            "dealId"
+                        ],
+                        "typeUk": "PK"
+                    },
                     "relationType": "ONE_TO_ONE_MANDATORY"
                 },
                 {
@@ -31533,6 +32166,13 @@
                     ],
                     "uk": {
                         "name": "DealOneOfData_PK",
+                        "cols": [
+                            "dealId"
+                        ],
+                        "typeUk": "PK"
+                    },
+                    "ukFrom": {
+                        "name": "DealTwoData_PK",
                         "cols": [
                             "dealId"
                         ],
@@ -32195,6 +32835,13 @@
                                         ],
                                         "typeUk": "PK"
                                     },
+                                    "ukFrom": {
+                                        "name": "DealParamOneToOne_PK",
+                                        "cols": [
+                                            "dealId"
+                                        ],
+                                        "typeUk": "PK"
+                                    },
                                     "relationType": "ONE_TO_ONE_MANDATORY"
                                 },
                                 {
@@ -32494,6 +33141,13 @@
                                         ],
                                         "typeUk": "PK"
                                     },
+                                    "ukFrom": {
+                                        "name": "InnerToDealParamOneToOne_PK",
+                                        "cols": [
+                                            "dealId"
+                                        ],
+                                        "typeUk": "PK"
+                                    },
                                     "relationType": "ONE_TO_ONE_MANDATORY"
                                 },
                                 {
@@ -32744,6 +33398,13 @@
                                         "name": "Deal_PK",
                                         "cols": [
                                             "id"
+                                        ],
+                                        "typeUk": "PK"
+                                    },
+                                    "ukFrom": {
+                                        "name": "DealParamOneToOneOptional_PK",
+                                        "cols": [
+                                            "dealId"
                                         ],
                                         "typeUk": "PK"
                                     },
@@ -33034,6 +33695,14 @@
                                     "uk": {
                                         "name": "Deal_PK",
                                         "cols": [
+                                            "id"
+                                        ],
+                                        "typeUk": "PK"
+                                    },
+                                    "ukFrom": {
+                                        "name": "DealParamSet_PK",
+                                        "cols": [
+                                            "dealId",
                                             "id"
                                         ],
                                         "typeUk": "PK"
@@ -33368,6 +34037,14 @@
                                         "name": "Deal_PK",
                                         "cols": [
                                             "id"
+                                        ],
+                                        "typeUk": "PK"
+                                    },
+                                    "ukFrom": {
+                                        "name": "ProductPayments_PK",
+                                        "cols": [
+                                            "productId",
+                                            "dealId"
                                         ],
                                         "typeUk": "PK"
                                     },
@@ -33913,6 +34590,14 @@
                                         ],
                                         "typeUk": "PK"
                                     },
+                                    "ukFrom": {
+                                        "name": "ProductPayments_PK",
+                                        "cols": [
+                                            "productId",
+                                            "dealId"
+                                        ],
+                                        "typeUk": "PK"
+                                    },
                                     "relationType": "ONE_TO_ONE_OPTIONAL"
                                 },
                                 {
@@ -34163,6 +34848,13 @@
                                         "name": "Deal_PK",
                                         "cols": [
                                             "id"
+                                        ],
+                                        "typeUk": "PK"
+                                    },
+                                    "ukFrom": {
+                                        "name": "DealExtendData_PK",
+                                        "cols": [
+                                            "dealId"
                                         ],
                                         "typeUk": "PK"
                                     },
@@ -34876,6 +35568,13 @@
                                         ],
                                         "typeUk": "PK"
                                     },
+                                    "ukFrom": {
+                                        "name": "OneOfDto_PK",
+                                        "cols": [
+                                            "dealId"
+                                        ],
+                                        "typeUk": "PK"
+                                    },
                                     "relationType": "ONE_TO_ONE_OPTIONAL"
                                 },
                                 {
@@ -35090,6 +35789,13 @@
                                     ],
                                     "uk": {
                                         "name": "OneOfDto_PK",
+                                        "cols": [
+                                            "dealId"
+                                        ],
+                                        "typeUk": "PK"
+                                    },
+                                    "ukFrom": {
+                                        "name": "DealOneOfData_PK",
                                         "cols": [
                                             "dealId"
                                         ],
@@ -35314,6 +36020,13 @@
                                         ],
                                         "typeUk": "PK"
                                     },
+                                    "ukFrom": {
+                                        "name": "DealOneData_PK",
+                                        "cols": [
+                                            "dealId"
+                                        ],
+                                        "typeUk": "PK"
+                                    },
                                     "relationType": "ONE_TO_ONE_MANDATORY"
                                 },
                                 {
@@ -35528,6 +36241,13 @@
                                     ],
                                     "uk": {
                                         "name": "DealOneOfData_PK",
+                                        "cols": [
+                                            "dealId"
+                                        ],
+                                        "typeUk": "PK"
+                                    },
+                                    "ukFrom": {
+                                        "name": "DealTwoData_PK",
                                         "cols": [
                                             "dealId"
                                         ],
@@ -36006,6 +36726,13 @@
                                         ],
                                         "typeUk": "PK"
                                     },
+                                    "ukFrom": {
+                                        "name": "DealParamOneToOne_PK",
+                                        "cols": [
+                                            "dealId"
+                                        ],
+                                        "typeUk": "PK"
+                                    },
                                     "relationType": "ONE_TO_ONE_MANDATORY"
                                 },
                                 {
@@ -36305,6 +37032,13 @@
                                         ],
                                         "typeUk": "PK"
                                     },
+                                    "ukFrom": {
+                                        "name": "InnerToDealParamOneToOne_PK",
+                                        "cols": [
+                                            "dealId"
+                                        ],
+                                        "typeUk": "PK"
+                                    },
                                     "relationType": "ONE_TO_ONE_MANDATORY"
                                 },
                                 {
@@ -36555,6 +37289,13 @@
                                         "name": "Deal_PK",
                                         "cols": [
                                             "id"
+                                        ],
+                                        "typeUk": "PK"
+                                    },
+                                    "ukFrom": {
+                                        "name": "DealParamOneToOneOptional_PK",
+                                        "cols": [
+                                            "dealId"
                                         ],
                                         "typeUk": "PK"
                                     },
@@ -36845,6 +37586,14 @@
                                     "uk": {
                                         "name": "Deal_PK",
                                         "cols": [
+                                            "id"
+                                        ],
+                                        "typeUk": "PK"
+                                    },
+                                    "ukFrom": {
+                                        "name": "DealParamSet_PK",
+                                        "cols": [
+                                            "dealId",
                                             "id"
                                         ],
                                         "typeUk": "PK"
@@ -37179,6 +37928,14 @@
                                         "name": "Deal_PK",
                                         "cols": [
                                             "id"
+                                        ],
+                                        "typeUk": "PK"
+                                    },
+                                    "ukFrom": {
+                                        "name": "ProductPayments_PK",
+                                        "cols": [
+                                            "productId",
+                                            "dealId"
                                         ],
                                         "typeUk": "PK"
                                     },
@@ -37724,6 +38481,14 @@
                                         ],
                                         "typeUk": "PK"
                                     },
+                                    "ukFrom": {
+                                        "name": "ProductPayments_PK",
+                                        "cols": [
+                                            "productId",
+                                            "dealId"
+                                        ],
+                                        "typeUk": "PK"
+                                    },
                                     "relationType": "ONE_TO_ONE_OPTIONAL"
                                 },
                                 {
@@ -37974,6 +38739,13 @@
                                         "name": "Deal_PK",
                                         "cols": [
                                             "id"
+                                        ],
+                                        "typeUk": "PK"
+                                    },
+                                    "ukFrom": {
+                                        "name": "DealExtendData_PK",
+                                        "cols": [
+                                            "dealId"
                                         ],
                                         "typeUk": "PK"
                                     },
@@ -38687,6 +39459,13 @@
                                         ],
                                         "typeUk": "PK"
                                     },
+                                    "ukFrom": {
+                                        "name": "OneOfDto_PK",
+                                        "cols": [
+                                            "dealId"
+                                        ],
+                                        "typeUk": "PK"
+                                    },
                                     "relationType": "ONE_TO_ONE_OPTIONAL"
                                 },
                                 {
@@ -38901,6 +39680,13 @@
                                     ],
                                     "uk": {
                                         "name": "OneOfDto_PK",
+                                        "cols": [
+                                            "dealId"
+                                        ],
+                                        "typeUk": "PK"
+                                    },
+                                    "ukFrom": {
+                                        "name": "DealOneOfData_PK",
                                         "cols": [
                                             "dealId"
                                         ],
@@ -39125,6 +39911,13 @@
                                         ],
                                         "typeUk": "PK"
                                     },
+                                    "ukFrom": {
+                                        "name": "DealOneData_PK",
+                                        "cols": [
+                                            "dealId"
+                                        ],
+                                        "typeUk": "PK"
+                                    },
                                     "relationType": "ONE_TO_ONE_MANDATORY"
                                 },
                                 {
@@ -39339,6 +40132,13 @@
                                     ],
                                     "uk": {
                                         "name": "DealOneOfData_PK",
+                                        "cols": [
+                                            "dealId"
+                                        ],
+                                        "typeUk": "PK"
+                                    },
+                                    "ukFrom": {
+                                        "name": "DealTwoData_PK",
                                         "cols": [
                                             "dealId"
                                         ],
@@ -39731,6 +40531,13 @@
                                 ],
                                 "typeUk": "PK"
                             },
+                            "ukFrom": {
+                                "name": "DealParamOneToOne_PK",
+                                "cols": [
+                                    "dealId"
+                                ],
+                                "typeUk": "PK"
+                            },
                             "relationType": "ONE_TO_ONE_MANDATORY"
                         },
                         {
@@ -40030,6 +40837,13 @@
                                 ],
                                 "typeUk": "PK"
                             },
+                            "ukFrom": {
+                                "name": "InnerToDealParamOneToOne_PK",
+                                "cols": [
+                                    "dealId"
+                                ],
+                                "typeUk": "PK"
+                            },
                             "relationType": "ONE_TO_ONE_MANDATORY"
                         },
                         {
@@ -40280,6 +41094,13 @@
                                 "name": "Deal_PK",
                                 "cols": [
                                     "id"
+                                ],
+                                "typeUk": "PK"
+                            },
+                            "ukFrom": {
+                                "name": "DealParamOneToOneOptional_PK",
+                                "cols": [
+                                    "dealId"
                                 ],
                                 "typeUk": "PK"
                             },
@@ -40570,6 +41391,14 @@
                             "uk": {
                                 "name": "Deal_PK",
                                 "cols": [
+                                    "id"
+                                ],
+                                "typeUk": "PK"
+                            },
+                            "ukFrom": {
+                                "name": "DealParamSet_PK",
+                                "cols": [
+                                    "dealId",
                                     "id"
                                 ],
                                 "typeUk": "PK"
@@ -40904,6 +41733,14 @@
                                 "name": "Deal_PK",
                                 "cols": [
                                     "id"
+                                ],
+                                "typeUk": "PK"
+                            },
+                            "ukFrom": {
+                                "name": "ProductPayments_PK",
+                                "cols": [
+                                    "productId",
+                                    "dealId"
                                 ],
                                 "typeUk": "PK"
                             },
@@ -41449,6 +42286,14 @@
                                 ],
                                 "typeUk": "PK"
                             },
+                            "ukFrom": {
+                                "name": "ProductPayments_PK",
+                                "cols": [
+                                    "productId",
+                                    "dealId"
+                                ],
+                                "typeUk": "PK"
+                            },
                             "relationType": "ONE_TO_ONE_OPTIONAL"
                         },
                         {
@@ -41699,6 +42544,13 @@
                                 "name": "Deal_PK",
                                 "cols": [
                                     "id"
+                                ],
+                                "typeUk": "PK"
+                            },
+                            "ukFrom": {
+                                "name": "DealExtendData_PK",
+                                "cols": [
+                                    "dealId"
                                 ],
                                 "typeUk": "PK"
                             },
@@ -42412,6 +43264,13 @@
                                 ],
                                 "typeUk": "PK"
                             },
+                            "ukFrom": {
+                                "name": "OneOfDto_PK",
+                                "cols": [
+                                    "dealId"
+                                ],
+                                "typeUk": "PK"
+                            },
                             "relationType": "ONE_TO_ONE_OPTIONAL"
                         },
                         {
@@ -42626,6 +43485,13 @@
                             ],
                             "uk": {
                                 "name": "OneOfDto_PK",
+                                "cols": [
+                                    "dealId"
+                                ],
+                                "typeUk": "PK"
+                            },
+                            "ukFrom": {
+                                "name": "DealOneOfData_PK",
                                 "cols": [
                                     "dealId"
                                 ],
@@ -42850,6 +43716,13 @@
                                 ],
                                 "typeUk": "PK"
                             },
+                            "ukFrom": {
+                                "name": "DealOneData_PK",
+                                "cols": [
+                                    "dealId"
+                                ],
+                                "typeUk": "PK"
+                            },
                             "relationType": "ONE_TO_ONE_MANDATORY"
                         },
                         {
@@ -43064,6 +43937,13 @@
                             ],
                             "uk": {
                                 "name": "DealOneOfData_PK",
+                                "cols": [
+                                    "dealId"
+                                ],
+                                "typeUk": "PK"
+                            },
+                            "ukFrom": {
+                                "name": "DealTwoData_PK",
                                 "cols": [
                                     "dealId"
                                 ],
@@ -43478,6 +44358,13 @@
                         ],
                         "typeUk": "PK"
                     },
+                    "ukFrom": {
+                        "name": "DealParamOneToOne_PK",
+                        "cols": [
+                            "dealId"
+                        ],
+                        "typeUk": "PK"
+                    },
                     "relationType": "ONE_TO_ONE_MANDATORY"
                 },
                 {
@@ -43777,6 +44664,13 @@
                         ],
                         "typeUk": "PK"
                     },
+                    "ukFrom": {
+                        "name": "InnerToDealParamOneToOne_PK",
+                        "cols": [
+                            "dealId"
+                        ],
+                        "typeUk": "PK"
+                    },
                     "relationType": "ONE_TO_ONE_MANDATORY"
                 },
                 {
@@ -44027,6 +44921,13 @@
                         "name": "Deal_PK",
                         "cols": [
                             "id"
+                        ],
+                        "typeUk": "PK"
+                    },
+                    "ukFrom": {
+                        "name": "DealParamOneToOneOptional_PK",
+                        "cols": [
+                            "dealId"
                         ],
                         "typeUk": "PK"
                     },
@@ -44317,6 +45218,14 @@
                     "uk": {
                         "name": "Deal_PK",
                         "cols": [
+                            "id"
+                        ],
+                        "typeUk": "PK"
+                    },
+                    "ukFrom": {
+                        "name": "DealParamSet_PK",
+                        "cols": [
+                            "dealId",
                             "id"
                         ],
                         "typeUk": "PK"
@@ -44651,6 +45560,14 @@
                         "name": "Deal_PK",
                         "cols": [
                             "id"
+                        ],
+                        "typeUk": "PK"
+                    },
+                    "ukFrom": {
+                        "name": "ProductPayments_PK",
+                        "cols": [
+                            "productId",
+                            "dealId"
                         ],
                         "typeUk": "PK"
                     },
@@ -45196,6 +46113,14 @@
                         ],
                         "typeUk": "PK"
                     },
+                    "ukFrom": {
+                        "name": "ProductPayments_PK",
+                        "cols": [
+                            "productId",
+                            "dealId"
+                        ],
+                        "typeUk": "PK"
+                    },
                     "relationType": "ONE_TO_ONE_OPTIONAL"
                 },
                 {
@@ -45446,6 +46371,13 @@
                         "name": "Deal_PK",
                         "cols": [
                             "id"
+                        ],
+                        "typeUk": "PK"
+                    },
+                    "ukFrom": {
+                        "name": "DealExtendData_PK",
+                        "cols": [
+                            "dealId"
                         ],
                         "typeUk": "PK"
                     },
@@ -46159,6 +47091,13 @@
                         ],
                         "typeUk": "PK"
                     },
+                    "ukFrom": {
+                        "name": "OneOfDto_PK",
+                        "cols": [
+                            "dealId"
+                        ],
+                        "typeUk": "PK"
+                    },
                     "relationType": "ONE_TO_ONE_OPTIONAL"
                 },
                 {
@@ -46373,6 +47312,13 @@
                     ],
                     "uk": {
                         "name": "OneOfDto_PK",
+                        "cols": [
+                            "dealId"
+                        ],
+                        "typeUk": "PK"
+                    },
+                    "ukFrom": {
+                        "name": "DealOneOfData_PK",
                         "cols": [
                             "dealId"
                         ],
@@ -46597,6 +47543,13 @@
                         ],
                         "typeUk": "PK"
                     },
+                    "ukFrom": {
+                        "name": "DealOneData_PK",
+                        "cols": [
+                            "dealId"
+                        ],
+                        "typeUk": "PK"
+                    },
                     "relationType": "ONE_TO_ONE_MANDATORY"
                 },
                 {
@@ -46811,6 +47764,13 @@
                     ],
                     "uk": {
                         "name": "DealOneOfData_PK",
+                        "cols": [
+                            "dealId"
+                        ],
+                        "typeUk": "PK"
+                    },
+                    "ukFrom": {
+                        "name": "DealTwoData_PK",
                         "cols": [
                             "dealId"
                         ],
@@ -47104,6 +48064,13 @@
                 "name": "Deal_PK",
                 "cols": [
                     "id"
+                ],
+                "typeUk": "PK"
+            },
+            "ukFrom": {
+                "name": "DealParamOneToOne_PK",
+                "cols": [
+                    "dealId"
                 ],
                 "typeUk": "PK"
             },
@@ -47406,6 +48373,13 @@
                 ],
                 "typeUk": "PK"
             },
+            "ukFrom": {
+                "name": "InnerToDealParamOneToOne_PK",
+                "cols": [
+                    "dealId"
+                ],
+                "typeUk": "PK"
+            },
             "relationType": "ONE_TO_ONE_MANDATORY"
         },
         {
@@ -47656,6 +48630,13 @@
                 "name": "Deal_PK",
                 "cols": [
                     "id"
+                ],
+                "typeUk": "PK"
+            },
+            "ukFrom": {
+                "name": "DealParamOneToOneOptional_PK",
+                "cols": [
+                    "dealId"
                 ],
                 "typeUk": "PK"
             },
@@ -47946,6 +48927,14 @@
             "uk": {
                 "name": "Deal_PK",
                 "cols": [
+                    "id"
+                ],
+                "typeUk": "PK"
+            },
+            "ukFrom": {
+                "name": "DealParamSet_PK",
+                "cols": [
+                    "dealId",
                     "id"
                 ],
                 "typeUk": "PK"
@@ -48280,6 +49269,14 @@
                 "name": "Deal_PK",
                 "cols": [
                     "id"
+                ],
+                "typeUk": "PK"
+            },
+            "ukFrom": {
+                "name": "ProductPayments_PK",
+                "cols": [
+                    "productId",
+                    "dealId"
                 ],
                 "typeUk": "PK"
             },
@@ -48825,6 +49822,14 @@
                 ],
                 "typeUk": "PK"
             },
+            "ukFrom": {
+                "name": "ProductPayments_PK",
+                "cols": [
+                    "productId",
+                    "dealId"
+                ],
+                "typeUk": "PK"
+            },
             "relationType": "ONE_TO_ONE_OPTIONAL"
         },
         {
@@ -49075,6 +50080,13 @@
                 "name": "Deal_PK",
                 "cols": [
                     "id"
+                ],
+                "typeUk": "PK"
+            },
+            "ukFrom": {
+                "name": "DealExtendData_PK",
+                "cols": [
+                    "dealId"
                 ],
                 "typeUk": "PK"
             },
@@ -49788,6 +50800,13 @@
                 ],
                 "typeUk": "PK"
             },
+            "ukFrom": {
+                "name": "OneOfDto_PK",
+                "cols": [
+                    "dealId"
+                ],
+                "typeUk": "PK"
+            },
             "relationType": "ONE_TO_ONE_OPTIONAL"
         },
         {
@@ -50002,6 +51021,13 @@
             ],
             "uk": {
                 "name": "OneOfDto_PK",
+                "cols": [
+                    "dealId"
+                ],
+                "typeUk": "PK"
+            },
+            "ukFrom": {
+                "name": "DealOneOfData_PK",
                 "cols": [
                     "dealId"
                 ],
@@ -50226,6 +51252,13 @@
                 ],
                 "typeUk": "PK"
             },
+            "ukFrom": {
+                "name": "DealOneData_PK",
+                "cols": [
+                    "dealId"
+                ],
+                "typeUk": "PK"
+            },
             "relationType": "ONE_TO_ONE_MANDATORY"
         },
         {
@@ -50440,6 +51473,13 @@
             ],
             "uk": {
                 "name": "DealOneOfData_PK",
+                "cols": [
+                    "dealId"
+                ],
+                "typeUk": "PK"
+            },
+            "ukFrom": {
+                "name": "DealTwoData_PK",
                 "cols": [
                     "dealId"
                 ],
