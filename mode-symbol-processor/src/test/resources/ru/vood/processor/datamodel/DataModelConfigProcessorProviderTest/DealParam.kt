@@ -61,3 +61,25 @@ interface DealParamSet {
     @Comment("Параметр сделки, отношение к сделке один к одному")
     val paramDate: String
 }
+
+@FlowEntity//(FlowEntityType.INNER_MANDATORY)
+@ForeignKey(
+//    value = Deal::class,
+    kClass = "ru.vood.processor.datamodel.packageForDataModelConfigProcessorProviderTest.create.Deal",
+    name = "DealParamSetNoUK_Deal_FK",
+    cols = [ForeignKeyColumns("dealId", "id")],
+    foreignKeyType = ForeignKeyType.MANDATORY
+)
+@Comment("Параметр сделки, отношение к сделке один к одному")
+interface DealParamSetNoUK {
+
+    @Comment("Параметр сделки, отношение к сделке один к одному")
+    val dealId: Int
+
+
+    @Comment("Параметр сделки, отношение к сделке один к одному")
+    val id: Int
+
+    @Comment("Параметр сделки, отношение к сделке один к одному")
+    val paramDate: String
+}

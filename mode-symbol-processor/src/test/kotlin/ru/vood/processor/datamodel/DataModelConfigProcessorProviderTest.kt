@@ -110,7 +110,7 @@ internal class DataModelConfigProcessorProviderTest :
     }
 
     private fun assertFks(metaForeignKeys: Set<MetaForeignKey>) {
-        Assertions.assertEquals(3, metaForeignKeys.size)
+        Assertions.assertEquals(4, metaForeignKeys.size)
         metaForeignKeys.first { it.name == ForeignKeyName("DealParamOneToOne_Deal_FK") }
             .assertFk(
                 fromEntity = "DealParamOneToOne".withDefaultPackage(),
@@ -150,6 +150,20 @@ internal class DataModelConfigProcessorProviderTest :
                     typeUk = TypeUk.PK
                 ),
                 ukFrom = UkDto(name=UkName(value="DealParamSet_PK"), cols=listOf(SimpleColumnName(value="dealId"), SimpleColumnName(value="id")), typeUk= TypeUk.PK),
+                relationType = RelationType.MANY_TO_ONE
+            )
+
+        metaForeignKeys.first { it.name == ForeignKeyName("DealParamSetNoUK_Deal_FK") }
+            .assertFk(
+                fromEntity = "DealParamSetNoUK".withDefaultPackage(),
+                toEntity = "Deal".withDefaultPackage(),
+                fkCols = listOf(SimpleColumnName(value = "dealId") to SimpleColumnName(value = "id")),
+                ukTo = UkDto(
+                    name = UkName(value = "Deal_PK"),
+                    cols = listOf(SimpleColumnName(value = "id")),
+                    typeUk = TypeUk.PK
+                ),
+                ukFrom = null,
                 relationType = RelationType.MANY_TO_ONE
             )
     }
