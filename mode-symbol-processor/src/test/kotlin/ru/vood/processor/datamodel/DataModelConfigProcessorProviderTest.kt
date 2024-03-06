@@ -28,7 +28,7 @@ internal class DataModelConfigProcessorProviderTest :
 
     @Test
     open fun create() {
-        val draw = compile()
+        compile()
         val symbolProcessorProvider = symbolProcessors[0] as DataModelConfigProcessorProvider
         val metaInformation = symbolProcessorProvider.dataModelConfigProcessor.metaInformation
 
