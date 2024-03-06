@@ -317,7 +317,7 @@ private fun fieldsFk(
                     }
 
                 }
-            MetaForeignKey(fkTemp, relationType)
+            runCatching {  MetaForeignKey(fkTemp, relationType)}.getOrElse { err->logger.kspError(err.message.orEmpty(), fromMetaEntity.ksAnnotated) }
         }.toSet()
     val minus = collectMetaForeignKeyTemporary.map { it.name }.minus(map1.map { it.name }.toSet())
     assert(minus.isEmpty()) { " Почему то не все обработаны $minus" }
