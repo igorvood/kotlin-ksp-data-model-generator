@@ -38,6 +38,12 @@ data class MetaForeignKey(
         relationType
     )
 
+    init {
+        when(relationType){
+            RelationType.MANY_TO_ONE -> {}
+            RelationType.ONE_TO_ONE_MANDATORY, RelationType.ONE_TO_ONE_OPTIONAL -> require(ukFrom!=null){"for Foreign Key ${name.value} with relationType ->$relationType field ukFrom must be not null "}
+        }
+    }
 }
 
 @JvmInline
