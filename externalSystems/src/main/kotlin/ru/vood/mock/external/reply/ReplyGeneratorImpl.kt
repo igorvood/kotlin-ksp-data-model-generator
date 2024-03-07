@@ -10,6 +10,7 @@ import ru.vood.dmgen.datamodel.metaEnum.FullColumnNameEnum
 import ru.vood.dmgen.datamodel.metaEnum.UniqueKeyEnum
 import ru.vood.dmgen.datamodel.metaEnum.UniqueKeyEnum.Companion.uniqueKeyMap
 import ru.vood.dmgen.dto.RelationType
+import ru.vood.mock.external.hashCode
 import ru.vood.mock.external.reply.data.DataOk
 import ru.vood.mock.external.reply.data.Response
 
@@ -62,16 +63,17 @@ class ReplyGeneratorImpl : IReplyGenerator {
         val otherSimpleFields = allFields.filterIsInstance<SimpleColumnEntityData<*>>()
             .filter { !ukJson.containsKey(it.simpleColumnName.value) }
             .map { sced ->
-                val value = uk.hashCode() + sced.simpleColumnName.value.hashCode()
+                val simpleColumnName = sced.simpleColumnName
+                val hashWithColName = simpleColumnName.hashCode(uk.hashCode())
                 val jPrim = when (sced.simpleColumnType.value) {
-                    "kotlin.String" -> JsonPrimitive(value.toString())
-                    "kotlin.Int" -> JsonPrimitive(value)
-                    "kotlin.Double" -> JsonPrimitive(value.toDouble())
-                    "kotlin.Float" -> JsonPrimitive(value.toFloat())
-                    "kotlin.Long" -> JsonPrimitive(value.toLong())
+                    "kotlin.String" -> JsonPrimitive(hashWithColName.toString())
+                    "kotlin.Int" -> JsonPrimitive(hashWithColName)
+                    "kotlin.Double" -> JsonPrimitive(hashWithColName.toDouble())
+                    "kotlin.Float" -> JsonPrimitive(hashWithColName.toFloat())
+                    "kotlin.Long" -> JsonPrimitive(hashWithColName.toLong())
 
                     "kotlin.Boolean" -> {
-                        if (value % 2 == 1)
+                        if (hashWithColName % 2 == 1)
                             JsonPrimitive(true)
                         else JsonPrimitive(false)
                     }
@@ -91,8 +93,10 @@ class ReplyGeneratorImpl : IReplyGenerator {
                         genOneToOne(fkMetaData, uk, sced)
                     }
                     RelationType.ONE_TO_ONE_OPTIONAL -> {
-
-                        genOneToOne(fkMetaData, uk, sced)
+                        val hashWithColName = sced.simpleColumnName.hashCode(uk.hashCode())
+                        if (hashWithColName%2 ==1)
+                            genOneToOne(fkMetaData, uk, sced)
+                        else sced.simpleColumnName.value to JsonNull
                     }
                     RelationType.MANY_TO_ONE -> {
                         val newUk = fkMetaData.fkCols.map { fkColsPair ->
