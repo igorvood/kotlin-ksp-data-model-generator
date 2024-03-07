@@ -19,5 +19,5 @@ data class UKEntityDataJson(
     /**Имя сушности, к которой относится уникальный ключ*/
     val entity: EntityName,
     /**Тип уникального ключа PK, UK*/
-    val typeUk: TypeUk
+    val typeUk: TypeUk,
 )

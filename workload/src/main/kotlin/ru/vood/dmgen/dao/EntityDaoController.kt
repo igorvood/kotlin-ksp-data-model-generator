@@ -121,7 +121,7 @@ class EntityDaoController(
      * */
     private fun <T : IEntityOrigin> childEntity(
         designEntityName: EntityEnum,
-        aggregate: IEntityDetail<T>
+        aggregate: IEntityDetail<T>,
     ): Map<EntityEnum, Set<IEntityDetail<out IEntityOrigin>>> {
 
         val entitiesSyntheticColumnsMap1 = entitiesSyntheticColumnsMap[designEntityName] ?: listOf()
@@ -139,7 +139,7 @@ class EntityDaoController(
         /**Дочерние сущности */
         childEntityNames: Map<EntityEnum, Set<IEntityDetail<out IEntityOrigin>>>,
         /**первичный ключ основной сущности*/
-        pkDtoParent: IContextOf<IEntityOrigin>
+        pkDtoParent: IContextOf<IEntityOrigin>,
     ) {
         val pkDtoParentEntityName = pkDtoParent.designEntityName
 //        Бегаю по всем дочерним
@@ -258,9 +258,9 @@ class EntityDaoController(
     @Suppress("UNCHECKED_CAST")
     final fun <
             Origin : IEntityOrigin,
-            T : IEntityDetail<out Origin>
+            T : IEntityDetail<out Origin>,
             > findSyntheticEntityCollectPartByUk(
-        uk: IContextOf<Origin>
+        uk: IContextOf<Origin>,
     ): T {
         val originEntityName = uk.designEntityName
         val indexesDto =
@@ -285,7 +285,7 @@ class EntityDaoController(
     final fun collectSyntheticJsonObject(
         collectChildrenJsonElement: Map<EntityEnum, JsonElement>,
         originEntityName: EntityEnum,
-        originJsonElement: JsonElement
+        originJsonElement: JsonElement,
     ): JsonObject {
 
         val metaSyntheticColumn = entitiesSyntheticColumnsByEntityMap2[originEntityName] ?: mapOf()
@@ -317,7 +317,7 @@ class EntityDaoController(
     @OptIn(InternalSerializationApi::class)
     final fun collectChildrenJsonElement(
         entityName: EntityEnum,
-        childEntityDtos: Map<EntityEnum, List<ChildEntityDto>>
+        childEntityDtos: Map<EntityEnum, List<ChildEntityDto>>,
     ): Map<EntityEnum, JsonElement> {
         val syntheticColumnEntityData = entitiesSyntheticColumnsMap[entityName]
         val columnMap = syntheticColumnEntityData ?: listOf()

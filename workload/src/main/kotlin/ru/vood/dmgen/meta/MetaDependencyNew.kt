@@ -5,5 +5,5 @@ import ru.vood.dmgen.datamodel.metaEnum.EntityEnum
 
 data class MetaDependencyNew(
     val toEntity: EntityEnum,
-    val entityData: IEntityData
+    val entityData: IEntityData,
 )

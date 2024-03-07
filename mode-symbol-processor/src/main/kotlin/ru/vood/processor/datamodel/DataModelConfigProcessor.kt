@@ -11,13 +11,12 @@ import ru.vood.dmgen.annotation.FlowEntity
 import ru.vood.model.generator.ksp.common.BaseSymbolProcessor
 import ru.vood.processor.datamodel.abstraction.model.MetaCollector.collectMetaInformation
 import ru.vood.processor.datamodel.abstraction.model.MetaInformation
-import ru.vood.processor.datamodel.factory.FileGeneratorFactory
 import ru.vood.processor.datamodel.factory.IFileGeneratorFactory
 import ru.vood.processor.datamodel.generator.abstraction.AbstractGenerator
 
 class DataModelConfigProcessor(
     environment: SymbolProcessorEnvironment,
-    private val fileGeneratorFactory: IFileGeneratorFactory
+    private val fileGeneratorFactory: IFileGeneratorFactory,
 ) : BaseSymbolProcessor(environment) {
 
     private val codeGenerator = environment.codeGenerator
@@ -42,7 +41,7 @@ class DataModelConfigProcessor(
     }
 
     override fun finish() {
-        val listOf: List<AbstractGenerator> =        fileGeneratorFactory.generators(metaInformation, kspLogger, environment)
+        val listOf: List<AbstractGenerator> = fileGeneratorFactory.generators(metaInformation, kspLogger, environment)
 //        val rootPackageCommon = metaInformation.rootPackage
 //        val listOf: List<AbstractGenerator> = listOf(
 //            SerializableEntitySingleFileGenerator(rootPackageCommon),

@@ -5,6 +5,6 @@ package ru.vood.dmgen.dto
 value class FullColumnName(val value: String) {
     constructor(
         entityName: EntityName,
-        simpleColumnName: SimpleColumnName
+        simpleColumnName: SimpleColumnName,
     ) : this("${entityName.value}_${simpleColumnName.value}")
 }

@@ -1,7 +1,6 @@
 package ru.vood.dmgen.datamodel.b
 
 import ru.vood.dmgen.annotation.*
-import ru.vood.dmgen.datamodel.a.Deal
 import ru.vood.dmgen.datamodel.valueClasses.DealId
 
 @FlowEntity(FlowEntityType.AGGREGATE)

@@ -39,7 +39,7 @@ data class SyntheticColumnEntityDataJson(
     /**тип внешней сущности*/
     val outEntity: EntityName,
 
-): IColumnEntityDataJson
+    ) : IColumnEntityDataJson
 
 
 /**Мета данные по реквизиту сущности*/
@@ -59,4 +59,4 @@ data class SimpleColumnEntityDataJson(
     /**простого реквизита */
     val simpleColumnType: SimpleColumnType,
 
-    ): IColumnEntityDataJson
+    ) : IColumnEntityDataJson

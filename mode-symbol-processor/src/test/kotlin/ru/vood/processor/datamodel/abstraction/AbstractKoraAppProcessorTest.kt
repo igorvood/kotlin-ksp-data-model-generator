@@ -1,16 +1,12 @@
 package ru.vood.processor.datamodel.abstraction
 
-import com.google.devtools.ksp.processing.SymbolProcessor
 import com.google.devtools.ksp.processing.SymbolProcessorProvider
-import org.intellij.lang.annotations.Language
-import ru.vood.processor.datamodel.DataModelConfigProcessorProvider
 import ru.vood.processor.datamodel.util.readFile
-import java.util.function.Supplier
 
 abstract class AbstractKoraAppProcessorTest(
     val symbolProcessors: List<SymbolProcessorProvider>,
-    val sourceList: List<String> = listOf()
-    ) : AbstractSymbolProcessorTest() {
+    val sourceList: List<String> = listOf(),
+) : AbstractSymbolProcessorTest() {
 //    override fun commonImports() = super.commonImports() + """
 //        import ru.tinkoff.kora.application.graph.*;
 //        import java.util.Optional;
@@ -21,7 +17,7 @@ abstract class AbstractKoraAppProcessorTest(
     protected fun compile()/*: ApplicationGraphDraw*/ {
         val sources = sourceList.map {
             this::class.java.readFile(it)
-        }.toTypedArray (  )
+        }.toTypedArray()
 
         val compileResult = compile(symbolProcessors, *sources)
         if (compileResult.isFailed()) {

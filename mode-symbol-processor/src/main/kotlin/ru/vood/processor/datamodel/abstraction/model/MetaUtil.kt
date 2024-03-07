@@ -125,7 +125,7 @@ tailrec fun collectMetaForeignKey(
 
 
 
-                UkToFrom(toUk, onlyOneOrNull(fromUksOneToOne)?: onlyOneOrNull(fromUksManyToOne))
+                UkToFrom(toUk, onlyOneOrNull(fromUksOneToOne) ?: onlyOneOrNull(fromUksManyToOne))
             }
 
             val fkCols = fromCols.withIndex()
@@ -149,7 +149,10 @@ tailrec fun collectMetaForeignKey(
                 val dublicateFKNAmeInEntities =
                     filter.map { it.fromEntity.designClassShortName }.plus(element.fromEntity.designClassShortName)
                         .joinToString(",")
-                logger.kspError("Найден дубль имени внешнего ключа ${foreignKey.name}, повторяется у сущностей ${dublicateFKNAmeInEntities}", entities[fromMetaEntityClassName]?.ksAnnotated)
+                logger.kspError(
+                    "Найден дубль имени внешнего ключа ${foreignKey.name}, повторяется у сущностей ${dublicateFKNAmeInEntities}",
+                    entities[fromMetaEntityClassName]?.ksAnnotated
+                )
 
             } else {
                 val element1 = element
@@ -317,7 +320,12 @@ private fun fieldsFk(
                     }
 
                 }
-            runCatching {  MetaForeignKey(fkTemp, relationType)}.getOrElse { err->logger.kspError(err.message.orEmpty(), fromMetaEntity.ksAnnotated) }
+            runCatching {
+                MetaForeignKey(
+                    fkTemp,
+                    relationType
+                )
+            }.getOrElse { err -> logger.kspError(err.message.orEmpty(), fromMetaEntity.ksAnnotated) }
         }.toSet()
     val minus = collectMetaForeignKeyTemporary.map { it.name }.minus(map1.map { it.name }.toSet())
     assert(minus.isEmpty()) { " Почему то не все обработаны $minus" }

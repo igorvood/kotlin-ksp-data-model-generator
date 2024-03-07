@@ -36,7 +36,7 @@ kotlin {
     sourceSets.main {
         kotlin.srcDir("build/generated/ksp/main/kotlin")
     }
-    sourceSets.test{
+    sourceSets.test {
         kotlin.srcDir("src/test/kotlin")
     }
 }

@@ -17,7 +17,7 @@ import ru.vood.processor.datamodel.generator.common.IContextOfSingleFileGenerato
 
 class ContextDataClassesGenerator(
     private val metaInformation: MetaInformation,
-    ) : AbstractGenerator() {
+) : AbstractGenerator() {
     override fun files(): List<FileSpec> {
         val generatedClassData = metaInformation.entities.values.toSet()
 

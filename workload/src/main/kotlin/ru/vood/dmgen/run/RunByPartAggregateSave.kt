@@ -22,7 +22,7 @@ import ru.vood.dmgen.datamodel.valueClasses.DealId
 @Order(200)
 class RunByPartAggregateSave(
     val entity: EntityDaoController,
-    val jdbcOperations: JdbcOperations
+    val jdbcOperations: JdbcOperations,
 ) : CommandLineRunner {
 
     private val log = LoggerFactory.getLogger(this.javaClass)

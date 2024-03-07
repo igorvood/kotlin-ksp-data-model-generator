@@ -1,8 +1,6 @@
 package ru.vood.dmgen.datamodel
 
 import ru.vood.dmgen.annotation.*
-import ru.vood.dmgen.datamodel.a.Deal
-import ru.vood.dmgen.datamodel.c.Product
 import ru.vood.dmgen.datamodel.noRelation.NoRelationData
 import ru.vood.dmgen.datamodel.valueClasses.DealId
 

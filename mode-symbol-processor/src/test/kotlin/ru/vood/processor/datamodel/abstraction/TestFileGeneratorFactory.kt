@@ -6,7 +6,7 @@ import ru.vood.processor.datamodel.abstraction.model.MetaInformation
 import ru.vood.processor.datamodel.factory.IFileGeneratorFactory
 import ru.vood.processor.datamodel.generator.abstraction.AbstractGenerator
 
-class TestFileGeneratorFactory: IFileGeneratorFactory {
+class TestFileGeneratorFactory : IFileGeneratorFactory {
     override fun generators(
         metaInformation: MetaInformation,
         kspLogger: KSPLogger,

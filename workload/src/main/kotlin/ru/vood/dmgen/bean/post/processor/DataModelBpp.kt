@@ -8,7 +8,6 @@ import ru.vood.dmgen.annotation.MetaColumns
 import ru.vood.dmgen.annotation.MetaEntities
 import ru.vood.dmgen.annotation.MetaFKs
 import ru.vood.dmgen.annotation.ModelEntity
-import ru.vood.dmgen.datamodel.metaEnum.FkNameEnum
 import java.util.concurrent.atomic.AtomicBoolean
 
 

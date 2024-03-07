@@ -28,7 +28,7 @@ internal class OriginEntityDataClassesGeneratorTest : AbstractGeneratorTest("Dat
         val generatedNames = generatedFiles.map { it.name }.sorted()
         val testcaseData = testData.map { it.expectedClassFile }.sorted()
 
-        assertEquals( testcaseData, generatedNames)
+        assertEquals(testcaseData, generatedNames)
     }
 
 
@@ -48,7 +48,8 @@ internal class OriginEntityDataClassesGeneratorTest : AbstractGeneratorTest("Dat
             TestCase("OptionalDealParamEntity"),
             TestCase("DealParamaggregateEntity"),
 
-        )
+            )
+
         @JvmStatic
         private fun testCaseData() = testData.map { Arguments.of(it) }
 

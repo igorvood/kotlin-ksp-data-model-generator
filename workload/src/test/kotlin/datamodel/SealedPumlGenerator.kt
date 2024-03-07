@@ -31,12 +31,12 @@ class SealedPumlGenerator {
 
         val foreignKeyMapFromEntity = EnumMap(
             FkNameEnum.foreignKeyMap.values
-            .map {
-                it.fromEntity to it
-            }
-            .groupBy { it.first }
-            .map { it.key to it.value.map { q -> q.second }.toSet() }
-            .toMap()
+                .map {
+                    it.fromEntity to it
+                }
+                .groupBy { it.first }
+                .map { it.key to it.value.map { q -> q.second }.toSet() }
+                .toMap()
         )
 
 
@@ -57,9 +57,10 @@ class SealedPumlGenerator {
                             }
 
                             val typeCol = when (val c = col) {
-                                is ru.vood.dmgen.datamodel.sealedData.intf.SimpleColumnEntityData <*>-> c.simpleColumnType.value
+                                is ru.vood.dmgen.datamodel.sealedData.intf.SimpleColumnEntityData<*> -> c.simpleColumnType.value
                                 is ru.vood.dmgen.datamodel.sealedData.intf.SyntheticColumnEntityData<*> -> c.outEntity
-                                is ru.vood.dmgen.datamodel.sealedData.intf.SealedSyntheticColumnEntityData -> c.outEntities.map { it }.joinToString(",")
+                                is ru.vood.dmgen.datamodel.sealedData.intf.SealedSyntheticColumnEntityData -> c.outEntities.map { it }
+                                    .joinToString(",")
                             }
                             "${col.simpleColumnName.value}: $typeCol$question"
                         }

@@ -4,7 +4,6 @@ import kotlinx.serialization.Serializable
 import org.junit.jupiter.api.Test
 import ru.vood.dmgen.annotation.FlowEntityType
 import ru.vood.dmgen.datamodel.intf.EntityData
-import ru.vood.dmgen.datamodel.intf.IEntityOrigin
 import ru.vood.dmgen.datamodel.metaEnum.EntityEnum
 
 class MetaJsonExtractor {
@@ -39,7 +38,8 @@ class MetaJsonExtractor {
 
     @Serializable
     data class Ent(
-        /*override */val entMap: Map<EntityEnum, EntityDataJson>
+        /*override */
+        val entMap: Map<EntityEnum, EntityDataJson>,
     )//: IMetaEntityData
 
     @Serializable
@@ -59,7 +59,7 @@ class MetaJsonExtractor {
         /**коментарий сущности*/
         val comment: String,
         /**тип сущности*/
-        val entityType: FlowEntityType
+        val entityType: FlowEntityType,
     )//: IEntityData<T>
     {
         companion object {

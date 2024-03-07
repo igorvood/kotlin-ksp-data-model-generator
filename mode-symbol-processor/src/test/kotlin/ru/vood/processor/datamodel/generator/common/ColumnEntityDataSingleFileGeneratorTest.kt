@@ -1,7 +1,6 @@
 package ru.vood.processor.datamodel.generator.common
 
 import com.squareup.kotlinpoet.FileSpec
-import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
@@ -10,7 +9,6 @@ import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
 import ru.vood.model.generator.ksp.common.dto.PackageName
 import ru.vood.processor.datamodel.abstraction.AbstractGeneratorTest
-import ru.vood.processor.datamodel.generator.ContextDataClassesGeneratorTest
 import ru.vood.processor.datamodel.util.readFile
 
 internal class ColumnEntityDataSingleFileGeneratorTest : AbstractGeneratorTest("DataModel.json") {
@@ -24,11 +22,11 @@ internal class ColumnEntityDataSingleFileGeneratorTest : AbstractGeneratorTest("
     }
 
     @Test
-    fun compareTestedFiles(){
+    fun compareTestedFiles() {
         val generatedNames = generatedFiles.map { it.name }.sorted()
         val testcaseData = testData.map { it.expectedClassFile }.sorted()
 
-        assertEquals( testcaseData, generatedNames)
+        assertEquals(testcaseData, generatedNames)
     }
 
     @ParameterizedTest
@@ -36,7 +34,6 @@ internal class ColumnEntityDataSingleFileGeneratorTest : AbstractGeneratorTest("
     fun textFileTest(testCase: TestCase) {
         compareTextFile(generatedFiles, testCase.expectedClassFile, testCase.getText())
     }
-
 
 
     companion object {

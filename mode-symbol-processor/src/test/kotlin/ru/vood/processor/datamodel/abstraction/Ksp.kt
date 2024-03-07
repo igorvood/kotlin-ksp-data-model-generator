@@ -70,7 +70,7 @@ private val KotlinCompilation.kspCachesDir: File
 private class KspTestExtension(
     options: KspOptions,
     processorProviders: List<SymbolProcessorProvider>,
-    logger: KSPLogger
+    logger: KSPLogger,
 ) : AbstractKotlinSymbolProcessingExtension(
     options = options,
     logger = logger,
@@ -82,7 +82,7 @@ private class KspTestExtension(
 }
 
 private class KspCompileTestingComponentRegistrar(
-    private val compilation: KotlinCompilation
+    private val compilation: KotlinCompilation,
 ) : ComponentRegistrar {
     var providers = emptyList<SymbolProcessorProvider>()
 
@@ -155,7 +155,11 @@ private class KspCompileTestingComponentRegistrar(
         val registrar = KspTestExtension(options, providers, messageCollectorBasedKSPLogger)
         AnalysisHandlerExtension.registerExtension(project, registrar)
         // Dummy extension point; Required by dropPsiCaches().
-        CoreApplicationEnvironment.registerExtensionPoint(project.extensionArea, PsiTreeChangeListener.EP.name, PsiTreeChangeAdapter::class.java)
+        CoreApplicationEnvironment.registerExtensionPoint(
+            project.extensionArea,
+            PsiTreeChangeListener.EP.name,
+            PsiTreeChangeAdapter::class.java
+        )
     }
 }
 

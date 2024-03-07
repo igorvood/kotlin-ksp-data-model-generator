@@ -9,8 +9,9 @@ import ru.vood.dmgen.datamodel.valueClasses.DealId
 class OneOfDtoEntityTest {
 
     private val json = Json { }
+
     @Test
-    fun asd(){
+    fun asd() {
         val oneOfDtoEntity: OneOfDtoEntity = DealOneDataEntity(DealId("asdsa"), "sdasd")
 
 

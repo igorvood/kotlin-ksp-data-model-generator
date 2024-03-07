@@ -1,8 +1,6 @@
 package ru.vood.dmgen.datamodel.c
 
 import ru.vood.dmgen.annotation.*
-import ru.vood.dmgen.datamodel.a.Deal
-import ru.vood.dmgen.datamodel.oneOf.DealOneOfData
 import ru.vood.dmgen.datamodel.valueClasses.DealId
 
 @FlowEntity(FlowEntityType.AGGREGATE)
@@ -42,14 +40,17 @@ interface Product {
 
     @Comment("Параметр сделки, отношение к сделке один к одному")
     val ln: Long?
+
     @Comment("Параметр сделки, отношение к сделке один к одному")
     val dn: Double?
+
     @Comment("Параметр сделки, отношение к сделке один к одному")
     val fn: Float?
 
     //        val bd: BigDecimal
     @Comment("Параметр сделки, отношение к сделке один к одному")
     val bn: Boolean?
+
     @Comment("Параметр сделки, отношение к сделке один к одному")
     val isdsdd: String?
 //    val t: Instant,
@@ -57,8 +58,10 @@ interface Product {
 
     @Comment("Параметр сделки, отношение к сделке один к одному")
     val l: Long
+
     @Comment("Параметр сделки, отношение к сделке один к одному")
     val d: Double
+
     @Comment("Параметр сделки, отношение к сделке один к одному")
     val f: Float
 

@@ -45,7 +45,7 @@ data class EntityDataJson(
     /**коментарий сущности*/
     override val comment: String,
     /**тип сущности*/
-    override val entityType: FlowEntityType
+    override val entityType: FlowEntityType,
 ) : IEntityDataJson
 
 @Serializable
@@ -63,7 +63,7 @@ data class SealedEntityDataJson(
     /**тип сущности*/
     override val entityType: FlowEntityType,
     /**перечень наследников*/
-    val children: Set<EntityName>
+    val children: Set<EntityName>,
 ) : IEntityDataJson
 
 

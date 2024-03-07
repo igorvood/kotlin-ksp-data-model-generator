@@ -9,10 +9,9 @@ import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
 import ru.vood.model.generator.ksp.common.dto.PackageName
 import ru.vood.processor.datamodel.abstraction.AbstractGeneratorTest
-import ru.vood.processor.datamodel.generator.common.ColumnEntityDataSingleFileGenerator
 import ru.vood.processor.datamodel.util.readFile
 
-internal class ColumnEntityMapGeneratorTest: AbstractGeneratorTest("DataModel.json") {
+internal class ColumnEntityMapGeneratorTest : AbstractGeneratorTest("DataModel.json") {
 
     lateinit var generatedFiles: List<FileSpec>
 
@@ -23,11 +22,11 @@ internal class ColumnEntityMapGeneratorTest: AbstractGeneratorTest("DataModel.js
     }
 
     @Test
-    fun compareTestedFiles(){
+    fun compareTestedFiles() {
         val generatedNames = generatedFiles.map { it.name }.sorted()
         val testcaseData = testData.map { it.expectedClassFile }.sorted()
 
-        assertEquals( testcaseData, generatedNames)
+        assertEquals(testcaseData, generatedNames)
     }
 
     @ParameterizedTest
@@ -35,7 +34,6 @@ internal class ColumnEntityMapGeneratorTest: AbstractGeneratorTest("DataModel.js
     fun textFileTest(testCase: TestCase) {
         compareTextFile(generatedFiles, testCase.expectedClassFile, testCase.getText())
     }
-
 
 
     companion object {

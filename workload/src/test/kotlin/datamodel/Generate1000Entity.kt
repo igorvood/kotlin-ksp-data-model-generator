@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test
 class Generate1000Entity {
 
     @Test
-    fun t100(){
+    fun t100() {
         val map = (0..1000)
             .map {
 

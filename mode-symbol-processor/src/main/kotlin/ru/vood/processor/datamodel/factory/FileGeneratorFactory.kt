@@ -18,9 +18,9 @@ import ru.vood.processor.datamodel.generator.meta.UniqueKeyMapGenerator
 
 class FileGeneratorFactory : IFileGeneratorFactory {
     override fun generators(
-     metaInformation: MetaInformation,
-     kspLogger: KSPLogger,
-     environment: SymbolProcessorEnvironment,
+        metaInformation: MetaInformation,
+        kspLogger: KSPLogger,
+        environment: SymbolProcessorEnvironment,
     ): List<AbstractGenerator> {
         val rootPackageCommon = metaInformation.rootPackage
         return listOf(

@@ -74,8 +74,11 @@ internal class ReplyGeneratorImplTest {
 
         private val testCaseListNTimes = (1..10)
             .flatMap {
-                ukValues.map {entry ->
-                    TestCase(entry.key, entry.value.map { e -> e.key to UUID.randomUUID().toString().hashCode().toString() }.toMap())
+                ukValues.map { entry ->
+                    TestCase(
+                        entry.key,
+                        entry.value.map { e -> e.key to UUID.randomUUID().toString().hashCode().toString() }.toMap()
+                    )
                 }
             }
 

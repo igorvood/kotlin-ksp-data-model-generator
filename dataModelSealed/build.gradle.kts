@@ -1,5 +1,3 @@
-import org.jetbrains.kotlin.gradle.dsl.KotlinCompile
-
 plugins {
     id("com.google.devtools.ksp")
     kotlin("jvm")
@@ -28,6 +26,7 @@ kotlin {
     sourceSets.main {
         kotlin.srcDirs(
             "src/main/kotlin",
-            "build/generated/ksp/main/kotlin")
+            "build/generated/ksp/main/kotlin"
+        )
     }
 }

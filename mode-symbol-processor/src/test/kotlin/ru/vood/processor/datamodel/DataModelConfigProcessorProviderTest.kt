@@ -121,7 +121,11 @@ internal class DataModelConfigProcessorProviderTest :
                     cols = listOf(SimpleColumnName(value = "id")),
                     typeUk = TypeUk.PK
                 ),
-                ukFrom = UkDto(name=UkName(value="DealParamOneToOne_PK"), cols=listOf(SimpleColumnName(value="dealId")), typeUk= TypeUk.PK),
+                ukFrom = UkDto(
+                    name = UkName(value = "DealParamOneToOne_PK"),
+                    cols = listOf(SimpleColumnName(value = "dealId")),
+                    typeUk = TypeUk.PK
+                ),
                 relationType = RelationType.ONE_TO_ONE_MANDATORY
             )
 
@@ -135,7 +139,11 @@ internal class DataModelConfigProcessorProviderTest :
                     cols = listOf(SimpleColumnName(value = "id")),
                     typeUk = TypeUk.PK
                 ),
-                ukFrom = UkDto(name=UkName(value="DealParamOneToOneOptional_PK"), cols=listOf(SimpleColumnName(value="dealId")), typeUk= TypeUk.PK),
+                ukFrom = UkDto(
+                    name = UkName(value = "DealParamOneToOneOptional_PK"),
+                    cols = listOf(SimpleColumnName(value = "dealId")),
+                    typeUk = TypeUk.PK
+                ),
                 relationType = RelationType.ONE_TO_ONE_OPTIONAL
             )
 
@@ -149,7 +157,11 @@ internal class DataModelConfigProcessorProviderTest :
                     cols = listOf(SimpleColumnName(value = "id")),
                     typeUk = TypeUk.PK
                 ),
-                ukFrom = UkDto(name=UkName(value="DealParamSet_PK"), cols=listOf(SimpleColumnName(value="dealId"), SimpleColumnName(value="id")), typeUk= TypeUk.PK),
+                ukFrom = UkDto(
+                    name = UkName(value = "DealParamSet_PK"),
+                    cols = listOf(SimpleColumnName(value = "dealId"), SimpleColumnName(value = "id")),
+                    typeUk = TypeUk.PK
+                ),
                 relationType = RelationType.MANY_TO_ONE
             )
 

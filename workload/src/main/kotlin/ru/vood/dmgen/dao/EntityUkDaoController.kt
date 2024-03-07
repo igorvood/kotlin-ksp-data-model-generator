@@ -13,7 +13,7 @@ import ru.vood.dmgen.datamodel.metaEnum.UniqueKeyEnum
 
 @Repository
 class EntityUkDaoController(
-    val jdbcOperations: JdbcOperations
+    val jdbcOperations: JdbcOperations,
 ) {
 
     val json = Json
@@ -31,7 +31,7 @@ class EntityUkDaoController(
         entityName: EntityEnum,
         ukData: IContextOf<T>,
         pkJson: String,
-        ukMetaData: UKEntityData<T>
+        ukMetaData: UKEntityData<T>,
     ) {
         val ukSerializer = ukMetaData.serializer as KSerializer<IContextOf<T>>
         val ukJson = Json.encodeToString(ukSerializer, ukData)

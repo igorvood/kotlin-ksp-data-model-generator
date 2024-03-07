@@ -2,7 +2,6 @@ package ru.vood.model.generator.ksp.common
 
 import com.squareup.kotlinpoet.AnnotationSpec
 import com.squareup.kotlinpoet.TypeSpec
-import java.time.Instant
 import kotlin.reflect.KClass
 
 object KspCommonUtils {

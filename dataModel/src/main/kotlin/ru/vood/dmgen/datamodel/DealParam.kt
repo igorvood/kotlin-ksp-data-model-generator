@@ -1,7 +1,6 @@
 package ru.vood.dmgen.datamodel
 
 import ru.vood.dmgen.annotation.*
-import ru.vood.dmgen.datamodel.a.Deal
 import ru.vood.dmgen.datamodel.valueClasses.DealId
 
 @FlowEntity(FlowEntityType.INNER)
@@ -21,6 +20,7 @@ interface DealParamOneToOne {
     @Pk
     @Comment("Параметр сделки, отношение к сделке один к одному")
     val dealId: DealId
+
     @Comment("Параметр сделки, отношение к сделке один к одному")
     val paramDate: String
 }
@@ -42,6 +42,7 @@ interface InnerToDealParamOneToOne {
     @Pk
     @Comment("Параметр сделки, отношение к сделке один к одному")
     val dealId: DealId
+
     @Comment("Параметр сделки, отношение к сделке один к одному")
     val paramDate: String
 }
@@ -60,6 +61,7 @@ interface DealParamOneToOneOptional {
     @Pk
     @Comment("Параметр сделки, отношение к сделке один к одному")
     val dealId: DealId
+
     @Comment("Параметр сделки, отношение к сделке один к одному")
     val paramDate: String
 }

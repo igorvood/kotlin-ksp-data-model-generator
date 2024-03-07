@@ -9,6 +9,6 @@ annotation class ForeignKey(
     val kClass: String,
     val name: String,
     val cols: Array<ForeignKeyColumns> = [],
-    val foreignKeyType: ForeignKeyType// = ru.vood.dmgen.annotation.ForeignKeyType.OPTIONAL
+    val foreignKeyType: ForeignKeyType,// = ru.vood.dmgen.annotation.ForeignKeyType.OPTIONAL
 )
 

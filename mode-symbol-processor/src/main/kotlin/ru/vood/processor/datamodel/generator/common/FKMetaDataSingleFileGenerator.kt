@@ -85,7 +85,8 @@ class FKMetaDataSingleFileGenerator(rootPackage: PackageName) : AbstractDataClas
             .build()
 
 
-        val fkPairGeneratorPropertySpec = listOf(fromEntity, toEntity, ukTo, ukFrom, relationType, fkCols, сontextExtractor)
+        val fkPairGeneratorPropertySpec =
+            listOf(fromEntity, toEntity, ukTo, ukFrom, relationType, fkCols, сontextExtractor)
 
         private val fkPairGeneratorPropertySpecCons = fkPairGeneratorPropertySpec
             .map { ps ->

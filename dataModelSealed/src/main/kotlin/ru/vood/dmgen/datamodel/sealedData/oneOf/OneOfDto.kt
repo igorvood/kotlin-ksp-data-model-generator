@@ -1,7 +1,6 @@
 package ru.vood.dmgen.datamodel.sealedData.oneOf
 
 import ru.vood.dmgen.annotation.*
-import ru.vood.dmgen.datamodel.sealedData.Deal
 import ru.vood.dmgen.datamodel.valueClasses.DealId
 
 
@@ -33,6 +32,7 @@ interface DealOneData {
     @Pk
     @Comment("Это ее идентификатор")
     val dealId: DealId
+
     @Comment("Параметр сделки, отношение к сделке один к одному")
     val one: String
 }

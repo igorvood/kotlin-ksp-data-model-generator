@@ -8,6 +8,7 @@ import ru.vood.processor.datamodel.abstraction.model.MetaEntity
 sealed interface ISyntheticFieldInfo {
     /**тип связи*/
     val relationType: RelationType
+
     /**признак опциональности*/
     val isOneOf: Boolean
 }
@@ -27,10 +28,10 @@ data class SealedSyntheticFieldInfo(
     override val relationType: RelationType,
     /**признак опциональности*/
     override val isOneOf: Boolean,
-) : ISyntheticFieldInfo{
+) : ISyntheticFieldInfo {
 
     init {
-        require(metaEntities.size>1){"Synthetic sealed entity must have more than one FK on it"}
+        require(metaEntities.size > 1) { "Synthetic sealed entity must have more than one FK on it" }
     }
 }
 

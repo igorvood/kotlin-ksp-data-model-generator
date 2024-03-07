@@ -44,11 +44,11 @@ object DerivativeDependencyMap {
         .toMap())
 
     private fun collectDependencyNew(
-        foreignKey: Map<FkNameEnum, FKMetaData<*>>
+        foreignKey: Map<FkNameEnum, FKMetaData<*>>,
     ): EnumMap<EntityEnum, Set<MetaDependencyNew>> {
         tailrec fun recursiveCollectDependency(
             listFk: List<FKMetaData<*>>,
-            collector: Map<EntityEnum, Set<MetaDependencyNew>>
+            collector: Map<EntityEnum, Set<MetaDependencyNew>>,
         ): Map<EntityEnum, Set<MetaDependencyNew>> {
             return when (listFk.isEmpty()) {
                 true -> collector

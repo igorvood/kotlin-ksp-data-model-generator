@@ -1,11 +1,11 @@
 package ru.vood.processor.datamodel.util
 
 import java.io.File
-import java.util.Optional
+import java.util.*
 
 private val pathSeparator = "/"
 
-fun readFromFile(javaClass: Class<*>, fileName: String): String{
+fun readFromFile(javaClass: Class<*>, fileName: String): String {
     val replace = javaClass.name.replace(".", pathSeparator)
     val s = replace + pathSeparator + fileName
     val orElseGet = Optional.ofNullable(javaClass.classLoader.getResource(s))

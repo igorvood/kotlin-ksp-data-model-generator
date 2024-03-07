@@ -3,7 +3,6 @@ package ru.vood.processor.datamodel.generator.meta
 import com.squareup.kotlinpoet.FileSpec
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeAll
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
@@ -12,7 +11,7 @@ import ru.vood.model.generator.ksp.common.dto.PackageName
 import ru.vood.processor.datamodel.abstraction.AbstractGeneratorTest
 import ru.vood.processor.datamodel.util.readFile
 
-internal class EntityMapGeneratorTest: AbstractGeneratorTest("DataModel.json") {
+internal class EntityMapGeneratorTest : AbstractGeneratorTest("DataModel.json") {
 
     lateinit var generatedFiles: List<FileSpec>
 
@@ -23,11 +22,11 @@ internal class EntityMapGeneratorTest: AbstractGeneratorTest("DataModel.json") {
     }
 
     @Test
-    fun compareTestedFiles(){
+    fun compareTestedFiles() {
         val generatedNames = generatedFiles.map { it.name }.sorted()
         val testcaseData = testData.map { it.expectedClassFile }.sorted()
 
-        assertEquals( testcaseData, generatedNames)
+        assertEquals(testcaseData, generatedNames)
     }
 
     @ParameterizedTest
@@ -37,7 +36,6 @@ internal class EntityMapGeneratorTest: AbstractGeneratorTest("DataModel.json") {
         val entityDependency = metaInformation.entityDependency
         println(1)
     }
-
 
 
     companion object {

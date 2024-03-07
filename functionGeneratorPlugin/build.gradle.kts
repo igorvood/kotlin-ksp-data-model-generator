@@ -6,14 +6,14 @@ plugins {
 
 gradlePlugin {
     plugins {
-        create("functionGeneratorPlugin"){
+        create("functionGeneratorPlugin") {
             id = "codes.metadata.function.generate"
-            implementationClass ="ru.vood.codes.metadata.function.generate.FunctionGeneratePlugin"
+            implementationClass = "ru.vood.codes.metadata.function.generate.FunctionGeneratePlugin"
         }
     }
 }
 
-dependencies{
+dependencies {
 
 }
 //val kspVersion: String by project

@@ -7,5 +7,5 @@ import ru.vood.dmgen.dto.SimpleColumnName
 @Serializable
 data class FkPairJson(
     val from: Pair<EntityName, SimpleColumnName>,
-    val to: Pair<EntityName, SimpleColumnName>
+    val to: Pair<EntityName, SimpleColumnName>,
 )

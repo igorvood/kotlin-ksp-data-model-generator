@@ -1,11 +1,8 @@
 package ru.vood.processor.datamodel.generator
 
-import com.google.devtools.ksp.processing.KSPLogger
 import com.squareup.kotlinpoet.FileSpec
-import io.mockk.mockk
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeAll
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
@@ -29,7 +26,7 @@ internal class SyntheticEntityGeneratorTest : AbstractGeneratorTest("DataModel.j
         val generatedNames = generatedFiles.map { it.name }.sorted()
         val testcaseData = testData.map { it.expectedClassFile }.sorted()
 
-        assertEquals( testcaseData, generatedNames)
+        assertEquals(testcaseData, generatedNames)
     }
 
 
@@ -50,7 +47,7 @@ internal class SyntheticEntityGeneratorTest : AbstractGeneratorTest("DataModel.j
             TestCase("DealParamaggregateDetail"),
 
 
-        )
+            )
 
         @JvmStatic
         private fun testCaseData() = testData.map { Arguments.of(it) }

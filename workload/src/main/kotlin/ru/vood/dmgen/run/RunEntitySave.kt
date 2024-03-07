@@ -14,7 +14,7 @@ import ru.vood.dmgen.datamodel.valueClasses.DealId
 @Order(300)
 class RunEntitySave(
     val entity: EntityDaoController,
-    val jdbcOperations: JdbcOperations
+    val jdbcOperations: JdbcOperations,
 ) : CommandLineRunner {
 
     private val log = LoggerFactory.getLogger(this.javaClass)

@@ -11,7 +11,7 @@ import ru.vood.model.generator.ksp.common.dto.PackageName
 import ru.vood.processor.datamodel.abstraction.AbstractGeneratorTest
 import ru.vood.processor.datamodel.util.readFile
 
-internal class UniqueKeyMapGeneratorTest: AbstractGeneratorTest("DataModel.json") {
+internal class UniqueKeyMapGeneratorTest : AbstractGeneratorTest("DataModel.json") {
 
     lateinit var generatedFiles: List<FileSpec>
 
