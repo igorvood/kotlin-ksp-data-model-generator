@@ -12,7 +12,6 @@ import ru.vood.dmgen.datamodel.metaEnum.UniqueKeyEnum.Companion.uniqueKeyMap
 import ru.vood.mock.external.reply.data.DataOk
 import java.util.stream.Stream
 
-@Disabled
 internal class ReplyGeneratorImplTest {
 
     private val replyGeneratorImpl = ReplyGeneratorImpl()
@@ -22,13 +21,14 @@ internal class ReplyGeneratorImplTest {
     @ParameterizedTest
     @MethodSource("ru.vood.mock.external.reply.ReplyGeneratorImplTest#testCases")
     fun generate(uk: UniqueKeyEnum) {
-        val ukMap = ukValues[uk] ?: error("нет начального зн для первичного ключа $uk с колонками ${uniqueKeyMap[uk]?.columns?.map { it.value }}")
+        val ukData = uk.ukData()
+        val ukMap = ukValues[uk] ?: error("нет начального зн для первичного ключа $uk с колонками ${ukData.columns.map { it.value }}")
 
 
         val generate = replyGeneratorImpl.generateAggregate(1, uk.name, ukMap)
         val map = generate.map {
             println(generate)
-            val decodeFromString = asda.decodeFromString(DealDetail.serializer(), (it.payload as DataOk).payload)
+            val decodeFromString = asda.decodeFromString(ukData.entity.entityData().serializerSynthetic, (it.payload as DataOk).payload)
             println(1)
         }
 
@@ -48,6 +48,8 @@ internal class ReplyGeneratorImplTest {
 
         val ukValues = mapOf(
             UniqueKeyEnum.Deal_PK to mapOf("id" to "1"),
+            UniqueKeyEnum.DealExtendData_PK to mapOf("dealId" to "1"),
+            UniqueKeyEnum.Product_PK to mapOf("dealId" to "1", "id" to "1"),
             UniqueKeyEnum.ProductPayments_PK to mapOf("dealId" to "1", "productId" to "1"),
         )
     }

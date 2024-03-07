@@ -63,14 +63,16 @@ class ReplyGeneratorImpl : IReplyGenerator {
                     "kotlin.Int" -> JsonPrimitive(value)
                     "kotlin.Double" -> JsonPrimitive(value.toDouble())
                     "kotlin.Float" -> JsonPrimitive(value.toFloat())
-                    "kotlin.Long" -> JsonPrimitive(value.toFloat())
+                    "kotlin.Long" -> JsonPrimitive(value.toLong())
 
                     "kotlin.Boolean" -> {
                         if (value % 2 == 1)
                             JsonPrimitive(true)
                         else JsonPrimitive(false)
                     }
-                    else -> error("unable to generate value for column ${sced.simpleColumnName.value} with type ${sced.simpleColumnType.value}")
+                    else -> {
+                        error("unable to generate value for column ${sced.simpleColumnName.value} with type ${sced.simpleColumnType.value}")
+                    }
                 }
                 sced.simpleColumnName.value to jPrim
             }.toMap()
