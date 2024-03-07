@@ -41,36 +41,53 @@ class ReplyGeneratorImpl : IReplyGenerator {
             val otherFields = simpleFields
                 .map { sced ->
                     val jPrim = when (sced.simpleColumnType.value) {
-                        "kotlin.String" -> JsonPrimitive(Random.nextInt(111))
-                        "Int" -> JsonPrimitive(Random.nextInt(111))
+                        "kotlin.String" -> JsonPrimitive(uk.hashCode().toString())
+                        "kotlin.Int" -> JsonPrimitive(uk.hashCode())
+                        "kotlin.Double" -> JsonPrimitive(uk.hashCode().toDouble())
+                        "kotlin.Float" -> JsonPrimitive(uk.hashCode().toFloat())
                         else -> error("unable to generate value for column ${sced.simpleColumnName.value} with type ${sced.simpleColumnType.value}")
                     }
                     sced.simpleColumnName.value to jPrim
                 }.toMap()
 
 
-
-
-
-            allFields.filterIsInstance<SyntheticColumnEntityData<*>>()
-                .map {sced ->
+            val map = allFields.filterIsInstance<SyntheticColumnEntityData<*>>()
+                .map { sced ->
                     val fkMetaData = fromToFkMap[sced.outEntity]!![entityEnum]!!
-                    when(fkMetaData.relationType){
+                    val jsonObject = when (fkMetaData.relationType) {
                         RelationType.ONE_TO_ONE_MANDATORY -> {
-                            val newUk = fkMetaData.fkCols.map {fkColsPair->
+                            val newUk = fkMetaData.fkCols.map { fkColsPair ->
                                 val value = uk[fkColsPair.to.columnData().simpleColumnName.value]
                                 fkColsPair.from.columnData().simpleColumnName.value to value!!
                             }
                                 .toMap()
 
-                            genRecursive(1, fkMetaData.ukTo.name, newUk)
+                            sced.simpleColumnName.value to genRecursive(1, fkMetaData.ukFrom!!.name, newUk)
                         }
-                        RelationType.MANY_TO_ONE, RelationType.ONE_TO_ONE_OPTIONAL -> error("relation type ${fkMetaData.relationType} not supported for column ${sced.simpleColumnName.value}")
+                        RelationType.ONE_TO_ONE_OPTIONAL -> {
+                            val newUk = fkMetaData.fkCols.map { fkColsPair ->
+                                val value = uk[fkColsPair.to.columnData().simpleColumnName.value]
+                                fkColsPair.from.columnData().simpleColumnName.value to value!!
+                            }
+                                .toMap()
+
+                            sced.simpleColumnName.value to genRecursive(1, fkMetaData.ukFrom!!.name, newUk)
+                        }
+                        RelationType.MANY_TO_ONE -> {
+                            val newUk = fkMetaData.fkCols.map { fkColsPair ->
+                                val value = uk[fkColsPair.to.columnData().simpleColumnName.value]
+                                fkColsPair.from.columnData().simpleColumnName.value to value!!
+                            }
+                                .toMap()
+
+                            sced.simpleColumnName.value to genRecursive(1, fkMetaData.ukFrom!!.name, newUk)
+                        }
                     }
-                }
+                    jsonObject
+                }.toMap()
 
             val jsonObject: JsonObject =
-                JsonObject(mapOf("origin" to JsonObject(ukJson.plus(otherFields))))
+                JsonObject(mapOf("origin" to JsonObject(ukJson.plus(otherFields))).plus(map))
 
             return jsonObject
         }

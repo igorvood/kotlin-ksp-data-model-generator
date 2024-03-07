@@ -9,7 +9,16 @@ interface Deal {
     @Comment("Это ее идентификатор")
     val id: Int
 
-    @Comment("Это какой то строковый параметр")
+    @Comment("Это какой-то строковый параметр")
     val s: String
+
+    @Comment("Это какой-то числовой параметр")
+    val i: Int
+
+    @Comment("Это какой-то числовой параметр")
+    val d: Double
+
+    @Comment("Это какой-то числовой параметр")
+    val f: Float
 
 }
