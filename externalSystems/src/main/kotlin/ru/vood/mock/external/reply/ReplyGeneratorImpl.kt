@@ -1,8 +1,6 @@
 package ru.vood.mock.external.reply
 
-import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.JsonObject
-import kotlinx.serialization.json.JsonPrimitive
+import kotlinx.serialization.json.*
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 import ru.vood.dmgen.datamodel.intf.SimpleColumnEntityData
@@ -14,7 +12,6 @@ import ru.vood.dmgen.datamodel.metaEnum.UniqueKeyEnum.Companion.uniqueKeyMap
 import ru.vood.dmgen.dto.RelationType
 import ru.vood.mock.external.reply.data.DataOk
 import ru.vood.mock.external.reply.data.Response
-import kotlin.random.Random
 
 @Service
 class ReplyGeneratorImpl : IReplyGenerator {
@@ -23,7 +20,12 @@ class ReplyGeneratorImpl : IReplyGenerator {
     private val  json = Json {  }
     override fun generate(cnt: Int, payloadClass: String, uk: Map<String, String>): List<Response> {
 
-        fun genRecursive(cnt: Int, payloadClass: String, uk: Map<String, String>): JsonObject{
+        fun genRecursive(cnt: Int, payloadClass: String, uk: Map<String, String>, typeJsonObject: TypeJsonObjectEnum): JsonElement {
+
+            when(typeJsonObject){
+                TypeJsonObjectEnum.COLLECTION -> require(cnt>=0){"for $typeJsonObject cnt must be zero or more"}
+                TypeJsonObjectEnum.OBJECT -> require(cnt==1){"for $typeJsonObject cnt must be only 1"}
+            }
 
             logger.info("payloadClass -> $payloadClass uk -> $uk")
             val ukEntityData = uniqueKeyMap[UniqueKeyEnum.valueOf(payloadClass)]!!
@@ -36,22 +38,27 @@ class ReplyGeneratorImpl : IReplyGenerator {
 
             val ukJson = uk.map { it.key to JsonPrimitive(it.value) }.toMap()
 
-            val simpleFields = allFields.filterIsInstance<SimpleColumnEntityData<*>>()
+            val otherSimpleFields = allFields.filterIsInstance<SimpleColumnEntityData<*>>()
                 .filter { !ukEntityData.columns.contains(it.simpleColumnName) }
-            val otherFields = simpleFields
                 .map { sced ->
+                    val value = uk.hashCode() + sced.simpleColumnName.value.hashCode()
                     val jPrim = when (sced.simpleColumnType.value) {
-                        "kotlin.String" -> JsonPrimitive(uk.hashCode().toString())
-                        "kotlin.Int" -> JsonPrimitive(uk.hashCode())
-                        "kotlin.Double" -> JsonPrimitive(uk.hashCode().toDouble())
-                        "kotlin.Float" -> JsonPrimitive(uk.hashCode().toFloat())
+                        "kotlin.String" -> JsonPrimitive(value.toString())
+                        "kotlin.Int" -> JsonPrimitive(value)
+                        "kotlin.Double" -> JsonPrimitive(value.toDouble())
+                        "kotlin.Float" -> JsonPrimitive(value.toFloat())
+                        "kotlin.Boolean" -> {
+                            if (value % 2 ==1)
+                            JsonPrimitive(true)
+                            else JsonPrimitive(false)
+                        }
                         else -> error("unable to generate value for column ${sced.simpleColumnName.value} with type ${sced.simpleColumnType.value}")
                     }
                     sced.simpleColumnName.value to jPrim
                 }.toMap()
 
 
-            val map = allFields.filterIsInstance<SyntheticColumnEntityData<*>>()
+            val otherSyntheticFields = allFields.filterIsInstance<SyntheticColumnEntityData<*>>()
                 .map { sced ->
                     val fkMetaData = fromToFkMap[sced.outEntity]!![entityEnum]!!
                     val jsonObject = when (fkMetaData.relationType) {
@@ -62,7 +69,7 @@ class ReplyGeneratorImpl : IReplyGenerator {
                             }
                                 .toMap()
 
-                            sced.simpleColumnName.value to genRecursive(1, fkMetaData.ukFrom!!.name, newUk)
+                            sced.simpleColumnName.value to genRecursive(1, fkMetaData.ukFrom!!.name, newUk, TypeJsonObjectEnum.OBJECT)
                         }
                         RelationType.ONE_TO_ONE_OPTIONAL -> {
                             val newUk = fkMetaData.fkCols.map { fkColsPair ->
@@ -71,7 +78,7 @@ class ReplyGeneratorImpl : IReplyGenerator {
                             }
                                 .toMap()
 
-                            sced.simpleColumnName.value to genRecursive(1, fkMetaData.ukFrom!!.name, newUk)
+                            sced.simpleColumnName.value to genRecursive(1, fkMetaData.ukFrom!!.name, newUk, TypeJsonObjectEnum.OBJECT)
                         }
                         RelationType.MANY_TO_ONE -> {
                             val newUk = fkMetaData.fkCols.map { fkColsPair ->
@@ -80,14 +87,15 @@ class ReplyGeneratorImpl : IReplyGenerator {
                             }
                                 .toMap()
 
-                            sced.simpleColumnName.value to genRecursive(1, fkMetaData.ukFrom!!.name, newUk)
+                            sced.simpleColumnName.value to JsonArray(listOf())
+//                                    genRecursive(1, fkMetaData.ukFrom!!.name, newUk, TypeJsonObjectEnum.COLLECTION)
                         }
                     }
                     jsonObject
                 }.toMap()
 
             val jsonObject: JsonObject =
-                JsonObject(mapOf("origin" to JsonObject(ukJson.plus(otherFields))).plus(map))
+                JsonObject(mapOf("origin" to JsonObject(ukJson.plus(otherSimpleFields))).plus(otherSyntheticFields))
 
             return jsonObject
         }
@@ -97,7 +105,7 @@ class ReplyGeneratorImpl : IReplyGenerator {
 
 
 
-        val payload = genRecursive(cnt, payloadClass, uk).toString()
+        val payload = genRecursive(cnt, payloadClass, uk, TypeJsonObjectEnum.OBJECT).toString()
         return listOf( Response(payloadClass, DataOk(payload) ))
 
     }

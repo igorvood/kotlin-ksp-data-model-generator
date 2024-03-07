@@ -20,8 +20,8 @@ internal class ReplyGeneratorImplTest {
         val generate = replyGeneratorImpl.generate(1, UniqueKeyEnum.Deal_PK.name, mapOf("id" to "1"))
         val map = generate.map {
             println(generate)
-            asda.decodeFromString(DealDetail.serializer(), (it.payload as DataOk).payload)
-
+            val decodeFromString = asda.decodeFromString(DealDetail.serializer(), (it.payload as DataOk).payload)
+            println(1)
         }
 
     }

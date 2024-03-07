@@ -21,4 +21,7 @@ interface Deal {
     @Comment("Это какой-то числовой параметр")
     val f: Float
 
+    @Comment("Это какой-то логический параметр")
+    val b: Boolean
+
 }
