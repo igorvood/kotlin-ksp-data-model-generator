@@ -20,94 +20,86 @@ class ReplyGeneratorImpl : IReplyGenerator {
     private val  json = Json {  }
     override fun generate(cnt: Int, payloadClass: String, uk: Map<String, String>): List<Response> {
 
-        fun genRecursive(cnt: Int, payloadClass: String, uk: Map<String, String>, typeJsonObject: TypeJsonObjectEnum): JsonElement {
-
-            when(typeJsonObject){
-                TypeJsonObjectEnum.COLLECTION -> require(cnt>=0){"for $typeJsonObject cnt must be zero or more"}
-                TypeJsonObjectEnum.OBJECT -> require(cnt==1){"for $typeJsonObject cnt must be only 1"}
-            }
-
-            logger.info("payloadClass -> $payloadClass uk -> $uk")
-            val ukEntityData = uniqueKeyMap[UniqueKeyEnum.valueOf(payloadClass)]!!
-            ukEntityData.columns
-
-            val entityEnum = ukEntityData.entity
-
-            val allFields = FullColumnNameEnum.values().filter { it.columnData().entity == entityEnum }.map { it.columnData() }
-
-
-            val ukJson = uk.map { it.key to JsonPrimitive(it.value) }.toMap()
-
-            val otherSimpleFields = allFields.filterIsInstance<SimpleColumnEntityData<*>>()
-                .filter { !ukEntityData.columns.contains(it.simpleColumnName) }
-                .map { sced ->
-                    val value = uk.hashCode() + sced.simpleColumnName.value.hashCode()
-                    val jPrim = when (sced.simpleColumnType.value) {
-                        "kotlin.String" -> JsonPrimitive(value.toString())
-                        "kotlin.Int" -> JsonPrimitive(value)
-                        "kotlin.Double" -> JsonPrimitive(value.toDouble())
-                        "kotlin.Float" -> JsonPrimitive(value.toFloat())
-                        "kotlin.Boolean" -> {
-                            if (value % 2 ==1)
-                            JsonPrimitive(true)
-                            else JsonPrimitive(false)
-                        }
-                        else -> error("unable to generate value for column ${sced.simpleColumnName.value} with type ${sced.simpleColumnType.value}")
-                    }
-                    sced.simpleColumnName.value to jPrim
-                }.toMap()
-
-
-            val otherSyntheticFields = allFields.filterIsInstance<SyntheticColumnEntityData<*>>()
-                .map { sced ->
-                    val fkMetaData = fromToFkMap[sced.outEntity]!![entityEnum]!!
-                    val jsonObject = when (fkMetaData.relationType) {
-                        RelationType.ONE_TO_ONE_MANDATORY -> {
-                            val newUk = fkMetaData.fkCols.map { fkColsPair ->
-                                val value = uk[fkColsPair.to.columnData().simpleColumnName.value]
-                                fkColsPair.from.columnData().simpleColumnName.value to value!!
-                            }
-                                .toMap()
-
-                            sced.simpleColumnName.value to genRecursive(1, fkMetaData.ukFrom!!.name, newUk, TypeJsonObjectEnum.OBJECT)
-                        }
-                        RelationType.ONE_TO_ONE_OPTIONAL -> {
-                            val newUk = fkMetaData.fkCols.map { fkColsPair ->
-                                val value = uk[fkColsPair.to.columnData().simpleColumnName.value]
-                                fkColsPair.from.columnData().simpleColumnName.value to value!!
-                            }
-                                .toMap()
-
-                            sced.simpleColumnName.value to genRecursive(1, fkMetaData.ukFrom!!.name, newUk, TypeJsonObjectEnum.OBJECT)
-                        }
-                        RelationType.MANY_TO_ONE -> {
-                            val newUk = fkMetaData.fkCols.map { fkColsPair ->
-                                val value = uk[fkColsPair.to.columnData().simpleColumnName.value]
-                                fkColsPair.from.columnData().simpleColumnName.value to value!!
-                            }
-                                .toMap()
-
-                            sced.simpleColumnName.value to JsonArray(listOf())
-//                                    genRecursive(1, fkMetaData.ukFrom!!.name, newUk, TypeJsonObjectEnum.COLLECTION)
-                        }
-                    }
-                    jsonObject
-                }.toMap()
-
-            val jsonObject: JsonObject =
-                JsonObject(mapOf("origin" to JsonObject(ukJson.plus(otherSimpleFields))).plus(otherSyntheticFields))
-
-            return jsonObject
-        }
-
-
-
-
-
-
         val payload = genRecursive(cnt, payloadClass, uk, TypeJsonObjectEnum.OBJECT).toString()
         return listOf( Response(payloadClass, DataOk(payload) ))
 
+    }
+
+    private fun genRecursive(cnt: Int, payloadClass: String, uk: Map<String, String>, typeJsonObject: TypeJsonObjectEnum): JsonElement {
+
+        when(typeJsonObject){
+            TypeJsonObjectEnum.COLLECTION -> require(cnt>=0){"for $typeJsonObject cnt must be zero or more"}
+            TypeJsonObjectEnum.OBJECT -> require(cnt==1){"for $typeJsonObject cnt must be only 1"}
+        }
+
+        logger.info("payloadClass -> $payloadClass uk -> $uk")
+        val ukEntityData = uniqueKeyMap[UniqueKeyEnum.valueOf(payloadClass)]!!
+        val entityEnum = ukEntityData.entity
+        val allFields = FullColumnNameEnum.values().filter { it.columnData().entity == entityEnum }.map { it.columnData() }
+
+
+        val ukJson = uk.map { it.key to JsonPrimitive(it.value) }.toMap()
+
+        val otherSimpleFields = allFields.filterIsInstance<SimpleColumnEntityData<*>>()
+            .filter { !ukEntityData.columns.contains(it.simpleColumnName) }
+            .map { sced ->
+                val value = uk.hashCode() + sced.simpleColumnName.value.hashCode()
+                val jPrim = when (sced.simpleColumnType.value) {
+                    "kotlin.String" -> JsonPrimitive(value.toString())
+                    "kotlin.Int" -> JsonPrimitive(value)
+                    "kotlin.Double" -> JsonPrimitive(value.toDouble())
+                    "kotlin.Float" -> JsonPrimitive(value.toFloat())
+                    "kotlin.Boolean" -> {
+                        if (value % 2 ==1)
+                            JsonPrimitive(true)
+                        else JsonPrimitive(false)
+                    }
+                    else -> error("unable to generate value for column ${sced.simpleColumnName.value} with type ${sced.simpleColumnType.value}")
+                }
+                sced.simpleColumnName.value to jPrim
+            }.toMap()
+
+
+        val otherSyntheticFields = allFields.filterIsInstance<SyntheticColumnEntityData<*>>()
+            .map { sced ->
+                val fkMetaData = fromToFkMap[sced.outEntity]!![entityEnum]!!
+                val jsonObject = when (fkMetaData.relationType) {
+                    RelationType.ONE_TO_ONE_MANDATORY -> {
+                        val newUk = fkMetaData.fkCols.map { fkColsPair ->
+                            val value = uk[fkColsPair.to.columnData().simpleColumnName.value]
+                            fkColsPair.from.columnData().simpleColumnName.value to value!!
+                        }
+                            .toMap()
+
+                        sced.simpleColumnName.value to genRecursive(1, fkMetaData.ukFrom!!.name, newUk, TypeJsonObjectEnum.OBJECT)
+                    }
+                    RelationType.ONE_TO_ONE_OPTIONAL -> {
+                        val newUk = fkMetaData.fkCols.map { fkColsPair ->
+                            val value = uk[fkColsPair.to.columnData().simpleColumnName.value]
+                            fkColsPair.from.columnData().simpleColumnName.value to value!!
+                        }
+                            .toMap()
+
+                        sced.simpleColumnName.value to genRecursive(1, fkMetaData.ukFrom!!.name, newUk, TypeJsonObjectEnum.OBJECT)
+                    }
+                    RelationType.MANY_TO_ONE -> {
+                        val newUk = fkMetaData.fkCols.map { fkColsPair ->
+                            val value = uk[fkColsPair.to.columnData().simpleColumnName.value]
+                            fkColsPair.from.columnData().simpleColumnName.value to value!!
+                        }
+                            .toMap()
+
+                        sced.simpleColumnName.value to JsonArray(listOf())
+//                                    genRecursive(1, fkMetaData.ukFrom!!.name, newUk, TypeJsonObjectEnum.COLLECTION)
+                    }
+                }
+                jsonObject
+            }.toMap()
+
+        val jsonObject: JsonObject =
+            JsonObject(mapOf("origin" to JsonObject(ukJson.plus(otherSimpleFields))).plus(otherSyntheticFields))
+
+        return jsonObject
     }
 
 
