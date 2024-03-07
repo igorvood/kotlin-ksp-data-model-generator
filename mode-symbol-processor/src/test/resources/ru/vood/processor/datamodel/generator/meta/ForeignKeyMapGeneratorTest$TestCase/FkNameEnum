@@ -31,6 +31,8 @@ public enum class FkNameEnum {
   DealTwoData_FK,
   ;
 
+  public fun fkData(): FKMetaData<out IEntityOrigin> = foreignKeyMap[this]!!
+
   public companion object {
     public val foreignKeyMap:
         EnumMap<ru.vood.dmgen.datamodel.sealedData.metaEnum.FkNameEnum, FKMetaData<out IEntityOrigin>>

@@ -61,7 +61,6 @@ class ForeignKeyMapGenerator(
             .forEach { mf ->
                 cb.addStatement(
                     "%L to %T(",
-//                    CommonClassNames.fkNameEnum,
                     mf.name.value,
                     fKMetaData,
                 )
@@ -161,6 +160,16 @@ class ForeignKeyMapGenerator(
 
         classBuilder
             .addType(companionObjectBuilder)
+            .addFunction(
+                FunSpec.builder("fkData")
+                    .returns(fKMetaData.plusParameter(WildcardTypeName.producerOf(iEntityOrigin)))
+                    .addCode(
+                        CodeBlock.builder()
+                            .addStatement("return %L[this]!!", columnEntityDataMapPropertySpec.name)
+                            .build()
+                    )
+                    .build()
+            )
 
         // надо добавить только что сгенерированный класс к его потомкам
         return listOf(fileSpec.addType(classBuilder.build()).build())
