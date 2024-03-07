@@ -88,32 +88,11 @@ class ReplyGeneratorImpl : IReplyGenerator {
                 val fkMetaData = fromToFkMap[sced.outEntity]!![entityEnum]!!
                 val jsonObject = when (fkMetaData.relationType) {
                     RelationType.ONE_TO_ONE_MANDATORY -> {
-                        val newUk = fkMetaData.fkCols.map { fkColsPair ->
-                            val value = uk[fkColsPair.to.columnData().simpleColumnName.value]
-                            fkColsPair.from.columnData().simpleColumnName.value to value!!
-                        }
-                            .toMap()
-
-                        sced.simpleColumnName.value to genRecursive(
-                            1,
-                            fkMetaData.ukFrom!!.name,
-                            newUk,
-                            TypeJsonObjectEnum.OBJECT
-                        )
+                        genOneToOne(fkMetaData, uk, sced)
                     }
                     RelationType.ONE_TO_ONE_OPTIONAL -> {
-                        val newUk = fkMetaData.fkCols.map { fkColsPair ->
-                            val value = uk[fkColsPair.to.columnData().simpleColumnName.value]
-                            fkColsPair.from.columnData().simpleColumnName.value to value!!
-                        }
-                            .toMap()
 
-                        sced.simpleColumnName.value to genRecursive(
-                            1,
-                            fkMetaData.ukFrom!!.name,
-                            newUk,
-                            TypeJsonObjectEnum.OBJECT
-                        )
+                        genOneToOne(fkMetaData, uk, sced)
                     }
                     RelationType.MANY_TO_ONE -> {
                         val newUk = fkMetaData.fkCols.map { fkColsPair ->
@@ -143,6 +122,24 @@ class ReplyGeneratorImpl : IReplyGenerator {
                 ukJson
                     .plus(otherSimpleFields)))
                 .plus(otherSyntheticFields)
+        )
+    }
+
+    private fun genOneToOne(
+        fkMetaData: FKMetaData<out IEntityOrigin>,
+        uk: Map<String, String>,
+        sced: SyntheticColumnEntityData<*>,
+    ): Pair<String, JsonElement> {
+        val newUk = fkMetaData.fkCols.associate { fkColsPair ->
+            val value = uk[fkColsPair.to.columnData().simpleColumnName.value]
+            fkColsPair.from.columnData().simpleColumnName.value to value!!
+        }
+
+        return sced.simpleColumnName.value to genRecursive(
+            1,
+            fkMetaData.ukFrom!!.name,
+            newUk,
+            TypeJsonObjectEnum.OBJECT
         )
     }
 
