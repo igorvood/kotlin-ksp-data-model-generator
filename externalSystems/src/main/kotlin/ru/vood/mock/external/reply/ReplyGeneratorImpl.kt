@@ -45,8 +45,8 @@ class ReplyGeneratorImpl : IReplyGenerator {
 
 
         val jsonElement = when (typeJsonObject) {
-            TypeJsonObjectEnum.OBJECT -> jsonObject(uk, allFields, ukEntityData, entityEnum)
-            TypeJsonObjectEnum.COLLECTION -> jsonObject(uk, allFields, ukEntityData, entityEnum)
+            TypeJsonObjectEnum.OBJECT -> jsonObject(uk, allFields, entityEnum)
+            TypeJsonObjectEnum.COLLECTION -> jsonObject(uk, allFields, entityEnum)
         }
 
 
@@ -56,7 +56,6 @@ class ReplyGeneratorImpl : IReplyGenerator {
     private fun jsonObject(
         uk: Map<String, String>,
         allFields: List<ColumnEntityData>,
-        ukEntityData: UKEntityData<out IEntityOrigin>,
         entityEnum: EntityEnum,
     ): JsonObject {
         val ukJson = uk.map { it.key to JsonPrimitive(it.value) }.toMap()
@@ -139,9 +138,12 @@ class ReplyGeneratorImpl : IReplyGenerator {
                 jsonObject
             }.toMap()
 
-        val jsonObject: JsonObject =
-            JsonObject(mapOf("origin" to JsonObject(ukJson.plus(otherSimpleFields))).plus(otherSyntheticFields))
-        return jsonObject
+        return JsonObject(
+            mapOf("origin" to JsonObject(
+                ukJson
+                    .plus(otherSimpleFields)))
+                .plus(otherSyntheticFields)
+        )
     }
 
 
