@@ -33,7 +33,6 @@ class UniqueKeyMapGenerator(
             .generated(this::class)
             .addAnnotation(CommonClassNames.metaUKs)
 
-
         val cb = CodeBlock.builder()
             .addStatement("%T(", enumMap)
             .addStatement("mapOf(")
@@ -102,16 +101,27 @@ class UniqueKeyMapGenerator(
             uKEntityData.plusParameter(WildcardTypeName.producerOf(iEntityOrigin))
         )
 
+        val uniqueKeyMapPropertySpec = PropertySpec.builder("uniqueKeyMap", typeEnumMap)
+            .initializer(cb.build())
+            .build()
         val companionObjectBuilder = TypeSpec.companionObjectBuilder()
             .addProperty(
-                PropertySpec.builder("uniqueKeyMap", typeEnumMap)
-                    .initializer(cb.build())
-                    .build()
+                uniqueKeyMapPropertySpec
             )
             .build()
 
         classBuilder
             .addType(companionObjectBuilder)
+            .addFunction(
+                FunSpec.builder("ukData")
+                    .returns(CommonClassNames.uKEntityData.plusParameter(WildcardTypeName.producerOf(iEntityOrigin)))
+                    .addCode(
+                        CodeBlock.builder()
+                            .addStatement("return %L[this]!!", uniqueKeyMapPropertySpec.name)
+                            .build()
+                    )
+                    .build()
+            )
 
         // надо добавить только что сгенерированный класс к его потомкам
         return listOf(fileSpec.addType(classBuilder.build()).build())

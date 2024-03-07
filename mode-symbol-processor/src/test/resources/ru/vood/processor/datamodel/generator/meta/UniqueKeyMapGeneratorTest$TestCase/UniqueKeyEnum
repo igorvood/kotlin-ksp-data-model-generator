@@ -34,6 +34,8 @@ public enum class UniqueKeyEnum {
   DealTwoData_PK,
   ;
 
+  public fun ukData(): UKEntityData<out IEntityOrigin> = uniqueKeyMap[this]!!
+
   public companion object {
     public val uniqueKeyMap:
         EnumMap<ru.vood.dmgen.datamodel.sealedData.metaEnum.UniqueKeyEnum, UKEntityData<out IEntityOrigin>>
