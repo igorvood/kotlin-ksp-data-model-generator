@@ -1,18 +1,16 @@
 package ru.vood.mock.external.reply
 
 import kotlinx.serialization.json.Json
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
 import ru.vood.dmgen.annotation.FlowEntityType
-import ru.vood.dmgen.datamodel.deal.DealDetail
 import ru.vood.dmgen.datamodel.metaEnum.UniqueKeyEnum
 import ru.vood.dmgen.datamodel.metaEnum.UniqueKeyEnum.Companion.uniqueKeyMap
 import ru.vood.mock.external.reply.data.DataOk
+import java.util.*
 import java.util.stream.Stream
 
-//@Disabled
 internal class ReplyGeneratorImplTest {
 
     private val replyGeneratorImpl = ReplyGeneratorImpl()
@@ -23,21 +21,40 @@ internal class ReplyGeneratorImplTest {
     @MethodSource("ru.vood.mock.external.reply.ReplyGeneratorImplTest#testCases")
     fun generate(uk: UniqueKeyEnum) {
         val ukData = uk.ukData()
-        val ukMap = ukValues[uk] ?: error("нет начального зн для первичного ключа $uk с колонками ${ukData.columns.map { it.value }}")
+        val ukMap = ukValues[uk]
+            ?: error("нет начального зн для первичного ключа $uk с колонками ${ukData.columns.map { it.value }}")
 
 
         val generate = replyGeneratorImpl.generateAggregate(1, uk.name, ukMap)
         val map = generate.map {
             println(generate)
-            val decodeFromString = asda.decodeFromString(ukData.entity.entityData().serializerSynthetic, (it.payload as DataOk).payload)
-            println(1)
+            val decodeFromString =
+                asda.decodeFromString(ukData.entity.entityData().serializerSynthetic, (it.payload as DataOk).payload)
         }
 
     }
 
-    companion object{
+    @ParameterizedTest
+    @MethodSource("ru.vood.mock.external.reply.ReplyGeneratorImplTest#testCaseListNTimes")
+    fun generateNTimes(tc: TestCase) {
+        val uk = tc.key
+        val ukMap = tc.toMap
+
+        val ukData = uk.ukData()
+
+
+        val generate = replyGeneratorImpl.generateAggregate(1, uk.name, ukMap)
+        val map = generate.map {
+            println(generate)
+            val decodeFromString =
+                asda.decodeFromString(ukData.entity.entityData().serializerSynthetic, (it.payload as DataOk).payload)
+        }
+
+    }
+
+    companion object {
         val testCaseList = uniqueKeyMap.values
-            .filter { ukEnum -> ukEnum.entity.entityData().entityType==FlowEntityType.AGGREGATE }
+            .filter { ukEnum -> ukEnum.entity.entityData().entityType == FlowEntityType.AGGREGATE }
             .map { it.ukName }
 
         @JvmStatic
@@ -53,6 +70,26 @@ internal class ReplyGeneratorImplTest {
             UniqueKeyEnum.Product_PK to mapOf("dealId" to "1", "id" to "1"),
             UniqueKeyEnum.ProductPayments_PK to mapOf("dealId" to "1", "productId" to "1"),
         )
+
+
+        val testCaseListNTimes = (1..10)
+            .flatMap {
+                ukValues.map {entry ->
+//                     to entry.value.map { e -> e.key to UUID.randomUUID().toString().hashCode().toString() }.toMap()
+                    TestCase(entry.key, entry.value.map { e -> e.key to UUID.randomUUID().toString().hashCode().toString() }.toMap())
+                }
+            }
+
+
+        @JvmStatic
+        private fun testCaseListNTimes(): Stream<Arguments> {
+            return testCaseListNTimes
+                .stream()
+                .map { Arguments.of(it) }
+        }
+
     }
+
+    data class TestCase(val key: UniqueKeyEnum, val toMap: Map<String, String>)
 
 }
