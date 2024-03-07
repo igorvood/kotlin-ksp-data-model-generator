@@ -11,7 +11,7 @@ import ru.vood.mock.external.config.grpc.GrpcClientProp
 @Configuration
 @EnableConfigurationProperties(GrpcClientProp::class)
 class GrpcClientConfig(
-    private val grpcClientProp: GrpcClientProp
+    private val grpcClientProp: GrpcClientProp,
 ) {
 
     @Bean
@@ -24,7 +24,7 @@ class GrpcClientConfig(
 
     @Bean
     fun someServiceCoroutineStub(
-        managedChannel: ManagedChannel
+        managedChannel: ManagedChannel,
     ): GrpcServiceGrpcKt.GrpcServiceCoroutineStub {
         return GrpcServiceGrpcKt.GrpcServiceCoroutineStub(managedChannel)
     }

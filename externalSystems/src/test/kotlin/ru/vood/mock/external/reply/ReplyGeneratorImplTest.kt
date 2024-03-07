@@ -53,7 +53,7 @@ internal class ReplyGeneratorImplTest {
     }
 
     companion object {
-        val testCaseList = uniqueKeyMap.values
+        private val testCaseList = uniqueKeyMap.values
             .filter { ukEnum -> ukEnum.entity.entityData().entityType == FlowEntityType.AGGREGATE }
             .map { it.ukName }
 
@@ -72,7 +72,7 @@ internal class ReplyGeneratorImplTest {
         )
 
 
-        val testCaseListNTimes = (1..10)
+        private val testCaseListNTimes = (1..10)
             .flatMap {
                 ukValues.map {entry ->
                     TestCase(entry.key, entry.value.map { e -> e.key to UUID.randomUUID().toString().hashCode().toString() }.toMap())

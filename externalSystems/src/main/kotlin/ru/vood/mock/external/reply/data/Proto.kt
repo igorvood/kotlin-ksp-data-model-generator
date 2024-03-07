@@ -22,30 +22,30 @@ data class AsyncRequest(
 
 sealed interface IData
 
-data class DataOk(val payload: String):IData
-data class DataError(val payload: String):IData
+data class DataOk(val payload: String) : IData
+data class DataError(val payload: String) : IData
 
 
 sealed interface IProtoResponse {
 }
 
-object EmptyResponse: IProtoResponse
+object EmptyResponse : IProtoResponse
 
 data class Response(
     val payloadClass: String,
-    val payload: IData
-): IProtoResponse
+    val payload: IData,
+) : IProtoResponse
 
 data class AsyncResponse(
     val rqId: String,
-     val payloadClass: String,
-     val payload: IData
-): IProtoResponse
+    val payloadClass: String,
+    val payload: IData,
+) : IProtoResponse
 
 data class AsyncResponsePartial(
     val rqId: String,
     val cnt: Int,
     val num: Int,
-     val payloadClass: String,
-     val payload: IData
-): IProtoResponse
+    val payloadClass: String,
+    val payload: IData,
+) : IProtoResponse

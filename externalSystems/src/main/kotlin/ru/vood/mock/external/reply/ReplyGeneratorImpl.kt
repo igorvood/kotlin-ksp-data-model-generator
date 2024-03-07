@@ -17,25 +17,31 @@ import ru.vood.mock.external.reply.data.Response
 class ReplyGeneratorImpl : IReplyGenerator {
     private val logger = LoggerFactory.getLogger(this.javaClass)
 
-    private val  json = Json {  }
+    private val json = Json { }
     override fun generateAggregate(cnt: Int, payloadClass: String, uk: Map<String, String>): List<Response> {
 
         val payload = genRecursive(cnt, payloadClass, uk, TypeJsonObjectEnum.OBJECT).toString()
-        return listOf( Response(payloadClass, DataOk(payload) ))
+        return listOf(Response(payloadClass, DataOk(payload)))
 
     }
 
-    private fun genRecursive(cnt: Int, payloadClass: String, uk: Map<String, String>, typeJsonObject: TypeJsonObjectEnum): JsonElement {
+    private fun genRecursive(
+        cnt: Int,
+        payloadClass: String,
+        uk: Map<String, String>,
+        typeJsonObject: TypeJsonObjectEnum,
+    ): JsonElement {
 
-        when(typeJsonObject){
-            TypeJsonObjectEnum.COLLECTION -> require(cnt>=0){"for $typeJsonObject cnt must be zero or more"}
-            TypeJsonObjectEnum.OBJECT -> require(cnt==1){"for $typeJsonObject cnt must be only 1"}
+        when (typeJsonObject) {
+            TypeJsonObjectEnum.COLLECTION -> require(cnt >= 0) { "for $typeJsonObject cnt must be zero or more" }
+            TypeJsonObjectEnum.OBJECT -> require(cnt == 1) { "for $typeJsonObject cnt must be only 1" }
         }
 
         logger.info("payloadClass -> $payloadClass uk -> $uk")
         val ukEntityData = uniqueKeyMap[UniqueKeyEnum.valueOf(payloadClass)]!!
         val entityEnum = ukEntityData.entity
-        val allFields = FullColumnNameEnum.values().filter { it.columnData().entity == entityEnum }.map { it.columnData() }
+        val allFields =
+            FullColumnNameEnum.values().filter { it.columnData().entity == entityEnum }.map { it.columnData() }
 
 
         val jsonElement = when (typeJsonObject) {
@@ -117,8 +123,17 @@ class ReplyGeneratorImpl : IReplyGenerator {
                         }
                             .toMap()
 
-                        sced.simpleColumnName.value to JsonArray(listOf(genRecursive(1, fkMetaData.ukFrom!!.name, newUk, TypeJsonObjectEnum.COLLECTION)))
-    //
+                        sced.simpleColumnName.value to JsonArray(
+                            listOf(
+                                genRecursive(
+                                    1,
+                                    fkMetaData.ukFrom!!.name,
+                                    newUk,
+                                    TypeJsonObjectEnum.COLLECTION
+                                )
+                            )
+                        )
+                        //
                     }
                 }
                 jsonObject

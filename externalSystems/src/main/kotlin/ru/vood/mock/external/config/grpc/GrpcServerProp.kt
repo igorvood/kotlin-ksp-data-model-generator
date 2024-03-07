@@ -5,6 +5,6 @@ import org.springframework.boot.context.properties.ConstructorBinding
 
 @ConstructorBinding
 @ConfigurationProperties(prefix = "grpc.server")
-data class GrpcServerProp (
-    val port: Int
+data class GrpcServerProp(
+    val port: Int,
 )
