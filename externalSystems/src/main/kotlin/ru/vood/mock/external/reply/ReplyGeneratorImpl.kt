@@ -3,8 +3,8 @@ package ru.vood.mock.external.reply
 import kotlinx.serialization.json.*
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
-import ru.vood.dmgen.datamodel.intf.SimpleColumnEntityData
-import ru.vood.dmgen.datamodel.intf.SyntheticColumnEntityData
+import ru.vood.dmgen.datamodel.intf.*
+import ru.vood.dmgen.datamodel.metaEnum.EntityEnum
 import ru.vood.dmgen.datamodel.metaEnum.FkNameEnum.Companion.fromToFkMap
 import ru.vood.dmgen.datamodel.metaEnum.FullColumnNameEnum
 import ru.vood.dmgen.datamodel.metaEnum.UniqueKeyEnum
@@ -38,8 +38,22 @@ class ReplyGeneratorImpl : IReplyGenerator {
         val allFields = FullColumnNameEnum.values().filter { it.columnData().entity == entityEnum }.map { it.columnData() }
 
 
-        val ukJson = uk.map { it.key to JsonPrimitive(it.value) }.toMap()
+        val jsonElement = when (typeJsonObject) {
+            TypeJsonObjectEnum.OBJECT -> jsonObject(uk, allFields, ukEntityData, entityEnum)
+            TypeJsonObjectEnum.COLLECTION -> JsonArray(listOf(jsonObject(uk, allFields, ukEntityData, entityEnum)))
+        }
 
+
+        return jsonElement
+    }
+
+    private fun jsonObject(
+        uk: Map<String, String>,
+        allFields: List<ColumnEntityData>,
+        ukEntityData: UKEntityData<out IEntityOrigin>,
+        entityEnum: EntityEnum,
+    ): JsonObject {
+        val ukJson = uk.map { it.key to JsonPrimitive(it.value) }.toMap()
         val otherSimpleFields = allFields.filterIsInstance<SimpleColumnEntityData<*>>()
             .filter { !ukEntityData.columns.contains(it.simpleColumnName) }
             .map { sced ->
@@ -50,7 +64,7 @@ class ReplyGeneratorImpl : IReplyGenerator {
                     "kotlin.Double" -> JsonPrimitive(value.toDouble())
                     "kotlin.Float" -> JsonPrimitive(value.toFloat())
                     "kotlin.Boolean" -> {
-                        if (value % 2 ==1)
+                        if (value % 2 == 1)
                             JsonPrimitive(true)
                         else JsonPrimitive(false)
                     }
@@ -71,7 +85,12 @@ class ReplyGeneratorImpl : IReplyGenerator {
                         }
                             .toMap()
 
-                        sced.simpleColumnName.value to genRecursive(1, fkMetaData.ukFrom!!.name, newUk, TypeJsonObjectEnum.OBJECT)
+                        sced.simpleColumnName.value to genRecursive(
+                            1,
+                            fkMetaData.ukFrom!!.name,
+                            newUk,
+                            TypeJsonObjectEnum.OBJECT
+                        )
                     }
                     RelationType.ONE_TO_ONE_OPTIONAL -> {
                         val newUk = fkMetaData.fkCols.map { fkColsPair ->
@@ -80,7 +99,12 @@ class ReplyGeneratorImpl : IReplyGenerator {
                         }
                             .toMap()
 
-                        sced.simpleColumnName.value to genRecursive(1, fkMetaData.ukFrom!!.name, newUk, TypeJsonObjectEnum.OBJECT)
+                        sced.simpleColumnName.value to genRecursive(
+                            1,
+                            fkMetaData.ukFrom!!.name,
+                            newUk,
+                            TypeJsonObjectEnum.OBJECT
+                        )
                     }
                     RelationType.MANY_TO_ONE -> {
                         val newUk = fkMetaData.fkCols.map { fkColsPair ->
@@ -89,8 +113,8 @@ class ReplyGeneratorImpl : IReplyGenerator {
                         }
                             .toMap()
 
-                        sced.simpleColumnName.value to JsonArray(listOf())
-//                                    genRecursive(1, fkMetaData.ukFrom!!.name, newUk, TypeJsonObjectEnum.COLLECTION)
+                        sced.simpleColumnName.value to JsonArray(listOf(genRecursive(1, fkMetaData.ukFrom!!.name, newUk, TypeJsonObjectEnum.COLLECTION)))
+    //
                     }
                 }
                 jsonObject
@@ -98,11 +122,8 @@ class ReplyGeneratorImpl : IReplyGenerator {
 
         val jsonObject: JsonObject =
             JsonObject(mapOf("origin" to JsonObject(ukJson.plus(otherSimpleFields))).plus(otherSyntheticFields))
-
         return jsonObject
     }
-
-
 
 
 }

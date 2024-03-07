@@ -1,0 +1,32 @@
+{
+  "origin": {
+    "id": "1",
+    "s": "3485",
+    "i": 3475,
+    "d": 3470.0,
+    "f": 3472.0,
+    "b": false
+  },
+  "dealParamOneToOne": {
+    "origin": {
+      "dealId": "1",
+      "paramDate": "617678961"
+    }
+  },
+  "dealParamOneToOneOptional": {
+    "origin": {
+      "dealId": "1",
+      "paramDate": "617678961"
+    }
+  },
+  "dealParamSet": [
+    [
+      {
+        "origin": {
+          "dealId": "1",
+          "paramDate": "617678961"
+        }
+      }
+    ]
+  ]
+}
