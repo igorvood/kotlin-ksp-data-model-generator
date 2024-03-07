@@ -12,7 +12,7 @@ import ru.vood.dmgen.datamodel.metaEnum.UniqueKeyEnum.Companion.uniqueKeyMap
 import ru.vood.mock.external.reply.data.DataOk
 import java.util.stream.Stream
 
-@Disabled
+//@Disabled
 internal class ReplyGeneratorImplTest {
 
     private val replyGeneratorImpl = ReplyGeneratorImpl()
