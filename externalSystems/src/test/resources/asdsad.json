@@ -20,13 +20,11 @@
     }
   },
   "dealParamSet": [
-    [
-      {
-        "origin": {
-          "dealId": "1",
-          "paramDate": "617678961"
-        }
+    {
+      "origin": {
+        "dealId": "1",
+        "paramDate": "617678961"
       }
-    ]
+    }
   ]
 }

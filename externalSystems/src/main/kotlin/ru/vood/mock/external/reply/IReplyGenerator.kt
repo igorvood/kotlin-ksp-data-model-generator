@@ -4,6 +4,6 @@ import ru.vood.mock.external.reply.data.Response
 
 interface IReplyGenerator {
 
-    fun generate(cnt: Int, parentPayloadClass: String, uk: Map<String, String>): List<Response>
+    fun generateAggregate(cnt: Int, parentPayloadClass: String, uk: Map<String, String>): List<Response>
 
 }

@@ -18,7 +18,7 @@ class ReplyGeneratorImpl : IReplyGenerator {
     private val logger = LoggerFactory.getLogger(this.javaClass)
 
     private val  json = Json {  }
-    override fun generate(cnt: Int, payloadClass: String, uk: Map<String, String>): List<Response> {
+    override fun generateAggregate(cnt: Int, payloadClass: String, uk: Map<String, String>): List<Response> {
 
         val payload = genRecursive(cnt, payloadClass, uk, TypeJsonObjectEnum.OBJECT).toString()
         return listOf( Response(payloadClass, DataOk(payload) ))
@@ -40,7 +40,7 @@ class ReplyGeneratorImpl : IReplyGenerator {
 
         val jsonElement = when (typeJsonObject) {
             TypeJsonObjectEnum.OBJECT -> jsonObject(uk, allFields, ukEntityData, entityEnum)
-            TypeJsonObjectEnum.COLLECTION -> JsonArray(listOf(jsonObject(uk, allFields, ukEntityData, entityEnum)))
+            TypeJsonObjectEnum.COLLECTION -> jsonObject(uk, allFields, ukEntityData, entityEnum)
         }
 
 
@@ -55,7 +55,7 @@ class ReplyGeneratorImpl : IReplyGenerator {
     ): JsonObject {
         val ukJson = uk.map { it.key to JsonPrimitive(it.value) }.toMap()
         val otherSimpleFields = allFields.filterIsInstance<SimpleColumnEntityData<*>>()
-            .filter { !ukEntityData.columns.contains(it.simpleColumnName) }
+            .filter { !ukJson.containsKey(it.simpleColumnName.value) }
             .map { sced ->
                 val value = uk.hashCode() + sced.simpleColumnName.value.hashCode()
                 val jPrim = when (sced.simpleColumnType.value) {
@@ -63,6 +63,8 @@ class ReplyGeneratorImpl : IReplyGenerator {
                     "kotlin.Int" -> JsonPrimitive(value)
                     "kotlin.Double" -> JsonPrimitive(value.toDouble())
                     "kotlin.Float" -> JsonPrimitive(value.toFloat())
+                    "kotlin.Long" -> JsonPrimitive(value.toFloat())
+
                     "kotlin.Boolean" -> {
                         if (value % 2 == 1)
                             JsonPrimitive(true)

@@ -4,7 +4,6 @@ import org.springframework.stereotype.Service
 import ru.vood.mock.external.config.IIntegrationType
 import ru.vood.mock.external.reply.data.IProtoRequest
 import ru.vood.mock.external.reply.data.IProtoResponse
-import ru.vood.mock.external.reply.data.Response
 
 @Service
 class ReplyRunnerImpl(
@@ -12,7 +11,7 @@ class ReplyRunnerImpl(
 ) : IReplyRunner {
     override fun generateReply(sync: IIntegrationType, request: IProtoRequest): IProtoResponse {
 
-        val asdfds =  replyGenerator.generate(1, request.payloadClass, request.uk)
+        val asdfds =  replyGenerator.generateAggregate(1, request.payloadClass, request.uk)
 
         return when(sync){
             IIntegrationType.SYNC -> asdfds[0]
