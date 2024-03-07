@@ -91,7 +91,7 @@ class ColumnEntityMapGenerator(
                         )
                         .addStatement(
                             """simpleColumnType = %T(%S)),""",
-                            simpleColumnType,
+                            simpleColumnType.copy(nullable = false),
                             mcol.typePoetClassName,
                         )
                         .unindent()
