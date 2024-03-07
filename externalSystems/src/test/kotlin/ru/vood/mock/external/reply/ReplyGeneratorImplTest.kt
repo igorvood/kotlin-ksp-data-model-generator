@@ -44,10 +44,10 @@ internal class ReplyGeneratorImplTest {
 
 
         val generate = replyGeneratorImpl.generateAggregate(1, uk.name, ukMap)
-        val map = generate.map {
-            println(generate)
+        val map = generate.map {rsp->
+            println(rsp)
             val decodeFromString =
-                asda.decodeFromString(ukData.entity.entityData().serializerSynthetic, (it.payload as DataOk).payload)
+                asda.decodeFromString(ukData.entity.entityData().serializerSynthetic, (rsp.payload as DataOk).payload)
         }
 
     }
