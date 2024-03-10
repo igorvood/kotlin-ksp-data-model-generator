@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet id="liquibase/tests/pck" author="vood"  runAlways="false">
+
+        <sqlFile path="liquibase/tests/pck/0010.exec_immediate.pck" endDelimiter="${sqlBatchDelimiter}"/>
+        <sqlFile path="liquibase/tests/pck/0020.get_clob_hash.pck" endDelimiter="${sqlBatchDelimiter}"/>
+        <sqlFile path="liquibase/tests/pck/0030.get_view_src_hash.pck" endDelimiter="${sqlBatchDelimiter}"/>
+        <sqlFile path="liquibase/tests/pck/0100.modify_constraints.pck" endDelimiter="${sqlBatchDelimiter}"/>
+        <sqlFile path="liquibase/tests/pck/0110.disable_constraints.pck" endDelimiter="${sqlBatchDelimiter}"/>
+        <sqlFile path="liquibase/tests/pck/0120.enable_constraints.pck" endDelimiter="${sqlBatchDelimiter}"/>
+        <sqlFile path="liquibase/tests/pck/0130.enable_constraints_all.pck" endDelimiter="${sqlBatchDelimiter}"/>
+
+        <sqlFile path="liquibase/tests/pck/0200.apply_rename_command.pck" endDelimiter="${sqlBatchDelimiter}"/>
+        <sqlFile path="liquibase/tests/pck/0210.rename_db_object.pck" endDelimiter="${sqlBatchDelimiter}"/>
+        <sqlFile path="liquibase/tests/pck/0220.revert_rename_db_object.pck" endDelimiter="${sqlBatchDelimiter}"/>
+
+
+        <sqlFile path="liquibase/tests/pck/0250.backup_table.pck" endDelimiter="${sqlBatchDelimiter}"/>
+        <sqlFile path="liquibase/tests/pck/0260.restore_tables.pck" endDelimiter="${sqlBatchDelimiter}"/>
+
+        <sqlFile path="liquibase/tests/pck/0300.tested_view.pck" endDelimiter="${sqlBatchDelimiter}"/>
+
+    </changeSet>
+
+
+
+</databaseChangeLog>

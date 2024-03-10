@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet id="liquibase/release_001/data/0010.DICT_KAFKA_PROP.sql" author="vood"  runAlways="false" >
+        <sqlFile path="liquibase/release_001/data/0010.DICT_KAFKA_PROP.sql" endDelimiter="${sqlBatchDelimiter}"/>
+    </changeSet>
+
+    <changeSet id="liquibase/release_001/data/0011.dict_topic_owner_data.sql" author="vood"  runAlways="false" >
+        <sqlFile path="liquibase/release_001/data/0011.dict_topic_owner_data.sql" endDelimiter="${sqlBatchDelimiter}"/>
+    </changeSet>
+
+    <changeSet id="liquibase/release_001/data/0020.meta_stand_data.sql" author="vood"  runAlways="false" >
+        <sqlFile path="liquibase/release_001/data/0020.meta_stand_data.sql" endDelimiter="${sqlBatchDelimiter}"/>
+    </changeSet>
+
+
+    <changeSet id="liquibase/release_001/data/0035.dict_kafka_property_grp.sql" author="vood"  runAlways="false" >
+        <sqlFile path="liquibase/release_001/data/0035.dict_kafka_property_grp.sql" endDelimiter="${sqlBatchDelimiter}"/>
+    </changeSet>
+
+    <changeSet id="liquibase/release_001/data/0040.DICT_KAFKA_PROP_VALUE_data.sql" author="vood"  runAlways="false" >
+        <sqlFile path="liquibase/release_001/data/0040.DICT_KAFKA_PROP_VALUE_data.sql" endDelimiter="${sqlBatchDelimiter}"/>
+    </changeSet>
+
+    <changeSet id="liquibase/release_001/data/0045.DICT_KAFKA_PROP_VALUE_BY_STAND_data.sql" author="vood"  runAlways="false" >
+        <sqlFile path="liquibase/release_001/data/0045.DICT_KAFKA_PROP_VALUE_BY_STAND_data.sql" endDelimiter="${sqlBatchDelimiter}"/>
+    </changeSet>
+
+    <changeSet id="liquibase/release_001/data/0200.dict_topic_ins.sql" author="vood"  runAlways="false" >
+        <sqlFile path="liquibase/release_001/data/0200.dict_topic_ins.sql" endDelimiter="${sqlBatchDelimiter}"/>
+    </changeSet>
+
+    <changeSet id="liquibase/release_001/data/0210.dict_sevice_ins.sql" author="vood"  runAlways="false" >
+        <sqlFile path="liquibase/release_001/data/0210.dict_sevice_ins.sql" endDelimiter="${sqlBatchDelimiter}"/>
+    </changeSet>
+
+
+    <changeSet id="liquibase/release_001/data/0220.dict_arrow.sql" author="vood"  runAlways="false" >
+        <sqlFile path="liquibase/release_001/data/0220.dict_arrow.sql" endDelimiter="${sqlBatchDelimiter}"/>
+    </changeSet>
+
+
+    <changeSet id="liquibase/release_001/data/0230.META_PROPERTY_FUNCTION_data.sql" author="vood"  runAlways="false" >
+        <sqlFile path="liquibase/release_001/data/0230.META_PROPERTY_FUNCTION_data.sql" endDelimiter="${sqlBatchDelimiter}"/>
+    </changeSet>
+
+    <changeSet id="liquibase/release_001/data/0240.DICT_FLINK_PROP_VALUE_data.sql" author="vood"  runAlways="false" >
+        <sqlFile path="liquibase/release_001/data/0240.DICT_FLINK_PROP_VALUE_data.sql" endDelimiter="${sqlBatchDelimiter}"/>
+    </changeSet>
+
+    <changeSet id="liquibase/release_001/data/0250.dict_place_holder_data.sql" author="vood"  runAlways="false" >
+        <sqlFile path="liquibase/release_001/data/0250.dict_place_holder_data.sql" endDelimiter="${sqlBatchDelimiter}"/>
+    </changeSet>
+
+    <changeSet id="liquibase/release_001/data/0500.dict_group_data.sql" author="vood"  runAlways="false" >
+        <sqlFile path="liquibase/release_001/data/0500.dict_group_data.sql" endDelimiter="${sqlBatchDelimiter}"/>
+    </changeSet>
+
+    <changeSet id="liquibase/release_001/data/0510.dict_service_group_data.sql" author="vood"  runAlways="false" >
+        <sqlFile path="liquibase/release_001/data/0510.dict_service_group_data.sql" endDelimiter="${sqlBatchDelimiter}"/>
+    </changeSet>
+
+</databaseChangeLog>

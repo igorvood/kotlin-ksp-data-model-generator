@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet id="liquibase/release_001/task_001/graph_structure/pck/0100.dict_topic_ins_trg.trg" author="vood"  runAlways="false" >
+
+        <sqlFile path="liquibase/release_001/task_001/graph_structure/pck/0100.dict_topic_ins_trg.trg" endDelimiter="${sqlBatchDelimiter}"/>
+    </changeSet>
+
+    <changeSet id="liquibase/release_001/task_001/graph_structure/pck/0110.dict_service_ins_trg.trg" author="vood"  runAlways="false" >
+
+        <sqlFile path="liquibase/release_001/task_001/graph_structure/pck/0110.dict_service_ins_trg.trg" endDelimiter="${sqlBatchDelimiter}"/>
+    </changeSet>
+
+    <changeSet id="liquibase/release_001/task_001/graph_structure/pck/0150.create_all.pck" author="vood"  runAlways="false" >
+
+        <sqlFile path="liquibase/release_001/task_001/graph_structure/pck/0150.create_all.pck" endDelimiter="${sqlBatchDelimiter}"/>
+    </changeSet>
+
+
+
+</databaseChangeLog>
