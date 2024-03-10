@@ -26,11 +26,16 @@ include(":mode-symbol-processor")
 
 include(":dataModelSealed")
 include(":dataModel")
-include(":dataModelClear")
+
 
 include(":workload")
+
+
+include(":dataModelClear")
 include(":grpc-common-client-server")
 include(":externalSystems")
+include(":external-metric-application")
+
 
 
 //include(":functionGeneratorPlugin")
