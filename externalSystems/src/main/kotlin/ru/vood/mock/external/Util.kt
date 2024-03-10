@@ -1,5 +1,11 @@
 package ru.vood.mock.external
 
-import ru.vood.dmgen.dto.SimpleColumnName
+import kotlin.math.abs
 
-fun SimpleColumnName.hashCode(outHash: Int) = outHash + this.value.hashCode()
+fun <T> T.hashCode(outHash: Int) = outHash + this.hashCode()
+
+
+fun <T> T.hashCodeLimited(outHash: Int, limitSize: Int) = abs(this.hashCode(outHash)) % limitSize
+
+
+

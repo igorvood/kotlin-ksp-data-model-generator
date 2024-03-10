@@ -11,6 +11,7 @@ import ru.vood.dmgen.datamodel.metaEnum.UniqueKeyEnum
 import ru.vood.dmgen.datamodel.metaEnum.UniqueKeyEnum.Companion.uniqueKeyMap
 import ru.vood.dmgen.dto.RelationType
 import ru.vood.mock.external.hashCode
+import ru.vood.mock.external.hashCodeLimited
 import ru.vood.mock.external.reply.data.DataOk
 import ru.vood.mock.external.reply.data.Response
 
@@ -47,7 +48,13 @@ class ReplyGeneratorImpl : IReplyGenerator {
 
         val jsonElement = when (typeJsonObject) {
             TypeJsonObjectEnum.OBJECT -> jsonObject(1, uk, allFields, entityEnum)
-            TypeJsonObjectEnum.COLLECTION -> jsonObject(cnt, uk, allFields, entityEnum)
+            TypeJsonObjectEnum.COLLECTION ->
+                JsonArray((0 until cnt)
+                    .map {
+                        jsonObject(it, uk, allFields, entityEnum)
+                    })
+
+
         }
 
 
@@ -55,7 +62,7 @@ class ReplyGeneratorImpl : IReplyGenerator {
     }
 
     private fun jsonObject(
-        cnt: Int,
+        num: Int,
         uk: Map<String, String>,
         allFields: List<ColumnEntityData>,
         entityEnum: EntityEnum,
@@ -65,7 +72,7 @@ class ReplyGeneratorImpl : IReplyGenerator {
             .filter { !ukJson.containsKey(it.simpleColumnName.value) }
             .map { sced ->
                 val simpleColumnName = sced.simpleColumnName
-                val hashWithColName = simpleColumnName.hashCode(uk.hashCode())
+                val hashWithColName = simpleColumnName.hashCode(uk.hashCode()).hashCode(num)
                 val jPrim = when (sced.simpleColumnType.value) {
                     "kotlin.String" -> JsonPrimitive(hashWithColName.toString())
                     "kotlin.Int" -> JsonPrimitive(hashWithColName)
@@ -106,16 +113,17 @@ class ReplyGeneratorImpl : IReplyGenerator {
                         }
                             .toMap()
 
-                        sced.simpleColumnName.value to JsonArray(
-                            listOf(
+                        sced.simpleColumnName.value to
+//                                JsonArray(
+//                            listOf(
                                 genRecursive(
-                                    1,
+                                    newUk.hashCodeLimited(1,10),
                                     fkMetaData.ukFrom!!.name,
                                     newUk,
                                     TypeJsonObjectEnum.COLLECTION
                                 )
-                            )
-                        )
+//                            )
+//                        )
                         //
                     }
                 }

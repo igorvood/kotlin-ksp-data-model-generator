@@ -30,6 +30,7 @@ internal class ReplyGeneratorImplTest {
             println(generate)
             val decodeFromString =
                 asda.decodeFromString(ukData.entity.entityData().serializerSynthetic, (it.payload as DataOk).payload)
+            println(decodeFromString)
         }
 
     }
