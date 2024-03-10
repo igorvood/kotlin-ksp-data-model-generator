@@ -26,7 +26,7 @@ internal class ReplyGeneratorImplTest {
 
 
         val generate = replyGeneratorImpl.generateAggregate(1, uk.name, ukMap)
-        val map = generate.map {
+        generate.forEach {
             println(generate)
             val decodeFromString =
                 asda.decodeFromString(ukData.entity.entityData().serializerSynthetic, (it.payload as DataOk).payload)
