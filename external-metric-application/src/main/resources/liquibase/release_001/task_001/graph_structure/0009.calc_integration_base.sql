@@ -1,9 +1,7 @@
 create table calc_integration_base
 (
     id varchar(256) not null DEFAULT nextval('calc_integration_base_sequence'),
-    integration_type_call varchar(256) not null,
     business_type_call varchar(256) not null,
-    direction  varchar(256) not null,
 
     constraint entity_context_pk primary key (id),
 --     node_type varchar(256) generated always as ('topic') stored,
@@ -18,11 +16,7 @@ comment on table calc_integration_base is 'базовая таблица рег�
 /
 comment on column calc_integration_base.id is 'Идентификатор интеграционного взаимодействия.'
 /
-comment on column calc_integration_base.integration_type_call is 'Тип интеграционного взаимодействия синхронный, асинхронный и ТД.'
-/
 comment on column calc_integration_base.business_type_call is 'Бизнесс тип интеграционного взаимодействия.'
-/
-comment on column calc_integration_base.direction is 'Направление, входящий исходящий.'
 /
 comment on column calc_integration_base.request_id is 'Идентификатор запроса .'
 /
