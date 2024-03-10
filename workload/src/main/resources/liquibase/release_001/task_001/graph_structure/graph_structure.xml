@@ -10,10 +10,10 @@
 
     <changeSet id="liquibase/release_001/task_001/graph_structure/table" author="vood"  runAlways="false">
 
-        <sqlFile path="liquibase/release_001/task_001/graph_structure/0001.dual.sql" endDelimiter="${sqlBatchDelimiter}"/>
+        <sqlFile path="liquibase/release_001/task_001/graph_structure/0008.calc_integration_base_sequence.sql" endDelimiter="${sqlBatchDelimiter}"/>
 
 
-        <sqlFile path="liquibase/release_001/task_001/graph_structure/0009.entity_context.sql" endDelimiter="${sqlBatchDelimiter}"/>
+        <sqlFile path="liquibase/release_001/task_001/graph_structure/0009.calc_integration_base.sql" endDelimiter="${sqlBatchDelimiter}"/>
         <sqlFile path="liquibase/release_001/task_001/graph_structure/0010.entity_uk_context.sql" endDelimiter="${sqlBatchDelimiter}"/>
         <sqlFile path="liquibase/release_001/task_001/graph_structure/0020.entity_parent.sql" endDelimiter="${sqlBatchDelimiter}"/>
 

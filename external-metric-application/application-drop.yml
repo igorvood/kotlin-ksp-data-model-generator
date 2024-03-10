@@ -1,0 +1,5 @@
+spring:
+  liquibase:
+    enabled: true
+    change-log: liquibase/drop_all_obj/liquibase-drop.xml
+    drop-first: true
