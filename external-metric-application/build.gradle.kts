@@ -20,8 +20,6 @@ dependencies {
     implementation("org.liquibase:liquibase-core")
     implementation(libs.kotlinx.serialization.json)
 
-    implementation("org.reflections:reflections:0.10.2")
-
     runtimeOnly("org.postgresql:postgresql")
 
 

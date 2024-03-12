@@ -35,9 +35,6 @@ dependencies {
     implementation("io.grpc:grpc-services:1.58.0")
     implementation("io.grpc:grpc-core:1.58.0")
 
-
-
-    implementation("org.reflections:reflections:0.10.2")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.13.5")
 

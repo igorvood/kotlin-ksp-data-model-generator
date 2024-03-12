@@ -19,7 +19,7 @@ dependencies {
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.kotlinx.serialization.hocon)
 
-    implementation("org.reflections:reflections:0.10.2")
+    implementation(libs.org.reflections)
 
     runtimeOnly("org.postgresql:postgresql")
 

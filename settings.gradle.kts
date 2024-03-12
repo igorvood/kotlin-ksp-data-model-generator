@@ -12,6 +12,7 @@ pluginManagement {
     plugins {
         id("com.google.devtools.ksp") version kspVersion
         kotlin("jvm") version kotlinVersion
+
         kotlin("plugin.serialization") version kotlinSerialization
         kotlin("plugin.spring") version kotlinSpring
         id("org.springframework.boot") version "2.7.16"
@@ -30,8 +31,9 @@ dependencyResolutionManagement {
         create("libs") {
 
             //serialisation
-            library("kotlinx-serialization-json","org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1")
-            library("kotlinx-serialization-hocon","org.jetbrains.kotlinx:kotlinx-serialization-hocon:1.4.1")
+            version("kotlinx-serialization", "1.4.1")
+            library("kotlinx-serialization-json","org.jetbrains.kotlinx","kotlinx-serialization-json").versionRef("kotlinx-serialization")
+            library("kotlinx-serialization-hocon","org.jetbrains.kotlinx","kotlinx-serialization-hocon").versionRef("kotlinx-serialization")
 
             //reflection
             library("org.reflections", "org.reflections:reflections:0.10.2")
