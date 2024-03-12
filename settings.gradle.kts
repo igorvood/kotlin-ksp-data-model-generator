@@ -33,15 +33,16 @@ dependencyResolutionManagement {
             //serialisation
             version("kotlinx-serialization", "1.4.1")
             library("kotlinx-serialization-json","org.jetbrains.kotlinx","kotlinx-serialization-json").versionRef("kotlinx-serialization")
-            library("kotlinx-serialization-hocon","org.jetbrains.kotlinx","kotlinx-serialization-hocon").versionRef("kotlinx-serialization")
+            library(
+                "kotlinx-serialization-hocon",
+                "org.jetbrains.kotlinx",
+                "kotlinx-serialization-hocon"
+            ).versionRef("kotlinx-serialization")
 
             //reflection
             library("org.reflections", "org.reflections:reflections:0.10.2")
 
-           library("commons-lang3", "org.apache.commons", "commons-lang3").version {
-                strictly("[3.8, 4.0[")
-                prefer("3.9")
-            }
+
         }
     }
 }
@@ -63,7 +64,6 @@ include(":dataModelClear")
 include(":grpc-common-client-server")
 include(":externalSystems")
 include(":external-metric-application")
-
 
 
 //include(":functionGeneratorPlugin")
