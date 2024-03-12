@@ -1,4 +1,8 @@
+// как настраивать версии в грейдл для мульти модульных проектов https://docs.gradle.org/current/userguide/platforms.html
+
 //плугин с кодо генерацией https://habr.com/ru/companies/yota/articles/565440/
+//Kotlin Symbol Processing. От теории до практики https://habr.com/ru/companies/cian/articles/705278/
+// пример генератора от тинькова https://github.com/Tinkoff/kora?ysclid=ltojwtlwp7423328427
 pluginManagement {
     val kotlinVersion: String by settings
     val kspVersion: String by settings
@@ -25,13 +29,14 @@ dependencyResolutionManagement {
     versionCatalogs {
         create("libs") {
 
+            //serialisation
             library("kotlinx-serialization-json","org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1")
             library("kotlinx-serialization-hocon","org.jetbrains.kotlinx:kotlinx-serialization-hocon:1.4.1")
 
-            library("groovy-core", "org.codehaus.groovy:groovy:3.0.5")
-            library("groovy-json", "org.codehaus.groovy:groovy-json:3.0.5")
-            library("groovy-nio", "org.codehaus.groovy:groovy-nio:3.0.5")
-            library("commons-lang3", "org.apache.commons", "commons-lang3").version {
+            //reflection
+            library("org.reflections", "org.reflections:reflections:0.10.2")
+
+           library("commons-lang3", "org.apache.commons", "commons-lang3").version {
                 strictly("[3.8, 4.0[")
                 prefer("3.9")
             }
