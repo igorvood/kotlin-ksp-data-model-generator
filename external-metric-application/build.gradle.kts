@@ -3,7 +3,7 @@ plugins {
     kotlin("plugin.serialization")
 
     id("org.springframework.boot")
-    id("io.spring.dependency-management") version "1.0.15.RELEASE"
+    id("io.spring.dependency-management")
     kotlin("plugin.spring")
 }
 
