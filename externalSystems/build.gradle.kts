@@ -20,9 +20,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-webflux")
 
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core")
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1")
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-hocon:1.4.1")
-
+    implementation(libs.kotlinx.serialization.json)
 
     implementation("com.google.protobuf:protobuf-kotlin:$googleProtobufVersion")
     implementation("io.grpc:grpc-kotlin-stub:1.4.1")

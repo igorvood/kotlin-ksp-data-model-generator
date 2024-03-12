@@ -24,6 +24,10 @@ pluginManagement {
 dependencyResolutionManagement {
     versionCatalogs {
         create("libs") {
+
+            library("kotlinx-serialization-json","org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1")
+            library("kotlinx-serialization-hocon","org.jetbrains.kotlinx:kotlinx-serialization-hocon:1.4.1")
+
             library("groovy-core", "org.codehaus.groovy:groovy:3.0.5")
             library("groovy-json", "org.codehaus.groovy:groovy-json:3.0.5")
             library("groovy-nio", "org.codehaus.groovy:groovy-nio:3.0.5")

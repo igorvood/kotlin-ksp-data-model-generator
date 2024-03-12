@@ -12,7 +12,7 @@ dependencies {
     implementation(project(":core"))
     implementation(project(":mode-symbol-processor"))
     ksp(project(":mode-symbol-processor"))
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1")
+    implementation(libs.kotlinx.serialization.json)
 }
 
 ksp {

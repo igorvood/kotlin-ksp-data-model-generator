@@ -5,7 +5,7 @@ plugins {
 
 dependencies {
     implementation(kotlin("stdlib"))
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-core:1.4.1")
+    implementation(libs.kotlinx.serialization.json)
 }
 
 repositories {

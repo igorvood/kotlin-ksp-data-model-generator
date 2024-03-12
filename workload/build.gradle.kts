@@ -16,8 +16,8 @@ dependencies {
     implementation(project(":dataModel"))
     implementation("org.springframework.boot:spring-boot-starter-data-jdbc")
     implementation("org.liquibase:liquibase-core")
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1")
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-hocon:1.4.1")
+    implementation(libs.kotlinx.serialization.json)
+    implementation(libs.kotlinx.serialization.hocon)
 
     implementation("org.reflections:reflections:0.10.2")
 
