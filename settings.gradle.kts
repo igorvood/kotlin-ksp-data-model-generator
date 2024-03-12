@@ -1,4 +1,4 @@
-//плугшин с кодо генерацией https://habr.com/ru/companies/yota/articles/565440/
+//плугин с кодо генерацией https://habr.com/ru/companies/yota/articles/565440/
 pluginManagement {
     val kotlinVersion: String by settings
     val kspVersion: String by settings
@@ -10,6 +10,7 @@ pluginManagement {
         kotlin("jvm") version kotlinVersion
         kotlin("plugin.serialization") version kotlinSerialization
         kotlin("plugin.spring") version kotlinSpring
+        id("org.springframework.boot") version "2.7.16"
     }
 
     repositories {
