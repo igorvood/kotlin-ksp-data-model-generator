@@ -14,22 +14,20 @@ repositories {
 dependencies {
     implementation(project(":core"))
     implementation(project(":dataModelClear"))
-    implementation("org.springframework.boot:spring-boot-starter-data-jdbc")
+    implementation(project(":grpc-common-client-server"))
+    implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("org.springframework.boot:spring-boot-starter-jdbc")
     implementation("org.liquibase:liquibase-core")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1")
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-hocon:1.4.1")
 
     implementation("org.reflections:reflections:0.10.2")
 
     runtimeOnly("org.postgresql:postgresql")
 
 
-    testImplementation("com.charleskorn.kaml:kaml:0.48.0")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
-    testImplementation(project(":dataModelSealed"))
-    testImplementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.13.5")
-
-    testImplementation("com.fasterxml.jackson.module:jackson-module-jsonSchema:2.13.5")
+//    testImplementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.13.5")
+//    testImplementation("com.fasterxml.jackson.module:jackson-module-jsonSchema:2.13.5")
 
 
 }

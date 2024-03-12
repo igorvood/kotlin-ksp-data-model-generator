@@ -5,7 +5,8 @@ create table calc_integration_base_rq
   constraint calc_integration_base_rq_pk primary key (id),
   constraint calc_integration_base_rq_fk foreign key (business_type_call, id)
       references calc_integration_base(business_type_call, request_id) ON DELETE cascade deferrable INITIALLY DEFERRED,
-  create_time timestamp default now()
+  create_time timestamp default now(),
+  data text not null
 
 )
 /

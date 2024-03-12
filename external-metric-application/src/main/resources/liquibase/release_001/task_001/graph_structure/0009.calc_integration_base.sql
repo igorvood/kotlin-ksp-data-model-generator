@@ -9,8 +9,10 @@ create table calc_integration_base
     constraint calc_integration_base_request_id unique (business_type_call, request_id),
     last_response_id varchar(256),
     constraint calc_integration_base_response_id unique (business_type_call, last_response_id),
-    is_finished bool generated always as (last_response_id!=null) stored
+    is_finished bool generated always as (last_response_id IS NOT NULL) stored
 )
+/
+create index  IF NOT EXISTS calc_integration_base_not_finshed_i ON calc_integration_base(is_finished)
 /
 comment on table calc_integration_base is 'базовая таблица регистрации интеграций.'
 /

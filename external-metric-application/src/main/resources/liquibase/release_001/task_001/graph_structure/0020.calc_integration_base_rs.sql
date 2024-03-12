@@ -9,7 +9,8 @@ create table calc_integration_base_rs
     num int not null,
     request_id varchar(256) not null,
     constraint calc_integration_base_rs_request_id unique (business_type_call, request_id),
-    constraint calc_integration_base_rs_rq_fk foreign key (request_id) references calc_integration_base_rq(id)
+    constraint calc_integration_base_rs_rq_fk foreign key (request_id) references calc_integration_base_rq(id),
+    data text not null
 )
 /
 comment on table calc_integration_base_rs is 'Справочник владельв топиков.'
