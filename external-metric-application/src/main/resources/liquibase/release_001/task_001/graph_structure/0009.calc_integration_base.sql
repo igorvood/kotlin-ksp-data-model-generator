@@ -3,7 +3,7 @@ create table calc_integration_base
     id varchar(256) not null DEFAULT nextval('calc_integration_base_sequence'),
     business_type_call varchar(256) not null,
 
-    constraint entity_context_pk primary key (id),
+    constraint calc_integration_base_pk primary key (id),
 --     node_type varchar(256) generated always as ('topic') stored,
     request_id varchar(256) generated always as (id) stored,
     constraint calc_integration_base_request_id unique (business_type_call, request_id),
