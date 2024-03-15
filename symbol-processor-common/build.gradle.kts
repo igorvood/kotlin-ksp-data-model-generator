@@ -6,11 +6,10 @@ plugins {
 
 dependencies {
     implementation(project(":core"))
-    implementation("com.google.devtools.ksp:symbol-processing-api:$kspVersion")
+    implementation(libs.symbol.processing.api)
     implementation(kotlin("stdlib"))
-    implementation("com.squareup:kotlinpoet:1.12.0")
-    implementation("com.squareup:kotlinpoet-ksp:1.12.0")
-
+    implementation(libs.kotlin.poet.ksp)
+    implementation(libs.kotlinpoet)
 
 }
 repositories {
