@@ -29,15 +29,37 @@ pluginManagement {
 dependencyResolutionManagement {
     versionCatalogs {
         create("libs") {
-
+            version("jackson-serialization-version", "2.13.5")
+            version("kotlinx-serialization-version", "1.4.1")
+            val kotlinx_serialization_version = "1.4.1"
+            val jackson_serialization_version = "2.13.5"
             //serialisation
-            version("kotlinx-serialization", "1.4.1")
-            library("kotlinx-serialization-json","org.jetbrains.kotlinx","kotlinx-serialization-json").versionRef("kotlinx-serialization")
+
+            library(
+                "kotlinx-serialization-json",
+                "org.jetbrains.kotlinx:kotlinx-serialization-json:$kotlinx_serialization_version"
+            )
+            library(
+                "serialization-kotlinx-json",
+                "org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.0"
+            )
             library(
                 "kotlinx-serialization-hocon",
-                "org.jetbrains.kotlinx",
-                "kotlinx-serialization-hocon"
-            ).versionRef("kotlinx-serialization")
+                "org.jetbrains.kotlinx:kotlinx-serialization-hocon:$kotlinx_serialization_version"
+            )
+
+            library(
+                "jackson-module-kotlin","com.fasterxml.jackson.module:jackson-module-kotlin:$jackson_serialization_version"
+            )
+            library(
+                "jackson-module-jsonSchema","com.fasterxml.jackson.module:jackson-module-jsonSchema:$jackson_serialization_version"
+            )
+
+//
+
+//            library("q","com.fasterxml.jackson.module:jackson-module-kotlin:$jackson_serialization_version")
+            library("jackson-module-jsonSchema","com.fasterxml.jackson.module","jackson-module-jsonSchema").versionRef("jackson-serialization-version")
+
 
             //reflection
             library("org.reflections", "org.reflections:reflections:0.10.2")

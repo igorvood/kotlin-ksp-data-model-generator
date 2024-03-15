@@ -24,13 +24,11 @@ dependencies {
     runtimeOnly("org.postgresql:postgresql")
 
 
-    testImplementation("com.charleskorn.kaml:kaml:0.48.0")
+//    testImplementation("com.charleskorn.kaml:kaml:0.48.0")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation(project(":dataModelSealed"))
-    testImplementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.13.5")
-
-    testImplementation("com.fasterxml.jackson.module:jackson-module-jsonSchema:2.13.5")
-
+    testImplementation(libs.jackson.module.jsonSchema)
+    testImplementation(libs.jackson.module.kotlin)
 
 }
 
