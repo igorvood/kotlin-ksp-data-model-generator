@@ -14,7 +14,6 @@ repositories {
 }
 
 val googleProtobufVersion: String by project
-val genGrpcKotlin: String by project
 val grpcKotlinVersion: String by project
 
 dependencies {

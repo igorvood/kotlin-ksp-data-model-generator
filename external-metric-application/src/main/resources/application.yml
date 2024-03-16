@@ -10,3 +10,6 @@ spring:
     #    url: jdbc:postgresql://d5uasp-pgc002lk.corp.dev.vtb:5432/db_configuration_manager
     username: db_configuration_manager_admin
     password: qwerty
+grpc:
+  server:
+    port: 5051

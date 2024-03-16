@@ -1,4 +1,6 @@
 val kotlinxSerializationVersion: String by project
+val googleProtobufVersion: String by project
+val grpcKotlinVersion: String by project
 
 plugins {
     kotlin("jvm")
@@ -21,6 +23,9 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-jdbc")
     implementation("org.liquibase:liquibase-core")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:$kotlinxSerializationVersion")
+
+    implementation("com.google.protobuf:protobuf-kotlin:$googleProtobufVersion")
+    implementation("io.grpc:grpc-kotlin-stub:$grpcKotlinVersion")
 
     runtimeOnly("org.postgresql:postgresql")
 
