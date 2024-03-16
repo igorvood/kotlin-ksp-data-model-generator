@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Propagation
 import org.springframework.transaction.annotation.Transactional
 import ru.vood.calculator.ext.dto.RequestId
+import ru.vood.calculator.ext.dto.ResponseId
 import ru.vood.calculator.ext.meta.BusinessTypeCall
 
 
@@ -12,8 +13,6 @@ import ru.vood.calculator.ext.meta.BusinessTypeCall
 open class IntegrationRegistrar(
     val jdbcOperations: JdbcOperations,
 ) {
-
-
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     internal open fun registerIn(businessTypeCall: BusinessTypeCall, data: String): RequestId {
@@ -30,6 +29,24 @@ open class IntegrationRegistrar(
             data
         )
         return requestId
+    }
+
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    internal open fun registerOut(
+        businessTypeCall: BusinessTypeCall,
+        num: Int,
+        requestId: RequestId,
+        data: String,
+    ): ResponseId {
+        return jdbcOperations.queryForObject(
+            """insert into calc_integration_base_rs(business_type_call, num, request_id, data) VALUES ( ?, ?, ?,? ) returning id""",
+            String::class.java,
+            businessTypeCall.name,
+            num,
+            requestId.value,
+            data
+        )!!.let { ResponseId(it) }
+
     }
 
 

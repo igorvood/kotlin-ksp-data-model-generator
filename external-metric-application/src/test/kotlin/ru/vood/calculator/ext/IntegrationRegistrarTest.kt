@@ -21,7 +21,10 @@ internal class IntegrationRegistrarTest : AbstractDatasourceTests() {
     @Test
     fun register() {
         val register = testIntegrationRegistrar.registerIn(BusinessTypeCall.START_CALCULATION, "{}")
+        val registerOut = testIntegrationRegistrar.registerOut(BusinessTypeCall.START_CALCULATION, 1, register, "{}")
         println(register)
+        println(registerOut)
+
     }
 }
 
