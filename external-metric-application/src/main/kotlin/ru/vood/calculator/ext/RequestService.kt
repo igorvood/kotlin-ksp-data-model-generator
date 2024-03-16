@@ -7,7 +7,6 @@ interface RequestService {
     val integrationInRegistrar: IntegrationRegistrar
 
     val businessTypeCall: BusinessTypeCall
-
     fun processIntegration(requestData: RequestData): ResponseData
 
     fun processInData(requestData: RequestData): ResponseData {
