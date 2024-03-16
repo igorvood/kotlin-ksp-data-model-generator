@@ -8,7 +8,7 @@ import ru.vood.dmgen.datamodel.intf.IEntityOrigin
 
 
 @Service
-class RequestService(
+class InRequestService(
     private val integrationInRegistrar: IntegrationRegistrarDao,
     requestProcessors: List<RequestProcessor<IEntityDetail<out IEntityOrigin>>>,
 ) {
