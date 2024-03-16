@@ -4,7 +4,7 @@ import ru.vood.calculator.ext.meta.BusinessTypeCall
 
 interface RequestService {
 
-    val integrationInRegistrar: IntegrationRegistrar
+    val integrationInRegistrar: IntegrationRegistrarDao
 
     val businessTypeCall: BusinessTypeCall
     fun processIntegration(requestData: RequestData): ResponseData

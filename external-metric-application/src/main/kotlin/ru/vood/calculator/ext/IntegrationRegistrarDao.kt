@@ -10,7 +10,7 @@ import ru.vood.calculator.ext.meta.BusinessTypeCall
 
 
 @Service
-open class IntegrationRegistrar(
+open class IntegrationRegistrarDao(
     val jdbcOperations: JdbcOperations,
 ) {
 
