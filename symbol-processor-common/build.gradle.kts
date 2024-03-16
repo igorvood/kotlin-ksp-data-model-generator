@@ -6,8 +6,8 @@ plugins {
 
 dependencies {
     implementation(project(":core"))
+
     implementation(libs.symbol.processing.api)
-    implementation(kotlin("stdlib"))
     implementation(libs.kotlin.poet.ksp)
     implementation(libs.kotlinpoet)
 
