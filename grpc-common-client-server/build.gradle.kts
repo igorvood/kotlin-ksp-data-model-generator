@@ -14,11 +14,11 @@ java {
     sourceCompatibility = JavaVersion.VERSION_17
 }
 
-val protobufVersion = "3.10.0"
-val ioGrpc = "1.58.0"
-
-val grpcVersion = "1.60.1"
-val grpcKotlinVersion = "1.4.1"
+val protobufVersion: String by project
+val ioGrpc: String by project
+val genGrpcKotlin: String by project
+val grpcVersion : String by project
+val grpcKotlinVersion : String by project
 val kotlinVersion : String by project
 val kotlinxCoroutines : String by project
 
@@ -28,8 +28,8 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion")
 
-    implementation("io.grpc:grpc-kotlin-stub:1.4.1")
-    implementation("io.grpc:protoc-gen-grpc-kotlin:1.3.0")
+    implementation("io.grpc:grpc-kotlin-stub:$grpcKotlinVersion")
+    implementation("io.grpc:protoc-gen-grpc-kotlin:$genGrpcKotlin")
 
 
     implementation("io.grpc:grpc-inprocess:$ioGrpc")
@@ -38,7 +38,6 @@ dependencies {
     implementation("io.grpc:grpc-services:$ioGrpc")
     implementation("io.grpc:grpc-core:$ioGrpc")
 
-//    implementation(project(":core"))
     protobuf(files("src/main/resources/proto/"))
 }
 

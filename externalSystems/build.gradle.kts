@@ -14,6 +14,11 @@ repositories {
 }
 
 val googleProtobufVersion = "3.19.3"
+val genGrpcKotlin: String by project
+val grpcKotlinVersion: String by project
+
+//val grpcVersion : String by project
+
 dependencies {
     implementation(project(":core"))
     implementation(project(":dataModelClear"))
@@ -25,8 +30,9 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:$kotlinxSerializationVersion")
 
     implementation("com.google.protobuf:protobuf-kotlin:$googleProtobufVersion")
-    implementation("io.grpc:grpc-kotlin-stub:1.4.1")
-    implementation("io.grpc:protoc-gen-grpc-kotlin:1.3.0")
+    implementation("io.grpc:grpc-kotlin-stub:$grpcKotlinVersion")
+
+//    implementation("io.grpc:grpc-kotlin-stub:1.4.1")
 
 
 //    io.grpc:grpc-api:1.58.0 (*)
