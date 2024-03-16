@@ -32,11 +32,6 @@ dependencies {
     implementation("com.google.protobuf:protobuf-kotlin:$googleProtobufVersion")
     implementation("io.grpc:grpc-kotlin-stub:$grpcKotlinVersion")
 
-//    implementation("io.grpc:grpc-kotlin-stub:1.4.1")
-
-
-//    io.grpc:grpc-api:1.58.0 (*)
-//    implementation("io.grpc:grpc-stub:1.58.0 (*)
     implementation("io.grpc:grpc-inprocess:1.58.0")
     implementation("io.grpc:grpc-netty-shaded:1.58.0")
     implementation("io.grpc:grpc-protobuf:1.58.0")
@@ -44,10 +39,6 @@ dependencies {
     implementation("io.grpc:grpc-core:1.58.0")
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
-    testImplementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.13.5")
-
-    testImplementation("com.fasterxml.jackson.module:jackson-module-jsonSchema:2.13.5")
-
 
 }
 
