@@ -18,7 +18,7 @@
         <sqlFile path="liquibase/release_001/task_001/graph_structure/0010.calc_integration_base_rq.sql" endDelimiter="${sqlBatchDelimiter}"/>
         <sqlFile path="liquibase/release_001/task_001/graph_structure/0020.calc_integration_base_rs.sql" endDelimiter="${sqlBatchDelimiter}"/>
 
-<!--        <sqlFile path="liquibase/release_001/task_001/graph_structure/0050.meta_stand.sql" endDelimiter="${sqlBatchDelimiter}"/>-->
+        <sqlFile path="liquibase/release_001/task_001/graph_structure/0050.calc_integration_base_fk_to_rs.sql" endDelimiter="${sqlBatchDelimiter}"/>
 <!--        <sqlFile path="liquibase/release_001/task_001/graph_structure/0100.dict_abstract_graph_node.sql" endDelimiter="${sqlBatchDelimiter}"/>-->
 <!--        <sqlFile path="liquibase/release_001/task_001/graph_structure/0106.dict_kafka_property_grp.sql" endDelimiter="${sqlBatchDelimiter}"/>-->
 <!--        <sqlFile path="liquibase/release_001/task_001/graph_structure/0110.dict_topic_node.sql" endDelimiter="${sqlBatchDelimiter}"/>-->

@@ -1,0 +1,1 @@
+alter table calc_integration_base add constraint calc_integration_base_to_rs_fk foreign key (last_response_id) references calc_integration_base_rs(id)

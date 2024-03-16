@@ -38,7 +38,7 @@ open class IntegrationRegistrar(
         requestId: RequestId,
         data: String,
     ): ResponseId {
-        return jdbcOperations.queryForObject(
+        val let = jdbcOperations.queryForObject(
             """insert into calc_integration_base_rs(business_type_call, num, request_id, data) VALUES ( ?, ?, ?,? ) returning id""",
             String::class.java,
             businessTypeCall.name,
@@ -46,6 +46,13 @@ open class IntegrationRegistrar(
             requestId.value,
             data
         )!!.let { ResponseId(it) }
+
+        jdbcOperations.update(
+            """update calc_integration_base set last_response_id = ? where id = ?""",
+            let.value,
+            requestId.value,
+        )
+        return let
 
     }
 
