@@ -5,8 +5,7 @@ val kotlinVersion: String by project
 val kotlinxCoroutines: String by project
 val ioMockk: String by project
 val junitJupiter: String by project
-
-
+val kotlinCompileTesting: String by project
 
 
 plugins {
@@ -30,7 +29,7 @@ dependencies {
     implementation("com.squareup:kotlinpoet-ksp:$kotlinpoet")
     testImplementation("org.junit.jupiter:junit-jupiter:$junitJupiter")
     testImplementation("io.mockk:mockk:$ioMockk")
-    testImplementation("com.github.tschuchortdev:kotlin-compile-testing:1.4.9")
+    testImplementation("com.github.tschuchortdev:kotlin-compile-testing:$kotlinCompileTesting")
     testImplementation("org.jetbrains.kotlin:kotlin-compiler-embeddable:$kotlinVersion")
 //    testImplementation()
 

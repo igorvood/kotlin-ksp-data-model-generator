@@ -18,6 +18,7 @@ pluginManagement {
         kotlin("plugin.spring") version kotlinSpring
         id("org.springframework.boot") version "2.7.16"
         id("io.spring.dependency-management") version "1.0.15.RELEASE"
+        id("com.google.protobuf") version "0.9.4"
     }
 
     repositories {

@@ -8,20 +8,22 @@ repositories {
 
 plugins {
     kotlin("jvm")
-    id("com.google.protobuf") version "0.9.4"
+    id("com.google.protobuf")
 }
 java {
     sourceCompatibility = JavaVersion.VERSION_17
 }
 
 val protobufVersion = "3.10.0"
+val ioGrpc = "1.58.0"
+
 val grpcVersion = "1.60.1"
 val grpcKotlinVersion = "1.4.1"
-val kotlinVersion = "1.7.20"
+val kotlinVersion : String by project
+val kotlinxCoroutines : String by project
 
 dependencies {
-//    implementation("org.jetbrains.kotlin:kotlin-core:1.7.20")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.3")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinxCoroutines")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion")
@@ -30,11 +32,11 @@ dependencies {
     implementation("io.grpc:protoc-gen-grpc-kotlin:1.3.0")
 
 
-    implementation("io.grpc:grpc-inprocess:1.58.0")
-    implementation("io.grpc:grpc-netty-shaded:1.58.0")
-    implementation("io.grpc:grpc-protobuf:1.58.0")
-    implementation("io.grpc:grpc-services:1.58.0")
-    implementation("io.grpc:grpc-core:1.58.0")
+    implementation("io.grpc:grpc-inprocess:$ioGrpc")
+    implementation("io.grpc:grpc-netty-shaded:$ioGrpc")
+    implementation("io.grpc:grpc-protobuf:$ioGrpc")
+    implementation("io.grpc:grpc-services:$ioGrpc")
+    implementation("io.grpc:grpc-core:$ioGrpc")
 
 //    implementation(project(":core"))
     protobuf(files("src/main/resources/proto/"))
