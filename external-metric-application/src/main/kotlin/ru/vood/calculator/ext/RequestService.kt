@@ -8,12 +8,13 @@ interface RequestService {
 
     val businessTypeCall: BusinessTypeCall
 
-
     fun processIntegration(requestData: RequestData): ResponseData
 
     fun processInData(requestData: RequestData): ResponseData {
-        integrationInRegistrar.registerIn(businessTypeCall, requestData.payload.value)
-        return processIntegration(requestData)
+        val registerIn = integrationInRegistrar.registerIn(businessTypeCall, requestData.payload.value)
+        val processIntegration = processIntegration(requestData)
+        integrationInRegistrar.registerOut(businessTypeCall, 1, registerIn, processIntegration.payload.value)
+        return processIntegration
     }
 
 
