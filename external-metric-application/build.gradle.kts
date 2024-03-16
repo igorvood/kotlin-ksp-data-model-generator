@@ -1,3 +1,5 @@
+val kotlinxSerializationVersion: String by project
+
 plugins {
     kotlin("jvm")
     kotlin("plugin.serialization")
@@ -18,7 +20,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-jdbc")
     implementation("org.liquibase:liquibase-core")
-    implementation(libs.kotlinx.serialization.json)
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:$kotlinxSerializationVersion")
 
     runtimeOnly("org.postgresql:postgresql")
 

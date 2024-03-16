@@ -1,3 +1,5 @@
+val kotlinxSerializationVersion: String by project
+
 plugins {
     kotlin("jvm")
     kotlin("plugin.serialization")
@@ -5,7 +7,8 @@ plugins {
 
 dependencies {
     implementation(kotlin("stdlib"))
-    implementation(libs.kotlinx.serialization.json)
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:$kotlinxSerializationVersion")
+
 }
 
 repositories {

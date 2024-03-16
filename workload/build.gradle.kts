@@ -1,3 +1,8 @@
+val kotlinxSerializationVersion: String by project
+val orgReflections: String by project
+val jacksonSerializationVersion: String by project
+
+
 plugins {
     kotlin("jvm")
     kotlin("plugin.serialization")
@@ -16,19 +21,19 @@ dependencies {
     implementation(project(":dataModel"))
     implementation("org.springframework.boot:spring-boot-starter-data-jdbc")
     implementation("org.liquibase:liquibase-core")
-    implementation(libs.kotlinx.serialization.json)
-    implementation(libs.kotlinx.serialization.hocon)
 
-    implementation(libs.org.reflections)
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:$kotlinxSerializationVersion")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-hocon:$kotlinxSerializationVersion")
 
+    implementation("org.reflections:reflections:$orgReflections")
     runtimeOnly("org.postgresql:postgresql")
 
 
-//    testImplementation("com.charleskorn.kaml:kaml:0.48.0")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation(project(":dataModelSealed"))
-    testImplementation(libs.jackson.module.jsonSchema)
-    testImplementation(libs.jackson.module.kotlin)
+    testImplementation("com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonSerializationVersion")
+    testImplementation("com.fasterxml.jackson.module:jackson-module-jsonSchema:$jacksonSerializationVersion")
+
 
 }
 

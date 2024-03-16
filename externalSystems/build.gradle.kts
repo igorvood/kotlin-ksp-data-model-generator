@@ -1,3 +1,5 @@
+val kotlinxSerializationVersion: String by project
+
 plugins {
     kotlin("jvm")
     kotlin("plugin.serialization")
@@ -20,7 +22,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-webflux")
 
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core")
-    implementation(libs.kotlinx.serialization.json)
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:$kotlinxSerializationVersion")
 
     implementation("com.google.protobuf:protobuf-kotlin:$googleProtobufVersion")
     implementation("io.grpc:grpc-kotlin-stub:1.4.1")

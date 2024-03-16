@@ -1,3 +1,5 @@
+val kotlinxSerializationVersion: String by project
+
 plugins {
     id("com.google.devtools.ksp")
     kotlin("jvm")
@@ -12,7 +14,7 @@ dependencies {
     implementation(project(":core"))
     implementation(project(":mode-symbol-processor"))
     ksp(project(":mode-symbol-processor"))
-    implementation(libs.kotlinx.serialization.json)
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:$kotlinxSerializationVersion")
 }
 
 ksp {

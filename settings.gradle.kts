@@ -9,6 +9,7 @@ pluginManagement {
     val kotlinSerialization: String by settings
     val kotlinSpring: String by settings
 
+
     plugins {
         id("com.google.devtools.ksp") version kspVersion
         kotlin("jvm") version kotlinVersion
@@ -26,51 +27,52 @@ pluginManagement {
     }
 }
 
-dependencyResolutionManagement {
-    versionCatalogs {
-        create("libs") {
-            version("jackson-serialization-version", "2.13.5")
-            version("kotlinx-serialization-version", "1.4.1")
-            val kotlinx_serialization_version = "1.4.1"
-            val jackson_serialization_version = "2.13.5"
-            val kspVersion: String by settings
-            //serialisation
-
-            library(
-                "kotlinx-serialization-json",
-                "org.jetbrains.kotlinx:kotlinx-serialization-json:$kotlinx_serialization_version"
-            )
-            library(
-                "serialization-kotlinx-json",
-                "org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.0"
-            )
-            library(
-                "kotlinx-serialization-hocon",
-                "org.jetbrains.kotlinx:kotlinx-serialization-hocon:$kotlinx_serialization_version"
-            )
-
-            library(
-                "jackson-module-kotlin","com.fasterxml.jackson.module:jackson-module-kotlin:$jackson_serialization_version"
-            )
-            library(
-                "jackson-module-jsonSchema","com.fasterxml.jackson.module:jackson-module-jsonSchema:$jackson_serialization_version"
-            )
-
-            library("jackson-module-jsonSchema","com.fasterxml.jackson.module","jackson-module-jsonSchema").versionRef("jackson-serialization-version")
-
-
-            //reflection
-            library("org.reflections", "org.reflections:reflections:0.10.2")
-
-            library("symbol-processing-api","com.google.devtools.ksp:symbol-processing-api:$kspVersion")
-
-            val kotlinpoet_version = "1.12.0"
-            library("kotlinpoet","com.squareup:kotlinpoet:$kotlinpoet_version")
-            library("kotlin-poet-ksp","com.squareup:kotlinpoet-ksp:$kotlinpoet_version")
-
-        }
-    }
-}
+//dependencyResolutionManagement {
+//    versionCatalogs {
+//        create("libs") {
+//            version("jackson-serialization-version", "2.13.5")
+//            version("kotlinx-serialization-version", "1.4.1")
+//            val kotlinx_serialization_version = "1.4.1"
+//            val jackson_serialization_version = "2.13.5"
+//            val kspVersion: String by settings
+//            //serialisation
+//
+//            library(
+//                "kotlinx-serialization-json",
+//                "org.jetbrains.kotlinx:kotlinx-serialization-json:$kotlinx_serialization_version"
+//            )
+//            library(
+//                "serialization-kotlinx-json",
+//                "org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.0"
+//            )
+//            library(
+//                "kotlinx-serialization-hocon",
+//                "org.jetbrains.kotlinx:kotlinx-serialization-hocon:$kotlinx_serialization_version"
+//            )
+//
+//            library(
+//                "jackson-module-kotlin","com.fasterxml.jackson.module:jackson-module-kotlin:$jackson_serialization_version"
+//            )
+//            library(
+//                "jackson-module-jsonSchema","com.fasterxml.jackson.module:jackson-module-jsonSchema:$jackson_serialization_version"
+//            )
+//
+//            library("jackson-module-jsonSchema","com.fasterxml.jackson.module","jackson-module-jsonSchema").versionRef("jackson-serialization-version")
+//
+//
+//            //reflection
+//            library("org.reflections", "org.reflections:reflections:0.10.2")
+//
+//            library("symbol-processing-api","com.google.devtools.ksp:symbol-processing-api:$kspVersion")
+//            library("symbol-processing-api","com.google.devtools.ksp:symbol-processing:$kspVersion")
+//
+//            val kotlinpoet_version = "1.12.0"
+//            library("kotlinpoet","com.squareup:kotlinpoet:$kotlinpoet_version")
+//            library("kotlin-poet-ksp","com.squareup:kotlinpoet-ksp:$kotlinpoet_version")
+//
+//        }
+//    }
+//}
 
 
 include(":core")

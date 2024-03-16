@@ -1,4 +1,5 @@
 val kspVersion: String by project
+val kotlinxSerializationVersion: String by project
 
 plugins {
     kotlin("jvm")
@@ -15,7 +16,7 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.1")
     implementation("com.google.devtools.ksp:symbol-processing-api:$kspVersion")
     implementation("com.google.devtools.ksp:symbol-processing:$kspVersion")
-    implementation(libs.kotlinx.serialization.json)
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:$kotlinxSerializationVersion")
     implementation("com.charleskorn.kaml:kaml:0.52.0")
     implementation("com.squareup:kotlinpoet:1.12.0")
     implementation("com.squareup:kotlinpoet-ksp:1.12.0")

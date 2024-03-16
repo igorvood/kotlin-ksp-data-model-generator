@@ -1,4 +1,6 @@
 val kspVersion: String by project
+val kotlinpoet: String by project
+
 
 plugins {
     kotlin("jvm")
@@ -7,9 +9,10 @@ plugins {
 dependencies {
     implementation(project(":core"))
 
-    implementation(libs.symbol.processing.api)
-    implementation(libs.kotlin.poet.ksp)
-    implementation(libs.kotlinpoet)
+    implementation("com.google.devtools.ksp:symbol-processing-api:$kspVersion")
+
+    implementation("com.squareup:kotlinpoet:$kotlinpoet")
+    implementation("com.squareup:kotlinpoet-ksp:$kotlinpoet")
 
 }
 repositories {
