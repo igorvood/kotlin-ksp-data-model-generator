@@ -1,7 +1,8 @@
 package ru.vood.calculator.ext.meta
 
 import ru.vood.dmgen.datamodel.metaEnum.EntityEnum
-import java.util.EnumMap
+import ru.vood.grpc.server.dto.PayloadClass
+import java.util.*
 
 enum class BusinessTypeCall(
     val direction: Direction,
@@ -15,12 +16,18 @@ enum class BusinessTypeCall(
     );
 
 
-    companion object{
+    companion object {
         val businessTypeCallByEntityEnum = EnumMap(BusinessTypeCall.values().map {
             it.entityEnum to it
         }.toMap())
+
+        fun asd(payloadClass: PayloadClass): BusinessTypeCall = businessTypeCallByEntityEnum[
+                EntityEnum.entityMetaByStr(
+                    payloadClass.value
+                )
+        ]!!
     }
-
-
-
 }
+
+
+
