@@ -24,10 +24,7 @@ dependencies {
 
     runtimeOnly("org.postgresql:postgresql")
 
-
     testImplementation("org.springframework.boot:spring-boot-starter-test")
-//    testImplementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.13.5")
-//    testImplementation("com.fasterxml.jackson.module:jackson-module-jsonSchema:2.13.5")
 
 
 }
