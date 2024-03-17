@@ -70,6 +70,7 @@ internal class ReplyGeneratorImplTest {
             UniqueKeyEnum.DealExtendData_PK to mapOf("dealId" to "1"),
             UniqueKeyEnum.Product_PK to mapOf("dealId" to "1", "id" to "1"),
             UniqueKeyEnum.ProductPayments_PK to mapOf("dealId" to "1", "productId" to "1"),
+            UniqueKeyEnum.DealRsp_PK to mapOf("dealId" to "1"),
         )
 
 

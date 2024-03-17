@@ -44,7 +44,8 @@ class IEntityDataSingleFileGenerator(rootPackage: PackageName) : AbstractIntfSin
 
         private val runtimeSyntheticClass = PropertySpec.builder(
             name = "runtimeSyntheticClass",
-            type = kClass.plusParameter(WildcardTypeName.producerOf(iEntityOrigin))
+            type = kClass.plusParameter(WildcardTypeName.producerOf(iEntityDetail.plusParameter(WildcardTypeName.producerOf(
+                iEntityOrigin))))
         )
             .addKdoc("синтетический класс описывающий сущность, включает в себя все сущности, которорые имею форен на текущую")
             .build()

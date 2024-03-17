@@ -25,3 +25,20 @@ interface Deal {
     val b: Boolean
 
 }
+
+@FlowEntity(FlowEntityType.AGGREGATE)
+@ForeignKey(
+//    value = Deal::class,
+    kClass = "ru.vood.dmgen.datamodel.deal.Deal",
+    name = "DealRsp_Deal_FK",
+    cols = [ForeignKeyColumns("dealId", "id")],
+    foreignKeyType = ForeignKeyType.MANDATORY
+)
+@Comment("Параметр сделки, отношение к сделке один к одному")
+interface DealRsp {
+    @Pk
+    @Comment("Параметр сделки, отношение к сделке один к одному")
+    val dealId: Int
+
+
+}
