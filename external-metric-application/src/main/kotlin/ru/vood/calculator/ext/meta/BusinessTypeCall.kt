@@ -13,6 +13,9 @@ enum class BusinessTypeCall(
 
     START_CALCULATION_DEAL(
         Direction.IN, IntegrationType.SYNC, EntityEnum.Deal
+    ),
+    DEAL_PRODUCTS(
+        Direction.OUT, IntegrationType.ASYNC_MANY, EntityEnum.Deal
     );
 
 
