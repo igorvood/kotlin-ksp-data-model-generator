@@ -20,7 +20,7 @@ class DealScheduler(
     private val generator: IReplyGenerator
 ) {
     private val logger = LoggerFactory.getLogger(this.javaClass)
-    @Scheduled(fixedRate = 5000)
+    @Scheduled(fixedRate = 500000)
     fun asdasd(){
 
 
