@@ -20,9 +20,18 @@ class InRequestService(
     fun processIntegration(requestData: RequestData): ResponseData {
         val businessTypeCall = asd(requestData.payloadClass)
         val registerIn = integrationInRegistrar.registerIn(businessTypeCall, requestData.payload.value)
-        val processIntegration: ResponseData = abstractRequestProcessorsMap[businessTypeCall]!!.process(requestData)
-        integrationInRegistrar.registerOut(businessTypeCall, registerIn, processIntegration.payload.value)
-        return processIntegration
+
+        val runCatching = kotlin.runCatching {
+            val abstractRequestCommand = abstractRequestProcessorsMap[businessTypeCall]?: error("Not found implementation ${AbstractRequestCommand::class.java.name} for ${businessTypeCall.name}")
+            abstractRequestCommand!!.process(requestData) }
+            .map { processIntegration -> integrationInRegistrar.registerOut(businessTypeCall, registerIn, processIntegration.payload.value)
+                processIntegration}
+            .getOrElse {
+                integrationInRegistrar.registerError(registerIn, it.javaClass.canonicalName+":"+it.message?:"some error")
+                throw java.lang.IllegalStateException(it)
+            }
+
+        return runCatching
     }
 
 

@@ -14,9 +14,10 @@ enum class BusinessTypeCall(
     START_CALCULATION_DEAL(
         Direction.IN, IntegrationTypeEnum.SYNC, EntityEnum.Deal
     ),
-    DEAL_PRODUCTS(
-        Direction.OUT, IntegrationTypeEnum.ASYNC_MANY, EntityEnum.Deal
-    );
+//    DEAL_PRODUCTS(
+//        Direction.OUT, IntegrationTypeEnum.ASYNC_MANY, EntityEnum.Deal
+//    )
+    ;
 
 
     companion object {

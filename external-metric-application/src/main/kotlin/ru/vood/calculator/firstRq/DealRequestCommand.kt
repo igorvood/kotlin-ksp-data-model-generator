@@ -9,8 +9,10 @@ import ru.vood.dmgen.datamodel.deal.DealRspEntity
 @Service
 class DealRequestCommand(
 
-) : AbstractRequestCommand<DealDetail, DealRspDetail>( BusinessTypeCall.START_CALCULATION_DEAL) {
+) : AbstractRequestCommand<DealDetail, DealRspDetail>(BusinessTypeCall.START_CALCULATION_DEAL) {
     override fun runCommand(requestData: DealDetail): DealRspDetail {
+        require(kotlin.math.abs(requestData.hashCode()) % 2 == 1) { "вай ошибка" }
+
         return DealRspDetail(DealRspEntity(requestData.origin.id))
     }
 
