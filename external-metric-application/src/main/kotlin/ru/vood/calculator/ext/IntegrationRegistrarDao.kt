@@ -53,6 +53,17 @@ open class IntegrationRegistrarDao(
             requestId.value,
         )
         return let
+    }
+
+    internal open fun registerError(
+        requestId: RequestId,
+        error: String,
+    ) {
+        jdbcOperations.update(
+            """update calc_integration_base set process_error = ? where id = ?""",
+            error,
+            requestId.value,
+        )
 
     }
 
