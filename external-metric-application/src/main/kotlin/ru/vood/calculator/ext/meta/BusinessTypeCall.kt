@@ -6,16 +6,16 @@ import java.util.*
 
 enum class BusinessTypeCall(
     val direction: Direction,
-    val sync: IntegrationType,
+    val integrationType: IntegrationTypeEnum,
     val entityEnum: EntityEnum,
 
     ) {
 
     START_CALCULATION_DEAL(
-        Direction.IN, IntegrationType.SYNC, EntityEnum.Deal
+        Direction.IN, IntegrationTypeEnum.SYNC, EntityEnum.Deal
     ),
     DEAL_PRODUCTS(
-        Direction.OUT, IntegrationType.ASYNC_MANY, EntityEnum.Deal
+        Direction.OUT, IntegrationTypeEnum.ASYNC_MANY, EntityEnum.Deal
     );
 
 

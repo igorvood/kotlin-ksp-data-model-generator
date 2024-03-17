@@ -18,9 +18,11 @@ open class IntegrationRegistrarDao(
     internal open fun registerIn(businessTypeCall: BusinessTypeCall, data: String): RequestId {
         val requestId =
             jdbcOperations.queryForObject(
-                """ insert into calc_integration_base(business_type_call) VALUES (?) returning id""",
+                """ insert into calc_integration_base(business_type_call, direction, integration_type) VALUES (?, ?, ?) returning id""",
                 String::class.java,
-                businessTypeCall.name
+                businessTypeCall.name,
+                businessTypeCall.direction.name,
+                businessTypeCall.integrationType.name,
             )!!.let { RequestId(it) }
         jdbcOperations.update(
             """insert into calc_integration_base_rq(id, business_type_call, data) VALUES (?, ?, ?)""",
@@ -34,15 +36,13 @@ open class IntegrationRegistrarDao(
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     internal open fun registerOut(
         businessTypeCall: BusinessTypeCall,
-        num: Int,
         requestId: RequestId,
         data: String,
     ): ResponseId {
         val let = jdbcOperations.queryForObject(
-            """insert into calc_integration_base_rs(business_type_call, num, request_id, data) VALUES ( ?, ?, ?,? ) returning id""",
+            """insert into calc_integration_base_rs(business_type_call, request_id, data) VALUES ( ?, ?,? ) returning id""",
             String::class.java,
             businessTypeCall.name,
-            num,
             requestId.value,
             data
         )!!.let { ResponseId(it) }

@@ -1,6 +1,6 @@
 package ru.vood.calculator.ext.meta
 
-enum class IntegrationType {
+enum class IntegrationTypeEnum {
 
     SYNC, ASYNC_ONE, ASYNC_MANY
 }

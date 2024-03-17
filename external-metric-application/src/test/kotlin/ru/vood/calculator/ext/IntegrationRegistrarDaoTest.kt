@@ -17,7 +17,11 @@ internal class IntegrationRegistrarDaoTest : AbstractDatasourceTests() {
     @Test
     fun register() {
         val register = testIntegrationRegistrarDao.registerIn(BusinessTypeCall.START_CALCULATION_DEAL, "{}")
-        val registerOut = testIntegrationRegistrarDao.registerOut(BusinessTypeCall.START_CALCULATION_DEAL, 1, register, "{}")
+        val registerOut = testIntegrationRegistrarDao.registerOut(
+            BusinessTypeCall.START_CALCULATION_DEAL,
+            register,
+            "{}"
+        )
         println(register)
         println(registerOut)
 

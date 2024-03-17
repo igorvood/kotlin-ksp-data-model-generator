@@ -21,7 +21,7 @@ class InRequestService(
         val businessTypeCall = asd(requestData.payloadClass)
         val registerIn = integrationInRegistrar.registerIn(businessTypeCall, requestData.payload.value)
         val processIntegration: ResponseData = abstractRequestProcessorsMap[businessTypeCall]!!.process(requestData)
-        integrationInRegistrar.registerOut(businessTypeCall, 1, registerIn, processIntegration.payload.value)
+        integrationInRegistrar.registerOut(businessTypeCall, registerIn, processIntegration.payload.value)
         return processIntegration
     }
 
