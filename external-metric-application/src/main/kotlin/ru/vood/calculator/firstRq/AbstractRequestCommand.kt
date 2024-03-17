@@ -20,11 +20,11 @@ abstract class AbstractRequestCommand<IN : IEntityDetail<out IEntityOrigin>, OUT
 
     fun process(requestData: RequestData): ResponseData {
         val entityData = businessTypeCall.entityEnum.entityData()
-        require(requestData.payloadClass.value == entityData.runtimeSyntheticClass.simpleName) {
+        require(requestData.payloadClass.value == entityData.designClass.simpleName) {
             "Class for ${businessTypeCall.name} not equals ${requestData.payloadClass.value}"
         }
         val decodeFromString =
-            jsonConfiguration.asd.decodeFromString(entityData.serializerSynthetic, requestData.payloadClass.value) as IN
+            jsonConfiguration.asd.decodeFromString(entityData.serializerSynthetic, requestData.payload.value) as IN
 
         val customProcess = runCommand(decodeFromString)
 

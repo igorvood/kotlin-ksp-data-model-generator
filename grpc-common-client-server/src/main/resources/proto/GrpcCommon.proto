@@ -12,10 +12,10 @@ message ProtoRequest {
 
 message ProtoResponse {
   string payloadClass = 1;
-  oneof data {
-    string payload = 2;
-    string payloadErr = 3;
-  }
+  //  oneof data {
+  string payload = 2;
+  //    string payloadErr = 3;
+  //  }
 }
 
 message AsyncProtoRequest {

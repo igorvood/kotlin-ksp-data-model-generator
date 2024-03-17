@@ -12,4 +12,4 @@ spring:
     password: qwerty
 grpc:
   server:
-    port: 5051
+    port: 50551

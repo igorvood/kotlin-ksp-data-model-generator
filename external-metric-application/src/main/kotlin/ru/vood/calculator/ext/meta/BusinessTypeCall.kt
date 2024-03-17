@@ -11,7 +11,7 @@ enum class BusinessTypeCall(
 
     ) {
 
-    START_CALCULATION(
+    START_CALCULATION_DEAL(
         Direction.IN, IntegrationType.SYNC, EntityEnum.Deal
     );
 

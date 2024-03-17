@@ -40,7 +40,7 @@ class ReplyGeneratorImpl : IReplyGenerator {
         }
 
         logger.info("payloadClass -> $payloadClass uk -> $uk")
-        val ukEntityData = uniqueKeyMap[UniqueKeyEnum.valueOf(payloadClass)]!!
+        val ukEntityData = uniqueKeyMap[UniqueKeyEnum.valueOf(payloadClass)]?: error("")
         val entityEnum = ukEntityData.entity
         val allFields =
             FullColumnNameEnum.values().filter { it.columnData().entity == entityEnum }.map { it.columnData() }
