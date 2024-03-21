@@ -57,11 +57,11 @@ open class IntegrationRegistrarDao(
 
     internal open fun registerError(
         requestId: RequestId,
-        error: String,
+        error: Throwable,
     ) {
         jdbcOperations.update(
             """update calc_integration_base set process_error = ? where id = ?""",
-            error,
+            "${error.javaClass.canonicalName}:${error.message}",
             requestId.value,
         )
 

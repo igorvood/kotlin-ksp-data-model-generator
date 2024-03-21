@@ -1,6 +1,7 @@
 val kotlinxSerializationVersion: String by project
 val googleProtobufVersion: String by project
 val grpcKotlinVersion: String by project
+val springmockk: String by project
 
 plugins {
     kotlin("jvm")
@@ -29,7 +30,12 @@ dependencies {
 
     runtimeOnly("org.postgresql:postgresql")
 
-    testImplementation("org.springframework.boot:spring-boot-starter-test")
+    testImplementation("org.springframework.boot:spring-boot-starter-test"){
+        exclude(module = "mockito-core")
+    }
+
+
+    testImplementation("com.ninja-squad:springmockk:$springmockk")
 
 
 }

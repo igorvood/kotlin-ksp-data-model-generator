@@ -38,7 +38,7 @@ internal class IntegrationRegistrarDaoTest : AbstractDatasourceTests() {
         val register = testIntegrationRegistrarDao.registerIn(BusinessTypeCall.START_CALCULATION_DEAL, "{}")
         val registerOut = testIntegrationRegistrarDao.registerError(
             register,
-            "{}"
+            java.lang.IllegalStateException("asda")
         )
         val queryForObject = jdbcTemplate.queryForObject(
             "select not_finished_id from calc_integration_base where id = ? ",

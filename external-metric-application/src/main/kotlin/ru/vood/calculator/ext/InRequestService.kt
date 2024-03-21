@@ -1,6 +1,7 @@
 package ru.vood.calculator.ext
 
 import org.springframework.stereotype.Service
+import ru.vood.calculator.ext.meta.BusinessTypeCall
 import ru.vood.calculator.ext.meta.BusinessTypeCall.Companion.asd
 import ru.vood.calculator.firstRq.AbstractRequestCommand
 import java.util.*
@@ -12,10 +13,16 @@ class InRequestService(
     val abstractRequestProcessors: List<AbstractRequestCommand<*, *>>,
 ) {
 
-    private val abstractRequestProcessorsMap = EnumMap(
-        abstractRequestProcessors
-            .associateBy { rp -> rp.businessTypeCall }
-    )
+    private val abstractRequestProcessorsMap by lazy {
+
+        val minus = BusinessTypeCall.values().toSet().minus(abstractRequestProcessors.map { it.businessTypeCall })
+        require(minus.isEmpty()){"Not found implementation ${AbstractRequestCommand::class.java.name} for BusinessTypeCalls $minus"}
+
+        EnumMap(
+            abstractRequestProcessors
+                .associateBy { rp -> rp.businessTypeCall }
+        )
+    }
 
     fun processIntegration(requestData: RequestData): ResponseData {
         val businessTypeCall = asd(requestData.payloadClass)
@@ -23,11 +30,11 @@ class InRequestService(
 
         val runCatching = kotlin.runCatching {
             val abstractRequestCommand = abstractRequestProcessorsMap[businessTypeCall]?: error("Not found implementation ${AbstractRequestCommand::class.java.name} for ${businessTypeCall.name}")
-            abstractRequestCommand!!.process(requestData) }
+            abstractRequestCommand.process(requestData) }
             .map { processIntegration -> integrationInRegistrar.registerOut(businessTypeCall, registerIn, processIntegration.payload.value)
                 processIntegration}
             .getOrElse {
-                integrationInRegistrar.registerError(registerIn, it.javaClass.canonicalName+":"+it.message?:"some error")
+                integrationInRegistrar.registerError(registerIn, it)
                 throw java.lang.IllegalStateException(it)
             }
 
