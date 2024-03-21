@@ -2,6 +2,7 @@ package ru.vood.calculator.ext
 
 import com.ninjasquad.springmockk.MockkBean
 import kotlinx.serialization.KSerializer
+import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
@@ -31,7 +32,15 @@ internal class InRequestServiceTest : AbstractDatasourceTests() {
         val serializer = data.designEntityName.entityData().serializerSynthetic as KSerializer<Any>
         val encodeToString = jsonConfiguration.asd.encodeToString(serializer, data as Any)
 
-        inRequestService.processIntegration(RequestData(PayloadClass(tc.entityEnum.entityData().designClass.simpleName!!), Payload(encodeToString)))
+        val processIntegration = inRequestService.processIntegration(
+            RequestData(
+                PayloadClass(tc.entityEnum.entityData().designClass.simpleName!!),
+                Payload(encodeToString)
+            )
+        )
+
+        Assertions.assertEquals(Payload(value="""{"origin":{"dealId":1}}"""), processIntegration.payload)
+
     }
 
 
