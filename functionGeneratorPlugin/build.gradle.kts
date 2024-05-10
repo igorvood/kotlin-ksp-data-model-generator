@@ -16,6 +16,19 @@ gradlePlugin {
 dependencies {
 
 }
+
+tasks.withType<Test> {
+    useJUnitPlatform()
+}
+
+val javaVersion: String by project
+tasks.withType<KotlinCompile>{
+    kotlinOptions{
+        jvmTarget = javaVersion
+    }
+}
+
+
 //val kspVersion: String by project
 //
 //plugins {

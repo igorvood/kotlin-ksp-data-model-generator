@@ -1,5 +1,6 @@
 import com.google.protobuf.gradle.id
 import com.google.protobuf.gradle.protobuf
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 repositories {
     jcenter()
@@ -95,3 +96,15 @@ kotlin {
     )
     println("kotlin srcDirs -> " + mainJavaSourceSet.srcDirs)
 }
+
+tasks.withType<Test> {
+    useJUnitPlatform()
+}
+
+val javaVersion: String by project
+tasks.withType<KotlinCompile>{
+    kotlinOptions{
+        jvmTarget = javaVersion
+    }
+}
+

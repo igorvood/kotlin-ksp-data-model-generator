@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 val kspVersion: String by project
 val kotlinpoet: String by project
 
@@ -17,4 +19,15 @@ dependencies {
 }
 repositories {
     mavenCentral()
+}
+
+tasks.withType<Test> {
+    useJUnitPlatform()
+}
+
+val javaVersion: String by project
+tasks.withType<KotlinCompile>{
+    kotlinOptions{
+        jvmTarget = javaVersion
+    }
 }

@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 val kotlinxSerializationVersion: String by project
 
 plugins {
@@ -30,5 +32,16 @@ kotlin {
             "src/main/kotlin",
             "build/generated/ksp/main/kotlin"
         )
+    }
+}
+
+tasks.withType<Test> {
+    useJUnitPlatform()
+}
+
+val javaVersion: String by project
+tasks.withType<KotlinCompile>{
+    kotlinOptions{
+        jvmTarget = javaVersion
     }
 }

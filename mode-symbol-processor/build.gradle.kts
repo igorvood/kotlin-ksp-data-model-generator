@@ -1,3 +1,6 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
+
 val kspVersion: String by project
 val kotlinxSerializationVersion: String by project
 val kotlinpoet: String by project
@@ -39,6 +42,13 @@ tasks.withType<Test> {
     useJUnitPlatform()
 }
 
+val javaVersion: String by project
+tasks.withType<KotlinCompile>{
+    kotlinOptions{
+        jvmTarget = javaVersion
+    }
+}
+
 kotlin {
     sourceSets.main {
         kotlin.srcDir("build/generated/ksp/main/kotlin")
@@ -47,6 +57,8 @@ kotlin {
         kotlin.srcDir("src/test/kotlin")
     }
 }
+
+
 
 //sourceSets {
 //    test {

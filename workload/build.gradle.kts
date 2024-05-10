@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.dsl.KotlinCompile
+
 val kotlinxSerializationVersion: String by project
 val orgReflections: String by project
 val jacksonSerializationVersion: String by project
@@ -45,4 +47,11 @@ kotlin {
 
 tasks.withType<Test> {
     useJUnitPlatform()
+}
+
+val javaVersion: String by project
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>{
+    kotlinOptions{
+        jvmTarget = javaVersion
+    }
 }
