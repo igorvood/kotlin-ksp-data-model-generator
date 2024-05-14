@@ -10,7 +10,6 @@ import ru.vood.dmgen.dto.SimpleColumnName
 import ru.vood.dmgen.dto.TypeUk
 import ru.vood.dmgen.dto.UkName
 import ru.vood.model.generator.ksp.common.dto.PackageName
-import ru.vood.processor.datamodel.abstraction.AbstractKoraAppProcessorTest
 import ru.vood.processor.datamodel.abstraction.TestFileGeneratorFactory
 import ru.vood.processor.datamodel.abstraction.model.ForeignKeyName
 import ru.vood.processor.datamodel.abstraction.model.MetaEntity
@@ -18,6 +17,7 @@ import ru.vood.processor.datamodel.abstraction.model.MetaEntityColumn
 import ru.vood.processor.datamodel.abstraction.model.MetaForeignKey
 import ru.vood.processor.datamodel.abstraction.model.dto.ModelClassName
 import ru.vood.processor.datamodel.abstraction.model.dto.UkDto
+import ru.vood.processor.tests.abstraction.AbstractKoraAppProcessorTest
 
 @Disabled
 internal class DataModelConfigProcessorProviderTest :

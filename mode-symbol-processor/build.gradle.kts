@@ -30,10 +30,11 @@ dependencies {
 //    implementation("com.charleskorn.kaml:kaml:0.52.0")
     implementation("com.squareup:kotlinpoet:$kotlinpoet")
     implementation("com.squareup:kotlinpoet-ksp:$kotlinpoet")
-    testImplementation("org.junit.jupiter:junit-jupiter:$junitJupiter")
+    testImplementation(project(":ksp-test"))
+//    testImplementation("org.junit.jupiter:junit-jupiter:$junitJupiter")
     testImplementation("io.mockk:mockk:$ioMockk")
-    testImplementation("com.github.tschuchortdev:kotlin-compile-testing:$kotlinCompileTesting")
-    testImplementation("org.jetbrains.kotlin:kotlin-compiler-embeddable:$kotlinVersion")
+//    testImplementation("com.github.tschuchortdev:kotlin-compile-testing:$kotlinCompileTesting")
+//    testImplementation("org.jetbrains.kotlin:kotlin-compiler-embeddable:$kotlinVersion")
 //    testImplementation()
 
 }
