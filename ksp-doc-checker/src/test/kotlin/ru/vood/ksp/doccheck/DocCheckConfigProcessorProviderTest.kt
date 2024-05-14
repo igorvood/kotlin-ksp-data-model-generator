@@ -4,9 +4,9 @@ import org.junit.jupiter.api.Test
 
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Disabled
-import ru.vood.ksp.doccheck.abstraction.AbstractKoraAppProcessorTest
+import ru.vood.processor.tests.abstraction.AbstractKoraAppProcessorTest
 
-@Disabled
+//@Disabled
 class DocCheckConfigProcessorProviderTest:
     AbstractKoraAppProcessorTest(
         listOf(DocCheckConfigProcessorProvider()),
