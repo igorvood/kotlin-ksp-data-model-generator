@@ -32,6 +32,8 @@ include(":core")
 include(":symbol-processor-common")
 include(":mode-symbol-processor")
 include(":ksp-doc-checker")
+include(":ksp-test")
+
 
 include(":dataModelSealed")
 include(":dataModel")
