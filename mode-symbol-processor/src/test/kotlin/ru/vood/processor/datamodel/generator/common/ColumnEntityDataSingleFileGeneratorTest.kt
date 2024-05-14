@@ -9,7 +9,7 @@ import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
 import ru.vood.model.generator.ksp.common.dto.PackageName
 import ru.vood.processor.datamodel.abstraction.AbstractGeneratorTest
-import ru.vood.processor.datamodel.util.readFile
+import ru.vood.processor.tests.abstraction.util.readFile
 
 internal class ColumnEntityDataSingleFileGeneratorTest : AbstractGeneratorTest("DataModel.json") {
 

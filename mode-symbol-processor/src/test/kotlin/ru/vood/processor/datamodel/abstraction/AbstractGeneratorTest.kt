@@ -7,7 +7,8 @@ import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.TestInstance
 import ru.vood.processor.datamodel.abstraction.model.MetaInformation
 import ru.vood.processor.datamodel.generator.config.jsonSerializer
-import ru.vood.processor.datamodel.util.readFile
+import ru.vood.processor.tests.abstraction.util.readFile
+
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 abstract class AbstractGeneratorTest(val modelFileName: String) {
