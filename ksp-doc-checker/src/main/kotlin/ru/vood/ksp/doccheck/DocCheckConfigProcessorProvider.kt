@@ -5,7 +5,12 @@ import com.google.devtools.ksp.processing.SymbolProcessorEnvironment
 import com.google.devtools.ksp.processing.SymbolProcessorProvider
 
 class DocCheckConfigProcessorProvider : SymbolProcessorProvider {
+
+
+    private lateinit var dataModelConfigProcessor: DocCheckProcessor
     override fun create(environment: SymbolProcessorEnvironment): SymbolProcessor {
-        return DocCheckProcessor(environment)
+        dataModelConfigProcessor = DocCheckProcessor(environment)
+        return dataModelConfigProcessor
     }
+
 }

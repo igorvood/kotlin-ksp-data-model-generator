@@ -30,7 +30,10 @@ dependencies {
 //    implementation("com.charleskorn.kaml:kaml:0.52.0")
     implementation("com.squareup:kotlinpoet:$kotlinpoet")
     implementation("com.squareup:kotlinpoet-ksp:$kotlinpoet")
-    testImplementation(project(":ksp-test"))
+//    testImplementation(project(":ksp-test"))
+    testImplementation("com.github.tschuchortdev:kotlin-compile-testing:1.5.0")
+    api("org.junit.jupiter:junit-jupiter:$junitJupiter")
+    api("com.github.tschuchortdev:kotlin-compile-testing:1.5.0")
 
 }
 

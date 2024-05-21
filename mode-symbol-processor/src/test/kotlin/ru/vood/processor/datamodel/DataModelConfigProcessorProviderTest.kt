@@ -19,7 +19,7 @@ import ru.vood.processor.datamodel.abstraction.model.dto.ModelClassName
 import ru.vood.processor.datamodel.abstraction.model.dto.UkDto
 import ru.vood.processor.tests.abstraction.AbstractKoraAppProcessorTest
 
-@Disabled
+//@Disabled
 internal class DataModelConfigProcessorProviderTest :
     AbstractKoraAppProcessorTest(
         listOf(DataModelConfigProcessorProvider(TestFileGeneratorFactory())),

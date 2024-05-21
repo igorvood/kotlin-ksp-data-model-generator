@@ -21,19 +21,19 @@ repositories {
 }
 
 dependencies {
-    implementation(project(":core"))
-    implementation(project(":symbol-processor-common"))
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinxCoroutines")
-    implementation("com.google.devtools.ksp:symbol-processing-api:$kspVersion")
-    implementation("com.google.devtools.ksp:symbol-processing:$kspVersion")
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:$kotlinxSerializationVersion")
+    api(project(":core"))
+    api(project(":symbol-processor-common"))
+    api("org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinxCoroutines")
+    api("com.google.devtools.ksp:symbol-processing-api:$kspVersion")
+    api("com.google.devtools.ksp:symbol-processing:$kspVersion")
+    api("org.jetbrains.kotlinx:kotlinx-serialization-json:$kotlinxSerializationVersion")
 //    implementation("com.charleskorn.kaml:kaml:0.52.0")
-    implementation("com.squareup:kotlinpoet:$kotlinpoet")
-    implementation("com.squareup:kotlinpoet-ksp:$kotlinpoet")
+    api("com.squareup:kotlinpoet:$kotlinpoet")
+    api("com.squareup:kotlinpoet-ksp:$kotlinpoet")
     api("org.junit.jupiter:junit-jupiter:$junitJupiter")
     testImplementation("io.mockk:mockk:$ioMockk")
     api("com.github.tschuchortdev:kotlin-compile-testing:$kotlinCompileTesting")
-    api("org.jetbrains.kotlin:kotlin-compiler-embeddable:$kotlinVersion")
+//    api("org.jetbrains.kotlin:kotlin-compiler-embeddable:$kotlinVersion")
 //    testImplementation()
 
 }
