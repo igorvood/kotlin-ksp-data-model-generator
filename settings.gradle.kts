@@ -31,7 +31,6 @@ pluginManagement {
 include(":core")
 include(":symbol-processor-common")
 include(":mode-symbol-processor")
-include(":ksp-doc-checker")
 include(":ksp-test")
 
 
